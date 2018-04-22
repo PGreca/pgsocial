@@ -1,0 +1,1394 @@
+body.section-memberlist h2.memberlist-title,
+body.section-memberlist form#viewprofile {
+	display: none;
+}
+
+[contenteditable=true]:empty:before{
+	content: attr(placeholder);
+	display: block;
+}
+
+
+#pg_social {
+	margin-top: 25px; 
+}
+
+#pg_social * {
+	margin: 0px;
+	padding: 0px;
+	outline: none;
+	border: 0px;
+	list-style: none;
+	resize: none;
+}
+
+#pg_social *:hover {
+	text-decoration: none;
+}
+
+#pg_social img {
+	max-width: 100%;
+}
+
+#pg_social .panel {
+	background-color: #CADCEB;
+	width: calc(100% - 20px);
+	margin: 0px;
+	padding: 10px;
+	border-radius: 4px;
+}
+
+#pg_social #pg_social_header {
+	position: relative;
+	background-color: rgba(0, 0, 0, 0.2);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	overflow: hidden;
+	width: 100%;
+	height: 280px;	
+	border-radius: 4px 4px 0px 0px;
+}
+
+#pg_social #pg_social_header.canMove {
+	z-index: 50;
+}
+
+#pg_social #pg_social_header h2.memberlist-title .icon {
+	vertical-align: middle;
+	margin-right: 5px;
+}
+#pg_social #pg_social_header #pg_social_actionprofile {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	margin: 15px 10px;
+	text-align: right;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile .action_profile {
+	margin-top: 10px;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile #profile_upload {
+	position: relative;
+    display: inline-block;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile input[type="submit"],
+#pg_social #pg_social_header #pg_social_actionprofile label,
+#pg_social #pg_social_header #pg_social_actionprofile a {
+	position: relative;
+	display: inline-block;
+	background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
+	margin: 0px 0px 0px 5px;
+	padding: 10px;
+	border-radius: 4px;
+	cursor: pointer;
+	color: #176293;
+}
+
+#pg_social #pg_social_header.canMove #pg_social_actionprofile .action_profile {
+	position: relative;
+	z-index: -1;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile label input[type="file"] {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile input[type="submit"] {
+	display: none;
+	background: linear-gradient(180deg, #2a6496 0%, #224f77 100%);
+    margin: 0px 0px 10px auto;
+    color: #fff;
+}
+
+#pg_social #pg_social_main {	
+	position: relative;
+}
+
+#pg_social #pg_social_main > .profile_avatar {
+	position: absolute;
+	top: -145px;
+	background-color: #fff;
+	width: calc(15% - 10px - 1px);
+	margin: 0px 20px 0px;
+	padding: 5px;
+	border: 0.5px solid #ccc;
+	border-radius: 4px;
+	z-index: 1;
+}
+
+#pg_social #pg_social_main h2.memberlist-username {
+	position: absolute;
+	z-index: 40;
+	margin-left: calc(15% + 40px + 2px);
+	padding: 5px 0px;
+	font-size: 3em;
+	font-weight: bold;
+}
+
+#pg_social #pg_social_main h2.memberlist-username i.icon {
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
+#pg_social #pg_social_main ul#pg_social_menu {
+	position: relative;
+	background-color: rgba(255, 255, 255, 0.9);
+	width: calc(100% - 1px);
+	margin: 0px 0px 30px;
+	border: 0.5px solid #ccc;
+	border-top: 0px;
+	border-radius: 0px 0px 5px 5px;
+	text-align: right;
+	font-size: 1.3em;
+}
+
+#pg_social #pg_social_main ul#pg_social_menu li {
+	display: inline-block;
+	cursor: pointer;
+	color: #2a6496;
+	font-weight: bold;
+}
+
+#pg_social #pg_social_main ul#pg_social_menu li:last-child,
+#pg_social #pg_social_main ul#pg_social_menu li:last-child a {
+	border-radius: 0px 0px 5px 0px;
+}
+
+#pg_social #pg_social_main ul#pg_social_menu li:hover {
+	background-color: rgba(0, 0, 0, 0.35);
+	color: #fff;
+}
+
+#pg_social #pg_social_main ul#pg_social_menu li a {
+	display: block;
+	padding: 15px;
+}
+	
+#pg_social #pg_social_main ul#pg_social_menu li:hover a {
+	color: #fff;
+}
+
+#pg_social #pg_social_main ul#pg_social_menu li.active,
+#pg_social #pg_social_main ul#pg_social_menu li.active a {
+	background-color: #2a6496;
+	color: #fff;
+}
+
+
+#pg_social #pg_social_main ul#pg_social_menu li span {
+	font-size: 0.7em;
+}
+
+#pg_social #pg_social_sidel {
+	display: inline-block;
+	width: calc(20% - 20px);
+	padding: 0px 20px 10px 0px;	
+	vertical-align: top;
+}
+
+#pg_social #pg_social_sidel blockquote#profile_quote {
+	position: relative;
+    background-color: transparent;
+    margin: 0px;
+	padding: 5px 5px 20px;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+#pg_social #pg_social_sidel blockquote#profile_quote a#profile_changeQuote {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	height: 20px;
+	font-size: 0.7em;
+}
+
+#pg_social #pg_social_sidel ul#profile_menu {
+}
+
+#pg_social #pg_social_sidel ul#profile_menu li {
+	list-style: none;
+	margin: 0px;	
+	font-size: 1.1em;
+}
+
+#pg_social #pg_social_sidel ul#profile_menu li.memberlist-title {
+	margin: 10px 0px 5px;
+	padding: 0px;
+	text-align: center;
+}
+
+#pg_social #pg_social_sidel ul#profile_menu li.memberlist-title h2 {
+	font-weight: bold;
+	font-size: 1.7em;
+}
+
+
+#pg_social #pg_social_sidel ul#profile_menu li i.icon {
+	width: 16px;
+	text-align: center;
+}
+
+#pg_social #pg_social_sidel ul#profile_menu li h2.memberlist-title {
+	text-align: center;
+}
+
+#pg_social #pg_social_sidel ul#profile_menu li dt {
+	display: none;
+}
+
+#pg_social #pg_social_sidel ul#profile_menu li.profile_rank {
+	padding: 10px;
+	text-align: center;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 0px;
+}
+
+#pg_social #pg_social_sidel ul#profile_menu li.profile_rank img {
+	margin-bottom: 10px;
+}
+
+#pg_social #pg_social_sidel ul#profile_menu li a {
+	display: block;
+	padding: 5px;
+}
+
+#pg_social #pg_social_sidel ul#profile_menu li a i.icon {
+	color: #000;
+}
+
+#pg_social #pg_social_sidel ul#profile_menu li a:hover {
+	text-decoration: none;
+}
+
+#pg_social #pg_social_cont {
+	display: inline-block;
+	width: 65%;
+	margin: 0px;
+	padding: 0px 0px 20px 0px;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub {
+	display: none;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub dl.details,
+#pg_social #pg_social_cont .pg_social_pagesub dl.signature {
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 20px;
+	border: 0px;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub dl.details dt,
+#pg_social #pg_social_cont .pg_social_pagesub dl.details dd {
+	margin-bottom: 10px;
+	padding-right: 10px;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub dl.signature {
+	padding-top: 20px;
+	border-top: 1px solid #cfcfcf;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub dl.signature h3 {
+	display: none;
+	width: 100%;
+	margin-bottom: 10px;
+	text-align: right;
+	font-size: 1.6em;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub dl.signature .postbody {
+	width: 100%;	
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend {
+	display: inline-block;
+	width: calc(50% - 4px - 10px - 20px);
+	margin: 0px 5px 10px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	font-size: 1.3em;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend a {
+	display: block;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend a img.avatar {
+	display: inline-block;
+	vertical-align: middle;
+	width: 50px;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend a .friend_username {
+	display: inline-block;
+	vertical-align: middle;
+	width: calc(100% - 10px - 50px - 10px);
+	padding: 0px 5px;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend a .friend_action {
+	float: right;
+	display: inline-block;
+	vertical-align: middle;
+	padding: 5px;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	border-radius: 4px;
+	font-size: 0.75em;
+	text-align: center;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend a .friend_action:hover {
+	background-color: rgba(0, 0, 0, 0.04);
+}
+
+#pg_social #pg_social_cont ul.template_photos li {
+	position: relative;
+	display: inline-block;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: calc(33.33% - 1px - 5px);
+	height: 150px;
+	margin: 0px 5px 10px 0px;
+	cursor: pointer;
+}
+
+#pg_social #pg_social_cont ul.template_photos li:nth-child(3) {
+	margin-right: 0px;
+}
+
+#pg_social #pg_social_cont ul#pg_social_photos {
+	border-top: 1px solid #cfcfcf;
+	padding-top: 20px;
+}
+
+#pg_social #pg_social_cont ul#pg_social_photos li {
+	width: calc(20% - 4px - 5px);
+	height: 120px;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery:after {
+	content: ' ';
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0.0) 0%, rgba(0, 0, 0, 0.4) 100%);
+	width: 100%;
+	height: 100%;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery a.gallery_name {
+	position: absolute;
+	bottom: 0px;
+	z-index: 1;
+	padding: 15px;
+	color: #fff;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery a.gallery_name h5 {
+	letter-spacing: 1.3px;
+	font-size: 1.45em;
+	font-weight: bold;
+}
+
+#pg_social form#wall_post {
+	position: relative;
+	background-color: #2a6496;
+	margin-bottom: 10px;
+	padding: 10px;
+	border-radius: 4px;
+}
+
+#pg_social form#wall_post > * {
+	border: 0px;
+}
+
+#pg_social form#wall_post .wall_post_area {
+	background-color: #fff;
+	padding: 10px;
+	border-radius: 4px;
+}
+
+#pg_social form#wall_post #wall_post_text {
+	display: inline-block;
+	vertical-align: top;
+	width: 100%;
+	height: 40px;
+	resize: none;
+	font-size: 1.1em;
+}
+
+
+#pg_social form#wall_post.active #wall_post_text {
+	height: 50px;
+}
+
+#pg_social form#wall_post #wall_post_text span.people_tagged {
+	background-color: rgba(0, 0, 0, 0.3);
+	padding: 1px;
+}
+
+#pg_social form#wall_post label#pg_social_wall_post_img {
+	position: relative;
+    display: inline-block;
+	vertical-align: top;
+    background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
+    margin: 0px 0px 0px 5px;
+    padding: 11px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #176293;
+}
+
+#pg_social form#wall_post select:focus,
+#pg_social form#wall_post label#pg_social_wall_post_img:hover,
+#pg_social form#wall_post input[type="submit"]:focus {
+	background: rgba(0, 0, 0, 0.9);
+	opacity: 1;
+	color: #fff;
+}
+
+#pg_social form#wall_post label#pg_social_wall_post_img input[type="file"] {
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+	margin: 0px;
+	padding: 0px;
+    opacity: 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#pg_social form#wall_post .wall_post_option {
+	display: inline-block;
+	vertical-align: top;
+	width: 40%;
+	margin-top: 10px;
+	text-align: right;
+}
+
+#pg_social form#wall_post .wall_post_option > * {
+	display: inline-block;
+	width: auto;
+}
+
+#pg_social form#wall_post input[type="file"],
+#pg_social form#wall_post select,
+#pg_social form#wall_post input[type="submit"] {
+	padding: 10px;
+	border-radius: 4px;	
+	margin-left: 10px;
+}
+
+#pg_social form#wall_post select option {
+	background-color: #fff;
+	color: #000;
+}
+
+#pg_social form#wall_post input[type="submit"] {
+	padding: 11px 10px;
+}
+
+#pg_social form#wall_post input[type="submit"]:hover {
+	background-color: rgba(0, 0, 0, 0.9);
+	color: #fff;
+}
+
+#pg_social form#wall_post ul#pg_social_wall_tag_system {
+	display: inline-block;
+	background-color: #fff;
+	width: 60%;
+	max-height: 34px;
+	margin-top: 10px;
+	overflow-y: auto;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+	border-radius: 4px;
+}
+
+#pg_social form#wall_post ul#pg_social_wall_tag_system::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+#pg_social form#wall_post ul#pg_social_wall_tag_system::-webkit-scrollbar-thumb {
+    background-color: #000;
+	border-radius: 4px;
+}
+
+#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people {
+	display: inline-block;
+	width: calc((100% / 2) - 20px - 2px);
+	height: calc(34px - 10px);
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people:hover {
+	background-color: rgba(43, 101, 151, 0.85);
+	color: #fff;
+}
+
+#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people img.avatar {
+	width: 20px;
+	border-radius: 100%;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
+}
+
+#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people .tag_system_search_people_username {
+	display: inline-block;
+}
+
+#pg_social form#wall_post #wall_post_thumb {
+	display: none;
+	width: 100%;
+    text-align: center;
+}
+
+#pg_social form#wall_post #wall_post_thumb img#wall_post_thumb_img {
+	display: inline-block;
+	background-color: #fff;
+	max-height: 50px;
+	padding: 5px;
+	border-radius: 4px;
+}
+
+#pg_social #pg_social_cont ul#profile_head_menu li {
+	display: inline-block;
+	list-style: none;
+	margin: -3px 0px;
+	padding: 15px 10px;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+#pg_social #pg_social_cont ul#profile_head_menu li.active {
+	background-color: #2a6496;
+}
+
+#pg_social #pg_social_cont ul#profile_head_menu li.active a {
+	color: #fff;
+}
+
+#pg_social #pg_social_cont ul#profile_head_menu li.active:hover a {
+	text-decoration: none;
+}
+
+#pg_social #pg_social_cont ul#profile_head_content li {
+	display: none;
+	list-style: none;
+	padding: 20px;
+}
+
+#pg_social #pg_social_cont ul#profile_head_content li h3 {
+	clear: both;
+}
+
+#pg_social #pg_social_cont ul#page_activity_show {
+	display: inline-block;
+	width: 100%;
+	text-align: right;
+}
+
+#pg_social #pg_social_cont ul#page_activity_show li {
+	display: inline-block; 
+}
+
+/* POST_STATUS */
+#pg_social #pg_social_cont ul#posts_status {
+	list-style: none;	
+	padding-top: 20px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status {
+	background-color: #fff;
+	width: 100%;
+	margin: 0px 0px 40px;
+   
+}
+
+#pg_social #pg_social_cont li.post_status_copy {
+	display: none;
+	opacity: 0;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head {
+	border: 1px solid #ccc;
+	padding: 5px 0px;
+	border-radius: 4px 4px 0px 0px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author_avatar {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	margin: 0px 5px;
+	padding: 5px;
+	border-radius: 100%;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author_avatar img {
+	width: 100%;
+	height: 100%;
+	border-radius: 100%;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author {
+	display: inline-block;
+	vertical-align: top;
+	width: calc(75% - 60px - 10px - 6px);
+	margin: 0px 0px 0px;
+	padding: 5px 0px 0px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author h4 {
+	font-size: 1.5em;
+	font-weight: normal;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author h4 span {
+	font-size: 0.8em;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author h4 a {
+	font-weight: bold;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author .post_status_head_date {
+	display: inline-block;
+	background-color: rgba(0, 0, 0, 0.07);
+	margin: 5px 0px;
+	padding: 5px;
+	border-radius: 4px;
+	font-size: 0.75em;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action {
+	display: inline-block;
+	vertical-align: top;
+	width: calc(25% - 4px);
+	margin: 5px 5px 5px;
+	padding: 5px 5px 0px 0px;
+	text-align: right;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action > div {
+	display: none;
+	background-color: rgba(0, 0, 0, 0.07);
+	margin-left: 5px;
+	padding: 5px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head:hover .post_status_action > div {
+	display: inline-block;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action > div:hover {
+	background-color: rgba(0, 0, 0, 0.7);
+	color: #fff;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content {
+	padding: 25px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	font-size: 1em;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content:empty {
+	padding: 0px;
+	border: 0px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content .status_photos {
+	margin: 10px 0px 0px;
+	text-align: center;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content img.photo_popup { 
+	max-width: 90%;
+    min-width: 40%;
+	cursor: pointer;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content p.post_status_youtube {
+	position: relative; 
+	overflow: hidden;
+	height: 0; 
+	margin: 10px 0px 0px;
+	padding-top: 30px;
+	padding-bottom: 50%;  
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content.status_center {
+	text-align: center;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content p.post_status_youtube {
+	position: relative; 
+	overflow: hidden;
+	height: 0; 
+	margin: 10px 0px 0px;
+	padding-top: 30px;
+	padding-bottom: 50%; 
+	border: 1px solid #d7d7d7; 
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content p.post_status_youtube iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content blockquote {
+	padding: 10px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer {
+	background-color: #105289;
+	padding: 5px 0px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_like,
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_comment {
+	display: inline-block;
+	width: calc(50% - 40px - 4px);
+	margin: 0px 20px;
+	padding: 5px 0px;
+	text-align: center;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer div a,
+.pg_social_photo #pg_social_photo_social .pg_social_photo_likshare div a {
+	display: inline-block;
+	background-color: rgba(0, 0, 0, 0.3);
+	margin: 0px;
+	padding: 7px;
+	border-radius: 5px;
+	color: #fff;
+	font-size: 0.8em;
+	cursor: pointer;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer div a:hover,
+.pg_social_photo #pg_social_photo_social .pg_social_photo_likshare div a:hover {
+	background-color: rgba(0, 0, 0, 0.9);
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer div.active a i.icon {
+	color: #AA0000;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_like a i.icon {
+	vertical-align: sub;
+	margin-right: 5px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments {
+	display: none;
+	background-color: #CADCEB;
+	width: 100%;
+	border-top: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments:empty {
+	border-top-color: transparent;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments.active {
+	display: inline-block;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment {
+	display: inline-block;
+	width: calc(100% - 30px);
+	padding: 10px 15px 0px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment:last-child {
+	padding-bottom: 10px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment .post_comment_author {
+	display: inline-block;
+	vertical-align: top;
+	width: 30px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment .post_comment_author img.avatar {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment .post_comment_message {
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	background-color: #fff;
+	width: calc(100% - 30px - 10px - 30px);
+	margin-left: 10px;
+	padding: 9px 15px;
+	border-radius: 17px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment.no_comment .post_comment_message {
+	width: calc(100% - 30px);
+	margin: 0px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment .post_comment_message a.post_comment_profile {
+	margin-right: 3px;
+	font-weight: bold;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment .post_comment_message .post_comment_action {
+	position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 9px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment .post_comment_message .post_comment_action > div {
+	cursor: pointer;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment .post_comment_time {
+	padding: 5px 15px 0px;
+	text-align: right;
+	font-size: 0.9em;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment {
+	display: inline-block;
+	background-color: #CADCEB;
+	width: calc(100% - 30px);
+	padding: 10px 15px;
+	border-radius: 0px 0px 4px 4px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment > img {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment input[type="text"].wall_comment_text {
+	width: calc(100% - 30px - 10px - 20px);
+	margin-left: 10px;
+	padding: 10px;
+	border-radius: 20px;
+}
+
+#pg_social #pg_social_cont #page_gallery > h5 {
+	margin: 0px 0px 10px;
+    padding: 25px 0px 0px;
+	text-align: center;    
+    font-size: 3em;
+}
+
+/* POST_GALLERY */
+#pg_social #pg_social_cont ul#posts_gallery {
+
+}
+
+#pg_social #pg_social_cont ul#posts_gallery li.gallery {
+}
+
+#pg_social #pg_social_sider {
+	display: inline-block;
+	width: calc(15% - 20px - 4px);
+	padding: 0px 0px 10px 20px;
+	vertical-align: top;	
+}
+
+#pg_social #pg_social_sider ul li.friend {
+	display: inline-block;
+	width: 100%;
+	padding: 0px 0px 15px;
+}
+
+#pg_social #pg_social_sider ul li.friend:last-child {
+	padding-bottom: 0px;
+}
+
+#pg_social #pg_social_sider ul li.friend img.avatar {
+	display: inline-block;
+	width: 30%;
+}
+
+#pg_social #pg_social_sider ul li.friend .friend_username,
+#pg_social #pg_social_sider ul li.friend .friend_action {
+	float: right;
+	display: inline-block;
+	width: calc(70% - 4px);
+}
+
+#pg_social #pg_social_sider ul li.friend .friend_username span {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+#pg_social #pg_social_sider ul li.friend .friend_action {
+	background-color: #fff;
+	width: calc(100% - 5px - 2px);
+	margin: 5px 0px 0px 5px;	
+	padding: 4px 0px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	text-align: center;
+	font-size: 0.8em;
+}
+
+.phpbb_alert.pg_social_photo {
+	top: 0px;
+	width: 90%;
+	height: calc(100% - 10vh);
+	margin: 5vh auto;
+	padding: 0px;
+	border: 0px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img {
+	position: relative;
+	display: inline-block;
+	background-color: #000;
+	vertical-align: middle;
+	width: 65%;
+	height: 100%;
+	text-align: center;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img img {
+	position: absolute;  
+    top: 0px;  
+    bottom: 0px;  
+    left: 0px;  
+    right: 0px;  
+	vertical-align: middle;
+    width: auto;
+    height: auto;
+	max-width: 100%;
+	max-height: 100%;
+    margin: auto;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social {
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	background-color: #fff;
+	width: 35%;
+	height: 100%;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social > img {
+	display: inline-block;
+	vertical-align: top;
+	width: auto;
+	height: calc(50px - 15px);
+	margin: 15px 7.5px 0px 15px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social #pg_social_photo_info {
+	display: inline-block;
+	height: calc(50px - 15px);
+	margin: 15px 0px 0px 7.5px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social a.author_profile {
+	font-size: 1.35em;
+	font-weight: bold;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social span.photo_time {
+	display: block;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social p.photo_desc {
+	display: inline-block;
+	width: calc(100% - 30px);
+	height: calc(30% - 40px - 30px);
+	margin: 0px !important;
+	padding: 15px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social div.pg_social_photo_likshare {
+	display: inline-block;
+	background-color: #105289;
+	width: calc(100% - 10px);
+	height: calc(40px - 10px - 1px);
+	padding: 5px;
+	border-top: 1px solid #cfcfcf;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social div.pg_social_photo_likshare > div {
+	display: inline-block;
+	width: calc(50% - 10px - 2px);
+	padding: 0px 5px;
+	text-align: center;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social div.pg_social_photo_likshare .social_photo_like a {
+	display: inline-block;
+	padding: 7px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social .pg_social_photo_likshare div a i.icon {
+	margin-right: 5px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social #pg_social_photo_comment {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	display: inline-block;
+	background-color: #CADCEB;
+	width: 100%;
+	height: calc(70% - 50px);
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments {
+	display: inline-block;
+	width: calc(100% - 10px);
+	height: calc(100% - 50px - 10px);
+	margin: 5px;
+    overflow-y: scroll;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments::-webkit-scrollbar-thumb {
+    background-color: rgba(85, 132, 219, 0.2);
+	border-radius: 4px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(85, 132, 219, 0.6);
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments:empty {
+	border-top-color: transparent;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments li.post_comment {
+	display: inline-block;
+	width: calc(100% - 10px);
+	padding: 10px 5px 0px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments li.post_comment:last-child {
+	padding-bottom: 5px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments li.post_comment .post_comment_author {
+	display: inline-block;
+	vertical-align: top;
+	width: 30px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments li.post_comment .post_comment_author > img {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	margin: 0px;
+	border-radius: 100%;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments li.post_comment .post_comment_message {
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	background-color: #fff;
+	width: calc(100% - 30px - 10px - 30px);
+	margin-left: 10px;
+	padding: 9px 15px;
+	border-radius: 20px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments li.post_comment.no_comment .post_comment_message {
+	width: calc(100% - 30px);
+	margin: 0px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments li.post_comment .post_comment_message a.post_comment_profile {
+	margin-right: 3px;
+	font-weight: bold;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments li.post_comment .post_comment_message .post_comment_action {
+	position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 9px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments li.post_comment .post_comment_message .post_comment_action > div {
+	cursor: pointer;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments li.post_comment .post_comment_time {
+	padding: 5px 15px 0px;
+	text-align: right;
+	font-size: 0.9em;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social form.pg_social_photo_comment_form {
+	display: inline-block;
+	background-color: #fff;
+	width: calc(100% - 20px);
+	height: calc(50px - 20px);
+	margin: 0px;
+	padding: 10px;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social form.pg_social_photo_comment_form > img {
+	display: inline-block;
+	width: auto;
+	height: 100%;
+	margin: 0px;
+	border-radius: 100%;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social form.pg_social_photo_comment_form input[type="text"].pg_social_photo_comment_text {
+	width: calc(100% - 30px - 20px - 10px - 2px);
+	height: calc(100% - 2px);
+	margin-left: 10px;
+	padding: 0px 10px;
+	border: 1px solid #cfcfcf;
+	border-radius: 20px;
+	outline: none;
+}
+
+a.profile_signature_status {
+	float: right;
+}
+
+@keyframes post_fade {
+    from {
+		transform: scale(0.95); 
+		opacity: 0;
+	}
+    
+	to {
+		transform: scale(1); 
+		opacity: 1;
+	}
+}
+
+
+@media screen and (max-width: 750px) {
+	#pg_social {
+		display: flex;
+		flex-direction: column;
+	}
+	
+	#pg_social #pg_social_sidel,
+	#pg_social #pg_social_cont,
+	#pg_social #pg_social_sider {
+	    display: block;
+		width: calc(100% - 10px);
+		margin-bottom: 10px;
+		padding: 0px 5px;
+	}
+	
+	#pg_social #pg_social_sidel,
+	#pg_social #pg_social_sider	{
+		display: none;
+		order: 1;
+	}
+	
+	#pg_social #pg_social_cont {
+		order: 3;
+	}
+	
+	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head {
+		padding: 5px 0px 0px;
+	}
+	
+	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author {
+		width: calc(70% - 60px - 10px - 6px);
+	}
+	
+	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action {
+		width: calc(30% - 4px);
+		padding: 0px;
+	}
+	
+	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action > div {
+		vertical-align: middle;
+		margin: 0px 0px 0px;
+	}
+	
+	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action > div:last-child { 
+	
+	}
+	
+	#pg_social #pg_social_header {
+		background-position: center !important;
+	}
+	
+	#pg_social #pg_social_header #pg_social_actionprofile {
+		top: 0px;
+	}
+	
+	#pg_social #pg_social_main > .profile_avatar {
+		position: relative; 
+		width: calc(30% - 10px - 1px);
+		margin: -50px calc(50% - ((30% - 10px -1px) / 2)) 10px;
+		border-left: 0.5px solid #ccc;
+		border-right: 0.5px solid #ccc;
+		z-index: 0;
+	}
+	
+	#pg_social #pg_social_main h2.memberlist-username {
+		position: relative;
+		margin: 0px;
+		padding: 10px 0px;
+		text-align: center;
+	}
+	
+	#pg_social #pg_social_main ul#pg_social_menu {	
+		border-top: 0.5px solid #ccc;
+		text-align: left;
+	}
+	
+	#pg_social #pg_social_main ul#pg_social_menu,
+	#pg_social #pg_social_main ul#pg_social_menu li,
+	#pg_social #pg_social_main ul#pg_social_menu li:first-child,
+	#pg_social #pg_social_main ul#pg_social_menu li:last-child,
+	#pg_social #pg_social_main ul#pg_social_menu li:first-child a,
+	#pg_social #pg_social_main ul#pg_social_menu li:last-child a {	
+		border-radius: 0px;
+	}
+	
+	#pg_social #pg_social_main ul#pg_social_menu li {
+		width: calc(100% / 4);
+		text-align: center;
+		border-radius
+	}
+	
+	#pg_social #pg_social_main ul#pg_social_menu li a {
+		word-wrap: normal;
+		font-size: 0.8em;
+	}
+	
+	#pg_social #pg_social_main ul#pg_social_menu li a i.icon {
+		width: 100%;
+		margin-bottom: 5px;
+	}
+	
+	#pg_social form#wall_post .wall_post_option {
+		width: 100%;
+		text-align: center;
+	}
+	
+	#pg_social form#wall_post label#pg_social_wall_post_img {
+		margin: 0px;
+	}
+	
+	#pg_social #pg_social_cont ul#posts_status li.post_status {
+		margin-bottom: 20px;
+	}
+	
+	
+	#pg_social #pg_social_cont .pg_social_pagesub dl.details dt, 
+	#pg_social #pg_social_cont .pg_social_pagesub dl.details dd {
+		display: inline-block;
+		vertical-align: top;
+		width: calc(50% - 2px);
+		padding-right: 0px;
+	}
+	
+	#pg_social #pg_social_cont .pg_social_pagesub dl.details dt {
+		text-align: right;
+	}
+	
+	#pg_social #pg_social_cont ul.template_photos li {
+		width: calc(50% - 1px - 5px);
+	}
+	
+	#pg_social #pg_social_cont ul.template_photos li:nth-child(2) {
+		margin-right: 0px;
+	}
+	
+	#pg_social #pg_social_cont ul.template_photos li:nth-child(3) {
+		margin-right: 5px;
+	}
+	
+	#pg_social #pg_social_sider {
+		order: 2;
+	}
+		
+	#pg_social #pg_social_sider .panel#profile_FriendsRandom {
+		background-color: transparent;
+		width: 100%;
+		padding: 0px;
+	}
+	
+	#pg_social #pg_social_sider ul li.friend {
+		background-color: #CADCEB;
+		width: calc(33.33% - 10px - 10px);
+		margin: 0px 5px;
+		padding: 5px;
+		border-radius: 4px;
+	}
+	
+	#pg_social #pg_social_sider ul li.friend:last-child {
+		padding-bottom: 5px;
+	}	
+	
+	#pg_social #pg_social_sider ul li.friend img.avatar {
+		
+	}
+	
+	#pg_social #pg_social_sider ul li.friend .friend_username, 
+	#pg_social #pg_social_sider ul li.friend .friend_action {
+		float: none;
+		vertical-align: middle;
+	}
+	
+	#pg_social #pg_social_sider ul li.friend .friend_username span {
+		text-align: left;
+	}
+	
+	.phpbb_alert.pg_social_photo #pg_social_photo_img,
+	.phpbb_alert.pg_social_photo #pg_social_photo_social {
+		width: 100%;
+	}		
+}

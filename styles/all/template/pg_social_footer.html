@@ -1,0 +1,42 @@
+<script type="text/javascript">
+		var profile_id = '<!-- IF PROFILE_ID -->{PROFILE_ID}<!-- ELSE -->{PROFILE}<!-- ENDIF -->';	
+		var root = '{ACTIVITY_PAGE}';
+		var where = '{STATUS_WHERE}';
+		var useLang = {ARE_YOU_SURE: "{L_ARE_YOU_SURE}",};
+		<!-- IF (PROFILE_ID || PROFILE) && ACTIVITY_PAGE -->
+		var pgsocial = setInterval(function() {
+			pgwall_getStatus('seguel');
+		}, <!-- IF not PG_SOCIAL_INDEX_REPLACE -->2000<!-- ELSE -->0<!-- ENDIF -->);
+		
+		$("#wall_post").submit(function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			if($('#wall_post_img').length && $('#wall_post_img').val() != "") {
+				uploadPhoto($('#wall_post_text').html(), $('#wall_post_img')[0].files[0], "wall");
+			} else {
+				pgwall_addStatus($('#wall_post_text').html(), $('#wall_post_privacy option:selected').val());
+			}
+		});
+		
+		$(document).on('click', "#posts_status .post_status .post_status_footer .post_status_like a", function() {
+			pgwall_likeAction($(this).parent().parent().parent().attr('data-lastp'));
+		});
+		
+		$(document).on('keydown', '.pg_social_photo_comment_text', function(e) {
+			if(e.keyCode == 13) {
+				pgwall_addComment($(this).val(), $(this).parent().parent().find('.pg_social_photo_comments').attr('data-comment'));
+			}
+		});
+		
+		$(document).on('keydown', '.wall_comment_text', function(e) {
+			if(e.keyCode == 13) {
+				pgwall_addComment($(this).val(), $(this).parent().parent().attr('data-lastp'));
+			}
+		});
+		
+		$(document).on('submit', '.wall_comment, .pg_social_photo_comment_form', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+		});
+		<!-- ENDIF -->	
+</script>

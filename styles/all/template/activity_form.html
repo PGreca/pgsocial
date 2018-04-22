@@ -1,0 +1,21 @@
+<!-- IF S_USER_LOGGED_IN -->
+<form method="post" id="wall_post">
+	<div class="wall_post_area">
+		<div required name="wall_post_text" id="wall_post_text" placeholder="{L_WRITE_SOMETHING}..." contenteditable="true"></div>
+	</div>
+	<ul id="pg_social_wall_tag_system"></ul><div class="wall_post_option">
+		<!-- IF PROFILE_ACTION == true || STATUS_WHERE == '' --> 
+		<label id="pg_social_wall_post_img">{L_ATTACH_PICTURE}<input name="wall_post_img" id="wall_post_img" type="file" accept="image/*" /></label>
+		<select name="wall_post_privacy" id="wall_post_privacy">
+			<option value="0">{L_PRIVACY_ONLY_ME}</option>
+			<option value="1">{L_PRIVACY_ONLY_FRIENDS}</option>
+			<option value="2">{L_PRIVACY_ALL}</option>	
+		</select>
+		<!-- ENDIF -->
+		<input name="submit" type="submit" value="{L_PUBLIC}" />
+	</div>
+	<div id="wall_post_thumb"><img id="wall_post_thumb_img" src="" /></div>
+	{S_HIDDEN_FIELDS}
+	{S_FORM_TOKEN}
+</form>
+<!-- ENDIF -->

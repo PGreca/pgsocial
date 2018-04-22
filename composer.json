@@ -1,0 +1,26 @@
+ {
+    "name": "pgreca/pg_social",
+    "type": "phpbb-extension",
+    "description": "Trasforma il tuo forum in un Social Network",
+    "homepage": "http://anpgreca.altervista.org/forum/",
+    "version": "0.1.0-a2",
+    "time": "2018-02-25",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "pgreca",
+            "email": "anpgreca@gmail.com",
+            "homepage": "http://anpgreca.altervista.org/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "extra": {
+        "display-name": "PG Social Network",
+        "soft-require": {
+             "phpbb/phpbb": "3.2.*@dev"
+        }
+    }
+}

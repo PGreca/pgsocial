@@ -1,0 +1,16 @@
+<!-- BEGIN post_comment -->
+<li class="post_comment" id="post_comment_{post_comment.COMMENT_ID}" data-comment="{post_comment.COMMENT_ID}">
+	<div class="post_comment_author">
+		{post_comment.AUTHOR_AVATAR} 
+	</div><div class="post_comment_message">
+		 <a class="post_comment_profile" href="{post_comment.AUTHOR_PROFILE}"<!-- IF post_comment.AUTHOR_COLOUR --> style="color: {post_comment.AUTHOR_COLOUR};"<!-- ENDIF -->>{post_comment.AUTHOR_USERNAME}</a> {post_comment.COMMENT_TEXT}<!-- IF post_comment.COMMENT_ACTION --><div class="post_comment_action"><div class="post_comment_action_delete"><i class="icon fa-times fa-fw" aria-hidden="true"></i></div></div><!-- ENDIF -->
+	</div>
+	<div class="post_comment_time">{post_comment.COMMENT_TIME}</div>
+</li>
+<!-- ELSE -->
+<li class="post_comment no_comment">
+	<div class="post_comment_message">
+		{L_COMMENT_NO}
+	</div>
+</li>
+<!-- END post_comment -->

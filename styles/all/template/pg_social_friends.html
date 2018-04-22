@@ -1,0 +1,27 @@
+<!-- BEGIN profileFriends -->
+{profileFriends.SQL}
+<li class="friend" id="friend_{profileFriends.PROFILE_ID}" data-friend="{profileFriends.PROFILE_ID}">
+	<a href="{profileFriends.PROFILE_URL}" style="color:{profileFriends.PROFILE_COLOUR}">
+		{profileFriends.AVATAR}
+		<div class="friend_username">
+			<span>{profileFriends.USERNAME}</span>
+			<!-- IF profileFriends.PROFILE_FRIEND_ACTION -->
+			<div class="friend_action">
+				<!-- IF profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' -->
+					{L_PG_SOCIAL_FRIENDS}
+				<!-- ELSEIF profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' -->
+				<a href="{SOCIAL_PROFILE_PATH}?mode=requestFriend&profile_id={profileFriends.PROFILE_ID}&request=addFriend" id="profile_friend_add" data-ajax="requestFriend" data-refresh="true">{L_PG_SOCIAL_FRIENDS_ADD}</a>
+				<!-- ELSEIF profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' -->
+				<a href="{SOCIAL_PROFILE_PATH}?mode=requestFriend&profile_id={profileFriends.PROFILE_ID}&request=undoFriend" id="profile_friend_undo" data-ajax="requestFriend" data-refresh="true">{L_PG_SOCIAL_FRIENDS_CANCEL_REQ}</a>
+				<!-- ELSEIF profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ'	-->
+				<a href="{SOCIAL_PROFILE_PATH}?mode=requestFriend&profile_id={profileFriends.PROFILE_ID}&request=acceptFriend" id="profile_friend_accept" data-ajax="requestFriend" data-refresh="true">{L_PG_SOCIAL_FRIENDS_ACCEPT_REQ}</a>	
+				<a href="{SOCIAL_PROFILE_PATH}?mode=requestFriend&profile_id={profileFriends.PROFILE_ID}&request=declineFriend" id="profile_friend_declide" data-ajax="requestFriend" data-refresh="true">{L_PG_SOCIAL_FRIENDS_DECLINE_REQ}</a>
+				<!-- ELSE -->
+				{PROFILE_FRIEND_ACTION}			
+			<!-- ENDIF -->
+			</div>
+			<!-- ENDIF -->
+		</div>		
+	</a>
+</li>
+<!-- END profileFriends -->

@@ -1,0 +1,36 @@
+<!-- IF not PG_SOCIAL_INDEX_REPLACE --><!-- INCLUDE overall_header.html --><!-- ENDIF -->
+<div id="pg_social" class="pg_social_pageactivity">
+	<div id="pg_social_sidel">
+		<div class="panel">
+			<ul id="profile_menu">
+				<!-- IF PROFILE_AVATAR --><li class="profile_avatar">{PROFILE_AVATAR}</li><!-- ENDIF -->
+				<li class="memberlist-title"><h2<!-- IF PROFILE_COLOUR --> style="color: {PROFILE_COLOUR};"<!-- ENDIF -->>{PROFILE_USERNAME}</h2></li>
+				<li class="profile-profile_link"><a href="{PROFILE_URL}"><i class="icon fa-user fa-fw" aria-hidden="true"></i> {L_READ_PROFILE}</a></li>	
+				<li class="profile-profile_edit"><a href="{PROFILE_EDIT}"><i class="icon fa-cog fa-fw" aria-hidden="true"></i> {L_EDIT_PROFILE}</a></li>
+				<!-- IF PROFILE_QUOTE --><li class="profile_quote"><blockquote id="profile_quote" style="padding: 5px;">{PROFILE_QUOTE}</blockquote></li><!-- ENDIF -->
+				<li class="profile_rank">
+					<!-- IF PROFILE_RANK_IMG -->{PROFILE_RANK_IMG}<br /><!-- ENDIF -->
+					<!-- IF PROFILE_RANK -->{PROFILE_RANK}<!-- ENDIF -->
+				</li>
+			</ul>
+		</div>
+	</div><div id="pg_social_cont"<!-- IF not PG_SOCIAL_SIDEBAR_RIGHT --> style="width:calc(80% - 20px);"<!-- ENDIF -->>
+		<!-- INCLUDE activity_form.html -->
+		<ul id="posts_status">
+			<!-- INCLUDE activity_status.html -->
+		</ul>	
+		<div id="load_more"></div>
+	</div>
+	<!-- IF PG_SOCIAL_SIDEBAR_RIGHT -->
+	<div id="pg_social_sider">
+		<!-- IF PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM -->
+		<div class="panel" id="profile_FriendsRandom">
+			<ul>
+				<!-- INCLUDE pg_social_friends.html -->
+			</ul>
+		</div>
+		<!-- ENDIF -->
+	</div>
+	<!-- ENDIF -->
+</div>
+<!-- IF not PG_SOCIAL_INDEX_REPLACE --><!-- INCLUDE overall_footer.html --><!-- ENDIF -->

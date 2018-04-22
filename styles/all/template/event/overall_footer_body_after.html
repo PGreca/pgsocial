@@ -1,0 +1,14 @@
+<!-- IF S_PG_SOCIAL_ENABLED && S_USER_LOGGED_IN -->
+	<!-- INCLUDECSS pg_social.css -->
+	<!-- INCLUDEJS js/cookie.js -->
+	<!-- INCLUDECSS https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css -->
+	<!-- INCLUDEJS https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js -->
+	<!-- INCLUDEJS js/pg_social.js -->
+<!-- ENDIF -->
+<!-- INCLUDE pg_social_footer.html -->
+
+<!-- IF PG_SOCIAL_CHAT && S_USER_LOGGED_IN -->
+	<!-- INCLUDE pg_social_chat.html -->
+	<!-- INCLUDECSS pg_social_chat.css -->
+	<!-- INCLUDEJS js/pg_social_chat.js -->
+<!-- ENDIF -->

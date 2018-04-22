@@ -1,0 +1,94 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_ACP_PG_SOCIAL_TITLE}</h1><br /><span>{L_ACP_PG_SOCIAL_SETTINGS_EXPLAIN}</span>
+
+<!-- IF PG_SOCIAL_ERROR -->
+	<div class="errorbox"><h3>{L_WARNING}</h3>
+		<p>{PG_SOCIAL_ERROR}</p>
+	</div>
+<!-- ENDIF -->
+
+<form id="acp_board" method="post" action="{U_ACTION}">
+	<!-- IF PG_SOCIAL_PAGE_MAIN -->  
+	<fieldset>
+		<legend>{L_ACP_PG_SOCIAL_GENERAL}</legend> 
+		<dl>
+			<dt><label for="pg_social_enabled">{L_ACP_PG_SOCIAL_ENABLED}</label></dt>
+			<dd><input type="radio" class="radio" name="pg_social_enabled" value="1" <!-- IF PG_SOCIAL_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+			<input type="radio" class="radio" name="pg_social_enabled" value="0" <!-- IF not PG_SOCIAL_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label for="pg_social_index_replace">{L_ACP_PG_SOCIAL_INDEX_REPLACE}</label></dt>
+			<dd><input type="radio" class="radio" name="pg_social_index_replace" value="1" <!-- IF PG_SOCIAL_INDEX_REPLACE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+			<input type="radio" class="radio" name="pg_social_index_replace" value="0" <!-- IF not PG_SOCIAL_INDEX_REPLACE -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+		</dl>		
+	</fieldset>
+	<fieldset>
+		<legend>{L_ACP_PG_SOCIAL_SETTINGS}</legend>
+		<dl>
+			<dt><label for="pg_social_sidebarRight">{L_ACP_SOCIAL_SIDEBAR_RIGHT}</label></dt>
+			<dd><input type="radio" class="radio" name="pg_social_sidebarRight" value="1" <!-- IF PG_SOCIAL_SIDEBAR_RIGHT -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+			<input type="radio" class="radio" name="pg_social_sidebarRight" value="0" <!-- IF not PG_SOCIAL_SIDEBAR_RIGHT -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label for="pg_social_sidebarRight_friendsRandom">{L_ACP_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM}</label></dt>
+			<dd><input type="radio" class="radio" name="pg_social_sidebarRight_friendsRandom" value="1" <!-- IF PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+			<input type="radio" class="radio" name="pg_social_sidebarRight_friendsRandom" value="0" <!-- IF not PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+		</dl>
+	</fieldset>
+	
+	<fieldset>
+		<legend>{L_ACP_PG_SOCIAL_CHAT}</legend>
+		<dl>
+			<dt><label for="pg_social_chat_enabled">{L_ACP_SOCIAL_SOCIAL_CHAT_ENABLED}</label></dt>
+			<dd><input type="radio" class="radio" name="pg_social_chat_enabled" value="1"<!-- IF PG_SOCIAL_CHAT -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+			<input type="radio" class="radio" name="pg_social_chat_enabled" value="0"<!-- IF not PG_SOCIAL_CHAT -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+		</dl>
+	</fieldset>	
+	<!-- ENDIF -->
+	
+	<!-- IF PG_SOCIAL_PAGE_SOCIAL -->  
+		<fieldset>
+		<legend>{L_ACP_PG_SOCIAL_STATUS}</legend> 
+		<dl>
+			<dt><label for="pg_social_smilies">{L_ACP_PG_SOCIAL_SMILIES_ENABLED}</label></dt>
+			<dd><input type="radio" class="radio" name="pg_social_smilies" value="1" <!-- IF PG_SOCIAL_SMILIES -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+			<input type="radio" class="radio" name="pg_social_smilies" value="0" <!-- IF not PG_SOCIAL_SMILIES -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label for="pg_social_smilies">{L_ACP_PG_SOCIAL_BBCODE_ENABLED}</label></dt>
+			<dd><input type="radio" class="radio" name="pg_social_bbcode" value="1" <!-- IF PG_SOCIAL_BBCODE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+			<input type="radio" class="radio" name="pg_social_bbcode" value="0" <!-- IF not PG_SOCIAL_BBCODE -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label for="pg_social_smilies">{L_ACP_PG_SOCIAL_URL_ENABLED}</label></dt>
+			<dd><input type="radio" class="radio" name="pg_social_url" value="1" <!-- IF PG_SOCIAL_URL -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+			<input type="radio" class="radio" name="pg_social_url" value="0" <!-- IF not PG_SOCIAL_URL -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+		</dl>
+	</fieldset>
+	
+	<!-- ENDIF -->
+	<!-- IF PG_SOCIAL_PAGE_CHAT -->
+		<fieldset>
+		<legend>Messaggi</legend> 
+		<dl>
+			<dt><label for="pg_social_enabled">{L_ACP_PG_SOCIAL_CHAT_BBCODE_ENABLED}</label></dt>
+			<dd><input type="radio" class="radio" name="pg_social_chat_message_bbcode_enabled" value="1" <!-- IF PG_SOCIAL_CHAT_MESSAGE_BBCODE_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+			<input type="radio" class="radio" name="pg_social_chat_message_bbcode_enabled" value="0" <!-- IF not PG_SOCIAL_CHAT_MESSAGE_BBCODE_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label for="pg_social_enabled">{L_ACP_PG_SOCIAL_CHAT_URL_ENABLED}</label></dt>
+			<dd><input type="radio" class="radio" name="pg_social_chat_message_url_enabled" value="1" <!-- IF PG_SOCIAL_CHAT_MESSAGE_URL_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+			<input type="radio" class="radio" name="pg_social_chat_message_url_enabled" value="0" <!-- IF not PG_SOCIAL_CHAT_MESSAGE_URL_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+		</dl>
+	</fieldset>
+	
+	<!-- ENDIF -->
+    		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+		</p>
+ 	
+    {S_FORM_TOKEN}
+</form>
+<!-- INCLUDE overall_footer.html -->
