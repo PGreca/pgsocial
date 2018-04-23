@@ -138,20 +138,54 @@ class post_status {
 					break;
 					case '3':
 					default:
-						$author_action = "";
-						if($row['post_extra'] != "") {
-							$photo = $this->photo($row['post_extra']);
-							$msg = $photo['msg'];
-							$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
+						if($row['post_parent'] != 0) {
+							$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour 
+							FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u	
+							WHERE w.post_ID = '".$row['post_parent']."' AND u.user_id = w.user_id
+							GROUP BY post_ID";
+							$post_parent = $this->db->sql_query($sql);
+							$parent = $this->db->sql_fetchrow($post_parent);
+							if(isset($parent['post_ID'])) {
+								$author_action = 'ha condiviso uno <a href="'.append_sid($this->helper->route("status_page", array("id" => $parent['post_ID']))).'">stato</a>';
+								$msg = generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags);
+								$msg .= $this->pg_social_helper->extraText($row['message']);
+								$msg .= '<div class="post_parent_cont">';
+								if($parent['post_extra'] != "") {
+									$photo = $this->photo($parent['post_extra']);
+									$msg .= $photo['msg'];
+									$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
+								} else {
+									$allow_bbcode = $this->config['pg_social_bbcode'];
+									$allow_urls = $this->config['pg_social_url'];
+									$allow_smilies = $this->config['pg_social_smilies'];
+									$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
+				
+									$msg .= generate_text_for_display($parent['message'], $parent['bbcode_uid'], $parent['bbcode_bitfield'], $flags);
+									$msg .= $this->pg_social_helper->extraText($parent['message']);
+								}	
+								$msg .= '<div class="post_parent_info">';
+								$msg .= '<div class="post_parent_author"><a href="'.get_username_string('profile', $parent['user_id'], $parent['username'], $parent['user_colour']).'">'.$parent['username'].'</a></div>';
+								$msg .= '<div class="post_parent_date">'.$this->pg_social_helper->time_ago($parent['time']).'</div>';
+								$msg .= '</div>';
+								$msg .= '</div>';
+							}
 						} else {
-							$allow_bbcode = $this->config['pg_social_bbcode'];
-							$allow_urls = $this->config['pg_social_url'];
-							$allow_smilies = $this->config['pg_social_smilies'];
-							$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
-		
-							$msg = generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags);
-							$msg .= $this->pg_social_helper->extraText($row['message']);
-						}		
+							$author_action = "";
+							if($row['post_extra'] != "") {
+								$photo = $this->photo($row['post_extra']);
+								$msg = $photo['msg'];
+								$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
+							} else {
+								$allow_bbcode = $this->config['pg_social_bbcode'];
+								$allow_urls = $this->config['pg_social_url'];
+								$allow_smilies = $this->config['pg_social_smilies'];
+								$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
+			
+								$msg = generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags);
+								$msg .= $this->pg_social_helper->extraText($row['message']);
+							}		
+						}	
+						
 						$msg_align = '';
 					break;
 				}	
@@ -164,31 +198,33 @@ class post_status {
 				}
 			
 				if($row['wall_id'] == $user_id || $user_id == $row['user_id']) $action = "yes";
-				$this->template->assign_block_vars('post_status', array(
-					'USER_AVATAR'				=> $user_avatar,				
-					"POST_STATUS_ID"            => $row['post_ID'],
-					"AUTHOR_ACTION"				=> $author_action,
-					"AUTHOR_PROFILE"			=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),		
-					"AUTHOR_ID"					=> $row['user_id'],
-					"AUTHOR_USERNAME"			=> $row['username'],
-					"AUTHOR_AVATAR"				=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),
-					"AUTHOR_COLOUR"				=> "#".$row['user_colour'],
-					"WALL_ACTION"				=> $wall_action,
-					"WALL_PROFILE"				=> get_username_string('profile', $wall['user_id'], $wall['username'], $wall['user_colour']),	
-					"WALL_ID"					=> $row['wall_id'],	
-					"WALL_USERNAME"				=> $wall['username'],
-					"WALL_COLOUR"				=> "#".$wall['user_colour'],
-					"POST_TYPE"					=> $row['post_type'],
-					"POST_URL"					=> $this->helper->route("status_page", array("id" => $row['post_ID'])),
-					"POST_DATE"					=> $this->pg_social_helper->time_ago($row['time']),
-					"MESSAGE"					=> $msg,
-					"MESSAGE_ALIGN"				=> $msg_align,
-					"POST_PRIVACY"				=> $this->user->lang($this->pg_social_helper->social_privacy($row['post_privacy'])),
-					"ACTION"					=> $action,
-					"LIKE"						=> $this->pg_social_helper->countAction("like", $row['post_ID']),
-					"IFLIKE"					=> $this->pg_social_helper->countAction("iflike", $row['post_ID']),
-					"COMMENT"					=> $comment,
-				)); 	
+				if($msg != "") {
+					$this->template->assign_block_vars('post_status', array(
+						'USER_AVATAR'				=> $user_avatar,				
+						"POST_STATUS_ID"            => $row['post_ID'],
+						"AUTHOR_ACTION"				=> $author_action,
+						"AUTHOR_PROFILE"			=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),		
+						"AUTHOR_ID"					=> $row['user_id'],
+						"AUTHOR_USERNAME"			=> $row['username'],
+						"AUTHOR_AVATAR"				=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),
+						"AUTHOR_COLOUR"				=> "#".$row['user_colour'],
+						"WALL_ACTION"				=> $wall_action,
+						"WALL_PROFILE"				=> get_username_string('profile', $wall['user_id'], $wall['username'], $wall['user_colour']),	
+						"WALL_ID"					=> $row['wall_id'],	
+						"WALL_USERNAME"				=> $wall['username'],
+						"WALL_COLOUR"				=> "#".$wall['user_colour'],
+						"POST_TYPE"					=> $row['post_type'],
+						"POST_URL"					=> $this->helper->route("status_page", array("id" => $row['post_ID'])),
+						"POST_DATE"					=> $this->pg_social_helper->time_ago($row['time']),
+						"MESSAGE"					=> $msg,
+						"MESSAGE_ALIGN"				=> $msg_align,
+						"POST_PRIVACY"				=> $this->user->lang($this->pg_social_helper->social_privacy($row['post_privacy'])),
+						"ACTION"					=> $action,
+						"LIKE"						=> $this->pg_social_helper->countAction("like", $row['post_ID']),
+						"IFLIKE"					=> $this->pg_social_helper->countAction("iflike", $row['post_ID']),
+						"COMMENT"					=> $comment,
+					)); 
+				}
 			}			
 		}
 		$this->db->sql_freeresult($result);
@@ -254,6 +290,7 @@ class post_status {
 		$this->template->assign_vars(array(
 			"ACTION"	=> "delete",
 		));
+		$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, "STATUS_REMOVE", "");
 		return $this->helper->render('activity_status_action.html', "");
 	}
 	
@@ -271,6 +308,7 @@ class post_status {
 			$sql = "DELETE FROM ".$this->table_prefix."pg_social_wall_like WHERE post_ID = '".$post."' AND user_id = '".$user_id."'";
 			$action = "dislike";
 			if($post_info['user_id'] != $user_id || $post_info['wall_id'] == $user_id) $this->notify->notify('remove_like', $post, '', (int) $post_info['user_id'], (int) $user_id, 'NOTIFICATION_SOCIAL_LIKE_ADD');		
+			$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, "DISLIKE_NEW", "<a href='".$this->helper->route("status_page", array("id" => $post))."'>#".$post."</a>");
 		} else {
 			$sql_arr = array(
 				'post_ID'			=> $post,
@@ -365,6 +403,7 @@ class post_status {
 		$this->template->assign_vars(array(
 			"ACTION"	=> $sql,
 		));
+		$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, "COMMENT_REMOVE", "");
 		return $this->helper->render('activity_status_action.html', '');
 	}
 		

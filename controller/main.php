@@ -443,21 +443,56 @@ class main {
 						$msg = '';
 						$msg_align = '';						
 					break;
+					case '3':
 					default:
-						$author_action = "";
-						if($row['post_extra'] != "") {
-							$photo = $this->post_status->photo($row['post_extra']);
-							$msg = $photo['msg'];
-							$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
+						if($row['post_parent'] != 0) {
+							$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour 
+							FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u	
+							WHERE w.post_ID = '".$row['post_parent']."' AND u.user_id = w.user_id
+							GROUP BY post_ID";
+							$post_parent = $this->db->sql_query($sql);
+							$parent = $this->db->sql_fetchrow($post_parent);
+							if(isset($parent['post_ID'])) {
+								$author_action = 'ha condiviso uno <a href="'.append_sid($this->helper->route("status_page", array("id" => $parent['post_ID']))).'">stato</a>';
+								$msg = generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags);
+								$msg .= $this->pg_social_helper->extraText($row['message']);
+								$msg .= '<div class="post_parent_cont">';
+								if($parent['post_extra'] != "") {
+									$photo = $this->photo($parent['post_extra']);
+									$msg .= $photo['msg'];
+									$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
+								} else {
+									$allow_bbcode = $this->config['pg_social_bbcode'];
+									$allow_urls = $this->config['pg_social_url'];
+									$allow_smilies = $this->config['pg_social_smilies'];
+									$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
+				
+									$msg .= generate_text_for_display($parent['message'], $parent['bbcode_uid'], $parent['bbcode_bitfield'], $flags);
+									$msg .= $this->pg_social_helper->extraText($parent['message']);
+								}	
+								$msg .= '<div class="post_parent_info">';
+								$msg .= '<div class="post_parent_author"><a href="'.get_username_string('profile', $parent['user_id'], $parent['username'], $parent['user_colour']).'">'.$parent['username'].'</a></div>';
+								$msg .= '<div class="post_parent_date">'.$this->pg_social_helper->time_ago($parent['time']).'</div>';
+								$msg .= '</div>';
+								$msg .= '</div>';
+							}
 						} else {
-							$allow_bbcode = $this->config['pg_social_bbcode'];
-							$allow_urls = $this->config['pg_social_url'];
-							$allow_smilies = $this->config['pg_social_smilies'];
-							$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
-
-							$msg = generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags);
-							$msg .= $this->pg_social_helper->extraText($row['message']);
-						}		
+							$author_action = "";
+							if($row['post_extra'] != "") {
+								$photo = $this->photo($row['post_extra']);
+								$msg = $photo['msg'];
+								$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
+							} else {
+								$allow_bbcode = $this->config['pg_social_bbcode'];
+								$allow_urls = $this->config['pg_social_url'];
+								$allow_smilies = $this->config['pg_social_smilies'];
+								$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
+			
+								$msg = generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags);
+								$msg .= $this->pg_social_helper->extraText($row['message']);
+							}		
+						}	
+						
 						$msg_align = '';
 					break;
 				}					

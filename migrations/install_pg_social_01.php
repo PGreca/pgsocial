@@ -90,7 +90,8 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 			'add_tables'	=> array(
 				$this->table_prefix.'pg_social_wall_post'	=> array(
 					'COLUMNS'		=> array(
-						'post_ID'		=> array('UINT:11', null, 'auto_increment', 0),
+						'post_ID'			=> array('UINT:11', null, 'auto_increment', 0),
+						'post_parent'		=> array('UINT:11', 0),
 						'wall_id'			=> array('UINT:11', 0),
 						'user_id'			=> array('UINT:11', 0),
 						'message'			=> array('MTEXT_UNI', ''),
