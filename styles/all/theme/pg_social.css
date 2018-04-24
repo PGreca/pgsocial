@@ -1,6 +1,6 @@
 body.section-memberlist h2.memberlist-title,
 body.section-memberlist form#viewprofile {
-	display: none;
+	/*display: none;*/
 }
 
 [contenteditable=true]:empty:before{
@@ -853,8 +853,8 @@ body.section-memberlist form#viewprofile {
 	padding: 10px 15px 0px;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments.active li.post_comment:first-child {
-	border-top: 1px solid rgba(0, 0, 0, 0.7);
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments.active li.post_comment:last-child {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.7);
 }
 	
 #pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment:last-child {

@@ -159,7 +159,7 @@ class social_photo {
 				'AUTHOR_USERNAME'			=> $user['username'],
 				'AUTHOR_COLOUR'				=> '#'.$user['user_colour'],
 				'AUTHOR_AVATAR'				=> $this->pg_social_helper->social_avatar($user['user_avatar'], $user['user_avatar_type']),
-				'PHOTO_DESC'				=> $row['photo_desc'],
+				'PHOTO_DESC'				=> htmlspecialchars_decode($row['photo_desc']),
 				"LIKE"						=> $this->pg_social_helper->countAction("like", $row['post_id']),
 				"IFLIKE"					=> $this->pg_social_helper->countAction("iflike", $row['post_id']),
 				"COMMENT"					=> $comment,

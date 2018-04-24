@@ -217,7 +217,7 @@ class post_status {
 						"POST_TYPE"					=> $row['post_type'],
 						"POST_URL"					=> $this->helper->route("status_page", array("id" => $row['post_ID'])),
 						"POST_DATE"					=> $this->pg_social_helper->time_ago($row['time']),
-						"MESSAGE"					=> $msg,
+						"MESSAGE"					=> htmlspecialchars_decode($msg),
 						"MESSAGE_ALIGN"				=> $msg_align,
 						"POST_PRIVACY"				=> $this->user->lang($this->pg_social_helper->social_privacy($row['post_privacy'])),
 						"ACTION"					=> $action,
@@ -246,12 +246,12 @@ class post_status {
 		
 		generate_text_for_storage($text, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
 			
-		$text_fix = str_replace('&amp;nbsp;', ' ', $text);
+		$text = str_replace('&amp;nbsp;', ' ', $text);
 		$sql_arr = array(
 			'post_parent'		=> 0,
 			'wall_id'			=> $wall_id,
 			'user_id'			=> $user_id,
-			'message'			=> $text_fix,
+			'message'			=> $text,
 			'time'				=> $time,
 			'post_privacy'		=> $privacy,
 			'post_type'			=> $type,
@@ -275,7 +275,7 @@ class post_status {
 		}
 		
 		$this->template->assign_vars(array(
-			"ACTION"	=> $text_fix.'',
+			"ACTION"	=> $text.'',
 		));
 		$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, "STATUS_NEW", "<a href='".$this->helper->route("status_page", array("id" => $row['post_ID']))."'>#".$row['post_ID']."</a>");
 		if($type != 4) return $this->helper->render('activity_status_action.html', $this->user->lang['ACTIVITY']);	
@@ -328,7 +328,7 @@ class post_status {
 		
 		$user_id = (int) $this->user->data['user_id'];
 		$sql = "SELECT post_like_ID FROM ".$this->table_prefix."pg_social_wall_like
-		WHERE post_ID = '".$post."'";
+		WHERE post_ID = '".$post."' AND user_id = '".$user_id."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		if($row['post_like_ID'] != "") {
@@ -439,7 +439,7 @@ class post_status {
 		
 		return array(
 			'img' => '<img src="'.$img['photo_file'].'" class="photo_popup" data-photo="'.$photo.'" />',
-			'msg' => $img['photo_desc'],
+			'msg' => htmlspecialchars_decode($img['photo_desc']),
 		);
 	}
 }

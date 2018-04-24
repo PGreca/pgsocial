@@ -7,6 +7,14 @@
 		var pgsocial = setInterval(function() {
 			pgwall_getStatus('seguel');
 		}, <!-- IF not PG_SOCIAL_INDEX_REPLACE -->2000<!-- ELSE -->0<!-- ENDIF -->);
+		<!-- IF PG_SOCIAL_PROFILE -->
+		if($("#viewprofile").length) {
+			$("#viewprofile, h2.memberlist-title").hide().remove();
+		}
+		/*if($("#pg_social").length) {
+			//$(".responsive-center.time, .action-bar, .stat-block, .forumlist").hide().remove();
+		}*/
+		<!-- ENDIF -->
 		
 		$("#wall_post").submit(function(e) {
 			e.preventDefault();

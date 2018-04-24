@@ -135,44 +135,47 @@ class listener implements EventSubscriberInterface {
 	}	
 	
 	public function memberlist_view_profile($event) {
-		$member = $event['member'];
-		$user_id = $member['user_id'];
+		if($this->config['pg_social_profile']) {
+			$member = $event['member'];
+			$user_id = $member['user_id'];
+					
+			if($user_id == $this->user->data['user_id']) $member['user_action'] = true; else $member['user_action'] = false;
+			if($member['user_gender'] == 0) $profile_gender = ""; else $profile_gender = $this->pg_social_helper->social_gender($member['user_gender']);
+			$friends = $this->social_zebra->friendStatus($user_id);
+			if($friends['status'] == "PG_SOCIAL_FRIENDS" || $user_id == $this->user->data['user_id']) $member['status_action'] = 1;	 		
+					
+			$this->template->assign_vars(array(
+				'PG_SOCIAL_SIDEBAR_RIGHT'	=> $this->config['pg_social_sidebarRight'],		
+				'PG_SOCIAL_PROFILE'			=> $this->config['pg_social_profile'],
 				
-		if($user_id == $this->user->data['user_id']) $member['user_action'] = true; else $member['user_action'] = false;
-		if($member['user_gender'] == 0) $profile_gender = ""; else $profile_gender = $this->pg_social_helper->social_gender($member['user_gender']);
-		$friends = $this->social_zebra->friendStatus($user_id);
-		if($friends['status'] == "PG_SOCIAL_FRIENDS" || $user_id == $this->user->data['user_id']) $member['status_action'] = 1;	 		
+				'PROFILE_ACTION'			=> $member['user_action'],
+				'PROFILE_FRIEND_ACTION'		=> $friends['status'],
+				'PROFILE_FRIEND_ACT_ICON'	=> $friends['icon'],	
+				'PROFILE_STATUS_ACTION'		=> $member['status_action'],
 				
-		$this->template->assign_vars(array(
-			'PG_SOCIAL_SIDEBAR_RIGHT'	=> $this->config['pg_social_sidebarRight'],				
-			'PROFILE_ACTION'			=> $member['user_action'],
-			'PROFILE_FRIEND_ACTION'		=> $friends['status'],
-			'PROFILE_FRIEND_ACT_ICON'	=> $friends['icon'],	
-			'PROFILE_STATUS_ACTION'		=> $member['status_action'],
+				'PROFILE_ID'				=> $user_id,
+				'PROFILE_UPDATE'			=> append_sid($this->root_path."ucp.".$this->php_ext, 'i=ucp_profile&mode=profile_info'),
+				'PROFILE_COVER'				=> $this->pg_social_helper->social_cover($member['user_pg_social_cover']),
+				'PROFILE_COVER_POSITION'	=> $member['user_pg_social_cover_position'],
+				'PROFILE_AVATAR'			=> $this->pg_social_helper->social_avatar($member['user_avatar'], $member['user_avatar_type']),	     
+				'PROFILE_AVATAR_UPDATE'     => append_sid($this->root_path."ucp.".$this->php_ext, 'i=profile&mode=avatar'),
+				'PROFILE_USERNAME'			=>$member['username'],
+				'PROFILE_COLOUR'			=> "#".$member['user_colour'],
+				'PROFILE_QUOTE'				=> $member['user_quote'],
+				'PROFILE_GENDER'			=> $this->user->lang($profile_gender),
+				'PROFILE_COUNT_FRIENDS'		=> $this->social_zebra->countFriends($user_id),
+				
+				'GALLERY_NAME'				=> $this->social_photo->gallery_info(request_var('gall', ''))['gallery_name'],
+				
+				'SOCIAL_PROFILE_PATH'		=> $this->helper->route('profile_page'),
+				'STATUS_WHERE'				=> 'profile',
+			));
 			
-			'PROFILE_ID'				=> $user_id,
-			'PROFILE_UPDATE'			=> append_sid($this->root_path."ucp.".$this->php_ext, 'i=ucp_profile&mode=profile_info'),
-			'PROFILE_COVER'				=> $this->pg_social_helper->social_cover($member['user_pg_social_cover']),
-			'PROFILE_COVER_POSITION'	=> $member['user_pg_social_cover_position'],
-			'PROFILE_AVATAR'			=> $this->pg_social_helper->social_avatar($member['user_avatar'], $member['user_avatar_type']),	     
-			'PROFILE_AVATAR_UPDATE'     => append_sid($this->root_path."ucp.".$this->php_ext, 'i=profile&mode=avatar'),
-			'PROFILE_USERNAME'			=>$member['username'],
-			'PROFILE_COLOUR'			=> "#".$member['user_colour'],
-			'PROFILE_QUOTE'				=> $member['user_quote'],
-			'PROFILE_GENDER'			=> $this->user->lang($profile_gender),
-			'PROFILE_COUNT_FRIENDS'		=> $this->social_zebra->countFriends($user_id),
-			
-			'GALLERY_NAME'				=> $this->social_photo->gallery_info(request_var('gall', ''))['gallery_name'],
-			
-			'SOCIAL_PROFILE_PATH'		=> $this->helper->route('profile_page'),
-			'STATUS_WHERE'				=> 'profile',
-		));
-		
-		$this->post_status->getStatus($user_id, 0, "profile", "seguel");
-		$this->social_zebra->getFriends($user_id, "profile", "yes");
-		$this->social_photo->getGallery($user_id);
-		if(request_var('gall', '')) $this->social_photo->getPhotos($user_id, request_var('gall', ''));
-		
+			$this->post_status->getStatus($user_id, 0, "profile", "seguel");
+			$this->social_zebra->getFriends($user_id, "profile", "yes");
+			$this->social_photo->getGallery($user_id);
+			if(request_var('gall', '')) $this->social_photo->getPhotos($user_id, request_var('gall', ''));
+		}	
 	}
 		
 	public function load($event) {

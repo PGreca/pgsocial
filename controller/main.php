@@ -188,6 +188,8 @@ class main {
 				'PROFILE_GENDER'			=> $this->user->data['user_gender'],
 				'PROFILE_RANK'				=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_title'],					
 				'PROFILE_RANK_IMG'			=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_image'],				
+			
+				'PAGES_URL'					=> $this->helper->route("pages_page"),
 			));	
 		
 			$this->post_status->getStatus($this->user->data['user_id'], 0, "all", "seguel");
@@ -483,7 +485,7 @@ class main {
 						} else {
 							$author_action = "";
 							if($row['post_extra'] != "") {
-								$photo = $this->photo($row['post_extra']);
+								$photo = $this->post_status->photo($row['post_extra']);
 								$msg = $photo['msg'];
 								$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
 							} else {

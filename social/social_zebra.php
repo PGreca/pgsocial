@@ -188,16 +188,16 @@ class social_zebra {
 		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour FROM ".USERS_TABLE." AS u WHERE u.user_id != '".$user_id."' AND u.user_type NOT IN (1, 2) ORDER BY RAND()";
 		$result = $this->db->sql_query_limit($sql, 3);
 		while($row = $this->db->sql_fetchrow($result)) {
-			$this->template->assign_block_vars('profileFriends', array(
-				'SQL'						=> '',
-				'PROFILE_ID'				=> $row['user_id'],
-				'PROFILE_URL'				=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
-				'USERNAME'					=> $row['username'],
-				'USERNAME_CLEAN'			=> $row['username_clean'],
-				'AVATAR'					=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),				
-			));			
-		}
-		
-		
+			if($this->friendStatus($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS_ADD') {
+				$this->template->assign_block_vars('profileFriends', array(
+					'SQL'						=> '',
+					'PROFILE_ID'				=> $row['user_id'],
+					'PROFILE_URL'				=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
+					'USERNAME'					=> $row['username'],
+					'USERNAME_CLEAN'			=> $row['username_clean'],
+					'AVATAR'					=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),				
+				));	
+			}
+		}		
 	}
 }

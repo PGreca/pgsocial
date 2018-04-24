@@ -9,3 +9,7 @@ profile_page:
 status_page:
     path: status/{id}
     defaults: { _controller: pgreca.pg_social.controller:handle_status:index, id:0 }
+    
+pages_page:
+    path: page/{name}
+    defaults: { _controller: pgreca.pg_social.pages:handle:index, name:0 }

@@ -20,6 +20,26 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'   
             - '%core.table_prefix%' 
+    pgreca.pg_social.pages:
+        class: pgreca\pg_social\controller\pages
+        arguments:
+            - '@files.factory'
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@request'
+            - '@pgreca.pg_social.helper'
+            - '@pgreca.pg_social.notifyhelper'
+            - '@pgreca.pg_social.social.post_status'
+            - '@pgreca.pg_social.social.social_zebra'
+            - '@pgreca.pg_social.social.social_photo'
+            - '@pgreca.pg_social.social.social_tag'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'   
+            - '%core.table_prefix%'    
     pgreca.pg_social.helper:
         class: pgreca\pg_social\controller\helper
         arguments:

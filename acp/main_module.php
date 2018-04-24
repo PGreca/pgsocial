@@ -31,6 +31,7 @@ class main_module {
 					
 					$config->set('pg_social_enabled', $request->variable('pg_social_enabled', 0));
 					$config->set('pg_social_index_replace', $request->variable('pg_social_index_replace', 0));
+					$config->set('pg_social_profile', $request->variable('pg_social_profile', 0));
 					$config->set('pg_social_sidebarRight', $request->variable('pg_social_sidebarRight', 0));
 					$config->set('pg_social_sidebarRight_friendsRandom', $request->variable('pg_social_sidebarRight_friendsRandom', 0));
 					
@@ -43,7 +44,8 @@ class main_module {
 				$template->assign_vars(array(
 					'PG_SOCIAL_PAGE_MAIN'						=> true,
 					'PG_SOCIAL_ENABLED'							=> $config['pg_social_enabled'],
-					'PG_SOCIAL_INDEX_REPLACE'							=> $config['pg_social_index_replace'],
+					'PG_SOCIAL_INDEX_REPLACE'					=> $config['pg_social_index_replace'],
+					'PG_SOCIAL_PROFILE'							=> $config['pg_social_profile'],
 					'PG_SOCIAL_SIDEBAR_RIGHT'					=> $config['pg_social_sidebarRight'],
 					'PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM'		=> $config['pg_social_sidebarRight_friendsRandom'],
 					

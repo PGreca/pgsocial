@@ -1,6 +1,7 @@
 <!-- INCLUDE overall_header.html -->
 
-<h1>{L_ACP_PG_SOCIAL_TITLE}</h1><br /><span>{L_ACP_PG_SOCIAL_SETTINGS_EXPLAIN}</span>
+<h1>{L_ACP_PG_SOCIAL_TITLE}</h1><br /><span>{L_ACP_PG_SOCIAL_SETTINGS_EXPLAIN}<br />
+{L_VERSION}{L_COLON} {PG_SOCIAL_VERSION}</span>
 
 <!-- IF PG_SOCIAL_ERROR -->
 	<div class="errorbox"><h3>{L_WARNING}</h3>
@@ -25,6 +26,11 @@
 	</fieldset>
 	<fieldset>
 		<legend>{L_ACP_PG_SOCIAL_SETTINGS}</legend>
+		<dl>
+			<dt><label for="pg_social_profile">{L_ACP_PG_SOCIAL_PROFILE}</label></dt>
+			<dd><input type="radio" class="radio" name="pg_social_profile" value="1" <!-- IF PG_SOCIAl_PROFILE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+			<input type="radio" class="radio" name="pg_social_profile" value="0" <!-- IF not PG_SOCIAL_PROFILE -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+		</dl>
 		<dl>
 			<dt><label for="pg_social_sidebarRight">{L_ACP_SOCIAL_SIDEBAR_RIGHT}</label></dt>
 			<dd><input type="radio" class="radio" name="pg_social_sidebarRight" value="1" <!-- IF PG_SOCIAL_SIDEBAR_RIGHT -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;

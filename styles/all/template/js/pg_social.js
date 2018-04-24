@@ -1,12 +1,5 @@
 (function($) {
-	$(document).ready(function() {	
-		if($("#viewprofile").length) {
-			$("#viewprofile, h2.memberlist-title").hide().remove();
-		}
-		/*if($("#pg_social").length) {
-			//$(".responsive-center.time, .action-bar, .stat-block, .forumlist").hide().remove();
-		}*/
-		
+	$(document).ready(function() {			
 		if(where == undefined || where == '') where = "all";
 		
 		if(!$("ul#pg_social_menu li").hasClass("active")) {

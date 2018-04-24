@@ -27,6 +27,7 @@
 			<a><i class="icon fa-share fa-fw" aria-hidden="true"></i>{L_SHARE}</a>
 		</div>
 	</div>
+	<ul class="post_status_comments"></ul>
 	<!-- IF S_USER_LOGGED_IN -->
 	<form method="post" class="wall_comment">
 		{post_status.USER_AVATAR}<input type="text" autocomplete="off" required name="wall_comment_text" class="wall_comment_text" placeholder="{L_COMMENT_THIS_POST}" />
@@ -34,6 +35,5 @@
 		{S_FORM_TOKEN}
 	</form>
 	<!-- ENDIF -->
-	<ul class="post_status_comments"></ul>
 </li>
 <!-- END post_status -->

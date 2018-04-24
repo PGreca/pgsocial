@@ -22,6 +22,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 			
 			array('config.add', array('pg_social_enabled', 1)),			
 			array('config.add', array('pg_social_index_replace', 0)),
+			array('config.add', array('pg_social_profile', 1)),
 			
 			array('config.add', array('pg_social_sidebarRight', 1)),
 			array('config.add', array('pg_social_sidebarRight_friendsRandom', 1)),
@@ -172,6 +173,11 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 					'user_chat_visibility'			=> array('UINT:1', 1)
 				),
 			),
+			'add_columns'	=> array(
+				$this->table_prefix.'zebra'		=> array(
+					'approval'		=> array('UINT', 0),
+				),
+			),
 		);
 	}	
 	
@@ -220,6 +226,9 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 					'user_quote',
 					'user_chat_music',
 					'user_chat_visibility'
+				),
+				$this->table_prefix.'zebra'		=> array(
+					'approval',
 				),
 			),
 		);
