@@ -108,6 +108,10 @@ class main {
 					$return = $this->post_status->deleteStatus($this->request->variable('post_status', ''), $name);
 					return $return;
 				break;
+				case 'shareStatus':
+					$return = $this->post_status->shareStatus($this->request->variable('status', ''));
+					return $return;
+				break;
 				case 'likeAction':
 					$return = $this->post_status->likeAction($this->request->variable('post_like', ''));
 					return $return;

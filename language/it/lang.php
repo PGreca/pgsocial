@@ -49,6 +49,7 @@ $lang = array_merge($lang, array(
 	'COMMENT_THIS_POST'					=> 'Commenta questo stato!',
 	'COMMENTS'							=> 'Commenti',
 	'COVER'								=> 'Immagine di copertina',
+	'DO_YOU_WANT_SHARE'					=> 'Vuoi condividere questo stato?',
 	'EDIT_PROFILE'						=> 'Modifica profilo',
 	'FRIENDS'							=> 'Amici',
 	'GALLERY'							=> 'Galleria', //TRADURRE
@@ -94,10 +95,12 @@ $lang = array_merge($lang, array(
 	'PROFILE_COVER_UPDATE'				=> 'Cambia immagine di Copertina',
 	'PUBLIC'							=> 'Pubblica',
 	'QUOTE'								=> 'Citazione',
-
+	'SHARE'								=> 'Condividi',
+	
 	'UCP_PG_SOCIAL_CHAT'				=> 'Imposta la chat',
 	'UCP_PG_SOCIAL_MAIN'				=> 'Social',
 	'UCP_PG_SOCIAL_CHAT_SOUND'			=> 'Abilita suono alla ricezione di nuovi messaggi in chat',
+	'UCP_PG_SOCIAL_SIGNATURE_STATUS'	=> 'Sostituisci la tua firma con ogni tuo nuovo stato nella tua bacheca',
 	'USER_FORUM'						=> 'Statistiche',
 	'WALL'								=> 'Bacheca',
 	'WALL_TIME_AGO'						=> '%1$u %2$s fa',

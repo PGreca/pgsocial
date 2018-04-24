@@ -66,11 +66,11 @@ class social_tag {
 	}
 	
 	public function showTag($text) {
-		$reg_str = '/<span data-people="(.*?)" data-people_tagged="(.*?)" class="people_tagged" contenteditable="false">(.*?)<\/span>/';
+		$reg_str = '/&lt;span data-people="(.*?)" data-people_tagged="(.*?)" class="people_tagged" contenteditable="false"&gt;(.*?)\&lt;\/span&gt;/';
 		preg_match_all($reg_str, $text, $matches);
 		$texta = '';
 		for($i=0; $i < count($matches[1]); $i++) {
-			$text = str_replace('<span data-people="'.$matches[1][$i].'" data-people_tagged="'.$matches[2][$i].'" class="people_tagged" contenteditable="false">'.$matches[2][$i].'</span>', '<a href="'.get_username_string('profile', $matches[1][$i], $matches[2][$i], '').'" class="people_tagged">'.$matches[2][$i].'</a>', $text);
+			$text = str_replace('&lt;span data-people="'.$matches[1][$i].'" data-people_tagged="'.$matches[2][$i].'" class="people_tagged" contenteditable="false"&gt;'.$matches[2][$i].'&lt;/span&gt;', '<a href="'.get_username_string('profile', $matches[1][$i], $matches[2][$i], '').'" class="people_tagged">'.$matches[2][$i].'</a>', $text);
 		}
 		return trim($text);
 	}

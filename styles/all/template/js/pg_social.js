@@ -37,6 +37,14 @@
 			location.reload(true);
 		});
 		
+		//SHARE STATUS 
+		$(document).on('click', '#posts_status .post_status .post_status_footer .post_status_share a', function() {
+			if(confirm(useLang['DO_YOU_WANT_SHARE'])) {
+				console.log($(this).parent().attr('data-parent'));
+				pgwall_shareStatus($(this).parent().attr('data-parent'));
+			}
+		});
+		
 		//DELETE STATUS
 		$(document).on('click', "#posts_status .post_status .post_status_head .post_status_remove", function() {
 			if(confirm(useLang['ARE_YOU_SURE'])) {
@@ -210,6 +218,7 @@ function pgwall_addStatus(texta, privacy) {
 		fdata.append("mode", "addStatus");
 		fdata.append("profile_id", profile_id);
 		fdata.append("text", encodeURIComponent($.trim(texta)));
+		//fdata.append("text", $.trim(texta));
 		fdata.append("privacy", privacy);
 	
 		$.ajax({
@@ -224,6 +233,22 @@ function pgwall_addStatus(texta, privacy) {
 			}
 		});
 	}
+}
+
+function pgwall_shareStatus(statu) {
+	var fdata = new FormData()
+	fdata.append("mode", "shareStatus");
+	fdata.append("status", statu);
+	$.ajax({
+		method: "POST",
+		url: root,
+		data: fdata,
+		contentType: false, 
+		processData: false,
+		success: function(data) {
+			console.log(data);
+		}		
+	});
 }
 
 function pgwall_removeStatus(post_status) {

@@ -318,6 +318,7 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend {
 	display: inline-block;
+	background-color: #fff;
 	width: calc(50% - 4px - 10px - 20px);
 	margin: 0px 5px 10px;
 	padding: 10px;
@@ -797,9 +798,10 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_like,
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_comment {
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_comment,
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_share {
 	display: inline-block;
-	width: calc(50% - 40px - 4px);
+	width: calc(33.33% - 40px - 4px);
 	margin: 0px 20px;
 	padding: 5px 0px;
 	text-align: center;

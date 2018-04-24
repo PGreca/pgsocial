@@ -2,7 +2,7 @@
 		var profile_id = '<!-- IF PROFILE_ID -->{PROFILE_ID}<!-- ELSE -->{PROFILE}<!-- ENDIF -->';	
 		var root = '{ACTIVITY_PAGE}';
 		var where = '{STATUS_WHERE}';
-		var useLang = {ARE_YOU_SURE: "{L_ARE_YOU_SURE}",};
+		var useLang = {ARE_YOU_SURE: "{L_ARE_YOU_SURE}", DO_YOU_WANT_SHARE: "{L_DO_YOU_WANT_SHARE}"};
 		<!-- IF (PROFILE_ID || PROFILE) && ACTIVITY_PAGE -->
 		var pgsocial = setInterval(function() {
 			pgwall_getStatus('seguel');
