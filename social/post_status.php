@@ -314,7 +314,12 @@ class post_status {
 		);
 		
 		$sql = "INSERT INTO " . $this->table_prefix . 'pg_social_wall_post' . $this->db->sql_build_array('INSERT', $sql_arr);
-		if($this->db->sql_query($sql)) $a = true;
+		if($this->db->sql_query($sql))
+		
+		$last_status = "SELECT post_ID FROM ".$this->table_prefix."pg_social_wall_post WHERE time = '".$time."' AND user_id = '".$this->user->data['user_id']."' AND wall_id = '".$this->user->data['user_id']."' ORDER BY time DESC LIMIT 0, 1";
+		$last = $this->db->sql_query($last_status);
+		$row = $this->db->sql_fetchrow();	
+		$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, "STATUS_SHARE", "<a href='".$this->helper->route("status_page", array("id" => $row['post_ID']))."'>#".$row['post_ID']."</a> -> <a href='".$this->helper->route("status_page", array("id" => $post))."'>#".$post."</a>");
 		$this->template->assign_vars(array(
 			"ACTION"	=> $sql,
 		));

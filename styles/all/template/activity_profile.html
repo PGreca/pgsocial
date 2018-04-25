@@ -43,8 +43,6 @@
 					<!-- IF U_EMAIL --><li class="profile-infoRapid"><dt>{L_EMAIL_ADDRESS}{L_COLON}</dt><dd><a href="{U_EMAIL}"><i class="icon fa fa-envelope" aria-hidden="true"></i>  {L_SEND_EMAIL_USER}</a></dd></li><!-- ENDIF -->
 					<!-- IF U_PM --><li class="profile-infoRapid"><dt>{L_PM}{L_COLON}</dt><dd><a href="{U_PM}"><i class="icon fa fa-envelope" aria-hidden="true"></i>  {L_SEND_PRIVATE_MESSAGE}</a></dd></li><!-- ENDIF -->
 					<!-- IF U_JABBER and S_JABBER_ENABLED --><li class="profile-infoRapid"><dt>{L_JABBER}{L_COLON}</dt><dd><a href="{U_JABBER}" onclick="popup(this.href, 750, 320); return false;">{L_SEND_JABBER_MESSAGE}</a></dd></li><!-- ELSEIF USER_JABBER --><li class="profile-infoRapid"><dt>{L_JABBER}{L_COLON}</dt> <dd>{USER_JABBER}</dd></li><!-- ENDIF -->
-					<!-- EVENT memberlist_view_contact_before -->
-					<!-- EVENT memberlist_view_contact_custom_fields_before -->
 					<!-- BEGIN custom_fields -->
 						<!-- IF custom_fields.S_PROFILE_CONTACT -->
 							<li class="profile-infoRapid">
@@ -96,30 +94,43 @@
 				</ul>
 			</div>
 			<div class="pg_social_pagesub" id="page_info">
-				<dl class="details">
-					<!-- EVENT memberlist_view_user_statistics_before -->
-					<dt>{L_JOINED}{L_COLON}</dt> <dd>{JOINED}</dd>
-					<dt>{L_LAST_ACTIVE}{L_COLON}</dt> <dd>{LAST_ACTIVE}</dd>
-					<!-- IF S_WARNINGS -->
-					<dt>{L_WARNINGS}{L_COLON} </dt>
-					<dd><strong>{WARNINGS}</strong><!-- IF U_NOTES or U_WARN --> [ <!-- IF U_NOTES --><a href="{U_NOTES}">{L_VIEW_NOTES}</a><!-- ENDIF --> <!-- IF U_WARN --><!-- IF U_NOTES --> | <!-- ENDIF --><a href="{U_WARN}">{L_WARN_USER}</a><!-- ENDIF --> ]<!-- ENDIF --></dd>
-					<!-- ENDIF -->
-					<dt>{L_TOTAL_POSTS}{L_COLON}</dt>
-						<dd>{POSTS} <!-- IF S_DISPLAY_SEARCH -->| <strong><a href="{U_SEARCH_USER}">{L_SEARCH_USER_POSTS}</a></strong><!-- ENDIF -->
-							<!-- IF POSTS_PCT --><br />({POSTS_PCT} / {POSTS_DAY})<!-- ENDIF -->
-							<!-- IF POSTS_IN_QUEUE and U_MCP_QUEUE --><br />(<a href="{U_MCP_QUEUE}">{L_POSTS_IN_QUEUE}</a>)<!-- ELSEIF POSTS_IN_QUEUE --><br />({L_POSTS_IN_QUEUE})<!-- ENDIF -->
-						</dd>
-					<!-- IF S_SHOW_ACTIVITY and POSTS -->
-						<dt>{L_ACTIVE_IN_FORUM}{L_COLON}</dt> <dd><!-- IF ACTIVE_FORUM != '' --><strong><a href="{U_ACTIVE_FORUM}">{ACTIVE_FORUM}</a></strong><br />({ACTIVE_FORUM_POSTS} / {ACTIVE_FORUM_PCT})<!-- ELSE --> - <!-- ENDIF --></dd>
-						<dt>{L_ACTIVE_IN_TOPIC}{L_COLON}</dt> <dd><!-- IF ACTIVE_TOPIC != '' --><strong><a href="{U_ACTIVE_TOPIC}">{ACTIVE_TOPIC}</a></strong><br />({ACTIVE_TOPIC_POSTS} / {ACTIVE_TOPIC_PCT})<!-- ELSE --> - <!-- ENDIF --></dd>
-					<!-- ENDIF -->
-					<!-- EVENT memberlist_view_user_statistics_after -->
-				</dl>	
+				<!-- EVENT memberlist_view_contact_before -->
+				<!-- EVENT memberlist_view_contact_custom_fields_before -->
+				<div class="panel">
+					<dl class="details">
+						<!-- BEGIN custom_fields -->
+						<!-- IF not custom_fields.S_PROFILE_CONTACT -->
+						<dt>{custom_fields.PROFILE_FIELD_NAME}{L_COLON}</dt> <dd>{custom_fields.PROFILE_FIELD_VALUE}</dd>
+						<!-- ENDIF -->
+						<!-- END custom_fields -->
+					</dl>
+					<dl class="details">
+						<!-- EVENT memberlist_view_user_statistics_before -->
+						<dt>{L_JOINED}{L_COLON}</dt> <dd>{JOINED}</dd>
+						<dt>{L_LAST_ACTIVE}{L_COLON}</dt> <dd>{LAST_ACTIVE}</dd>
+						<!-- IF S_WARNINGS -->
+						<dt>{L_WARNINGS}{L_COLON} </dt>
+						<dd><strong>{WARNINGS}</strong><!-- IF U_NOTES or U_WARN --> [ <!-- IF U_NOTES --><a href="{U_NOTES}">{L_VIEW_NOTES}</a><!-- ENDIF --> <!-- IF U_WARN --><!-- IF U_NOTES --> | <!-- ENDIF --><a href="{U_WARN}">{L_WARN_USER}</a><!-- ENDIF --> ]<!-- ENDIF --></dd>
+						<!-- ENDIF -->
+						<dt>{L_TOTAL_POSTS}{L_COLON}</dt>
+							<dd>{POSTS} <!-- IF S_DISPLAY_SEARCH -->| <strong><a href="{U_SEARCH_USER}">{L_SEARCH_USER_POSTS}</a></strong><!-- ENDIF -->
+								<!-- IF POSTS_PCT --><br />({POSTS_PCT} / {POSTS_DAY})<!-- ENDIF -->
+								<!-- IF POSTS_IN_QUEUE and U_MCP_QUEUE --><br />(<a href="{U_MCP_QUEUE}">{L_POSTS_IN_QUEUE}</a>)<!-- ELSEIF POSTS_IN_QUEUE --><br />({L_POSTS_IN_QUEUE})<!-- ENDIF -->
+							</dd>
+						<!-- IF S_SHOW_ACTIVITY and POSTS -->
+							<dt>{L_ACTIVE_IN_FORUM}{L_COLON}</dt> <dd><!-- IF ACTIVE_FORUM != '' --><strong><a href="{U_ACTIVE_FORUM}">{ACTIVE_FORUM}</a></strong><br />({ACTIVE_FORUM_POSTS} / {ACTIVE_FORUM_PCT})<!-- ELSE --> - <!-- ENDIF --></dd>
+							<dt>{L_ACTIVE_IN_TOPIC}{L_COLON}</dt> <dd><!-- IF ACTIVE_TOPIC != '' --><strong><a href="{U_ACTIVE_TOPIC}">{ACTIVE_TOPIC}</a></strong><br />({ACTIVE_TOPIC_POSTS} / {ACTIVE_TOPIC_PCT})<!-- ELSE --> - <!-- ENDIF --></dd>
+						<!-- ENDIF -->
+						<!-- EVENT memberlist_view_user_statistics_after -->
+					</dl>	
+				</div>
 				<!-- IF SIGNATURE -->
-				<dl class="signature">
-					<h3>{L_SIGNATURE}</h3>
-					<div class="postbody"><div class="signature standalone">{SIGNATURE}</div></div>
-				</dl>
+				<div class="panel">
+					<dl class="signature">
+						<h3>{L_SIGNATURE}</h3>
+						<div class="postbody"><div class="signature standalone">{SIGNATURE}</div></div>
+					</dl>
+				</div>
 				<!-- ENDIF -->
 			</div>
 		</div><!-- IF PG_SOCIAL_SIDEBAR_RIGHT --><div id="pg_social_sider">
