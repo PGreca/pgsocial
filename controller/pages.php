@@ -88,23 +88,28 @@ class pages {
 		$result = $this->db->sql_query($sql);
 		$page = $this->db->sql_fetchrow($result);
 		
-		if($page) {			
+		$page_title = $this->user->lang['PAGES'];
+		if($page) {	
+			$page_title = $page['page_username'];
+			if(isset($page['page_avatar'])) $page_avatar = 'upload/'.$page['page_avatar']; else $page_avatar = 'no_avatar.jpg';
+			
 			$this->template->assign_block_vars('page', array(
-				'PAGE_NAME'		=> $page['page_name'],
+				'PAGE_AVATAR'		=> '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/'.$page_avatar.'" />',	     
+				'PAGE_USERNAME'		=> $page['page_username'],
 			));
 		} else {
 			$mode = $this->request->variable('mode', '');
 			
 			switch($mode) {
 				case 'page_new':
-					return "miao";
+				
 				break;
 			}
 			$this->template->assign_vars(array(
 				'PAGES_NEW_URL'		=> append_sid($this->helper->route('pages_page'), 'mode=page_new'),
 			));
 		}
-		return $this->helper->render('pg_social_page.html', $row['username']);	
+		return $this->helper->render('pg_social_page.html', $page_title);	
 	}
 	
 	

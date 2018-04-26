@@ -173,28 +173,71 @@ class main {
 				break;
 			}			
 			
-			$this->template->assign_vars(array(
-				'PG_SOCIAL_SIDEBAR_RIGHT'	=> $this->config['pg_social_sidebarRight'],	
-				'PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM'	=> $this->config['pg_social_sidebarRight_friendsRandom'],	
-				
-				'PROFILE'					=> $this->user->data['user_id'],
-				'PROFILE_URL'				=> get_username_string('profile', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
-				'PROFILE_EDIT'				=> append_sid($this->root_path."ucp.".$this->php_ext, "i=ucp_profile&amp;mode=profile_info"),
-				'PROFILE_AVATAR'			=> $this->pg_social_helper->social_avatar($this->user->data['user_avatar'], $this->user->data['user_avatar_type']),	     
-				'PROFILE_USERNAME'			=> $this->user->data['username'],
-				'PROFILE_USERNAME_CLEAN'	=> $this->user->data['username_clean'],
-				'PROFILE_COLOUR'			=> "#".$this->user->data['user_colour'],
-				'PROFILE_QUOTE'				=> $this->user->data['user_quote'],
-				'PROFILE_GENDER'			=> $this->user->data['user_gender'],
-				'PROFILE_RANK'				=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_title'],					
-				'PROFILE_RANK_IMG'			=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_image'],				
 			
-				'PAGES_URL'					=> $this->helper->route("pages_page"),
-			));	
-		
-			$this->post_status->getStatus($this->user->data['user_id'], 0, "all", "seguel");
-			$this->social_zebra->getFriends($profile_id, $where, "no");
-			return $this->helper->render('activity_body.html', $this->user->lang['ACTIVITY']);		
+			if($name == 'mp') {
+				if($this->config['pg_social_block_posts_last']) {
+					$a_f_auth_read = $this->auth->acl_getf('f_read');
+					$a_f_read = array();
+					if(!empty($a_f_auth_read)) {
+						foreach($a_f_auth_read as $i_f_id => $a_auth) {
+							if($a_auth['f_read'] == 1) {
+								$a_f_read[] = $i_f_id;
+							}
+						}
+					}
+					$last_topics = "SELECT p.post_id, p.topic_id, p.post_time, p.forum_id, t.topic_title, f.forum_name
+						FROM ".POSTS_TABLE." p
+						LEFT JOIN ".TOPICS_TABLE." t ON p.topic_id = t.topic_id
+						LEFT JOIN ".FORUMS_TABLE." f ON p.forum_id = f.forum_id
+						WHERE p.post_visibility = 1
+						AND ".$this->db->sql_in_set('p.forum_id', $a_f_read, false, true)."
+						ORDER BY p.post_id DESC";
+					$last_topics = "SELECT t.topic_id, t.topic_title, t.topic_last_post_id, t.topic_last_post_time, t.forum_id, f.forum_name
+						FROM ".TOPICS_TABLE." t
+						LEFT JOIN ".FORUMS_TABLE." f ON t.forum_id = f.forum_id
+						LEFT JOIN ".POSTS_TABLE." p ON t.topic_last_post_id = p.post_id
+						WHERE p.post_visibility = 1
+						AND ".$this->db->sql_in_set('t.forum_id', $a_f_read, false, true)."
+						ORDER BY t.topic_last_post_id DESC";
+					$last_topics_result = $this->db->sql_query_limit($last_topics, 10);
+					$last_topics_rowset = $this->db->sql_fetchrowset($last_topics_result);
+					$this->db->sql_freeresult($last_topics_result);
+					for($i = 0; isset($last_topics_rowset[$i]); $i++) {
+						$last_topics = $last_topics_rowset[$i];
+						$this->template->assign_block_vars('last_topics', array(
+						'TOPIC_TITLE'		 => $last_topics['topic_title'],
+						'POST_LINK'			 => append_sid($this->root_path."viewtopic.".$this->php_ext, "t=".$last_topics['topic_id']."&amp;p=".$last_topics['topic_last_post_id']."#p".$last_topics['topic_last_post_id']),
+						'TOPIC_FORUM'		 => $last_topics['forum_name'],
+						'TOPIC_FORUM_LINK'	 => append_sid($this->root_path."viewforum.".$this->php_ext, "f=".$last_topics['forum_id']),
+						'POST_TIME'			 => $this->pg_social_helper->time_ago($last_topics['topic_last_post_time']),
+						));
+					}
+				}			
+				
+				$this->template->assign_vars(array(
+					'PG_SOCIAL_SIDEBAR_RIGHT'				=> $this->config['pg_social_sidebarRight'],	
+					'PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM'	=> $this->config['pg_social_sidebarRight_friendsRandom'],	
+					'PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST'		=> $this->config['pg_social_block_posts_last'],
+					
+					'PROFILE'								=> $this->user->data['user_id'],
+					'PROFILE_URL'							=> get_username_string('profile', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
+					'PROFILE_EDIT'							=> append_sid($this->root_path."ucp.".$this->php_ext, "i=ucp_profile&amp;mode=profile_info"),
+					'PROFILE_AVATAR'						=> $this->pg_social_helper->social_avatar($this->user->data['user_avatar'], $this->user->data['user_avatar_type']),	     
+					'PROFILE_USERNAME'						=> $this->user->data['username'],
+					'PROFILE_USERNAME_CLEAN'				=> $this->user->data['username_clean'],
+					'PROFILE_COLOUR'						=> "#".$this->user->data['user_colour'],
+					'PROFILE_QUOTE'							=> $this->user->data['user_quote'],
+					'PROFILE_GENDER'						=> $this->user->data['user_gender'],
+					'PROFILE_RANK'							=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_title'],					
+					'PROFILE_RANK_IMG'						=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_image'],				
+				
+					'PAGES_URL'								=> $this->helper->route("pages_page"),
+				));	
+			
+				$this->post_status->getStatus($this->user->data['user_id'], 0, "all", "seguel");
+				$this->social_zebra->getFriends($profile_id, $where, "no");
+				return $this->helper->render('activity_body.html', $this->user->lang['ACTIVITY']);	
+			}
 		}
 	}	
 	
@@ -299,7 +342,7 @@ class main {
 				// Display birthdays of 29th february on 28th february in non-leap-years
 				$leap_year_birthdays = '';
 				if($now['mday'] == 28 && $now['mon'] == 2 && !$time->format('L')) {
-					$leap_year_birthdays = " OR u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', 29, 2)) . "%'";
+					$leap_year_birthdays = " OR u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', 29, 2)) ."%'";
 				}
 
 				$sql_ary = array(
@@ -314,8 +357,8 @@ class main {
 						),
 					),
 					'WHERE' => "(b.ban_id IS NULL OR b.ban_exclude = 1)
-						AND (u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) . "%' $leap_year_birthdays)
-						AND u.user_type IN (" . USER_NORMAL.', '.USER_FOUNDER.')',
+						AND (u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) ."%' $leap_year_birthdays)
+						AND u.user_type IN (".USER_NORMAL.', '.USER_FOUNDER.')',
 				);
 
 				$vars = array('now', 'sql_ary', 'time');

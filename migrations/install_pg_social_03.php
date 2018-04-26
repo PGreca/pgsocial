@@ -18,8 +18,8 @@ class install_pg_social_03 extends \phpbb\db\migration\migration {
 
 	public function update_data() {
 		return array(
-			
 			array('config.update', array('pg_social_version', '0.1.0-a3')),
+			array('config.add', array('pg_social_block_posts_last', 1)),
 		);
 	}	
 	
@@ -47,5 +47,10 @@ class install_pg_social_03 extends \phpbb\db\migration\migration {
 	}
 	
 	public function revert_schema() {
+		return array(
+			'drop_tables'	=> array(
+				$this->table_prefix.'pg_social_pages',
+			),
+		);
 	}
 }

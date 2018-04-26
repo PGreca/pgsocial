@@ -34,10 +34,14 @@ class main_module {
 					$config->set('pg_social_profile', $request->variable('pg_social_profile', 0));
 					$config->set('pg_social_sidebarRight', $request->variable('pg_social_sidebarRight', 0));
 					$config->set('pg_social_sidebarRight_friendsRandom', $request->variable('pg_social_sidebarRight_friendsRandom', 0));
+					$config->set('pg_social_block_posts_last', $request->variable('pg_social_block_posts_last', 0));
 					
 					$config->set('pg_social_chat_enabled', $request->variable('pg_social_chat_enabled', 0));
 					
-					if($request->variable('pg_social_sidebarRight', 0) == 0) $config->set('pg_social_sidebarRight_friendsRandom', 0);
+					if($request->variable('pg_social_sidebarRight', 0) == 0) {
+						$config->set('pg_social_sidebarRight_friendsRandom', 0); 
+						$config->set('pg_social_block_posts_last', 0);
+					}
 					trigger_error($user->lang('ACP_PG_SOCIAL_SETTING_SAVED') . adm_back_link($this->u_action));
 				}		
 				
@@ -48,6 +52,7 @@ class main_module {
 					'PG_SOCIAL_PROFILE'							=> $config['pg_social_profile'],
 					'PG_SOCIAL_SIDEBAR_RIGHT'					=> $config['pg_social_sidebarRight'],
 					'PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM'		=> $config['pg_social_sidebarRight_friendsRandom'],
+					'PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST'			=> $config['pg_social_block_posts_last'],
 					
 					'PG_SOCIAL_CHAT'							=> $config['pg_social_chat_enabled'],
 					

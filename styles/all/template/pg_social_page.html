@@ -1,8 +1,34 @@
 <!-- INCLUDE overall_header.html -->
+<div id="pg_social">
 <!-- BEGIN page -->
-
+	<div id="pg_social_header" style="background-image:url({page.PAGE_COVER}); background-position: left {PAGE_COVER_POSITION}px;">
+		
+	</div><div id="pg_social_main">
+		<div class="profile_avatar">{page.PAGE_AVATAR}</div>			
+		<h2 class="memberlist-username">{page.PAGE_USERNAME}</h2>
+		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa-user fa-fw" aria-hidden="true"></i> {L_ACTIVITY}</a></li><li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i> {L_LIKES} <span>({PROFILE_COUNT_FRIENDS})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa-camera fa-fw" aria-hidden="true"></i> {L_GALLERY}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i> {L_INFO}</a></li></ul>
+		<div id="pg_social_sidel">
+		
+		</div><div id="pg_social_cont"<!-- IF not PG_SOCIAL_SIDEBAR_RIGHT --> style="width:calc(80% - 20px);"<!-- ENDIF -->>
+			
+		</div><!-- IF PG_SOCIAL_SIDEBAR_RIGHT --><div id="pg_social_sider">
+			<div class="panel">
+				<script type="text/javascript">
+					/* <![CDATA[ */
+					document.write('<s'+'cript type="text/javascript" src="//ad.altervista.org/js2.ad/size=125X125/?ref='+encodeURIComponent(location.hostname+location.pathname)+'&r='+new Date().getTime()+'"></s'+'cript>');
+					/* ]]> */
+				</script>
+			</div>
+		</div><!-- ENDIF -->	
+	</div>
 <!-- BEGINELSE -->
-<a href="{PAGES_NEW_URL}">Crea una nuova pagina</a>
+<a id="page_new_form_open">Crea una nuova pagina</a>
+<form id="page_new_form">
+	<label for="page_new_name"><span>Nome Pagina</span>{L_COLON} <input type="text" name="page_new_name" />
+	</label>
+	<input type="submit" name="page_new_submit" />
+</form>
 IN SVILUPPO
 <!-- END page -->
+</div>
 <!-- INCLUDE overall_footer.html -->

@@ -275,7 +275,7 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_cont {
 	display: inline-block;
-	width: 65%;
+	width: 60%;
 	margin: 0px;
 	padding: 0px 0px 20px 0px;
 }
@@ -489,7 +489,7 @@ body.section-memberlist form#viewprofile {
 #pg_social form#wall_post .wall_post_option {
 	display: inline-block;
 	vertical-align: top;
-	width: 40%;
+	width: 50%;
 	margin-top: 10px;
 	text-align: right;
 }
@@ -524,7 +524,7 @@ body.section-memberlist form#viewprofile {
 #pg_social form#wall_post ul#pg_social_wall_tag_system {
 	display: inline-block;
 	background-color: #fff;
-	width: 60%;
+	width: 50%;
 	max-height: 34px;
 	margin-top: 10px;
 	overflow-y: auto;
@@ -959,7 +959,7 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_sider {
 	display: inline-block;
-	width: calc(15% - 20px - 4px);
+	width: calc(20% - 20px - 4px);
 	padding: 0px 0px 10px 20px;
 	vertical-align: top;	
 }
@@ -1001,6 +1001,44 @@ body.section-memberlist form#viewprofile {
 	border-radius: 4px;
 	text-align: center;
 	font-size: 0.8em;
+}
+
+#pg_social #pg_social_sider #sid_last_topics h3 {
+	display: inline-block;
+	width: calc(100% - 10px);
+	margin-bottom: 15px;
+	padding: 0px 5px 5px;
+	border-bottom: 1px solid #cfcfcf;
+	text-align: right;
+	font-size: 1.6em;
+}
+
+#pg_social #pg_social_sider #sid_last_topics ul li.posts {
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 10px;	
+}
+
+#pg_social #pg_social_sider #sid_last_topics ul li.posts a.post_topic {
+	display: inline-block;
+	width: 100%;
+}
+
+#pg_social #pg_social_sider #sid_last_topics ul li.posts span.posts_time {
+	font-size: 0.85em;
+}
+
+a#page_new_form_open {
+	float: right;
+}
+
+form#page_new_form {
+	display: none;
+	width: 100%;
+}
+
+form#page_new_form label input {
+	
 }
 
 .phpbb_alert.pg_social_photo {

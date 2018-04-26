@@ -174,6 +174,9 @@
 		pgwall_likeAction($(this).parent().parent().attr('data-post'));
 	});
 	
+	$(document).on('click', 'a#page_new_form_open', function(data) {
+		$("#page_new_form").show();
+	});
 	
 })(jQuery);
 
