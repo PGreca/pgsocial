@@ -18,7 +18,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 
 	public function update_data() {
 		return array(
-			array('config.add', array('pg_social_version', '0.1.0-a2')),
+			array('config.add', array('pg_social_version', '0.1.0-a3')),
 			
 			array('config.add', array('pg_social_enabled', 1)),			
 			array('config.add', array('pg_social_index_replace', 0)),
@@ -26,6 +26,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 			
 			array('config.add', array('pg_social_sidebarRight', 1)),
 			array('config.add', array('pg_social_sidebarRight_friendsRandom', 1)),
+			array('config.add', array('pg_social_block_posts_last', 1)),
 			array('config.add', array('pg_social_chat_enabled', 1)),
 			
 			array('config.add', array('pg_social_smilies', 1)),
@@ -161,6 +162,20 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 					),
 					'PRIMARY_KEY'	=> 'photo_id',
 				),
+				$this->table_prefix.'pg_social_pages'	=> array(
+					'COLUMNS'		=> array(
+						'page_id'					=> array('UINT:10', null, 'auto_increment', 0),
+						'page_type'					=> array('TINT:2', 0),
+						'page_founder'				=> array('UINT:10', 0),
+						'page_regdate'				=> array('UINT:11', 0),
+						'page_username'				=> array('VCHAR:255', ''),
+						'page_username_clean'		=> array('VCHAR:255', ''),
+						'page_avatar'				=> array('VCHAR:255', ''),
+						'page_cover'				=> array('VCHAR:255', ''),
+						'page_cover_position'		=> array('VCHAR:10', ''),
+					),
+					'PRIMARY_KEY'	=> 'page_id',
+				),
 			),
 			'add_columns'	=> array(
 				$this->table_prefix.'users' => array(
@@ -218,6 +233,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 				$this->table_prefix.'pg_social_chat',
 				$this->table_prefix.'pg_social_gallery',
 				$this->table_prefix.'pg_social_photos',
+				$this->table_prefix.'pg_social_pages',
 			),
 			'drop_columns'	=> array(
 				$this->table_prefix . 'users' => array(

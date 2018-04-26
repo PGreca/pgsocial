@@ -15,11 +15,11 @@ namespace pgreca\pg_social;
 * Extension class for custom enable/disable/purge actions
 */
 class ext extends \phpbb\extension\base {
-	const PG_SOCIAL_VERSION = '0.1.0-a2';
+	const PG_SOCIAL_VERSION = '0.1.0-a3';
 
 	public function is_enableable() {
 		$config = $this->container->get('config');
-		return (version_compare($config['version'], '0.1.0-a2', '>=') && (version_compare(PHP_VERSION, '5.6.*', '>=')));
+		return (version_compare($config['version'], '0.1.0-a3', '>=') && (version_compare(PHP_VERSION, '5.6.*', '>=')));
 	}
 	
 	/**
