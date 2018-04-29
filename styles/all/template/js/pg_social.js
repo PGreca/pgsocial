@@ -49,7 +49,7 @@
 	
 	$(document).on('scroll', function() { 
 		if($(document).scrollTop() >= ($("#posts_status").height() - ($("#posts_status").height() / 2))) {
-			pgwall_getStatus('prequel');
+			pgwall_getStatus('prequel', where);
 		}
 	});
 	
@@ -181,7 +181,8 @@
 })(jQuery);
 
 /* POST ACTION */
-function pgwall_getStatus(order) {
+function pgwall_getStatus(order, post_where) {
+	if(!post_where) post_where = 'all';
 	if($("#load_more").is(":visible")) {
 		$("#load_more").hide();
 		if(order == 'seguel') var lastp = $("#posts_status .post_status:first-child[data-lastp]").attr("data-lastp");
@@ -190,7 +191,7 @@ function pgwall_getStatus(order) {
 		$.ajax({
 			method: "POST",
 			url: root, 
-			data: "mode=getStatus&profile_id="+profile_id+"&lastp="+lastp+"&where="+where+"&order="+order,
+			data: "mode=getStatus&post_where="+post_where+"&profile_id="+profile_id+"&lastp="+lastp+"&where="+where+"&order="+order,
 			cache: false,
 			async: true, 
 			success: function(data) {	
@@ -202,6 +203,7 @@ function pgwall_getStatus(order) {
 					}
 				}
 				$("#load_more").show();
+				console.log(data);
 			}
 		});
 	}
@@ -212,11 +214,12 @@ function pgwall_addStatus(texta, privacy) {
 	if($.trim(texta) != "") {
 		var fdata = new FormData()
 		fdata.append("mode", "addStatus");
+		fdata.append("post_where", where);
 		fdata.append("profile_id", profile_id);
 		fdata.append("text", encodeURIComponent($.trim(texta)));
 		//fdata.append("text", $.trim(texta));
 		fdata.append("privacy", privacy);
-	
+		
 		$.ajax({
 			method: "POST",
 			url: root,

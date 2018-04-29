@@ -5,7 +5,7 @@
 		var useLang = {ARE_YOU_SURE: "{L_ARE_YOU_SURE}", DO_YOU_WANT_SHARE: "{L_DO_YOU_WANT_SHARE}"};
 		<!-- IF (PROFILE_ID || PROFILE) && ACTIVITY_PAGE -->
 		var pgsocial = setInterval(function() {
-			pgwall_getStatus('seguel');
+			pgwall_getStatus('seguel', where);
 		}, <!-- IF not PG_SOCIAL_INDEX_REPLACE -->2000<!-- ELSE -->0<!-- ENDIF -->);
 		<!-- IF PG_SOCIAL_PROFILE -->
 		if($("#viewprofile").length) {

@@ -171,7 +171,7 @@ class listener implements EventSubscriberInterface {
 				'STATUS_WHERE'				=> 'profile',
 			));
 			
-			$this->post_status->getStatus($user_id, 0, "profile", "seguel");
+			$this->post_status->getStatus("profile", $user_id, 0, "profile", "seguel");
 			$this->social_zebra->getFriends($user_id, "profile", "yes");
 			$this->social_photo->getGallery($user_id);
 			if(request_var('gall', '')) $this->social_photo->getPhotos($user_id, request_var('gall', ''));

@@ -99,10 +99,10 @@ class main {
 			
 			switch($mode) {
 				case 'getStatus':	
-					return $this->post_status->getStatus($profile_id, $this->request->variable('lastp', ''), $where, $this->request->variable('order', ''), true);	
+					return $this->post_status->getStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('lastp', ''), $where, $this->request->variable('order', ''), true);	
 				break;
 				case 'addStatus':
-					return $this->post_status->addStatus($profile_id, $this->request->variable('text', ''), $this->request->variable('privacy', ''), 0, '');
+					return $this->post_status->addStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', ''), $this->request->variable('privacy', ''), 0, '');
 				break;
 				case 'deleteStatus':
 					$return = $this->post_status->deleteStatus($this->request->variable('post_status', ''), $name);
@@ -234,7 +234,7 @@ class main {
 					'PAGES_URL'								=> $this->helper->route("pages_page"),
 				));	
 			
-				$this->post_status->getStatus($this->user->data['user_id'], 0, "all", "seguel");
+				$this->post_status->getStatus('all', $this->user->data['user_id'], 0, "all", "seguel");
 				$this->social_zebra->getFriends($profile_id, $where, "no");
 				return $this->helper->render('activity_body.html', $this->user->lang['ACTIVITY']);	
 			}
@@ -455,7 +455,7 @@ class main {
 			$row = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);			
 								
-			if($row['wall_id'] == $this->user->data['user_id'] || $row['post_privacy'] == 0 && $row['wall_id'] == $this->user->data['user_id'] || $row['post_privacy'] == 1 && $this->social_zebra->friendStatus($row['wall_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $row['post_privacy'] == 2) {
+			if($row['post_where'] == 1 && $row['post_privacy'] == 1 || $row['wall_id'] == $this->user->data['user_id'] || $row['post_privacy'] == 0 && $row['wall_id'] == $this->user->data['user_id'] || $row['post_privacy'] == 1 && $this->social_zebra->friendStatus($row['wall_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $row['post_privacy'] == 2) {
 				if(($row['user_id'] != $row['wall_id']) && $type != "profile") {
 					$sqla = "SELECT user_id, username, username_clean, user_colour FROM ".USERS_TABLE."
 					WHERE user_id = '".$row['wall_id']."'";

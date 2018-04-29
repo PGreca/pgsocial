@@ -415,7 +415,8 @@ body.section-memberlist form#viewprofile {
 	font-weight: bold;
 }
 
-#pg_social form#wall_post {
+#pg_social form#wall_post,
+#pg_social form#page_post {
 	position: relative;
 	background-color: #2a6496;
 	margin-bottom: 10px;
@@ -423,17 +424,20 @@ body.section-memberlist form#viewprofile {
 	border-radius: 4px;
 }
 
-#pg_social form#wall_post > * {
+#pg_social form#wall_post > *,
+#pg_social form#page_post > * {
 	border: 0px;
 }
 
-#pg_social form#wall_post .wall_post_area {
+#pg_social form#wall_post .wall_post_area,
+#pg_social form#page_post .page_post_area {
 	background-color: #fff;
 	padding: 10px;
 	border-radius: 4px;
 }
 
-#pg_social form#wall_post #wall_post_text {
+#pg_social form#wall_post #wall_post_text,
+#pg_social form#page_post #page_post_text {
 	display: inline-block;
 	vertical-align: top;
 	width: 100%;
@@ -452,7 +456,8 @@ body.section-memberlist form#viewprofile {
 	padding: 1px;
 }
 
-#pg_social form#wall_post label#pg_social_wall_post_img {
+#pg_social form#wall_post label#pg_social_wall_post_img,
+#pg_social form#page_post label#pg_social_page_post_img {
 	position: relative;
     display: inline-block;
 	vertical-align: top;
@@ -465,14 +470,18 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social form#wall_post select:focus,
+#pg_social form#page_post select:focus,
 #pg_social form#wall_post label#pg_social_wall_post_img:hover,
-#pg_social form#wall_post input[type="submit"]:focus {
+#pg_social form#page_post label#pg_social_page_post_img:hover,
+#pg_social form#wall_post input[type="submit"]:focus,
+#pg_social form#page_post input[type="submit"]:focus {
 	background: rgba(0, 0, 0, 0.9);
 	opacity: 1;
 	color: #fff;
 }
 
-#pg_social form#wall_post label#pg_social_wall_post_img input[type="file"] {
+#pg_social form#wall_post label#pg_social_wall_post_img input[type="file"],
+#pg_social form#page_post label#pg_social_page_post_img input[type="file"] {
 	position: absolute;
     top: 0px;
     left: 0px;
@@ -486,7 +495,8 @@ body.section-memberlist form#viewprofile {
     cursor: pointer;
 }
 
-#pg_social form#wall_post .wall_post_option {
+#pg_social form#wall_post .wall_post_option,
+#pg_social form#page_post .page_post_option {
 	display: inline-block;
 	vertical-align: top;
 	width: 50%;
@@ -494,29 +504,40 @@ body.section-memberlist form#viewprofile {
 	text-align: right;
 }
 
-#pg_social form#wall_post .wall_post_option > * {
+#pg_social form#page_post .page_post_option {
+	width: 100%;
+}
+
+#pg_social form#wall_post .wall_post_option > *,
+#pg_social form#page_post .page_post_option > * {
 	display: inline-block;
 	width: auto;
 }
 
 #pg_social form#wall_post input[type="file"],
+#pg_social form#page_post input[type="file"],
 #pg_social form#wall_post select,
-#pg_social form#wall_post input[type="submit"] {
+#pg_social form#page_post select,
+#pg_social form#wall_post input[type="submit"],
+#pg_social form#page_post input[type="submit"] {
 	padding: 10px;
 	border-radius: 4px;	
 	margin-left: 10px;
 }
 
-#pg_social form#wall_post select option {
+#pg_social form#wall_post select option,
+#pg_social form#page_post select option {
 	background-color: #fff;
 	color: #000;
 }
 
-#pg_social form#wall_post input[type="submit"] {
+#pg_social form#wall_post input[type="submit"],
+#pg_social form#page_post input[type="submit"] {
 	padding: 11px 10px;
 }
 
-#pg_social form#wall_post input[type="submit"]:hover {
+#pg_social form#wall_post input[type="submit"]:hover,
+#pg_social form#page_post input[type="submit"]:hover {
 	background-color: rgba(0, 0, 0, 0.9);
 	color: #fff;
 }
@@ -564,13 +585,14 @@ body.section-memberlist form#viewprofile {
 	display: inline-block;
 }
 
-#pg_social form#wall_post #wall_post_thumb {
+#pg_social form#wall_post #wall_post_thumb,
+#pg_social form#page_post #page_post_thumb {
 	display: none;
 	width: 100%;
     text-align: center;
 }
 
-#pg_social form#wall_post #wall_post_thumb img#wall_post_thumb_img {
+#pg_social form#page_post #page_post_thumb img#page_post_thumb_img {
 	display: inline-block;
 	background-color: #fff;
 	max-height: 50px;

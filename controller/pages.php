@@ -78,40 +78,63 @@ class pages {
 	}
 	
 	/**
-	* Profile controller for route /social/
+	* Profile controller for route /page/{name}
 	*
 	* @param string		$name
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
 	public function handle($name) {
-		$sql = "SELECT * FROM ".$this->table_prefix."pg_social_pages WHERE page_username_clean = '".$name."'";
-		$result = $this->db->sql_query($sql);
-		$page = $this->db->sql_fetchrow($result);
-		
-		$page_title = $this->user->lang['PAGES'];
-		if($page) {	
-			$page_title = $page['page_username'];
-			if(isset($page['page_avatar'])) $page_avatar = 'upload/'.$page['page_avatar']; else $page_avatar = 'no_avatar.jpg';
-			
-			$this->template->assign_block_vars('page', array(
-				'PAGE_AVATAR'		=> '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/'.$page_avatar.'" />',	     
-				'PAGE_USERNAME'		=> $page['page_username'],
-			));
-		} else {
-			$mode = $this->request->variable('mode', '');
-			
-			switch($mode) {
-				case 'page_new':
-				
-				break;
+		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel')) {
+			if($this->user->data['user_id'] != ANONYMOUS) {
+				echo $this->user->data['user_id'];
+				trigger_error('NO_VIEW_USERS');
 			}
-			$this->template->assign_vars(array(
-				'PAGES_NEW_URL'		=> append_sid($this->helper->route('pages_page'), 'mode=page_new'),
-			));
+			login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
+		} else {	
+		
+			$sql = "SELECT * FROM ".$this->table_prefix."pg_social_pages WHERE page_username_clean = '".$name."'";
+			$result = $this->db->sql_query($sql);
+			$page = $this->db->sql_fetchrow($result);
+			
+			$page_title = $this->user->lang['PAGES'];
+			if($page) {	
+				$page_title = $page['page_username'];
+				if($page['page_avatar'] != "") $page_avatar = 'upload/'.$page['page_avatar']; else $page_avatar = 'page_no_avatar.jpg';
+				if($page['page_founder'] == $this->user->data['user_id']) $page['page_action'] = true;
+				
+				$this->template->assign_block_vars('page', array(
+					'PAGE_AVATAR'		=> '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/'.$page_avatar.'" />',	     
+					'PAGE_COUNT_FOLLOWER'	=> $this->followerCount($page['page_id']),
+					'PAGE_COVER'		=> $this->pg_social_helper->social_cover($page['page_cover']),
+					'PAGE_STATUS_ACTION'=> $page['page_action'],
+					'PAGE_USERNAME'		=> $page['page_username'],
+					
+				));
+				
+				$this->template->assign_vars(array(
+					'STATUS_WHERE'				=> 'page',
+					'PROFILE_ID'				=> $page['page_id'],
+				));
+				$this->post_status->getStatus('page', $page['page_id'], 0, "all", "seguel");
+				$page_title = $page['page_username'];
+			} else {
+				$mode = $this->request->variable('mode', '');
+				
+				switch($mode) {
+					case 'page_new':
+					
+					break;
+				}
+				$this->template->assign_vars(array(
+					'PAGES_NEW_URL'		=> append_sid($this->helper->route('pages_page'), 'mode=page_new'),
+				));
+			}
+			return $this->helper->render('pg_social_page.html', $page_title);
 		}
-		return $this->helper->render('pg_social_page.html', $page_title);	
 	}
 	
-	
+	public function followerCount($page) {
+		return 0;
+	}
 }
 	
