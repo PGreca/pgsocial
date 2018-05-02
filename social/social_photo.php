@@ -136,7 +136,11 @@ class social_photo {
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 		
-		$sql = "SELECT user_id, username, username_clean, user_colour, user_avatar, user_avatar_type FROM ".USERS_TABLE." WHERE user_id = '".$row['user_id']."'";
+		if($row['photo_where'] == 0) {
+			$sql = "SELECT user_id, username, username_clean, user_colour, user_avatar, user_avatar_type FROM ".USERS_TABLE." WHERE user_id = '".$row['user_id']."'";
+		} else {
+			$sql = "SELECT page_id as user_id, page_username as username, page_username as username_clean, '' as user_colour, page_avatar as user_avatar, '' as user_avatar_type FROM ".$this->table_prefix."pg_social_pages WHERE page_id = '".$row['user_id']."'";
+		}
 		$result = $this->db->sql_query($sql);
 		$user = $this->db->sql_fetchrow($result);
 		$row['photo_file'] = append_sid(generate_board_url())."/ext/pgreca/pg_social/images/upload/".$row['photo_file'];
@@ -158,7 +162,7 @@ class social_photo {
 				'AUTHOR_PROFILE'			=> get_username_string('profile', $user['user_id'], $user['username'], $user['user_colour']),
 				'AUTHOR_USERNAME'			=> $user['username'],
 				'AUTHOR_COLOUR'				=> '#'.$user['user_colour'],
-				'AUTHOR_AVATAR'				=> $this->pg_social_helper->social_avatar($user['user_avatar'], $user['user_avatar_type']),
+				'AUTHOR_AVATAR'				=> ($row['photo_where'] == 0 ? $this->pg_social_helper->social_avatar($user['user_avatar'], $user['user_avatar_type']) : '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/'.($page['page_avatar'] != "" ? $page_avatar = 'upload/'.$page['page_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />'),
 				'PHOTO_DESC'				=> htmlspecialchars_decode($row['photo_desc']),
 				"LIKE"						=> $this->pg_social_helper->countAction("like", $row['post_id']),
 				"IFLIKE"					=> $this->pg_social_helper->countAction("iflike", $row['post_id']),
@@ -170,7 +174,15 @@ class social_photo {
 		}
 	}
 	
-	public function photoUpload($msg = null, $type, $photo, $itop = null) {
+	public function photoUpload($where, $who, $msg = null, $type, $photo, $itop = null) {
+		switch($where) {
+			case 'page':
+				$where = 1;
+			break;	
+			default:
+				$where = 0;
+			break;
+		}
 		//let's access these values by using their index position
 	    $ImageName 		= str_replace(')','', str_replace('(','', str_replace(' ','-',strtolower($photo['name'])))); 
 	    $ImageSize 		= $photo['size']; 
@@ -263,7 +275,7 @@ class social_photo {
 			}
 		}
 		if(resizeImage($CurWidth,$CurHeight,$BigImageMaxSize,$DestRandImageName,$CreatedImage,$Quality,$ImageType)) {
-			$a = $this->photoQuery($msg, $type, $NewImageName, $wall_id, $now, $itop);
+			$a = $this->photoQuery($where, $who, $msg, $type, $NewImageName, $wall_id, $now, $itop);
 		}
 		
 		$this->template->assign_vars(array(
@@ -272,7 +284,7 @@ class social_photo {
 		if($type == 2) return $this->helper->render('activity_status_action.html', "");
 	}
 	
-	public function photoQuery($msg, $type, $file, $wall, $time, $itop) {
+	public function photoQuery($where, $who, $msg, $type, $file, $wall, $time, $itop) {
 		$user = (int) $this->user->data['user_id'];	
 		switch($type) {
 			case 'avatar':
@@ -288,8 +300,9 @@ class social_photo {
 			break;
 		}
 		$sql_arr = array(
+			'photo_where'		=> $where,
 			'gallery_id'		=> $gallery,
-			'user_id'			=> $user,
+			'user_id'			=> $who,
 			'photo_file'		=> $file,
 			'photo_time'		=> $time,
 			'photo_desc'		=> $msg,
@@ -299,11 +312,11 @@ class social_photo {
 			$sql = "SELECT photo_id FROM ".$this->table_prefix."pg_social_photos WHERE photo_file = '".$file."'";
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
-			if($this->add_statusPhoto($user, $gallery, 1, $row['photo_id'], $msg)) return "cover_change";
+			if($this->add_statusPhoto($where, $who, $user, $gallery, 1, $row['photo_id'], $msg)) return "cover_change";
 		}
 	}
 	
-	public function add_statusPhoto($user, $type, $privacy, $photo, $text) {
+	public function add_statusPhoto($where, $who, $user, $type, $privacy, $photo, $text) {
 		$allow_bbcode = $this->config['pg_social_bbcode'];
 		$allow_urls = $this->config['pg_social_url'];
 		$allow_smilies = $this->config['pg_social_smilies'];
@@ -315,7 +328,8 @@ class social_photo {
 		generate_text_for_storage($text, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
 		
 		$sql_arr = array(
-			'wall_id'			=> $user,
+			'post_where'		=> $where,
+			'wall_id'			=> $who,
 			'user_id'			=> $user,
 			'message'			=> $asds,
 			'time'				=> $time,

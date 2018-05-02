@@ -15,24 +15,29 @@ class main_info {
 	function module() {
 		return array(
 			'filename'	=> '\pgreca\pg_social\acp\main_module',
-			'title'		=> 'ACP_PG_SOCIAL_TITLE',
+			'title'		=> 'ACP_PG_SOCIAL_MAIN',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
 				'settings'	=> array(
 					'title' => 'ACP_PG_SOCIAL_GENERAL', 
 					'auth' => 'ext_pgreca/pg_social && acl_a_board', 
-					'cat' => array('ACP_PG_SOCIAL_TITLE')
+					'cat' => array('ACP_PG_SOCIAL_MAIN')
 				),
 				'social'	=> array(
 					'title' => 'ACP_PG_SOCIAL_SETTINGS', 
 					'auth' => 'ext_pgreca/pg_social && acl_a_board', 
-					'cat' => array('ACP_PG_SOCIAL_TITLE')
+					'cat' => array('ACP_PG_SOCIAL_MAIN')
 				),
 				'chat'	=> array(
 					'title' => 'ACP_PG_SOCIAL_CHAT', 
 					'auth' => 'ext_pgreca/pg_social && acl_a_board', 
-					'cat' => array('ACP_PG_SOCIAL_TITLE')
-				)
+					'cat' => array('ACP_PG_SOCIAL_MAIN')
+				),
+				'page_manage'	=> array(
+					'title'	=> 'ACP_PG_SOCIAL_PAGE_MANAGE',
+					'auth'	=> 'ext_pgreca/pg_social && acl_a_board',
+					'cat'	=> array('ACP_PG_SOCIAL_PAGE')
+				),
 			)
 		);
 	}

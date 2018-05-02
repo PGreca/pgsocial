@@ -1,15 +1,24 @@
 <!-- INCLUDE overall_header.html -->
 <div id="pg_social" class="pg_social_pagepage">
+<!-- IF not PAGES -->
 <!-- BEGIN page -->
-	<div id="pg_social_header" style="background-image:url({page.PAGE_COVER}); background-position: left {PAGE_COVER_POSITION}px;">
-		
+	<!-- IF page.PAGE_ALERT -->
+	<div class="pg_social_alert">
+		Pagina in attesa di moderazione
+	</div>
+	<!-- ENDIF -->
+	<div id="pg_social_header" style="background-image:url({page.PAGE_COVER}); background-position: left {page.PAGE_COVER_POSITION}px;">		
+		<!-- IF page.PAGE_ACTION -->
+		<div id="pg_social_actionprofile">
+			<a class="page_list_buttonLike" data-page="{page.PAGE_ID}"><span class="{page.PAGE_LIKE_CHECK}">{L_LIKE}</span></a>
+		</div>
+		<!-- ENDIF -->
 	</div><div id="pg_social_main">
 		<div class="profile_avatar">{page.PAGE_AVATAR}</div>			
 		<h2 class="memberlist-username">{page.PAGE_USERNAME}</h2>
 		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa-user fa-fw" aria-hidden="true"></i> {L_ACTIVITY}</a></li><!--<li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i> {L_LIKES} <span>({page.PAGE_COUNT_FOLLOWER})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa-camera fa-fw" aria-hidden="true"></i> {L_GALLERY}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i> {L_INFO}</a></li>--></ul>
-		<div id="pg_social_sidel">
-		
-		</div><div id="pg_social_cont"<!-- IF not PG_SOCIAL_SIDEBAR_RIGHT --> style="width:calc(80% - 20px);"<!-- ENDIF -->>
+		<div id="pg_social_sidel">		
+		</div><div id="pg_social_cont"<!-- IF not PG_SOCIAL_SIDEBAR_RIGHT --> style="width:calc(80%);"<!-- ENDIF -->>
 			<div class="pg_social_pagesub" id="page_activity">
 				<!-- IF page.PAGE_STATUS_ACTION -->
 				<form method="post" id="wall_post">
@@ -40,14 +49,31 @@
 			</div>
 		</div><!-- ENDIF -->	
 	</div>
-<!-- BEGINELSE -->
-<a id="page_new_form_open">Crea una nuova pagina</a>
-<form id="page_new_form">
-	<label for="page_new_name"><span>Nome Pagina</span>{L_COLON} <input type="text" name="page_new_name" />
-	</label>
-	<input type="submit" name="page_new_submit" />
-</form>
-IN SVILUPPO
 <!-- END page -->
+<!-- ELSE -->
+<div id="pg_social_cont" style="width:calc(<!-- IF not PG_SOCIAL_SIDEBAR_RIGHT -->100<!-- ELSE -->80<!-- ENDIF -->%);">			
+	<ul id="pages_list">
+		<!-- BEGIN pages -->
+		<li class="page_list" id="page_list_{pages.PAGE_ID}">
+			<a class="page_list_head" style="background-image: url({pages.PAGE_AVATAR});" href="{pages.PAGE_URL}"></a>
+			<a class="page_list_username" href="{pages.PAGE_URL}">{pages.PAGE_USERNAME}</a>
+			<span class="page_list_likesCount">Piace a {pages.PAGE_COUNT_FOLLOWER}</span><a class="page_list_buttonLike" data-page="{pages.PAGE_ID}"><span class="{pages.PAGE_LIKE_CHECK}">{L_LIKE}</span></a>
+		</li>
+		<!-- END pages -->
+	</ul>
+</div><div id="pg_social_sider">
+	<!-- IF PAGE_CREATE -->
+	<div class="panel">
+		<h3>Crea pagina</h3>
+		<form id="page_new_form" method="post" action="{PAGE_FORM}">
+			<label for="page_new_name">
+				<input type="text" name="page_new_name" placeholder="Inserisci il nome della Pagina" />
+			</label>
+			<input type="submit" name="page_new_submit" />
+		</form>
+	</div>
+	<!-- ENDIF -->
+</div>
+<!-- ENDIF -->
 </div>
 <!-- INCLUDE overall_footer.html -->

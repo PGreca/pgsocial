@@ -19,7 +19,10 @@ if (empty($lang) || !is_array($lang)) {
 
 $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_TITLE'				=> 'PG Social',
+	'ACP_PG_SOCIAL_MAIN'				=> 'Menù principale',
 	'ACP_PG_SOCIAL_GENERAL'				=> 'Generale',
+	'ACP_PG_SOCIAL_PAGE'				=> 'Menù pagine',
+	'ACP_PG_SOCIAL_PAGE_MANAGE'			=> 'Amministra pagine',
 	'ACP_PG_SOCIAL_SETTINGS_EXPLAIN'	=> 'Questa è la pagina delle impostazioni per l\' estensione "Phpbb PGreca Social"',
 	'ACP_PG_SOCIAL_VERSION'				=> 'Versione',
 	'ACP_PG_SOCIAL_ENABLED'				=> 'Attiva PG Social',
@@ -43,6 +46,7 @@ $lang = array_merge($lang, array(
 	'ACTIVITY'							=> 'Attività',
 	'ACTIVITY_PAGE'						=> 'Attività',
 	'ALL'								=> 'Tutti', //TRADURRE
+	'APPROVE_PAGE'						=> 'Approva',
 	'ARE_YOU_SURE'						=> 'Questo stato sarà eliminato e non potrai trovarlo più. Confermi?',
 	'ATTACH_PICTURE'					=> 'Allega immagine',
 	'AVATAR'							=> 'Immagine di profilo',
@@ -67,8 +71,13 @@ $lang = array_merge($lang, array(
 	'HAS_WRITE_IN'						=> '%s ha scritto sulla bacheca di', //TRADURRE
 	'HAS_WRITE_IN_YOUR'					=> '%s ha scritto sulla tua bacheca', //TRADURRE
 	'INFO'								=> 'Informazioni', //TRADURRE
-	'LIKE'								=> 'Like',
-	'LIKES'								=> 'Like',
+	'LIKE'								=> 'Mi Piace',
+	'LIKES'								=> 'Mi Piace',
+	
+	'MCP_PG_SOCIAL_TITLE'				=> 'Social',
+	'MCP_PG_SOCIAL_MAIN'				=> 'Menù principale',
+	'MCP_PG_SOCIAL_PAGE_MANAGE'			=> 'Modera pagine',
+	
 	
 	'NOTIFICATION_PG_SOCIAL'			=> 'Notifiche social', //TRADURRE
 	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'Qualcuno scrive uno stato nella tua bacheca', //TRADURRE
@@ -76,6 +85,7 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_SOCIAL_LIKES'	=> 'Qualcuno mette un like ad un tuo stato', //TRADURRE
 	'NOTIFICATION_TYPE_SOCIAL_TAG'		=> 'Qualcuno ti tagga in uno stato', //TRADURRE
 	'ONLY_YOU'							=> 'Solo tu',
+	'PAGE_USERNAME'						=> 'Nome pagina',
 	'PAGES'								=> 'Pagine',
 	'PG_SOCIAL_COMMENT_NEW_LOG'			=> '<strong>Ha commentato uno stato</strong><br />» %s',
 	'PG_SOCIAL_COMMENT_REMOVE_LOG'		=> '<strong>Ha rimosso un suo commento da uno stato</strong>',
@@ -129,4 +139,5 @@ $lang = array_merge($lang, array(
 	),
 	'WRITE_A_MESSAGE'				=> 'Scrivi un messaggio',
 	'WRITE_SOMETHING'				=> 'Scrivi qualcosa',
+	'VERSION'						=> 'Versione',
 ));

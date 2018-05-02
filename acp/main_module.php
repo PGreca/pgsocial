@@ -16,11 +16,15 @@ class main_module {
 
 	function main($id, $mode) {
 		global $db, $user, $auth, $template, $cache, $request, $helper;
-		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
+		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx, $table_prefix;
 
 		$this->tpl_name = 'pg_social_body';
 		$this->page_title = $user->lang('ACP_PG_SOCIAL_TITLE');
 		add_form_key('pgreca/pg_social');
+		
+		$template->assign_vars(array(
+			'PG_SOCIAL_VERSION'							=> $config['pg_social_version'],
+		));
 		
 		switch ($mode) {
 			case 'settings':
@@ -55,8 +59,6 @@ class main_module {
 					'PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST'			=> $config['pg_social_block_posts_last'],
 					
 					'PG_SOCIAL_CHAT'							=> $config['pg_social_chat_enabled'],
-					
-					'PG_SOCIAL_VERSION'							=> $config['pg_social_version'],
 				));
 			break;
 			case 'social':
@@ -93,6 +95,36 @@ class main_module {
 					'PG_SOCIAL_PAGE_CHAT'						=> true,
 					'PG_SOCIAL_CHAT_MESSAGE_BBCODE_ENABLED'		=> $config['pg_social_chat_message_bbcode_enabled'],
 					'PG_SOCIAL_CHAT_MESSAGE_URL_ENABLED'		=> $config['pg_social_chat_message_url_enabled'],
+				));
+			break;
+			case 'page_manage':
+				if($request->is_set_post('submit')) {
+					if(!check_form_key('pgreca/pg_social')) {
+						trigger_error('FORM_INVALID');
+					}
+					$sql_arr = array(
+						'page_status' => 1
+					);
+					$sql = 'UPDATE '.$table_prefix.'pg_social_pages SET '.$db->sql_build_array('UPDATE', $sql_arr).' WHERE page_id IN ("'.implode('", "', $request->variable('page_selected', array('' => ''))).'")';
+					if($db->sql_query($sql)) {				
+						trigger_error($user->lang('ACP_PG_SOCIAL_SETTING_SAVED') . adm_back_link($this->u_action));
+					}
+				}
+				$sql = "SELECT p.*, u.username, u.user_colour FROM ".$table_prefix."pg_social_pages as p, ".USERS_TABLE." as u WHERE p.page_founder = u.user_id AND p.page_status = '0'";
+				$result = $db->sql_query($sql);
+				while($row = $db->sql_fetchrow($result)){	
+					$template->assign_block_vars('pages', array(
+						'PAGE_ID'		=> $row['page_id'],
+						'PAGE_USERNAME'	=> $row['page_username'],
+						'PAGE_FOUNDER'	=> $row['username'],
+						'PAGE_FOUNDERL'	=> get_username_string('profile', $row['page_founder'], $row['username'], $row['user_colour']),
+						'PAGE_REGDATA'	=> $row['page_regdate'],
+					));
+				}
+				
+				$template->assign_vars(array(
+					'PG_SOCIAL_PAGE_PAGE_MANAGE'						=> true,
+					'PAGE_MANAGE_ACTION'								=> ($auth->acl_gets('a_page_manage') ? 1 : 0),			
 				));
 			break;
 		}

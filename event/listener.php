@@ -109,7 +109,8 @@ class listener implements EventSubscriberInterface {
 	 */
 	static public function getSubscribedEvents() {
 		return array(
-			'core.user_setup'								=> 'load_language_on_setup',	
+			'core.user_setup'								=> 'load_language_on_setup',
+			'core.permissions'								=> 'add_permission',			
 			'core.memberlist_view_profile'	    			=> 'memberlist_view_profile',
 			'core.page_header'								=> 'add_page_links',
 			'core.page_footer'								=> 'load',
@@ -121,7 +122,7 @@ class listener implements EventSubscriberInterface {
 			'core.avatar_driver_upload_move_file_before'	=> 'user_avatar_change',
 			
 			
-			'core.display_forums_after'									=> 'test',
+			'core.display_forums_after'						=> 'test',
 		);
 	}
 	
@@ -133,6 +134,25 @@ class listener implements EventSubscriberInterface {
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
 	}	
+	
+	/**
+	 * Add permissions for PG Social Network
+	 *
+	 * @param \phpbb\event\data $event The event object
+	*/
+	public function add_permission($event) {
+		$permissions = $event['permissions'];
+		$categories = $event['categories'];
+
+		$categories['pg_social'] = 'ACL_CAT_PG_SOCIAL';
+
+		$permissions['u_page_create'] = array('lang' => 'ACL_U_PAGE_CREATE', 'cat' => 'pg_social');
+		$permissions['m_page_manage'] = array('lang' => 'ACL_M_PAGE_MANAGE', 'cat' => 'pg_social');
+		$permissions['a_page_manage'] = array('lang' => 'ACL_A_PAGE_MANAGE', 'cat' => 'pg_social');
+
+		$event['categories'] = $categories;
+		$event['permissions'] = $permissions;
+	}
 	
 	public function memberlist_view_profile($event) {
 		if($this->config['pg_social_profile']) {

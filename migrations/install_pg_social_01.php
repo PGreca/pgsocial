@@ -17,7 +17,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 	}
 
 	public function update_data() {
-		return array(
+		$data = array(
 			array('config.add', array('pg_social_version', '0.1.0-a3')),
 			
 			array('config.add', array('pg_social_enabled', 1)),			
@@ -36,6 +36,11 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 			array('config.add', array('pg_social_chat_enabledfor', 1)),
 			array('config.add', array('pg_social_chat_message_url_enabled', 1)),
 			array('config.add', array('pg_social_chat_smilies_enabled', 1)),
+			
+			array('permission.add', array('u_page_create')),
+			array('permission.add', array('m_page_manage')),
+			array('permission.add', array('a_page_manage')),			
+			
 			array('module.add', array(
 				'acp',
 				0,
@@ -44,11 +49,11 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 			array('module.add', array(
 				'acp',
 				'ACP_PG_SOCIAL_TITLE',
-				'ACP_WALL_TITLE'
+				'ACP_PG_SOCIAL_MAIN'
 			)),			
 			array('module.add', array(
 				'acp',
-				'ACP_PG_SOCIAL_TITLE',
+				'ACP_PG_SOCIAL_MAIN',
 				array(
 					'module_basename'	=> '\pgreca\pg_social\acp\main_module',
 					'modes'				=> array('settings'),
@@ -56,7 +61,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 			)),	
 			array('module.add', array(
 				'acp',
-				'ACP_PG_SOCIAL_TITLE',
+				'ACP_PG_SOCIAL_MAIN',
 				array(
 					'module_basename'	=> '\pgreca\pg_social\acp\main_module',
 					'modes'				=> array('social'),
@@ -64,10 +69,41 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 			)),		
 			array('module.add', array(
 				'acp',
-				'ACP_PG_SOCIAL_TITLE',
+				'ACP_PG_SOCIAL_MAIN',
 				array(
 					'module_basename'	=> '\pgreca\pg_social\acp\main_module',
 					'modes'				=> array('chat'),
+				),
+			)),
+			array('module.add', array(
+				'acp',
+				'ACP_PG_SOCIAL_TITLE',
+				'ACP_PG_SOCIAL_PAGE'
+			)),
+			array('module.add', array(
+				'acp',
+				'ACP_PG_SOCIAL_PAGE',
+				array(
+					'module_basename'	=> '\pgreca\pg_social\acp\main_module',
+					'modes'				=> array('page_manage'),
+				),
+			)),
+			array('module.add', array(
+				'mcp',
+				0,
+				'MCP_PG_SOCIAL_TITLE'
+			)),
+			array('module.add', array(
+				'mcp',
+				'MCP_PG_SOCIAL_TITLE',
+				'MCP_PG_SOCIAL_MAIN'		
+			)),
+			array('module.add', array(
+				'mcp',
+				'MCP_PG_SOCIAL_MAIN',
+				array(
+					'module_basename'	=> '\pgreca\pg_social\mcp\main_module',
+					'modes'				=> array('page_manage'),
 				),
 			)),
 			array('module.add', array(
@@ -84,6 +120,25 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 				),
 			)),
 		);
+		if ($this->role_exists('ROLE_USER_STANDARD')) {
+			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_page_create'));
+		}
+		if ($this->role_exists('ROLE_USER_FULL')) {
+			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_page_create'));
+		}
+		if ($this->role_exists('ROLE_MOD_STANDARD')) {
+			$data[] = array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_page_manage'));
+		}
+		if ($this->role_exists('ROLE_MOD_FULL')) {
+			$data[] = array('permission.permission_set', array('ROLE_MOD_FULL', 'm_page_manage'));
+		}
+		if ($this->role_exists('ROLE_ADMIN_STANDARD')) {
+			$data[] = array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_page_manage'));
+		}
+		if ($this->role_exists('ROLE_ADMIN_FULL')) {
+			$data[] = array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_page_manage'));
+		}
+		return $data;
 	}	
 	
 	// Add chat DB tables and columns
@@ -94,6 +149,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 					'COLUMNS'		=> array(
 						'post_ID'			=> array('UINT:11', null, 'auto_increment', 0),
 						'post_parent'		=> array('UINT:11', 0),
+						'post_where'		=> array('UINT:1', 0),
 						'wall_id'			=> array('UINT:11', 0),
 						'user_id'			=> array('UINT:11', 0),
 						'message'			=> array('MTEXT_UNI', ''),
@@ -154,6 +210,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 				$this->table_prefix.'pg_social_photos'		=> array(
 					'COLUMNS'		=> array(
 						'photo_id'			=> array('UINT:11', null, 'auto_increment', 0),
+						'photo_where'		=> array('UINT:1', 0),
 						'gallery_id'		=> array('UINT:11', 0),
 						'user_id'			=> array('UINT:11', 0),
 						'photo_file'		=> array('VCHAR:255', ''),
@@ -166,6 +223,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 					'COLUMNS'		=> array(
 						'page_id'					=> array('UINT:10', null, 'auto_increment', 0),
 						'page_type'					=> array('TINT:2', 0),
+						'page_status'				=> array('TINT:1', 0),
 						'page_founder'				=> array('UINT:10', 0),
 						'page_regdate'				=> array('UINT:11', 0),
 						'page_username'				=> array('VCHAR:255', ''),
@@ -175,6 +233,15 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 						'page_cover_position'		=> array('VCHAR:10', ''),
 					),
 					'PRIMARY_KEY'	=> 'page_id',
+				),
+				$this->table_prefix.'pg_social_pages_like'	=> array(
+					'COLUMNS'		=> array(
+						'page_like_ID'		=> array('UINT:11', null, 'auto_increment', 0),
+						'user_id'			=> array('UINT:11', 0),
+						'page_id'			=> array('UINT:10', 0),
+						'page_like_time'	=> array('UINT:11', 0),					
+					), 
+					'PRIMARY_KEY'	=> 'page_like_ID',				
 				),
 			),
 			'add_columns'	=> array(
@@ -187,8 +254,6 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 					'user_chat_music'				=> array('UINT:1', 1),
 					'user_chat_visibility'			=> array('UINT:1', 1)
 				),
-			),
-			'add_columns'	=> array(
 				$this->table_prefix.'zebra'		=> array(
 					'approval'		=> array('UINT', 0),
 				),
@@ -199,6 +264,20 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 	public function revert_data() {
 		return array(
 			array(
+				'module.remove', array(
+					'acp',
+					'ACP_PG_SOCIAL_MAIN',
+					array(
+						'module_basename'	=> '\pgreca\pg_social\acp\main_module',
+					),
+				),
+				'module.remove', array(
+					'acp',
+					'ACP_PG_SOCIAL_PAGE',
+					array(
+						'module_basename'	=> '\pgreca\pg_social\acp\main_module',
+					),
+				),
 				'module.remove', array(
 					'acp',
 					'ACP_PG_SOCIAL_TITLE',
@@ -212,6 +291,20 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 					array(
 						'module_basename'	=> '\pgreca\pg_social\ucp\main_module',
 					)
+				),
+				'module.remove', array(
+					'mcp',
+					'MCP_PG_SOCIAL_PAGE',
+					array(
+						'module_basename'	=> '\pgreca\pg_social\mcp\main_module',
+					),
+				),
+				'module.remove', array(
+					'mcp',
+					'MCP_PG_SOCIAL_TITLE',
+					array(
+						'module_basename'	=> '\pgreca\pg_social\mcp\main_module',
+					),
 				),
 			),	
 			array(
@@ -234,9 +327,11 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 				$this->table_prefix.'pg_social_gallery',
 				$this->table_prefix.'pg_social_photos',
 				$this->table_prefix.'pg_social_pages',
+				$this->table_prefix.'pg_social_pages_like',
 			),
 			'drop_columns'	=> array(
 				$this->table_prefix . 'users' => array(
+					'user_gender',
 					'user_pg_social_cover',
 					'user_pg_social_cover_position',
 					'user_quote',
@@ -264,5 +359,20 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 				unlink($file);
 			}
 		}
-	}	
+	}
+
+	/**
+	 * Custom function query permission roles
+	 *
+	 * @return void
+	 * @access public
+	*/
+	private function role_exists($role) {
+		$sql = "SELECT role_id FROM ".ACL_ROLES_TABLE." WHERE role_name = '".$this->db->sql_escape($role)."'";
+		$result = $this->db->sql_query_limit($sql, 1);
+		$role_id = $this->db->sql_fetchfield('role_id');
+		$this->db->sql_freeresult($result);
+		return $role_id;
+	}
+	
 }

@@ -53,11 +53,12 @@ class pages {
 	* @param \pg_social\social\post_status $post_status 	
 	* @param \pg_social\social\$social_zebra $social_zebra		
 	* @param \pg_social\social\$social_photo $social_photo	 	
-	* @param \pg_social\social\$social_tag $social_tag	 
+	* @param \pg_social\social\$social_tag $social_tag		
+	* @param \pg_social\social\$social_page $social_page	  
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
 	*/
-	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_photo, $social_tag, $template, $user, $root_path, $php_ext, $table_prefix) {
+	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix) {
 		$this->files_factory		= $files_factory;
 		$this->auth					= $auth;
 		$this->config				= $config;
@@ -70,6 +71,7 @@ class pages {
 		$this->social_zebra 		= $social_zebra;	
 		$this->social_photo			= $social_photo;
 		$this->social_tag			= $social_tag;
+		$this->social_page			= $social_page;
 		$this->template				= $template;
 		$this->user					= $user;
 	    $this->root_path			= $root_path;
@@ -91,50 +93,76 @@ class pages {
 			}
 			login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
 		} else {	
-		
+			$page_title = $this->user->lang['PAGES'];
+	
 			$sql = "SELECT * FROM ".$this->table_prefix."pg_social_pages WHERE page_username_clean = '".$name."'";
 			$result = $this->db->sql_query($sql);
 			$page = $this->db->sql_fetchrow($result);
-			
-			$page_title = $this->user->lang['PAGES'];
-			if($page) {	
+			$this->db->sql_freeresult($result);
+			if($page && ($page['page_status'] == 1 || $page['page_founder'] == $this->user->data['user_id'] || $this->auth->acl_get('a_page_manage'))) {	
 				$page_title = $page['page_username'];
-				if($page['page_avatar'] != "") $page_avatar = 'upload/'.$page['page_avatar']; else $page_avatar = 'page_no_avatar.jpg';
-				if($page['page_founder'] == $this->user->data['user_id']) $page['page_action'] = true;
+				if($page['page_status'] == 0) $page_alert = true; else $page_alert = false;
 				
+				if($page['page_status'] == 1) $page['page_act'] = true; else $page['page_act'] = false;
+				if($page['page_founder'] == $this->user->data['user_id'] && $page['page_status'] == 1) $page['page_action'] = true;
+				if($this->social_page->user_likePages($this->user->data['user_id'], $page['page_id']) == $page['page_id']) $page_likeCheck = "like"; else $page_likeCheck = "dislike";
+					
 				$this->template->assign_block_vars('page', array(
-					'PAGE_AVATAR'		=> '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/'.$page_avatar.'" />',	     
-					'PAGE_COUNT_FOLLOWER'	=> $this->followerCount($page['page_id']),
+					'PAGE_ID'			=> $page['page_id'],
+					'PAGE_ALERT'		=> $page_alert,
+					'PAGE_AVATAR'		=> '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/'.($page['page_avatar'] != "" ? $page_avatar = 'upload/'.$page['page_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />',	     
 					'PAGE_COVER'		=> $this->pg_social_helper->social_cover($page['page_cover']),
+					'PAGE_ACTION'		=> $page['page_act'],
 					'PAGE_STATUS_ACTION'=> $page['page_action'],
 					'PAGE_USERNAME'		=> $page['page_username'],
 					
+					'PAGE_LIKE_CHECK'		=> $page_likeCheck."page",					
 				));
 				
 				$this->template->assign_vars(array(
+					'PG_SOCIAL_SIDEBAR_RIGHT'				=> $this->config['pg_social_sidebarRight'],	
+					
 					'STATUS_WHERE'				=> 'page',
 					'PROFILE_ID'				=> $page['page_id'],
 				));
 				$this->post_status->getStatus('page', $page['page_id'], 0, "all", "seguel");
 				$page_title = $page['page_username'];
 			} else {
+				
 				$mode = $this->request->variable('mode', '');
 				
 				switch($mode) {
 					case 'page_new':
-					
+						return $this->social_page->pageCreate($this->request->variable('page_new_name', ''));
 					break;
 				}
+				
+				$sql = "SELECT *, (SELECT COUNT(*) FROM ".$this->table_prefix."pg_social_pages_like WHERE ".$this->table_prefix."pg_social_pages.page_id = ".$this->table_prefix."pg_social_pages_like.page_id) AS countlike FROM ".$this->table_prefix."pg_social_pages WHERE page_status = '1'";
+				$result = $this->db->sql_query($sql);
+				while($pages = $this->db->sql_fetchrow($result)) {
+					if($page['page_avatar'] != "") $page_avatar = 'upload/'.$page['page_avatar']; else $page_avatar = 'page_no_avatar.jpg';
+					if($pages['countlike'] > 1 || $pages['countlike'] == 0) $people = 'persone'; else $people = 'persona'; 
+					if($this->social_page->user_likePages($this->user->data['user_id'], $pages['page_id']) == $pages['page_id']) $page_likeCheck = "like"; else $page_likeCheck = "dislike";
+					
+					$this->template->assign_block_vars('pages', array(
+						'PAGE_ID'				=> $pages['page_id'],
+						'PAGE_AVATAR'			=> generate_board_url().'/ext/pgreca/pg_social/images/'.$page_avatar,	     
+						'PAGE_COUNT_FOLLOWER'	=> $pages['countlike'].' '.$people,
+						'PAGE_USERNAME'			=> $pages['page_username'],
+						'PAGE_URL'				=> $this->helper->route('pages_page', array('name' => $pages['page_username_clean'])),
+					
+						'PAGE_LIKE_CHECK'		=> $page_likeCheck."page",
+					));	
+				}
 				$this->template->assign_vars(array(
-					'PAGES_NEW_URL'		=> append_sid($this->helper->route('pages_page'), 'mode=page_new'),
-				));
+					'PG_SOCIAL_SIDEBAR_RIGHT'				=> $this->config['pg_social_sidebarRight'],	
+					'PAGES'									=> true,
+					'PAGE_CREATE'							=> $this->auth->acl_get('u_page_create') ? true : false,
+					'PAGE_FORM'								=> append_sid($this->helper->route('pages_page'), 'mode=page_new'),
+				));				
 			}
 			return $this->helper->render('pg_social_page.html', $page_title);
 		}
-	}
-	
-	public function followerCount($page) {
-		return 0;
 	}
 }
 	

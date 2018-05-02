@@ -174,6 +174,11 @@
 		pgwall_likeAction($(this).parent().parent().attr('data-post'));
 	});
 	
+	$(document).on('click', "a.page_list_buttonLike", function() {
+		pgwall_pagelikeAction($(this).attr('data-page'));
+
+	});
+	
 	$(document).on('click', 'a#page_new_form_open', function(data) {
 		$("#page_new_form").show();
 	});
@@ -203,7 +208,6 @@ function pgwall_getStatus(order, post_where) {
 					}
 				}
 				$("#load_more").show();
-				console.log(data);
 			}
 		});
 	}
@@ -227,7 +231,6 @@ function pgwall_addStatus(texta, privacy) {
 			contentType: false,
 			processData: false, 
 			success: function(data) {
-				console.log(data);
 				$("#wall_post_text").html("");
 			}
 		});
@@ -270,9 +273,20 @@ function pgwall_likeAction(post_like) {
 		success: function(data) {
 			$('#post_status_'+post_like+' .post_status_footer .post_status_like').replaceWith(data);
 			$('.pg_social_photo #pg_social_photo_social .pg_social_photo_likshare[data-post="'+post_like+'"] .post_status_like').replaceWith(data);
-			
 		}
 	});	
+}
+
+function pgwall_pagelikeAction(page) {
+	$.ajax({
+		method: "POST",
+		url: root,
+		data: "mode=pagelikeAction&page="+page,
+		success: function(data) {
+			console.log(data);
+			$("a.page_list_buttonLike[data-page='"+page+"'] span").attr('class', '').addClass(data);
+		}		
+	});
 }
 
 /* COMMENT ACTION */
@@ -325,6 +339,8 @@ function uploadPhoto(msg, photo, type, itop) {
 	var fdata = new FormData()
 	fdata.append("mode", "addPhoto");
 	if(msg) fdata.append("msg", msg);
+	fdata.append("post_where", where);
+	fdata.append("profile_id", profile_id);
 	fdata.append("type", type);
 	fdata.append("photo", photo);
 	fdata.append("top", itop);

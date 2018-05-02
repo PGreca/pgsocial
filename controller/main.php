@@ -54,11 +54,12 @@ class main {
 	* @param \pg_social\social\$social_zebra $social_zebra	 	
 	* @param \pg_social\social\$social_chat $social_chat	 	
 	* @param \pg_social\social\$social_photo $social_photo	 	
-	* @param \pg_social\social\$social_tag $social_tag	 
+	* @param \pg_social\social\$social_tag $social_tag	  	
+	* @param \pg_social\social\$social_page $social_page	 
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
 	*/
-	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $template, $user, $root_path, $php_ext, $table_prefix) {
+	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix) {
 		$this->files_factory		= $files_factory;
 		$this->auth					= $auth;
 		$this->config				= $config;
@@ -72,6 +73,7 @@ class main {
 		$this->social_chat			= $social_chat;
 		$this->social_photo			= $social_photo;
 		$this->social_tag			= $social_tag;
+		$this->social_page			= $social_page;
 		$this->template				= $template;
 		$this->user					= $user;
 	    $this->root_path			= $root_path;
@@ -162,11 +164,15 @@ class main {
 					return $return;
 				break;
 				case 'addPhoto':
-					$return = $this->social_photo->photoUpload($this->request->variable('msg', ''), $this->request->variable('type', ''), $this->request->file('photo'), $this->request->variable('top', ''));
+					$return = $this->social_photo->photoUpload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', ''), $this->request->variable('type', ''), $this->request->file('photo'), $this->request->variable('top', ''));
 					return $return;
 				break;
 				case 'tag_system_search':
 					$return = $this->social_tag->tag_system_search($this->request->variable('who', ''));
+					return $return;
+				break;
+				case 'pagelikeAction':
+					$return = $this->social_page->pagelikeAction($this->request->variable('page', ''));
 					return $return;
 				break;
 				default: 

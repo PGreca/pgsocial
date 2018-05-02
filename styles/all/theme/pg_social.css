@@ -37,6 +37,16 @@ body.section-memberlist form#viewprofile {
 	border-radius: 4px;
 }
 
+#pg_social #pg_social_sider .panel h3 {
+	display: inline-block;
+	width: calc(100% - 10px);
+	margin-bottom: 15px;
+	padding: 0px 5px 5px;
+	border-bottom: 1px solid #cfcfcf;
+	text-align: right;
+	font-size: 1.6em;
+}
+
 #pg_social #pg_social_header {
 	position: relative;
 	background-color: rgba(0, 0, 0, 0.2);
@@ -109,6 +119,26 @@ body.section-memberlist form#viewprofile {
 	background: linear-gradient(180deg, #2a6496 0%, #224f77 100%);
     margin: 0px 0px 10px auto;
     color: #fff;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile a.page_list_buttonLike {
+	padding: 0px;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile a.page_list_buttonLike span {
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile a.page_list_buttonLike span.likepage {
+	background-color: #2a6496;
+	color: #fff;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile a.page_list_buttonLike:hover span {
+	background-color: #f2f2f2;
+	color: inherit;
 }
 
 #pg_social #pg_social_main {	
@@ -415,8 +445,7 @@ body.section-memberlist form#viewprofile {
 	font-weight: bold;
 }
 
-#pg_social form#wall_post,
-#pg_social form#page_post {
+#pg_social form#wall_post {
 	position: relative;
 	background-color: #2a6496;
 	margin-bottom: 10px;
@@ -424,20 +453,17 @@ body.section-memberlist form#viewprofile {
 	border-radius: 4px;
 }
 
-#pg_social form#wall_post > *,
-#pg_social form#page_post > * {
+#pg_social form#wall_post > * {
 	border: 0px;
 }
 
-#pg_social form#wall_post .wall_post_area,
-#pg_social form#page_post .page_post_area {
+#pg_social form#wall_post .wall_post_area {
 	background-color: #fff;
 	padding: 10px;
 	border-radius: 4px;
 }
 
-#pg_social form#wall_post #wall_post_text,
-#pg_social form#page_post #page_post_text {
+#pg_social form#wall_post #wall_post_text {
 	display: inline-block;
 	vertical-align: top;
 	width: 100%;
@@ -456,8 +482,7 @@ body.section-memberlist form#viewprofile {
 	padding: 1px;
 }
 
-#pg_social form#wall_post label#pg_social_wall_post_img,
-#pg_social form#page_post label#pg_social_page_post_img {
+#pg_social form#wall_post label#pg_social_wall_post_img {
 	position: relative;
     display: inline-block;
 	vertical-align: top;
@@ -470,18 +495,14 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social form#wall_post select:focus,
-#pg_social form#page_post select:focus,
 #pg_social form#wall_post label#pg_social_wall_post_img:hover,
-#pg_social form#page_post label#pg_social_page_post_img:hover,
-#pg_social form#wall_post input[type="submit"]:focus,
-#pg_social form#page_post input[type="submit"]:focus {
+#pg_social form#wall_post input[type="submit"]:focus {
 	background: rgba(0, 0, 0, 0.9);
 	opacity: 1;
 	color: #fff;
 }
 
-#pg_social form#wall_post label#pg_social_wall_post_img input[type="file"],
-#pg_social form#page_post label#pg_social_page_post_img input[type="file"] {
+#pg_social form#wall_post label#pg_social_wall_post_img input[type="file"] {
 	position: absolute;
     top: 0px;
     left: 0px;
@@ -495,8 +516,7 @@ body.section-memberlist form#viewprofile {
     cursor: pointer;
 }
 
-#pg_social form#wall_post .wall_post_option,
-#pg_social form#page_post .page_post_option {
+#pg_social form#wall_post .wall_post_option {
 	display: inline-block;
 	vertical-align: top;
 	width: 50%;
@@ -504,40 +524,33 @@ body.section-memberlist form#viewprofile {
 	text-align: right;
 }
 
-#pg_social form#page_post .page_post_option {
+#pg_social.pg_social_pagepage form#wall_post .wall_post_option {
 	width: 100%;
 }
 
-#pg_social form#wall_post .wall_post_option > *,
-#pg_social form#page_post .page_post_option > * {
+#pg_social form#wall_post .wall_post_option > * {
 	display: inline-block;
 	width: auto;
 }
 
 #pg_social form#wall_post input[type="file"],
-#pg_social form#page_post input[type="file"],
 #pg_social form#wall_post select,
-#pg_social form#page_post select,
-#pg_social form#wall_post input[type="submit"],
-#pg_social form#page_post input[type="submit"] {
+#pg_social form#wall_post input[type="submit"] {
 	padding: 10px;
 	border-radius: 4px;	
 	margin-left: 10px;
 }
 
-#pg_social form#wall_post select option,
-#pg_social form#page_post select option {
+#pg_social form#wall_post select option {
 	background-color: #fff;
 	color: #000;
 }
 
-#pg_social form#wall_post input[type="submit"],
-#pg_social form#page_post input[type="submit"] {
+#pg_social form#wall_post input[type="submit"] {
 	padding: 11px 10px;
 }
 
-#pg_social form#wall_post input[type="submit"]:hover,
-#pg_social form#page_post input[type="submit"]:hover {
+#pg_social form#wall_post input[type="submit"]:hover {
 	background-color: rgba(0, 0, 0, 0.9);
 	color: #fff;
 }
@@ -585,14 +598,13 @@ body.section-memberlist form#viewprofile {
 	display: inline-block;
 }
 
-#pg_social form#wall_post #wall_post_thumb,
-#pg_social form#page_post #page_post_thumb {
+#pg_social form#wall_post #wall_post_thumb {
 	display: none;
 	width: 100%;
     text-align: center;
 }
 
-#pg_social form#page_post #page_post_thumb img#page_post_thumb_img {
+#pg_social form#wall_post #wall_post_thumb img#wall_post_thumb_img {
 	display: inline-block;
 	background-color: #fff;
 	max-height: 50px;
@@ -979,6 +991,85 @@ body.section-memberlist form#viewprofile {
 #pg_social #pg_social_cont ul#posts_gallery li.gallery {
 }
 
+#pg_social a#page_new_form_open {
+	background-color: #fff;
+	padding: 5px;
+	border: 1px solid #cfcfcf;
+	text-align: center;
+	vertical-align: middle;
+	font-weight: bold;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+#pg_social ul#pages_list {
+	clear: both;
+	margin: 0px -5px;
+}
+
+#pg_social ul#pages_list li.page_list {
+	display: inline-block;
+	background-color: #fff;
+	width: calc(20% - 3px - 10px - 2px);
+	margin: 0px 5px 10px;
+	border: 1px solid #cfcfcf;
+	border-radius: 4px;
+}
+
+#pg_social ul#pages_list li.page_list a.page_list_head {
+	display: block;
+	background-position: center;
+	background-size: cover;
+	height: calc(180px - 1px);
+	border-bottom: 1px solid #cfcfcf;
+	border-radius: 4px 4px 0px 0px;
+}
+
+#pg_social ul#pages_list li.page_list a.page_list_username {
+	display: block;
+	margin: 10px;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+#pg_social ul#pages_list li.page_list span.page_list_likesCount {
+	display: inline-block;
+    width: calc(50% - 15px);
+	margin: 5px 5px 10px 10px;
+	vertical-align: middle;
+	font-size: 0.95em;
+}
+
+#pg_social ul#pages_list li.page_list a.page_list_buttonLike {
+	display: inline-block;
+    width: calc(50% - 15px);
+	margin: 5px 10px 10px 5px;
+	text-align: center;
+	vertical-align: middle;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+#pg_social ul#pages_list li.page_list a.page_list_buttonLike span {
+	display: block;
+	padding: 3px 5px;
+	border: 1px solid #cfcfcf;
+	border-radius: 4px;
+}
+
+#pg_social ul#pages_list li.page_list a.page_list_buttonLike span.likepage {
+	background-color: #2a6496;
+	color: #fff;
+	border-color: transparent;
+}
+
+#pg_social ul#pages_list li.page_list a.page_list_buttonLike:hover span,
+#pg_social a#page_new_form_open:hover span {
+	background-color: #f2f2f2;
+	color: inherit;
+	border-color: #cfcfcf;
+}
+
 #pg_social #pg_social_sider {
 	display: inline-block;
 	width: calc(20% - 20px - 4px);
@@ -1025,16 +1116,6 @@ body.section-memberlist form#viewprofile {
 	font-size: 0.8em;
 }
 
-#pg_social #pg_social_sider #sid_last_topics h3 {
-	display: inline-block;
-	width: calc(100% - 10px);
-	margin-bottom: 15px;
-	padding: 0px 5px 5px;
-	border-bottom: 1px solid #cfcfcf;
-	text-align: right;
-	font-size: 1.6em;
-}
-
 #pg_social #pg_social_sider #sid_last_topics ul li.posts {
 	display: inline-block;
 	width: 100%;
@@ -1050,17 +1131,27 @@ body.section-memberlist form#viewprofile {
 	font-size: 0.85em;
 }
 
-a#page_new_form_open {
-	float: right;
+form#page_new_form input[type="text"] {
+	width: calc(100% - 10px - 15px);
+	margin: 0px 5px 10px;
+	padding: 7.5px;
+	border: 1px solid #cfcfcf;
+	border-radius: 4px;
 }
 
-form#page_new_form {
-	display: none;
-	width: 100%;
+form#page_new_form input[type="submit"] {
+	background-color: #fff;
+	width: calc(60% - 10px - 2px);
+	margin: 0px 20%;
+	padding: 5px;
+	border: 1px solid #cfcfcf;
+	border-radius: 4px;
+	text-transform: uppercase;
+	font-weight: bold;
 }
 
-form#page_new_form label input {
-	
+form#page_new_form input[type="submit"]:hover {
+	background-color: #cfcfcf;
 }
 
 .phpbb_alert.pg_social_photo {
@@ -1291,6 +1382,21 @@ form#page_new_form label input {
 
 a.profile_signature_status {
 	float: right;
+}
+
+
+#pg_social .pg_social_alert {
+	background-color: #fff;
+	width: calc(100% - 20px - 2px);
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 1px solid #cfcfcf;
+	text-align: center;
+	border-radius: 4px;
+	font-size: 1.5em;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: red;
 }
 
 @keyframes post_fade {

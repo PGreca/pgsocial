@@ -57,6 +57,28 @@ class social_page {
         $this->table_prefix 			= $table_prefix;
 	}
 	
+	public function pageCreate($page_name, $page_category = 0) {
+		$sql_arr = array(
+			'page_type'				=> 0,
+			'page_status'			=> 0,
+			'page_founder'			=> $this->user->data['user_id'],
+			'page_regdate'			=> time(),
+			'page_username'			=> $page_name,
+			'page_username_clean'	=> strtolower(str_replace(' ', '_', $page_name)),
+			'page_avatar'			=> '',
+			'page_cover'			=> '',
+			'page_cover_position'	=> '',
+		);
+		$sql = "INSERT INTO ".$this->table_prefix.'pg_social_pages'.$this->db->sql_build_array('INSERT', $sql_arr);
+		if($this->db->sql_query($sql)) {
+			redirect($this->helper->route('pages_page', array("name" => strtolower(str_replace(' ', '_', $page_name)))));
+		}
+		$this->template->assign_vars(array(
+			"ACTION"	=> $sql,
+		));
+		return $this->helper->render('activity_status_action.html', "");
+	}
+	
 	public function user_likePages($user, $page = false) {		
 		if(isset($page)) $where = " AND page_id = '".$page."'"; else $array = array();
 		$sql = "SELECT page_id FROM ".$this->table_prefix."pg_social_pages_like WHERE user_id = '".$user."'".$where;
@@ -66,6 +88,30 @@ class social_page {
 		}
 		if($array == "") $array = 0;
 		return $array;
+	}
+	
+	public function pagelikeAction($page) {
+		$sql = "SELECT page_like_ID FROM ".$this->table_prefix."pg_social_pages_like WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
+		$result = $this->db->sql_query($sql);
+		$like = $this->db->sql_fetchrow($result);
+		
+		if($like['page_like_ID'] != "") {
+			$sql = "DELETE FROM ".$this->table_prefix."pg_social_pages_like WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
+			$action = "dislikepage";
+		} else {
+			$sql_arr = array(
+				'page_id'			=> $page,
+				'user_id'			=> $this->user->data['user_id'],
+				'page_like_time'	=> time(),
+			);
+			$sql = "INSERT INTO ".$this->table_prefix.'pg_social_pages_like'.$this->db->sql_build_array('INSERT', $sql_arr);
+			$action = "likepage";
+		}		
+		$this->db->sql_query($sql);
+		$this->template->assign_vars(array(
+			"ACTION"	=> $action,
+		));
+		return $this->helper->render('activity_status_action.html', "");
 	}
 	
 }

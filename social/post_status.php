@@ -106,7 +106,7 @@ class post_status {
 		AND (w.post_ID ".$order_vers." '".$lastp."') GROUP BY post_ID ORDER BY w.time ".$orderby;
 		$result = $this->db->sql_query_limit($sql, $limit);
 		while($row = $this->db->sql_fetchrow($result)){	
-			if($row['post_where'] == 1 && $this->social_page->user_likePages($user_id, $row['wall_id']) == $row['wall_id'] || $row['post_where'] == 0 && ($row['wall_id'] == $user_id || $row['post_privacy'] == 0 && $row['wall_id'] == $user_id || $row['post_privacy'] == 1 && $this->social_zebra->friendStatus($row['wall_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $row['post_privacy'] == 2)) {
+			if($post_where == 'page'|| $row['post_where'] == 1 && $this->social_page->user_likePages($user_id, $row['wall_id']) == $row['wall_id'] || $row['post_where'] == 0 && ($row['wall_id'] == $user_id || $row['post_privacy'] == 0 && $row['wall_id'] == $user_id || $row['post_privacy'] == 1 && $this->social_zebra->friendStatus($row['wall_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $row['post_privacy'] == 2)) {
 				$share = $row['post_ID'];
 				
 				switch($row['post_where']) {
@@ -185,6 +185,7 @@ class post_status {
 							GROUP BY post_ID";
 							$post_parent = $this->db->sql_query($sql);
 							$parent = $this->db->sql_fetchrow($post_parent);
+							$parent['url'] = get_username_string('profile', $parent['user_id'], $parent['username'], $parent['user_colour']);
 							if(isset($parent['post_ID'])) {
 								$author_action = 'ha condiviso uno <a href="'.append_sid($this->helper->route("status_page", array("id" => $parent['post_ID']))).'">stato</a>';
 								$msg = generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags);
@@ -204,7 +205,7 @@ class post_status {
 									$msg .= $this->pg_social_helper->extraText($parent['message']);
 								}	
 								$msg .= '<div class="post_parent_info">';
-								$msg .= '<div class="post_parent_author"><a href="'.get_username_string('profile', $parent['user_id'], $parent['username'], $parent['user_colour']).'">'.$parent['username'].'</a></div>';
+								$msg .= '<div class="post_parent_author"><a href="'.$paret['url'].'">'.$parent['username'].'</a></div>';
 								$msg .= '<div class="post_parent_date">'.$this->pg_social_helper->time_ago($parent['time']).'</div>';
 								$msg .= '</div>';
 								$msg .= '</div>';
