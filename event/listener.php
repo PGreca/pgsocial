@@ -308,7 +308,7 @@ class listener implements EventSubscriberInterface {
 	
 	public function user_status_post($event) {
 		$info = $event['data'];
-		$this->post_status->addStatus($this->user->data['user_id'], $info['topic_title'], 2, 4, $info['topic_id']."#p".$info['post_id']); 
+		$this->post_status->addStatus(0, $this->user->data['user_id'], $info['topic_title'], 2, 4, $info['topic_id']."#p".$info['post_id']); 
 	}
 		
 	public function test($event) {

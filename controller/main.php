@@ -513,7 +513,7 @@ class main {
 								$msg .= $this->pg_social_helper->extraText($row['message']);
 								$msg .= '<div class="post_parent_cont">';
 								if($parent['post_extra'] != "") {
-									$photo = $this->photo($parent['post_extra']);
+									$photo = $this->post_status->photo($parent['post_extra']);
 									$msg .= $photo['msg'];
 									$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
 								} else {
