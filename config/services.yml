@@ -138,7 +138,25 @@ services:
             - '%tables.notifications%'
             - '%tables.user_notifications%'
         tags:
-            - { name: notification.type }       
+            - { name: notification.type }   
+    notification.type.social_zebra:
+        class: pgreca\pg_social\notification\social_zebra
+        scope: prototype # scope MUST be prototype for this to work!
+        arguments:
+            - '@dbal.conn'
+            - '@cache.driver'
+            - '@user'
+            - '@auth'
+            - '@config'
+            - '@controller.helper'
+            - '@pgreca.pg_social.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%tables.notification_types%'
+            - '%tables.notifications%'
+            - '%tables.user_notifications%'
+        tags:
+            - { name: notification.type }   
     pgreca.pg_social.social.post_status:
         class: pgreca\pg_social\social\post_status
         arguments:
@@ -163,6 +181,7 @@ services:
             - '@user'
             - '@controller.helper'
             - '@pgreca.pg_social.helper'
+            - '@pgreca.pg_social.notifyhelper'
             - '@config'
             - '@dbal.conn'
             - '%core.root_path%'

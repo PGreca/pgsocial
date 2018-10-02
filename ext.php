@@ -15,11 +15,11 @@ namespace pgreca\pg_social;
 * Extension class for custom enable/disable/purge actions
 */
 class ext extends \phpbb\extension\base {
-	const PG_SOCIAL_VERSION = '0.1.0-a3';
+	const PG_SOCIAL_VERSION = '0.1.0-a4';
 
 	public function is_enableable() {
 		$config = $this->container->get('config');
-		return (version_compare($config['version'], '0.1.0-a3', '>=') && (version_compare(PHP_VERSION, '5.6.*', '>=')));
+		return (version_compare($config['version'], '0.1.0-a4', '>=') && (version_compare(PHP_VERSION, '5.2.*', '>=')));
 	}
 	
 	/**
@@ -36,7 +36,8 @@ class ext extends \phpbb\extension\base {
 				$phpbb_notifications->enable_notifications('notification.type.social_status');
 				$phpbb_notifications->enable_notifications('notification.type.social_comments');
 				$phpbb_notifications->enable_notifications('notification.type.social_likes');	
-				$phpbb_notifications->enable_notifications('notification.type.social_tag');				
+				$phpbb_notifications->enable_notifications('notification.type.social_tag');		
+				$phpbb_notifications->enable_notifications('notification.type.social_zebra');				
 				return 'notifications';
 			break;
 			default:
@@ -60,7 +61,8 @@ class ext extends \phpbb\extension\base {
 				$phpbb_notifications->disable_notifications('notification.type.social_status');
 				$phpbb_notifications->disable_notifications('notification.type.social_comments');
 				$phpbb_notifications->disable_notifications('notification.type.social_likes');	
-				$phpbb_notifications->disable_notifications('notification.type.social_tag');							
+				$phpbb_notifications->disable_notifications('notification.type.social_tag');
+				$phpbb_notifications->disable_notifications('notification.type.social_zebra');							
 				return 'notifications';
 			break;
 			default:
@@ -90,7 +92,8 @@ class ext extends \phpbb\extension\base {
 					$phpbb_notifications->purge_notifications('notification.type.social_status');
 					$phpbb_notifications->purge_notifications('notification.type.social_comments');
 					$phpbb_notifications->purge_notifications('notification.type.social_likes');
-					$phpbb_notifications->purge_notifications('notification.type.social_tag');					
+					$phpbb_notifications->purge_notifications('notification.type.social_tag');	
+					$phpbb_notifications->purge_notifications('notification.type.social_zebra');					
 				}
 				catch (\phpbb\notification\exception $e) {
 					// continue

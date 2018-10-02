@@ -57,6 +57,7 @@
 		if(e.target.id == "darken") {
 			$(".pg_social_photo").remove();
 			$("#darken").parent().hide();
+    $("body").removeAttr("style");
 		}
 	});
   
@@ -164,6 +165,7 @@
 				cache: false,
 				async: true, 
 				success: function(data) {
+$("body").css("overflow", "hidden");
 					$(".pg_social_photo_comments").html(data);
 				}
 			});

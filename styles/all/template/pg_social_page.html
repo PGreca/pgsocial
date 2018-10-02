@@ -17,7 +17,8 @@
 		<div class="profile_avatar">{page.PAGE_AVATAR}</div>			
 		<h2 class="memberlist-username">{page.PAGE_USERNAME}</h2>
 		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa-user fa-fw" aria-hidden="true"></i> {L_ACTIVITY}</a></li><!--<li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i> {L_LIKES} <span>({page.PAGE_COUNT_FOLLOWER})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa-camera fa-fw" aria-hidden="true"></i> {L_GALLERY}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i> {L_INFO}</a></li>--></ul>
-		<div id="pg_social_sidel">		
+		<div id="pg_social_sidel">
+			SIDE L
 		</div><div id="pg_social_cont"<!-- IF not PG_SOCIAL_SIDEBAR_RIGHT --> style="width:calc(80%);"<!-- ENDIF -->>
 			<div class="pg_social_pagesub" id="page_activity">
 				<!-- IF page.PAGE_STATUS_ACTION -->
@@ -40,13 +41,20 @@
 				<div id="load_more"></div>
 			</div>
 		</div><!-- IF PG_SOCIAL_SIDEBAR_RIGHT --><div id="pg_social_sider">
-			<div class="panel">
-				<script type="text/javascript">
-					/* <![CDATA[ */
-					document.write('<s'+'cript type="text/javascript" src="//ad.altervista.org/js2.ad/size=125X125/?ref='+encodeURIComponent(location.hostname+location.pathname)+'&r='+new Date().getTime()+'"></s'+'cript>');
-					/* ]]> */
+			SIDE R
+			<div class="panel ads" style="display: none;">
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- PGreca Social - Sidebar -->
+				<ins class="adsbygoogle"
+					 style="display:block"
+					 data-ad-client="ca-pub-6181929637339131"
+					 data-ad-slot="8919244494"
+					 data-ad-format="auto"
+					 data-full-width-responsive="true"></ins>
+				<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
 				</script>
-			</div>
+			</div>	
 		</div><!-- ENDIF -->	
 	</div>
 <!-- END page -->

@@ -27,10 +27,48 @@
 		<!-- IF PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM && .profileFriends -->
 		<div class="panel" id="profile_FriendsRandom">
 			<ul>
-				<!-- INCLUDE pg_social_friends.html -->
+				<!-- BEGIN profileFriends -->
+				<li class="friend" id="friend_{profileFriends.PROFILE_ID}" data-friend="{profileFriends.PROFILE_ID}">
+					<a href="{profileFriends.PROFILE_URL}" style="color:{profileFriends.PROFILE_COLOUR}">
+						{profileFriends.AVATAR}
+						<div class="friend_username">
+							<span>{profileFriends.USERNAME}</span>
+							<!-- IF profileFriends.PROFILE_FRIEND_ACTION -->
+							<div class="friend_action">
+								<!-- IF profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' -->
+									{L_PG_SOCIAL_FRIENDS}
+								<!-- ELSEIF profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' -->
+								<a href="{SOCIAL_PROFILE_PATH}?mode=requestFriend&profile_id={profileFriends.PROFILE_ID}&request=addFriend" id="profile_friend_add" data-ajax="requestFriend" data-refresh="true">{L_PG_SOCIAL_FRIENDS_ADD}</a>
+								<!-- ELSEIF profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' -->
+								<a href="{SOCIAL_PROFILE_PATH}?mode=requestFriend&profile_id={profileFriends.PROFILE_ID}&request=undoFriend" id="profile_friend_undo" data-ajax="requestFriend" data-refresh="true">{L_PG_SOCIAL_FRIENDS_CANCEL_REQ}</a>
+								<!-- ELSEIF profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ'	-->
+								<a href="{SOCIAL_PROFILE_PATH}?mode=requestFriend&profile_id={profileFriends.PROFILE_ID}&request=acceptFriend" id="profile_friend_accept" data-ajax="requestFriend" data-refresh="true">{L_PG_SOCIAL_FRIENDS_ACCEPT_REQ}</a>	
+								<a href="{SOCIAL_PROFILE_PATH}?mode=requestFriend&profile_id={profileFriends.PROFILE_ID}&request=declineFriend" id="profile_friend_declide" data-ajax="requestFriend" data-refresh="true">{L_PG_SOCIAL_FRIENDS_DECLINE_REQ}</a>
+								<!-- ELSE -->
+								{PROFILE_FRIEND_ACTION}			
+							<!-- ENDIF -->
+							</div>
+							<!-- ENDIF -->
+						</div>		
+					</a>
+				</li>
+				<!-- END profileFriends -->
 			</ul>
 		</div>
 		<!-- ENDIF -->
+		<div class="panel ads" style="display: none;">
+			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- PGreca Social - Sidebar -->
+			<ins class="adsbygoogle"
+				 style="display:block"
+				 data-ad-client="ca-pub-6181929637339131"
+				 data-ad-slot="8919244494"
+				 data-ad-format="auto"
+				 data-full-width-responsive="true"></ins>
+			<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
+		</div>	
 		<!-- IF PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST -->
 		<div class="panel" id="sid_last_topics">
 			<h3>Ultimi post</h3>

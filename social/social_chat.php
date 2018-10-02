@@ -67,7 +67,7 @@ class social_chat {
 				'PROFILE_USERNAME'					=> $row['username'],
 				'PROFILE_COLOUR'					=> "#".$row['user_colour'],
 				'PROFILE_AVATAR'					=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),
-				'PROFILE_INFO'						=> 'coccode',
+				'PROFILE_INFO'						=> '',
 			));			
 		}
 		return $this->helper->render('pg_social_chatperson.html', '');

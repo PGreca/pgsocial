@@ -131,6 +131,8 @@ class social_photo {
 	}
 	
 	public function getPhoto($photo, $template = NULL) {
+$photoe = explode('#', $photo);
+$photo = $photoe[0];
 		$sql = "SELECT p.*, (SELECT post_ID FROM ".$this->table_prefix."pg_social_wall_post WHERE post_extra = '".$photo."') as post_id FROM ".$this->table_prefix."pg_social_photos AS p WHERE p.photo_id = '".$photo."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);

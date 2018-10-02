@@ -1,4 +1,4 @@
-body.section-memberlist h2.memberlist-title,
+xbody.section-memberlist h2.memberlist-title,
 body.section-memberlist form#viewprofile {
 	/*display: none;*/
 }
@@ -10,6 +10,7 @@ body.section-memberlist form#viewprofile {
 
 #pg_social {
 	margin-top: 25px; 
+	text-align: left;
 }
 
 #pg_social * {
@@ -45,6 +46,10 @@ body.section-memberlist form#viewprofile {
 	border-bottom: 1px solid #cfcfcf;
 	text-align: right;
 	font-size: 1.6em;
+}
+
+#pg_social #pg_social_pageprofile {
+    position: relative;
 }
 
 #pg_social #pg_social_header {
@@ -146,21 +151,22 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social #pg_social_main > .profile_avatar {
-	position: absolute;
-	top: -145px;
-	background-color: #fff;
-	width: calc(15% - 10px - 1px);
-	margin: 0px 20px 0px;
-	padding: 5px;
-	border: 0.5px solid #ccc;
-	border-radius: 4px;
-	z-index: 1;
+    position: absolute;
+    top: -145px;
+    background-color: #fff;
+    width: calc(15% - 10px - 1px);
+    margin: 0px 20px 0px;
+    padding: 5px;
+    border: 0.5px solid #ccc;
+    border-radius: 4px;
+    z-index: 1;
 }
 
 #pg_social #pg_social_main h2.memberlist-username {
 	position: absolute;
 	z-index: 40;
 	margin-left: calc(15% + 40px + 2px);
+	margin-bottom: 0px;
 	padding: 5px 0px;
 	font-size: 3em;
 	font-weight: bold;
@@ -175,7 +181,7 @@ body.section-memberlist form#viewprofile {
 	position: relative;
 	background-color: rgba(255, 255, 255, 0.9);
 	width: calc(100% - 1px);
-	margin: 0px 0px 30px;
+	margin: 0px 0px 20px;
 	border: 0.5px solid #ccc;
 	border-top: 0px;
 	border-radius: 0px 0px 5px 5px;
@@ -188,6 +194,7 @@ body.section-memberlist form#viewprofile {
 	cursor: pointer;
 	color: #2a6496;
 	font-weight: bold;
+	text-align: center;
 }
 
 #pg_social #pg_social_main ul#pg_social_menu li:last-child,
@@ -201,7 +208,7 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social #pg_social_main ul#pg_social_menu li a {
-	display: block;
+	display: inline-block;
 	padding: 15px;
 }
 	
@@ -215,6 +222,10 @@ body.section-memberlist form#viewprofile {
 	color: #fff;
 }
 
+#pg_social #pg_social_main ul#pg_social_menu li a .break {
+    display: inline-block;
+    margin-right: 5px;
+}
 
 #pg_social #pg_social_main ul#pg_social_menu li span {
 	font-size: 0.7em;
@@ -402,7 +413,6 @@ body.section-memberlist form#viewprofile {
 	background-repeat: no-repeat;
 	background-size: cover;
 	width: calc(33.33% - 1px - 5px);
-	height: 150px;
 	margin: 0px 5px 10px 0px;
 	cursor: pointer;
 }
@@ -418,7 +428,10 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_cont ul#pg_social_photos li {
 	width: calc(20% - 4px - 5px);
-	height: 120px;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery {
+    position: relative;
 }
 
 #pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery:after {
@@ -431,10 +444,16 @@ body.section-memberlist form#viewprofile {
 	height: 100%;
 }
 
+#pg_social #pg_social_cont ul#pg_social_photos li img {
+    width: 100%;
+    height: auto;
+}
+
 #pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery a.gallery_name {
 	position: absolute;
-	bottom: 0px;
 	z-index: 1;
+	width: calc(100% - 30px);
+	height: calc(100% - 30px);
 	padding: 15px;
 	color: #fff;
 }
@@ -445,10 +464,14 @@ body.section-memberlist form#viewprofile {
 	font-weight: bold;
 }
 
+#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery > img {
+	width: 100%;
+}
+
 #pg_social form#wall_post {
 	position: relative;
 	background-color: #2a6496;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	padding: 10px;
 	border-radius: 4px;
 }
@@ -656,14 +679,14 @@ body.section-memberlist form#viewprofile {
 /* POST_STATUS */
 #pg_social #pg_social_cont ul#posts_status {
 	list-style: none;	
-	padding-top: 20px;
+	padding-top: 10px;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status {
 	background-color: #fff;
 	width: 100%;
-	margin: 0px 0px 40px;
-   
+	margin: 0px 0px 20px;
+	border-radius: 4px;
 }
 
 #pg_social #pg_social_cont li.post_status_copy {
@@ -841,6 +864,7 @@ body.section-memberlist form#viewprofile {
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_comment,
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_share {
 	display: inline-block;
+	vertical-align: middle;
 	width: calc(33.33% - 40px - 4px);
 	margin: 0px 20px;
 	padding: 5px 0px;
@@ -851,12 +875,23 @@ body.section-memberlist form#viewprofile {
 .pg_social_photo #pg_social_photo_social .pg_social_photo_likshare div a {
 	display: inline-block;
 	background-color: rgba(0, 0, 0, 0.3);
+	width: calc(60% - 14px);
 	margin: 0px;
 	padding: 7px;
 	border-radius: 5px;
 	color: #fff;
 	font-size: 0.8em;
 	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer div a i.icon,
+.pg_social_photo #pg_social_photo_social .pg_social_photo_likshare div a i.icon {
+	vertical-align: middle;
+	margin-right: 5px;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer div a:hover,
@@ -1080,23 +1115,35 @@ body.section-memberlist form#viewprofile {
 #pg_social #pg_social_sider ul li.friend {
 	display: inline-block;
 	width: 100%;
-	padding: 0px 0px 15px;
+	padding: 10px 0px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+#pg_social #pg_social_sider ul li.friend:first-child {
+	padding-top: 0px;
 }
 
 #pg_social #pg_social_sider ul li.friend:last-child {
 	padding-bottom: 0px;
+	border-bottom: 0px;
 }
 
-#pg_social #pg_social_sider ul li.friend img.avatar {
+#pg_social #pg_social_sider ul li.friend > a {
 	display: inline-block;
 	width: 30%;
 }
 
+#pg_social #pg_social_sider ul li.friend img.avatar {
+	display: inline-block;
+}
+
 #pg_social #pg_social_sider ul li.friend .friend_username,
 #pg_social #pg_social_sider ul li.friend .friend_action {
-	float: right;
 	display: inline-block;
-	width: calc(70% - 4px);
+	vertical-align: middle;
+	width: calc(70% - 10px);
+	padding: 0px 0px 0px 10px;
+	text-align: center;
 }
 
 #pg_social #pg_social_sider ul li.friend .friend_username span {
@@ -1156,9 +1203,9 @@ form#page_new_form input[type="submit"]:hover {
 
 .phpbb_alert.pg_social_photo {
 	top: 0px;
-	width: 90%;
+	width: calc(100% - 10vh);
 	height: calc(100% - 10vh);
-	margin: 5vh auto;
+	margin: 5vh;
 	padding: 0px;
 	border: 0px;
 }
@@ -1171,6 +1218,7 @@ form#page_new_form input[type="submit"]:hover {
 	width: 65%;
 	height: 100%;
 	text-align: center;
+overflow: hidden;
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_img img {
@@ -1399,6 +1447,11 @@ a.profile_signature_status {
 	color: red;
 }
 
+#pg_social .ads {
+	margin-bottom: 10px;
+	text-align: center;
+}
+
 @keyframes post_fade {
     from {
 		transform: scale(0.95); 
@@ -1422,9 +1475,9 @@ a.profile_signature_status {
 	#pg_social #pg_social_cont,
 	#pg_social #pg_social_sider {
 	    display: block;
-		width: calc(100% - 10px);
-		margin-bottom: 10px;
-		padding: 0px 5px;
+		width: 100%;
+		margin-bottom: 0px;
+		padding: 0px;
 	}
 	
 	#pg_social #pg_social_sidel,
@@ -1461,6 +1514,19 @@ a.profile_signature_status {
 	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action > div:last-child { 
 	
 	}
+		
+	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_like,
+	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_comment,
+	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_share {
+		width: 33.33%;
+		margin: 0px;
+		padding: 5px 0px;
+	}
+	
+	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer div a,
+	.pg_social_photo #pg_social_photo_social .pg_social_photo_likshare div a {
+		width: calc(80% - 14px);
+	}
 	
 	#pg_social #pg_social_header {
 		background-position: center !important;
@@ -1470,10 +1536,15 @@ a.profile_signature_status {
 		top: 0px;
 	}
 	
+	#pg_social.pg_social_pageprofile #pg_social_main {
+		margin-top: -140px;
+	}
+	
 	#pg_social #pg_social_main > .profile_avatar {
-		position: relative; 
+		position: relative;
+		top: inherit;
 		width: calc(30% - 10px - 1px);
-		margin: -50px calc(50% - ((30% - 10px -1px) / 2)) 10px;
+		margin: 70px calc(50% - ((30% - 10px -1px) / 2)) 0px;
 		border-left: 0.5px solid #ccc;
 		border-right: 0.5px solid #ccc;
 		z-index: 0;
@@ -1481,8 +1552,8 @@ a.profile_signature_status {
 	
 	#pg_social #pg_social_main h2.memberlist-username {
 		position: relative;
-		margin: 0px;
-		padding: 10px 0px;
+		margin: 20px 0px 10px;
+		padding: 0px 0px;
 		text-align: center;
 	}
 	
@@ -1503,12 +1574,17 @@ a.profile_signature_status {
 	#pg_social #pg_social_main ul#pg_social_menu li {
 		width: calc(100% / 4);
 		text-align: center;
-		border-radius
+		white-space: nowrap;
 	}
 	
 	#pg_social #pg_social_main ul#pg_social_menu li a {
-		word-wrap: normal;
 		font-size: 0.8em;
+	}
+	
+	#pg_social #pg_social_main ul#pg_social_menu li a .break {
+		clear: both;
+		display: block;
+		margin: 0px;
 	}
 	
 	#pg_social #pg_social_main ul#pg_social_menu li a i.icon {
@@ -1594,4 +1670,16 @@ a.profile_signature_status {
 	.phpbb_alert.pg_social_photo #pg_social_photo_social {
 		width: 100%;
 	}		
+
+	
+	.phpbb_alert.pg_social_photo #pg_social_photo_img {
+    height: 85%;
+}
+
+.phpbb_alert.pg_social_photo {
+    overflow: scroll;
+}
+
+phpbb_alert.pg_social_photo #pg_social_photo_social #pg_social_photo_comment {
+	height: auto !important;
 }

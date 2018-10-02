@@ -31,7 +31,7 @@
 	</div><div id="pg_social_main">
 		<div class="profile_avatar">{PROFILE_AVATAR}</div>			
 		<h2 class="memberlist-username"<!-- IF PROFILE_COLOUR --> style="color: {PROFILE_COLOUR};"<!-- ENDIF -->><!-- IF S_ONLINE --><i class="icon fa fa-circle" style="color: #25da2c;" aria-hidden="true"></i><!-- ENDIF -->{PROFILE_USERNAME}</h2>
-		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa-user fa-fw" aria-hidden="true"></i> {L_ACTIVITY}</a></li><li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i> {L_FRIENDS} <span>({PROFILE_COUNT_FRIENDS})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa-camera fa-fw" aria-hidden="true"></i> {L_GALLERY}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i> {L_INFO}</a></li></ul>
+		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa-user fa-fw" aria-hidden="true"></i><div class="break"></div>{L_ACTIVITY}</a></li><li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i><div class="break"></div>{L_FRIENDS} <span>({PROFILE_COUNT_FRIENDS})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa-camera fa-fw" aria-hidden="true"></i><div class="break"></div>{L_GALLER}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i><div class="break"></div>{L_INFO}</a></li></ul>
 		<div id="pg_social_sidel">
 			<div class="panel">
 				<!-- IF PROFILE_QUOTE --><blockquote id="profile_quote">{PROFILE_QUOTE}<!-- IF PROFILE_ACTION --><a href="{PROFILE_UPDATE}" id="profile_changeQuote">Edit</a><!-- ENDIF --></blockquote><!-- ENDIF -->
@@ -85,9 +85,19 @@
 				</ul>
 			</div>
 			<div class="pg_social_pagesub" id="page_gallery">
+				<!-- IF not GALLERY_NAME -->
 				<ul class="template_photos" id="pg_social_gallery">
-					<!-- INCLUDE pg_social_gallery.html -->
+					<!-- BEGIN social_gallery -->
+					<li class="gallery" id="gallery_{social_gallery.GALLERY_ID}" data-gallery="{social_gallery.GALLERY_ID}" style="background-image:url('{social_gallery.PHOTO_COVER}')">
+						<a href="{social_gallery.GALLERY_URL}" class="gallery_name">
+							<div class="gallery_count">{social_gallery.GALLERY_COUNT} {L_PHOTOS}</div>
+							<h5>{social_gallery.GALLERY_NAME}</h5>
+						</a>
+						<img src="../ext/pgreca/pg_social/images/transpe.gif" />
+					</li>
+					<!-- END social_gallery -->
 				</ul>
+				<!-- ENDIF -->
 				<!-- IF GALLERY_NAME --><h5>{GALLERY_NAME}</h5><!-- ENDIF -->
 				<ul class="template_photos" id="pg_social_photos">
 					<!-- INCLUDE pg_social_photos.html -->
@@ -134,11 +144,17 @@
 				<!-- ENDIF -->
 			</div>
 		</div><!-- IF PG_SOCIAL_SIDEBAR_RIGHT --><div id="pg_social_sider">
-			<div class="panel">
-				<script type="text/javascript">
-					/* <![CDATA[ */
-					document.write('<s'+'cript type="text/javascript" src="//ad.altervista.org/js2.ad/size=125X125/?ref='+encodeURIComponent(location.hostname+location.pathname)+'&r='+new Date().getTime()+'"></s'+'cript>');
-					/* ]]> */
+			<div class="panel ads">
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- PGreca Social - Sidebar -->
+				<ins class="adsbygoogle"
+					 style="display:block"
+					 data-ad-client="ca-pub-6181929637339131"
+					 data-ad-slot="8919244494"
+					 data-ad-format="auto"
+					 data-full-width-responsive="true"></ins>
+				<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
 				</script>
 			</div>
 		</div><!-- ENDIF -->

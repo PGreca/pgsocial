@@ -58,7 +58,7 @@ $lang = array_merge($lang, array(
 	'DO_YOU_WANT_SHARE'					=> 'Vuoi condividere questo stato?',
 	'EDIT_PROFILE'						=> 'Modifica profilo',
 	'FRIENDS'							=> 'Amici',
-	'GALLERY'							=> 'Galleria', //TRADURRE
+	'GALLER'							=> 'Galleria', //TRADURRE
 	'GENDER'							=> 'Sesso', //TRADURRE
 	'GENDER_FEMALE'						=> 'Femmina', //TRADURRE
 	'GENDER_MALE'						=> 'Maschio', //TRADURRE
@@ -72,6 +72,7 @@ $lang = array_merge($lang, array(
 	'HAS_WRITE_IN_YOUR'					=> '%s ha scritto sulla tua bacheca', //TRADURRE
 	'INFO'								=> 'Informazioni', //TRADURRE
 	'LIKE'								=> 'Mi Piace',
+'LIKE_ACTIVE'  => 'Ti Piace già',
 	'LIKES'								=> 'Mi Piace',
 	
 	'MCP_PG_SOCIAL_TITLE'				=> 'Social',

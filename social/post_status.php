@@ -179,9 +179,18 @@ class post_status {
 					default:
 						if($row['post_parent'] != 0) {
 							$share = $row['post_parent'];
-							$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour 
-							FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u	
-							WHERE w.post_ID = '".$row['post_parent']."' AND u.user_id = w.user_id
+							if($this->status_where($row['post_parent']) == 1) {
+								$sqlpar = "p.page_id as user_id, p.page_username as username, p.page_username_clean as username_clean, p.page_avatar as user_avatar ";
+								$sqlfro = $this->table_prefix."pg_social_pages as p";
+								$sqlwhe = "p.page_id";
+							} else {
+								$sqlpar = "u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour ";
+								$sqlfro = USERS_TABLE." as u ";
+								$sqlwhe = "u.user_id";
+							}
+							$sql = "SELECT w.*, ".$sqlpar."
+							FROM ".$this->table_prefix."pg_social_wall_post as w, ".$sqlfro."
+							WHERE w.post_ID = '".$row['post_parent']."' AND ".$sqlwhe." = w.user_id
 							GROUP BY post_ID";
 							$post_parent = $this->db->sql_query($sql);
 							$parent = $this->db->sql_fetchrow($post_parent);
@@ -205,12 +214,13 @@ class post_status {
 									$msg .= $this->pg_social_helper->extraText($parent['message']);
 								}	
 								$msg .= '<div class="post_parent_info">';
-								$msg .= '<div class="post_parent_author"><a href="'.$paret['url'].'">'.$parent['username'].'</a></div>';
+								$msg .= '<div class="post_parent_author"><a href="'.$parent['url'].'">'.$parent['username'].'</a></div>';
 								$msg .= '<div class="post_parent_date">'.$this->pg_social_helper->time_ago($parent['time']).'</div>';
 								$msg .= '</div>';
 								$msg .= '</div>';
 							}
 						} else {
+							$author_action = '';
 							if($row['post_extra'] != "") {
 								$photo = $this->photo($row['post_extra']);
 								$msg = $photo['msg'];
@@ -270,7 +280,7 @@ class post_status {
 		if($template) return $this->helper->render('activity_status.html', $status_title);
 	
 		$this->template->assign_vars(array(
-			"ACTION"	=> $sql."",
+			"ACTION"	=> "",
 		));
 		//if($template) return $this->helper->render('activity_status_action.html', "");
 	
@@ -499,5 +509,13 @@ class post_status {
 			'img' => '<img src="'.$img['photo_file'].'" class="photo_popup" data-photo="'.$photo.'" />',
 			'msg' => htmlspecialchars_decode($img['photo_desc']),
 		);
+	}
+	
+	public function status_where($status) {
+		$sql = "SELECT post_where FROM ".$this->table_prefix."pg_social_wall_post WHERE post_ID = '".$status."'";
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		
+		return $row['post_where'];
 	}
 }

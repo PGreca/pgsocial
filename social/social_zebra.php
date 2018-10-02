@@ -36,15 +36,17 @@ class social_zebra {
 	* @param \phpbb\user				$user	 
 	* @param \phpbb\controller\helper		$helper	
 	* @param \pg_social\\controller\helper $pg_social_helper
+	* @param \wall\controller\notifyhelper $notifyhelper Notification helper.	
 	* @param \phpbb\config\config 	$config
 	* @param \phpbb\db\driver\driver_interface			$db 
 	*/
 	
-	public function __construct($template, $user, $helper, $pg_social_helper, $config, $db, $root_path, $php_ext, $table_prefix) {	
+	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $config, $db, $root_path, $php_ext, $table_prefix) {	
 		$this->template = $template;
 	    $this->user = $user;
 		$this->helper = $helper;
 		$this->pg_social_helper = $pg_social_helper;
+		$this->notify 					= $notifyhelper;
 		$this->config = $config;
 		$this->db = $db;
 	    $this->root_path = $root_path;	
@@ -118,6 +120,7 @@ class social_zebra {
 					'approval'	=> 1,
 				);
 				$sql = "INSERT INTO ".ZEBRA_TABLE.$this->db->sql_build_array('INSERT', $sql_arr);
+				$this->notify->notify('add_friend', '', '', (int) $profile, (int) $user_id, 'NOTIFICATION_SOCIAL_FRIEND_ADD');		
 				if($this->db->sql_query($sql)) $action = "REQUEST_SEND";
 			break;
 			case 'undoFriend':
@@ -196,6 +199,9 @@ class social_zebra {
 					'USERNAME'					=> $row['username'],
 					'USERNAME_CLEAN'			=> $row['username_clean'],
 					'AVATAR'					=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),				
+				
+					
+					'PROFILE_FRIEND_ACTION'		=> $this->friendStatus($row['user_id'])['status'],
 				));	
 			}
 		}		
