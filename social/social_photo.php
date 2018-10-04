@@ -61,7 +61,7 @@ class social_photo {
 		$this->db->sql_freeresult($result);			
 		
 		$limit = 6;
-		$sql = "SELECT *, COUNT(*) as count FROM ".$this->table_prefix."pg_social_photos WHERE user_id = '".$wall."' GROUP BY gallery_id";
+		$sql = "SELECT *, (SELECT photo_file FROM ".$this->table_prefix."pg_social_photos as cov WHERE user_id = '".$wall."' AND ph.gallery_id = cov.gallery_id ORDER BY photo_time DESC LIMIT 0, 1) as gallery_cover, COUNT(*) as count FROM ".$this->table_prefix."pg_social_photos as ph WHERE user_id = '".$wall."' GROUP BY gallery_id";
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result)) {	
 			switch($row['gallery_id']) {
@@ -80,7 +80,7 @@ class social_photo {
 				'GALLERY_URL'		=> get_username_string('profile', $user['user_id'], $user['username'], $user['user_colour'])."&gall=".$row['gallery_id'],
 				'GALLERY_NAME'		=> $row['gallery_name'],
 				'GALLERY_COUNT'		=> $row['count'],
-				'PHOTO_COVER'		=> append_sid(generate_board_url())."/ext/pgreca/pg_social/images/upload/".$row['photo_file'],
+				'PHOTO_COVER'		=> append_sid(generate_board_url())."/ext/pgreca/pg_social/images/upload/".$row['gallery_cover'],
 				'PHOTO_FILE'		=> $row['photo_file'],
 			));
 		}
@@ -120,7 +120,7 @@ class social_photo {
 	}
 	
 	public function getPhotos($user, $gall) {
-		$sql = "SELECT * FROM ".$this->table_prefix."pg_social_photos WHERE gallery_id = '".$gall."' AND user_id = '".$user."'";
+		$sql = "SELECT * FROM ".$this->table_prefix."pg_social_photos WHERE gallery_id = '".$gall."' AND user_id = '".$user."' ORDER BY photo_time DESC";
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result)) {
 			$this->template->assign_block_vars('social_photos', array(
@@ -131,8 +131,8 @@ class social_photo {
 	}
 	
 	public function getPhoto($photo, $template = NULL) {
-$photoe = explode('#', $photo);
-$photo = $photoe[0];
+		$photoe = explode('#', $photo);
+		$photo = $photoe[0];
 		$sql = "SELECT p.*, (SELECT post_ID FROM ".$this->table_prefix."pg_social_wall_post WHERE post_extra = '".$photo."') as post_id FROM ".$this->table_prefix."pg_social_photos AS p WHERE p.photo_id = '".$photo."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
@@ -145,9 +145,9 @@ $photo = $photoe[0];
 		}
 		$result = $this->db->sql_query($sql);
 		$user = $this->db->sql_fetchrow($result);
-		$row['photo_file'] = append_sid(generate_board_url())."/ext/pgreca/pg_social/images/upload/".$row['photo_file'];
 		
 		if(!$template) {
+			$row['photo_file'] = append_sid(generate_board_url())."/ext/pgreca/pg_social/images/upload/".$row['photo_file'];
 			return $row;
 		} else {
 			$user_avatar = $this->pg_social_helper->social_avatar($this->user->data['user_avatar'], $this->user->data['user_avatar_type']);
@@ -157,14 +157,17 @@ $photo = $photoe[0];
 			} else {
 				$comment .= $this->user->lang('COMMENT');
 			}
+			if($this->user->data['user_id'] == $user['user_id'] && $row['photo_file'] != $this->user->data['user_pg_social_cover']) $photo_action = 1; else $photo_action = 0;	
 				
 			$this->template->assign_block_vars('social_photo', array(
-				'PHOTO_FILE'				=> $row['photo_file'],
+				'PHOTO_ID'					=> $row['photo_id'],
+				'PHOTO_FILE'				=> append_sid(generate_board_url())."/ext/pgreca/pg_social/images/upload/".$row['photo_file'],
 				'PHOTO_TIME'				=> $this->pg_social_helper->time_ago($row['photo_time']),
+				'PHOTO_ACTION'				=> $photo_action,
 				'AUTHOR_PROFILE'			=> get_username_string('profile', $user['user_id'], $user['username'], $user['user_colour']),
 				'AUTHOR_USERNAME'			=> $user['username'],
 				'AUTHOR_COLOUR'				=> '#'.$user['user_colour'],
-				'AUTHOR_AVATAR'				=> ($row['photo_where'] == 0 ? $this->pg_social_helper->social_avatar($user['user_avatar'], $user['user_avatar_type']) : '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/'.($page['page_avatar'] != "" ? $page_avatar = 'upload/'.$page['page_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />'),
+				'AUTHOR_AVATAR'				=> ($row['photo_where'] == 0 ? $this->pg_social_helper->social_avatar_thumb($user['user_avatar'], $user['user_avatar_type']) : '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/'.($page['page_avatar'] != "" ? $page_avatar = 'upload/'.$page['page_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />'),
 				'PHOTO_DESC'				=> htmlspecialchars_decode($row['photo_desc']),
 				"LIKE"						=> $this->pg_social_helper->countAction("like", $row['post_id']),
 				"IFLIKE"					=> $this->pg_social_helper->countAction("iflike", $row['post_id']),
@@ -280,10 +283,11 @@ $photo = $photoe[0];
 			$a = $this->photoQuery($where, $who, $msg, $type, $NewImageName, $wall_id, $now, $itop);
 		}
 		
+		/*$a = $type;
 		$this->template->assign_vars(array(
 			"ACTION"	=>  $a,
-		));
-		if($type == 2) return $this->helper->render('activity_status_action.html', "");
+		));*/
+		if($type != 'avatar') return $this->helper->render('activity_status_action.html', "");
 	}
 	
 	public function photoQuery($where, $who, $msg, $type, $file, $wall, $time, $itop) {
@@ -314,7 +318,7 @@ $photo = $photoe[0];
 			$sql = "SELECT photo_id FROM ".$this->table_prefix."pg_social_photos WHERE photo_file = '".$file."'";
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
-			if($this->add_statusPhoto($where, $who, $user, $gallery, 1, $row['photo_id'], $msg)) return "cover_change";
+			return $this->add_statusPhoto($where, $who, $user, $gallery, 1, $row['photo_id'], $msg);
 		}
 	}
 	
@@ -349,9 +353,23 @@ $photo = $photoe[0];
 			$row = $this->db->sql_fetchrow();	
 			$this->social_tag->addTag($row['post_ID'], $text_clear);
 		}	
-		$this->template->assign_vars(array(
-			"ACTION"	=> "posted",
-		));
-		return $this->helper->render('activity_status_action.html', "");	
+	}
+	
+	public function deletePhoto($photo) {
+		$sql = "SELECT photo_id, photo_file, user_id FROM ".$this->table_prefix."pg_social_photos WHERE photo_id = '".$photo."'";
+		$query = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow();
+		
+		$photo = $row['photo_file'];
+		$file = "ext/pgreca/pg_social/images/upload/".$photo;
+		$deletePhoto = "DELETE FROM ".$this->table_prefix."pg_social_photos WHERE photo_id = '".$row['photo_id']."' AND user_id = '".$this->user->data['user_id']."'";
+		if($this->db->sql_query($deletePhoto) && unlink($file)) { 	
+			$deletePost = "DELETE FROM ".$this->table_prefix."pg_social_wall_post WHERE post_extra = '".$row['photo_id']."'";
+			$this->db->sql_query($deletePost);
+			$this->template->assign_vars(array(
+				"ACTION"	=>  "deleted",
+			));
+		}
+		return $this->helper->render('activity_status_action.html', "");
 	}
 }

@@ -167,6 +167,10 @@ class main {
 					$return = $this->social_photo->photoUpload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', ''), $this->request->variable('type', ''), $this->request->file('photo'), $this->request->variable('top', ''));
 					return $return;
 				break;
+				case 'deletePhoto':
+					$return = $this->social_photo->deletePhoto($this->request->variable('photo', ''));
+					return $return;
+				break;
 				case 'tag_system_search':
 					$return = $this->social_tag->tag_system_search($this->request->variable('who', ''));
 					return $return;
@@ -451,7 +455,7 @@ class main {
 			}
 			login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
 		} else {
-			$user_avatar = $this->pg_social_helper->social_avatar($this->user->data['user_avatar'], $this->user->data['user_avatar_type']);
+			$user_avatar = $this->pg_social_helper->social_avatar_thumb($this->user->data['user_avatar'], $this->user->data['user_avatar_type']);
 					
 			$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour 
 			FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u	
@@ -566,7 +570,7 @@ class main {
 					"AUTHOR_PROFILE"			=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),		
 					"AUTHOR_ID"					=> $row['user_id'],
 					"AUTHOR_USERNAME"			=> $row['username'],
-					"AUTHOR_AVATAR"				=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),
+					"AUTHOR_AVATAR"				=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type']),
 					"AUTHOR_COLOUR"				=> "#".$row['user_colour'],
 					"WALL_ACTION"				=> $wall_action,
 					"WALL_PROFILE"				=> get_username_string('profile', $wall['user_id'], $wall['username'], $wall['user_colour']),	

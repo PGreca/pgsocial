@@ -1,6 +1,15 @@
 <!-- BEGIN social_photo -->
-<div id="pg_social_photo_img">
+<div id="pg_social_photo_img" data-photo="{social_photo.PHOTO_ID}">
 	<img src="{social_photo.PHOTO_FILE}" />
+	<div class="pg_social_photo_side">
+		<ul id="pg_social_photo_img_footer">
+			<li>{L_OPTIONS}
+				<ul id="pg_social_photo_img_options">
+					<!-- IF social_photo.PHOTO_ACTION --><li id="pg_social_photo_img_option_delete"><a>{L_PHOTO_DELETE}</a></li><!-- ENDIF -->
+				</ul>
+			</li>
+		</ul>
+	</div>
 </div><div id="pg_social_photo_social">
 	{social_photo.AUTHOR_AVATAR}
 	<div id="pg_social_photo_info">

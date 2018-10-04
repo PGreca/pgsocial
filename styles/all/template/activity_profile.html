@@ -17,7 +17,7 @@
 			<!-- ENDIF -->
 			<!-- ELSE -->
 			<div id="profile_upload">
-				<input id="profile_upload_submit" type="submit" value="Aggiorna profilo" />
+				<input id="profile_upload_submit" type="submit" value="{L_PROFILE_UPDATE}" />
 				<div class="action_profile">				
 					<a id="pg_social_edit_avatar" href="{PROFILE_AVATAR_UPDATE}">{L_PROFILE_AVATAR_UPDATE}</a><label id="pg_social_edit_cover">{L_PROFILE_COVER_UPDATE}<input type="file" accept="image/*" data-type="cover"></label>
 				</div>
@@ -29,12 +29,12 @@
 			</div>
 		</div>
 	</div><div id="pg_social_main">
-		<div class="profile_avatar">{PROFILE_AVATAR}</div>			
+		<div class="profile_avatar">{PROFILE_AVATAR_THUMB}</div>			
 		<h2 class="memberlist-username"<!-- IF PROFILE_COLOUR --> style="color: {PROFILE_COLOUR};"<!-- ENDIF -->><!-- IF S_ONLINE --><i class="icon fa fa-circle" style="color: #25da2c;" aria-hidden="true"></i><!-- ENDIF -->{PROFILE_USERNAME}</h2>
 		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa-user fa-fw" aria-hidden="true"></i><div class="break"></div>{L_ACTIVITY}</a></li><li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i><div class="break"></div>{L_FRIENDS} <span>({PROFILE_COUNT_FRIENDS})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa-camera fa-fw" aria-hidden="true"></i><div class="break"></div>{L_GALLER}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i><div class="break"></div>{L_INFO}</a></li></ul>
 		<div id="pg_social_sidel">
 			<div class="panel">
-				<!-- IF PROFILE_QUOTE --><blockquote id="profile_quote">{PROFILE_QUOTE}<!-- IF PROFILE_ACTION --><a href="{PROFILE_UPDATE}" id="profile_changeQuote">Edit</a><!-- ENDIF --></blockquote><!-- ENDIF -->
+				<!-- IF PROFILE_QUOTE --><blockquote id="profile_quote">{PROFILE_QUOTE}<!-- IF PROFILE_ACTION --><a href="{PROFILE_UPDATE}" id="profile_changeQuote">{L_EDIT}</a><!-- ENDIF --></blockquote><!-- ENDIF -->
 				<ul id="profile_menu">
 					<!-- IF U_USER_BAN --><li class="profile-infoRapid"><a href="{U_USER_BAN}">{L_USER_BAN}</a></li><!-- ENDIF -->
 					<!-- IF U_SWITCH_PERMISSIONS --><li class="profile-infoRapid"><a href="{U_SWITCH_PERMISSIONS}">{L_USE_PERMISSIONS}</a></li><!-- ENDIF -->	

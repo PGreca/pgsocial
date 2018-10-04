@@ -31,7 +31,7 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social .panel {
-	background-color: #CADCEB;
+	background-color: rgba(0, 0, 0, 0.08);
 	width: calc(100% - 20px);
 	margin: 0px 0px 20px;
 	padding: 10px;
@@ -62,6 +62,10 @@ body.section-memberlist form#viewprofile {
 	width: 100%;
 	height: 280px;	
 	border-radius: 4px 4px 0px 0px;
+}
+
+#pg_social #pg_social_header img#coverdrag {
+	width: 100%;
 }
 
 #pg_social #pg_social_header.canMove {
@@ -137,7 +141,7 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social #pg_social_header #pg_social_actionprofile a.page_list_buttonLike span.likepage {
-	background-color: #2a6496;
+	background-color: rgba(0, 0, 0, 0.5);
 	color: #fff;
 }
 
@@ -162,6 +166,13 @@ body.section-memberlist form#viewprofile {
     z-index: 1;
 }
 
+#pg_social #pg_social_main > .profile_avatar img {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 100%;
+}
+	
 #pg_social #pg_social_main h2.memberlist-username {
 	position: absolute;
 	z-index: 40;
@@ -218,7 +229,7 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_main ul#pg_social_menu li.active,
 #pg_social #pg_social_main ul#pg_social_menu li.active a {
-	background-color: #2a6496;
+	background-color: rgba(0, 0, 0, 0.5);
 	color: #fff;
 }
 
@@ -414,6 +425,7 @@ body.section-memberlist form#viewprofile {
 	background-size: cover;
 	width: calc(33.33% - 1px - 5px);
 	margin: 0px 5px 10px 0px;
+	box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.15);
 	cursor: pointer;
 }
 
@@ -470,7 +482,7 @@ body.section-memberlist form#viewprofile {
 
 #pg_social form#wall_post {
 	position: relative;
-	background-color: #2a6496;
+	background-color: rgba(0, 0, 0, 0.5);
 	margin-bottom: 20px;
 	padding: 10px;
 	border-radius: 4px;
@@ -482,6 +494,7 @@ body.section-memberlist form#viewprofile {
 
 #pg_social form#wall_post .wall_post_area {
 	background-color: #fff;
+	width: calc(100% - 20px);
 	padding: 10px;
 	border-radius: 4px;
 }
@@ -490,11 +503,11 @@ body.section-memberlist form#viewprofile {
 	display: inline-block;
 	vertical-align: top;
 	width: 100%;
-	height: 40px;
+	overflow-y: auto;
 	resize: none;
 	font-size: 1.1em;
+	user-select: text;
 }
-
 
 #pg_social form#wall_post.active #wall_post_text {
 	height: 50px;
@@ -645,7 +658,7 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social #pg_social_cont ul#profile_head_menu li.active {
-	background-color: #2a6496;
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
 #pg_social #pg_social_cont ul#profile_head_menu li.active a {
@@ -710,6 +723,9 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author_avatar img {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 	width: 100%;
 	height: 100%;
 	border-radius: 100%;
@@ -814,8 +830,9 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content img.photo_popup { 
-	max-width: 90%;
+	max-width: 70%;
     min-width: 40%;
+	max-height: 750px;
 	cursor: pointer;
 }
 
@@ -856,7 +873,7 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer {
-	background-color: #105289;
+	background-color: rgba(0, 0, 0, 0.5);
 	padding: 5px 0px;
 }
 
@@ -865,8 +882,8 @@ body.section-memberlist form#viewprofile {
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_share {
 	display: inline-block;
 	vertical-align: middle;
-	width: calc(33.33% - 40px - 4px);
-	margin: 0px 20px;
+	width: calc(33.33% - 20px - 4px);
+	margin: 0px 10px;
 	padding: 5px 0px;
 	text-align: center;
 }
@@ -875,7 +892,7 @@ body.section-memberlist form#viewprofile {
 .pg_social_photo #pg_social_photo_social .pg_social_photo_likshare div a {
 	display: inline-block;
 	background-color: rgba(0, 0, 0, 0.3);
-	width: calc(60% - 14px);
+	width: calc(80% - 14px);
 	margin: 0px;
 	padding: 7px;
 	border-radius: 5px;
@@ -910,7 +927,7 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments {
 	display: none;
-	background-color: #CADCEB;
+	background-color: rgba(0, 0, 0, 0.08);
 	width: 100%;
 }
 
@@ -944,6 +961,9 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment .post_comment_author img.avatar {
 	display: inline-block;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 	width: 30px;
 	height: 30px;
 	border-radius: 100%;
@@ -990,7 +1010,7 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment {
 	display: inline-block;
-	background-color: #CADCEB;
+	background-color: rgba(0, 0, 0, 0.08);
 	width: calc(100% - 30px);
 	padding: 10px 15px;
 	border-radius: 0px 0px 4px 4px;
@@ -998,6 +1018,9 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment > img {
 	display: inline-block;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 	width: 30px;
 	height: 30px;
 	border-radius: 100%;
@@ -1013,7 +1036,7 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_cont #page_gallery > h5 {
 	margin: 0px 0px 10px;
-    padding: 25px 0px 0px;
+    padding: 5px 0px 0px;
 	text-align: center;    
     font-size: 3em;
 }
@@ -1093,7 +1116,7 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social ul#pages_list li.page_list a.page_list_buttonLike span.likepage {
-	background-color: #2a6496;
+	background-color: rgba(0, 0, 0, 0.5);
 	color: #fff;
 	border-color: transparent;
 }
@@ -1203,9 +1226,9 @@ form#page_new_form input[type="submit"]:hover {
 
 .phpbb_alert.pg_social_photo {
 	top: 0px;
-	width: calc(100% - 10vh);
-	height: calc(100% - 10vh);
-	margin: 5vh;
+	width: calc(100% - 40%);
+	height: calc(100% - 20vh);
+	margin: 10vh 20%;
 	padding: 0px;
 	border: 0px;
 }
@@ -1235,6 +1258,86 @@ overflow: hidden;
     margin: auto;
 }
 
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side:hover ul#pg_social_photo_img_footer {
+	display: inherit;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer {
+	display: none;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	padding: 10px;
+	list-style: none;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side:hover ul#pg_social_photo_img_footer {
+	display: inherit;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li {
+	position: relative;
+	display: inline-block;
+	margin: 5px;
+	padding: 2px 0px;
+	border-bottom: 1px solid transparent;
+	color: rgba(255, 255, 255, 0.8);
+	text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+	font-size: 1.2em;
+	cursor: default;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li:hover {
+	border-color: rgba(255, 255, 255, 0.5);
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options {
+	position: absolute;
+	bottom: 100%;
+	right: 0px;
+	display: none;
+	background: #fff;
+	width: 150px;
+	box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
+	list-style: none;
+	color: #000;
+	font-size: 0.85em;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li:hover ul#pg_social_photo_img_options {
+	display: inherit;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options li {
+	display: block;
+	width: 100%;
+	margin: 0px;
+	color: inherit; 
+	text-shadow: 0px 0px 0px transparent;
+	white-space: nowrap;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options li a {
+	display: block;
+	padding: 5px 0px;
+	cursor: pointer;
+	color: #000;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options li a:hover {
+	background-color: rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.15);
+	color: #fff;
+}
+
 .phpbb_alert.pg_social_photo #pg_social_photo_social {
 	position: relative;
 	display: inline-block;
@@ -1249,6 +1352,9 @@ overflow: hidden;
 .phpbb_alert.pg_social_photo #pg_social_photo_social > img {
 	display: inline-block;
 	vertical-align: top;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 	width: auto;
 	height: calc(50px - 15px);
 	margin: 15px 7.5px 0px 15px;
@@ -1279,10 +1385,10 @@ overflow: hidden;
 
 .phpbb_alert.pg_social_photo #pg_social_photo_social div.pg_social_photo_likshare {
 	display: inline-block;
-	background-color: #105289;
+	background-color: rgba(0, 0, 0, 0.5);
 	width: calc(100% - 10px);
 	height: calc(40px - 10px - 1px);
-	padding: 5px;
+	padding: 10px 5px;
 	border-top: 1px solid #cfcfcf;
 }
 
@@ -1307,9 +1413,9 @@ overflow: hidden;
 	bottom: 0px;
 	left: 0px;
 	display: inline-block;
-	background-color: #CADCEB;
+	background-color: rgba(0, 0, 0, 0.08);
 	width: 100%;
-	height: calc(70% - 50px);
+	height: calc(70% - 60px - 1px);
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments {
@@ -1355,6 +1461,9 @@ overflow: hidden;
 
 .phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments li.post_comment .post_comment_author > img {
 	display: inline-block;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 	width: 30px;
 	height: 30px;
 	margin: 0px;
@@ -1618,6 +1727,11 @@ a.profile_signature_status {
 		text-align: right;
 	}
 	
+	
+	#pg_social #pg_social_cont #page_gallery > h5 {
+		padding: 25px 0px 0px;
+	}
+	
 	#pg_social #pg_social_cont ul.template_photos li {
 		width: calc(50% - 1px - 5px);
 	}
@@ -1641,7 +1755,7 @@ a.profile_signature_status {
 	}
 	
 	#pg_social #pg_social_sider ul li.friend {
-		background-color: #CADCEB;
+		background-color: rgba(0, 0, 0, 0.08);
 		width: calc(33.33% - 10px - 10px);
 		margin: 0px 5px;
 		padding: 5px;
@@ -1669,17 +1783,20 @@ a.profile_signature_status {
 	.phpbb_alert.pg_social_photo #pg_social_photo_img,
 	.phpbb_alert.pg_social_photo #pg_social_photo_social {
 		width: 100%;
+		height: auto;
 	}		
 
-	
 	.phpbb_alert.pg_social_photo #pg_social_photo_img {
     height: 85%;
-}
+	}
 
-.phpbb_alert.pg_social_photo {
-    overflow: scroll;
-}
-
-phpbb_alert.pg_social_photo #pg_social_photo_social #pg_social_photo_comment {
-	height: auto !important;
+	.phpbb_alert.pg_social_photo {
+		overflow: scroll;
+	}
+		
+	.phpbb_alert.pg_social_photo #pg_social_photo_social p.photo_desc,
+	.phpbb_alert.pg_social_photo #pg_social_photo_social #pg_social_photo_comment {
+		position: relative;
+		height: auto;
+	}
 }

@@ -161,6 +161,25 @@ class helper {
 		return ($core_avatar) ? $core_avatar : $wall_avatar;
     }	
 	
+	public function social_avatar_thumb($avatar, $avatar_type) {
+		$data = array(
+			"user_avatar"         => $avatar,
+			"user_avatar_type"    => $avatar_type,
+		);
+			
+		$core_avatar =  phpbb_get_user_avatar($data);
+     	preg_match('#(src=")(.+?)(download|images)#', $core_avatar, $matches);
+		 
+		$core_avatar = str_replace('" alt', ')" src="'.generate_board_url().'/ext/pgreca/pg_social/images/transp.gif" alt', str_replace("src=\"", 'style="background-image:url(', $core_avatar));
+		 
+		if($matches){		
+			$core_avatar = preg_replace('#('.$matches[2].')#', $base_url = generate_board_url(). '/', $core_avatar, 1);
+		}
+      
+		$wall_avatar = '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/no_avatar.jpg" class="avatar" />';
+		return ($core_avatar) ? $core_avatar : $wall_avatar;
+    }	
+	
 	public function social_gender($gender) {
 		switch($gender) {
 			case 1:

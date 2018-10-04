@@ -36,4 +36,4 @@ Other features
 * Prosilver style used.
 * Simple change for other syles
 
-[Screenshot](http://anpgreca.altervista.org/forum/viewtopic.php?t=2)
+[Screenshot](http://pgreca.it/viewtopic.php?t=2)

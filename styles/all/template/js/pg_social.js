@@ -45,6 +45,11 @@
 				pgwall_removeStatus(post_status);
 			}
 		});
+		
+		//DELETE PHOTO
+		$(document).on('click', "#pg_social_photo_img ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options li#pg_social_photo_img_option_delete a", function() {
+			if(confirm(useLang['ARE_YOU_SURE_PHOTO'])) pgwall_deletePhoto($("#pg_social_photo_img").attr("data-photo"));
+		});
 	});
 	
 	$(document).on('scroll', function() { 
@@ -55,9 +60,7 @@
 	
 	$(document).on("click", function(e) {
 		if(e.target.id == "darken") {
-			$(".pg_social_photo").remove();
-			$("#darken").parent().hide();
-    $("body").removeAttr("style");
+			closePopup();
 		}
 	});
   
@@ -75,10 +78,10 @@
 	$(document).on('click', "#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people", function() {
 		var username = $(this).attr('data-people_username');
 		var user = $(this).attr('data-people');
-		var content = $("#wall_post_text").html();
+		var content = $('#wall_post_text').val();
 		
 		content = content.replace(/@(\w+)/ig,"");
-		$("#wall_post_text").html(content);
+		$('#wall_post_text').val(content);
 		$("#wall_post_text").append(" <span data-people='"+user+"' data-people_tagged='"+username+"' class='people_tagged' contenteditable='false'>"+username+"</span> ");
 		$("#pg_social form#wall_post ul#pg_social_wall_tag_system").html("");
 	});
@@ -165,7 +168,7 @@
 				cache: false,
 				async: true, 
 				success: function(data) {
-$("body").css("overflow", "hidden");
+					$("body").css("overflow", "hidden");
 					$(".pg_social_photo_comments").html(data);
 				}
 			});
@@ -190,6 +193,7 @@ $("body").css("overflow", "hidden");
 /* POST ACTION */
 function pgwall_getStatus(order, post_where) {
 	if(!post_where) post_where = 'all';
+	console.log($("#load_more_off").length);
 	if($("#load_more").is(":visible")) {
 		$("#load_more").hide();
 		if(order == 'seguel') var lastp = $("#posts_status .post_status:first-child[data-lastp]").attr("data-lastp");
@@ -217,6 +221,7 @@ function pgwall_getStatus(order, post_where) {
 
 function pgwall_addStatus(texta, privacy) {
 	if(!privacy) privacy = 1;
+	console.log(texta);
 	if($.trim(texta) != "") {
 		var fdata = new FormData()
 		fdata.append("mode", "addStatus");
@@ -233,7 +238,7 @@ function pgwall_addStatus(texta, privacy) {
 			contentType: false,
 			processData: false, 
 			success: function(data) {
-				$("#wall_post_text").html("");
+				$('#wall_post_text').val("");
 			}
 		});
 	}
@@ -307,13 +312,19 @@ function pgwall_getComments(post_status, type) {
 }
 
 function pgwall_addComment(comment, post_status) {	
+	var fdata = new FormData()
+	fdata.append("mode", "addComment");
+	fdata.append("post_status", post_status);
+	fdata.append("comment", encodeURIComponent($.trim(comment)));		
 	$.ajax({
 		method: "POST",
-		url: root, 
-		data: "mode=addComment&post_status="+post_status+"&comment="+comment,
+		url: root,
+		data: fdata,
+		contentType: false,
+		processData: false, 
 		success: function(data) {
-			$(".wall_comment_text").val("");
-			pgwall_getComments(post_status);
+		$(".wall_comment_text").val("");
+		pgwall_getComments(post_status);
 		}
 	});
 }
@@ -345,7 +356,7 @@ function uploadPhoto(msg, photo, type, itop) {
 	fdata.append("profile_id", profile_id);
 	fdata.append("type", type);
 	fdata.append("photo", photo);
-	fdata.append("top", itop);
+	if(itop) fdata.append("top", itop);
 	$.ajax({
 		type: 'POST',
 		url: root,
@@ -353,14 +364,26 @@ function uploadPhoto(msg, photo, type, itop) {
 		contentType: false,
 		processData: false, 
 		success: function(data) {	
-			console.log(data);
-			$("#wall_post_text").html("");
+			$('#wall_post_text').val("");
 			$("#wall_post_img").val("");
 			$("#wall_post_thumb").removeAttr("style");
 			$("#wall_post_thumb img#wall_post_thumb_img").removeAttr('src');
 		}
 	})
 }	
+
+function pgwall_deletePhoto(photo) {
+	$.ajax({
+		type: 'POST',
+		url: root, 
+		data: 'mode=deletePhoto&photo='+photo,
+		success: function(data) {
+			closePopup();
+			$('#page_gallery ul#pg_social_photos #gallery_'+photo).remove();
+		}
+	});	
+}
+
 /* TAG SYSTEM */
 function tag_system_search(who) {
 	var fdata = new FormData()
@@ -377,3 +400,10 @@ function tag_system_search(who) {
 		}
 	})
 }
+
+function closePopup() {
+	$(".pg_social_photo").remove();
+	$("#darken").parent().hide();
+	$("body").css("overflow", "");
+}
+

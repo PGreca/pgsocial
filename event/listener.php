@@ -177,7 +177,8 @@ class listener implements EventSubscriberInterface {
 				'PROFILE_UPDATE'			=> append_sid($this->root_path."ucp.".$this->php_ext, 'i=ucp_profile&mode=profile_info'),
 				'PROFILE_COVER'				=> $this->pg_social_helper->social_cover($member['user_pg_social_cover']),
 				'PROFILE_COVER_POSITION'	=> $member['user_pg_social_cover_position'],
-				'PROFILE_AVATAR'			=> $this->pg_social_helper->social_avatar($member['user_avatar'], $member['user_avatar_type']),	     
+				'PROFILE_AVATAR'			=> $this->pg_social_helper->social_avatar($member['user_avatar'], $member['user_avatar_type']),	
+				'PROFILE_AVATAR_THUMB'		=> $this->pg_social_helper->social_avatar_thumb($member['user_avatar'], $member['user_avatar_type']),	       
 				'PROFILE_AVATAR_UPDATE'     => append_sid($this->root_path."ucp.".$this->php_ext, 'i=profile&mode=avatar'),
 				'PROFILE_USERNAME'			=>$member['username'],
 				'PROFILE_COLOUR'			=> "#".$member['user_colour'],
@@ -272,14 +273,14 @@ class listener implements EventSubscriberInterface {
 	* @access public
 	*/
 	public function user_profile_validate($event) {
-			$array = $event['error'];
-			//ensure gender is validated
-			$validate_array = array(
-				'user_quote'	=> array('string', true, 0, 255),
-				'user_gender'	=> array('num', true, 0, 99),
-			);
-			$error = validate_data($event['data'], $validate_array);
-			$event['error'] = array_merge($array, $error);
+		$array = $event['error'];
+		//ensure gender is validated
+		$validate_array = array(
+			'user_quote'	=> array('string', true, 0, 255),
+			'user_gender'	=> array('num', true, 0, 99),
+		);
+		$error = validate_data($event['data'], $validate_array);
+		$event['error'] = array_merge($array, $error);
 	}
 
 	/**
@@ -291,8 +292,8 @@ class listener implements EventSubscriberInterface {
 	*/
 	public function user_profile_sql($event) {
 		$event['sql_ary'] = array_merge($event['sql_ary'], array(
-				'user_quote'	=> $event['data']['user_quote'],
-				'user_gender'	=> $event['data']['user_gender'],
+			'user_quote'	=> $event['data']['user_quote'],
+			'user_gender'	=> $event['data']['user_gender'],
 		));
 	}
 	
@@ -303,12 +304,12 @@ class listener implements EventSubscriberInterface {
 		$photo['tmp_name'] = $event['filedata']['filename'];
 		$photo['type'] = $event['filedata']['mimetype'];
 		
-		$this->social_photo->photoUpload("", "avatar", $photo);
+		$this->social_photo->photoUpload("", $this->user->data['user_id'], "", "avatar", $photo);
 	}
 	
 	public function user_status_post($event) {
 		$info = $event['data'];
-		$this->post_status->addStatus(0, $this->user->data['user_id'], $info['topic_title'], 2, 4, $info['topic_id']."#p".$info['post_id']); 
+		$this->post_status->addStatus('post', $this->user->data['user_id'], '', 2, 4, $info['topic_id']."#p".$info['post_id']); 
 	}
 		
 	public function test($event) {

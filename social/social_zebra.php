@@ -198,7 +198,7 @@ class social_zebra {
 					'PROFILE_URL'				=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
 					'USERNAME'					=> $row['username'],
 					'USERNAME_CLEAN'			=> $row['username_clean'],
-					'AVATAR'					=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),				
+					'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type']),				
 				
 					
 					'PROFILE_FRIEND_ACTION'		=> $this->friendStatus($row['user_id'])['status'],
