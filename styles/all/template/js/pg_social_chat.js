@@ -53,9 +53,7 @@
 	
 	$(document).on('click', '#pg_social_chat #pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online li', function(e) {
 		if($("#pg_social_chat #pg_social_chat_box_"+$(this).attr("data-people")).length){
-			$("#pg_social_chat #pg_social_chat_box_"+$(this).attr("data-people")).remove();
-			var newcokie = jQuery.cookie('pg_social_chat').replace(","+$(this).attr("data-people"), "");
-			$.cookie('pg_social_chat', newcokie);		
+			closeChat($(this).attr("data-people"));	
 		} else {
 			$("#pg_social_chat_people_search").val("");
 			getchatPeople();
@@ -63,6 +61,10 @@
 			$.cookie('pg_social_chat', jQuery.cookie('pg_social_chat')+","+$(this).attr("data-people"));
 		}
 	});	
+	
+	$(document).on('click', '#pg_social_chat .pg_social_chat .pg_social_chat_head .chat_close', function() {
+		closeChat($(this).parent().parent().attr("data-people"));	
+	});
 	
 	$(document).on('click', '.pg_social_chat_head_minimize i.icon.chat_down', function() {
 		var chat = $(this).parent().parent().parent().attr("data-people");
@@ -184,5 +186,12 @@
 				}
 			});
 		}
+	}
+	
+	function closeChat(chat) {
+		$("#pg_social_chat #pg_social_chat_box_"+chat).remove();
+		var newcokie = jQuery.cookie('pg_social_chat').replace(","+chat, "");
+		$.cookie('pg_social_chat', newcokie);	
+		
 	}
 })(jQuery);

@@ -66,7 +66,7 @@ class social_chat {
 				'PROFILE_STATUS'					=> $this->pg_social_helper->social_status($row['user_id']),
 				'PROFILE_USERNAME'					=> $row['username'],
 				'PROFILE_COLOUR'					=> "#".$row['user_colour'],
-				'PROFILE_AVATAR'					=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),
+				'PROFILE_AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type']),
 				'PROFILE_INFO'						=> '',
 			));			
 		}
@@ -90,7 +90,7 @@ class social_chat {
 					'USER_ID'					=> $row['user_id'],
 					'USER_USERNAME'				=> $row['username'],
 					'USER_COLOR'				=> $row['user_colour'],
-					'USER_AVATAR'				=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),
+					'USER_AVATAR'				=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type']),
 					'USER_PROFILE'				=> append_sid("{$this->root_path}memberlist.$this->php_ext", "mode=viewprofile&amp;u={$row["user_id"]}"),
 					'USER_STATUS'				=> $this->pg_social_helper->social_status($row['user_id']),
 					
@@ -114,7 +114,7 @@ class social_chat {
 			'PROFILE_STATUS'					=> $this->pg_social_helper->social_status($row['user_id']),
 			'PROFILE_USERNAME'					=> $row['username'],
 			'PROFILE_COLOUR'					=> "#".$row['user_colour'],
-			'PROFILE_AVATAR'					=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),
+			'PROFILE_AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type']),
 		));
 		return $this->helper->render('pg_social_chatperson.html', '');
 	}

@@ -192,10 +192,10 @@ class listener implements EventSubscriberInterface {
 				'STATUS_WHERE'				=> 'profile',
 			));
 			
-			$this->post_status->getStatus("profile", $user_id, 0, "profile", "seguel");
+			$this->post_status->getStatus("profile", $user_id, 0, "profile", "seguel", "");
 			$this->social_zebra->getFriends($user_id, "profile", "yes");
 			$this->social_photo->getGallery($user_id);
-			if(request_var('gall', '')) $this->social_photo->getPhotos($user_id, request_var('gall', ''));
+			if(request_var('gall', '')) $this->social_photo->getPhotos(0, $user_id, request_var('gall', ''));
 		}	
 	}
 		
@@ -203,38 +203,17 @@ class listener implements EventSubscriberInterface {
 		$this->template->assign_vars(array(				
 			'PROFILE'					=> $this->user->data['user_id'],			
 			'PG_SOCIAL_CHAT'			=> $this->config['pg_social_chat_enabled'] ? true : false,	
+			'PG_SOCIAL_INDEX_REPLACE'	=> $this->config['pg_social_index_replace'] ? true : false,
 		));
 		
-		if($this->config['pg_social_index_replace']) {
-			$this->template->assign_vars(array(
-				'U_INDEX'		=> $this->helper->route('forum_page'),
-				
-				'PG_SOCIAL_INDEX_REPLACE'	=> $this->config['pg_social_index_replace'],
-				'PG_SOCIAL_SIDEBAR_RIGHT'	=> $this->config['pg_social_sidebarRight'],	
-				'PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM'	=> $this->config['pg_social_sidebarRight_friendsRandom'],	
-				
-				'PROFILE_URL'				=> get_username_string('profile', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
-				'PROFILE_EDIT'				=> append_sid($this->root_path."ucp.".$this->php_ext, "i=ucp_profile&amp;mode=profile_info"),
-				'PROFILE_AVATAR'			=> $this->pg_social_helper->social_avatar($this->user->data['user_avatar'], $this->user->data['user_avatar_type']),	     
-				'PROFILE_USERNAME'			=> $this->user->data['username'],
-				'PROFILE_USERNAME_CLEAN'	=> $this->user->data['username_clean'],
-				'PROFILE_COLOUR'			=> "#".$this->user->data['user_colour'],
-				'PROFILE_QUOTE'				=> $this->user->data['user_quote'],
-				'PROFILE_GENDER'			=> $this->user->data['user_gender'],
-				'PROFILE_RANK'				=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_title'],					
-				'PROFILE_RANK_IMG'			=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_image'],				
-			));
-			//$this->post_status->getStatus($this->user->data['user_id'], 0, "all", "seguel");
-			$this->social_zebra->getFriends($this->user->data['user_id'], '', "no");
-		}
 	}
 	
 	public function add_page_links($event) {
-		if($this->config['pg_social_index_replace']) $activity_page = append_sid($this->root_path); else $activity_page = $this->helper->route('profile_page');
 		$this->template->assign_vars(array(
 			'S_PG_SOCIAL_ENABLED' 	=> $this->config['pg_social_enabled'] ? true : false,
+			'PG_SOCIAL_COLOR' 		=> $this->config['pg_social_color'],
 			'ACTIVITY_PAGE'	     	=> $this->helper->route('profile_page'),	
-			'ACTIVITY_PAGE_NAV'	    => $activity_page
+			'ACTIVITY_PAGE_NAV'	    => $this->helper->route('profile_page'),
 		));
 	}	
 	

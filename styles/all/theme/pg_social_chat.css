@@ -36,11 +36,14 @@
 }
 
 #pg_social_chat .pg_social_chat .pg_social_chat_head {
-	background-color: #105289;
 	padding: 7px 10px;
 	border-radius: 4px 4px 0px 0px;
 	font-size: 1.2em;
 	color: #fff;
+}
+
+#pg_social_chat .pg_social_chat .pg_social_chat_head {
+	background-color: rgba(0, 0, 0, 0.65);
 }
 
 #pg_social_chat .pg_social_chat .pg_social_chat_head .pg_social_chat_head_status.status {
@@ -62,12 +65,13 @@
 
 #pg_social_chat .pg_social_chat .pg_social_chat_head .pg_social_chat_head_username {
 	display: inline-block;
-	width: calc(100% - 18px - 18px - 10px);
+	width: calc(100% - 18px - 18px - 18px - 10px);
 	vertical-align: bottom;
 	font-size: 1.2em;
 }
 
 #pg_social_chat .pg_social_chat .pg_social_chat_head .pg_social_chat_head_minimize {
+	vertical-align: top;
 	display: inline-block;
 }
 
@@ -105,12 +109,29 @@
 	cursor: pointer;
 }
 
+#pg_social_chat .pg_social_chat .pg_social_chat_head .chat_close {
+	vertical-align: top;
+	display: inline-block;
+	background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 100%;
+    width: 16px;
+    height: 16px;
+	margin-left: 3px;
+	color: #fff;
+	font-weight: normal;
+	text-align: center;
+	cursor: pointer;
+}
+
 #pg_social_chat .pg_social_chat .pg_social_chat_profile > a {
 	margin: 5px 15px 10px;
 	
 }
 #pg_social_chat .pg_social_chat .pg_social_chat_profile > a img.avatar {
 	display: inline-block;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 	width: 30px;
 	border-radius: 100%;
 }
@@ -143,7 +164,6 @@
 }
 
 #pg_social_chat .pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_time {
-	
 	position: absolute;
 	display: inline-block;
 	opacity: 0;
@@ -175,7 +195,7 @@
 }
 
 #pg_social_chat .pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text {
-	background-color: #2a6496;
+	background-color: rgba(0, 0, 0, 0.65);
 	padding: 10px;
 	border: 0px;
 	color: #fff;
@@ -205,7 +225,6 @@
     width: 100%;
     height: 100%;
     border: none;
-
 }
 
 #pg_social_chat .pg_social_chat form.pg_social_chat_form {
@@ -260,6 +279,9 @@
 
 #pg_social_chat #pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online li.pg_social_chat_people_online_single img.avatar {
 	display: inline-block;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 	vertical-align: middle;
 	width: 25px;
 	border-radius: 100%;

@@ -1,5 +1,8 @@
 (function($) {
-	$(document).ready(function() {			
+	$(document).ready(function() {	
+		setInterval(function() {
+			jQuery(".post_status_head_date, .post_comment_time").timeago();
+		}, 200);	
 		if(where == undefined || where == '') where = "all";
 		
 		if(!$("ul#pg_social_menu li").hasClass("active")) {
@@ -33,7 +36,6 @@
 		//SHARE STATUS 
 		$(document).on('click', '#posts_status .post_status .post_status_footer .post_status_share a', function() {
 			if(confirm(useLang['DO_YOU_WANT_SHARE'])) {
-				console.log($(this).parent().attr('data-parent'));
 				pgwall_shareStatus($(this).parent().attr('data-parent'));
 			}
 		});
@@ -53,7 +55,7 @@
 	});
 	
 	$(document).on('scroll', function() { 
-		if($(document).scrollTop() >= ($("#posts_status").height() - ($("#posts_status").height() / 2))) {
+		if($(document).scrollTop() >= ($("#posts_status").height() - ($("#posts_status").height() / 1.9))) {
 			pgwall_getStatus('prequel', where);
 		}
 	});
@@ -127,7 +129,9 @@
 		e.preventDefault();
 		e.stopPropagation();
 		var upload_type = $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input").attr("data-type");
-		if($("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input")[0].files[0]) uploadPhoto("", $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input")[0].files[0], upload_type, $("img#coverdrag").position().top);
+		var upload_where = "";
+		if($("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input").attr("data-where")) var upload_where = $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input").attr("data-where");
+		if($("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input")[0].files[0]) uploadPhoto("", $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input")[0].files[0], upload_type, upload_where, $("img#coverdrag").position().top);
 	});
 	
 	//CHANGE COVER
@@ -193,19 +197,27 @@
 /* POST ACTION */
 function pgwall_getStatus(order, post_where) {
 	if(!post_where) post_where = 'all';
-	console.log($("#load_more_off").length);
 	if($("#load_more").is(":visible")) {
 		$("#load_more").hide();
 		if(order == 'seguel') var lastp = $("#posts_status .post_status:first-child[data-lastp]").attr("data-lastp");
 		if(order == 'prequel') var lastp = $("#posts_status .post_status:last-child[data-lastp]").attr("data-lastp");
 		if(lastp == undefined) lastp = 0;
+		
+		var fdata = new FormData()
+		fdata.append("mode", "getStatus");
+		fdata.append("post_where", post_where);
+		fdata.append("profile_id", profile_id);
+		fdata.append("lastp", lastp);
+		fdata.append("where", where);
+		fdata.append("order", order);
+			
 		$.ajax({
 			method: "POST",
 			url: root, 
-			data: "mode=getStatus&post_where="+post_where+"&profile_id="+profile_id+"&lastp="+lastp+"&where="+where+"&order="+order,
-			cache: false,
-			async: true, 
-			success: function(data) {	
+			data: fdata,
+			contentType: false,
+			processData: false,
+			success: function(data) {
 				if(data) {
 					if(order == 'prequel') {
 						$("#posts_status").append(data);
@@ -221,7 +233,6 @@ function pgwall_getStatus(order, post_where) {
 
 function pgwall_addStatus(texta, privacy) {
 	if(!privacy) privacy = 1;
-	console.log(texta);
 	if($.trim(texta) != "") {
 		var fdata = new FormData()
 		fdata.append("mode", "addStatus");
@@ -255,7 +266,6 @@ function pgwall_shareStatus(statu) {
 		contentType: false, 
 		processData: false,
 		success: function(data) {
-			console.log(data);
 		}		
 	});
 }
@@ -290,7 +300,6 @@ function pgwall_pagelikeAction(page) {
 		url: root,
 		data: "mode=pagelikeAction&page="+page,
 		success: function(data) {
-			console.log(data);
 			$("a.page_list_buttonLike[data-page='"+page+"'] span").attr('class', '').addClass(data);
 		}		
 	});
@@ -340,14 +349,13 @@ function pgwall_removeComment(comment) {
 		contentType: false,
 		processData: false,
 		success: function(data) {
-			console.log(data);
 			$("#post_comment_"+comment).remove();
 		}
 	});	
 }
 
 /* PHOTO UPLOAD */
-function uploadPhoto(msg, photo, type, itop) {
+function uploadPhoto(msg, photo, type, where, itop) {
 	//$("#pg_social_header").css("background-image", "url("+photo+")");
 	var fdata = new FormData()
 	fdata.append("mode", "addPhoto");
@@ -355,6 +363,7 @@ function uploadPhoto(msg, photo, type, itop) {
 	fdata.append("post_where", where);
 	fdata.append("profile_id", profile_id);
 	fdata.append("type", type);
+	fdata.append("where", where);
 	fdata.append("photo", photo);
 	if(itop) fdata.append("top", itop);
 	$.ajax({
@@ -364,6 +373,7 @@ function uploadPhoto(msg, photo, type, itop) {
 		contentType: false,
 		processData: false, 
 		success: function(data) {	
+			if(type == 'cover') location.reload();
 			$('#wall_post_text').val("");
 			$("#wall_post_img").val("");
 			$("#wall_post_thumb").removeAttr("style");

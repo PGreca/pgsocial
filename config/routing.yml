@@ -1,7 +1,3 @@
-forum_page:
-    path: forum_page/
-    defaults: { _controller: pgreca.pg_social.controller:handle_forum:index, name:mp }
-
 profile_page:
     path: social/
     defaults: { _controller: pgreca.pg_social.controller:handle:index, name:mp, mode:profile }

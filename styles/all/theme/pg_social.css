@@ -3,9 +3,45 @@ body.section-memberlist form#viewprofile {
 	/*display: none;*/
 }
 
-[contenteditable=true]:empty:before{
-	content: attr(placeholder);
-	display: block;
+#pg_social_container {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+
+#pg_social_container #pg_social_containerL {
+	display: inline-block;
+	width: 70%;	
+	vertical-align: top;
+}
+
+#pg_social_container #pg_social_containerR {
+	display: inline-block;
+	width: calc(30% - 10px);	
+	padding-left: 10px;
+	vertical-align: top;
+}
+
+#pg_social_container #pg_social_containerR #pg_social {
+	margin-top: 0px;
+}
+
+#pg_social_container #pg_social_containerR #pg_social #pg_social_cont {
+	width: 100%;
+	padding: 0px;
+}
+
+#pg_social_container #pg_social_containerR #pg_social #pg_social_cont ul#posts_status {
+	overflow-y: auto;
+	padding-top: 0px;
+}
+
+#pg_social_container #pg_social_containerR #pg_social #pg_social_cont ul#posts_status::-webkit-scrollbar {
+    width: 0.7em;
+}
+
+#pg_social_container #pg_social_containerR #pg_social #pg_social_cont ul#posts_status::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 #pg_social {
@@ -31,7 +67,7 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social .panel {
-	background-color: rgba(0, 0, 0, 0.08);
+	/*background-color: rgba(0, 0, 0, 0.08);*/
 	width: calc(100% - 20px);
 	margin: 0px 0px 20px;
 	padding: 10px;
@@ -103,7 +139,6 @@ body.section-memberlist form#viewprofile {
 	padding: 10px;
 	border-radius: 4px;
 	cursor: pointer;
-	color: #176293;
 }
 
 #pg_social #pg_social_header.canMove #pg_social_actionprofile .action_profile {
@@ -746,7 +781,7 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author h4 span {
-	font-size: 0.8em;
+	/*font-size: 0.8em;*/
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author h4 a {
@@ -1177,8 +1212,8 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_sider ul li.friend .friend_action {
 	background-color: #fff;
-	width: calc(100% - 5px - 2px);
-	margin: 5px 0px 0px 5px;	
+	width: calc(100% - 2px);
+	margin: 5px 0px 0px 0px;	
 	padding: 4px 0px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
@@ -1241,7 +1276,7 @@ form#page_new_form input[type="submit"]:hover {
 	width: 65%;
 	height: 100%;
 	text-align: center;
-overflow: hidden;
+	overflow: hidden;
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_img img {
@@ -1415,7 +1450,7 @@ overflow: hidden;
 	display: inline-block;
 	background-color: rgba(0, 0, 0, 0.08);
 	width: 100%;
-	height: calc(70% - 60px - 1px);
+	height: calc(70% - 60px);
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments {
@@ -1520,6 +1555,9 @@ overflow: hidden;
 
 .phpbb_alert.pg_social_photo #pg_social_photo_social form.pg_social_photo_comment_form > img {
 	display: inline-block;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 	width: auto;
 	height: 100%;
 	margin: 0px;
@@ -1791,7 +1829,7 @@ a.profile_signature_status {
 	}
 
 	.phpbb_alert.pg_social_photo {
-		overflow: scroll;
+		overflow: auto;
 	}
 		
 	.phpbb_alert.pg_social_photo #pg_social_photo_social p.photo_desc,

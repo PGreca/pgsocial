@@ -119,8 +119,8 @@ class social_photo {
 		return $return;
 	}
 	
-	public function getPhotos($user, $gall) {
-		$sql = "SELECT * FROM ".$this->table_prefix."pg_social_photos WHERE gallery_id = '".$gall."' AND user_id = '".$user."' ORDER BY photo_time DESC";
+	public function getPhotos($where, $user, $gall) {
+		$sql = "SELECT * FROM ".$this->table_prefix."pg_social_photos WHERE gallery_id = '".$gall."' AND user_id = '".$user."' AND photo_where = '".$where."' ORDER BY photo_time DESC";
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result)) {
 			$this->template->assign_block_vars('social_photos', array(
@@ -150,7 +150,7 @@ class social_photo {
 			$row['photo_file'] = append_sid(generate_board_url())."/ext/pgreca/pg_social/images/upload/".$row['photo_file'];
 			return $row;
 		} else {
-			$user_avatar = $this->pg_social_helper->social_avatar($this->user->data['user_avatar'], $this->user->data['user_avatar_type']);
+			$user_avatar = $this->pg_social_helper->social_avatar_thumb($this->user->data['user_avatar'], $this->user->data['user_avatar_type']);
 			$comment = "<span>".$this->pg_social_helper->countAction("comments", $row['post_id'])."</span> ";
 			if($this->pg_social_helper->countAction("comments", $row['post_id']) == 0 || $this->pg_social_helper->countAction("comments", $row['post_id']) > 1) {
 				$comment .= $this->user->lang('COMMENTS');
@@ -179,7 +179,7 @@ class social_photo {
 		}
 	}
 	
-	public function photoUpload($where, $who, $msg = null, $type, $photo, $itop = null) {
+	public function photoUpload($where, $who, $msg = null, $type, $lwhere = 'profile', $photo, $itop = null) {
 		switch($where) {
 			case 'page':
 				$where = 1;
@@ -280,7 +280,7 @@ class social_photo {
 			}
 		}
 		if(resizeImage($CurWidth,$CurHeight,$BigImageMaxSize,$DestRandImageName,$CreatedImage,$Quality,$ImageType)) {
-			$a = $this->photoQuery($where, $who, $msg, $type, $NewImageName, $wall_id, $now, $itop);
+			$a = $this->photoQuery($where, $who, $msg, $type, $lwhere, $NewImageName, $wall_id, $now, $itop);
 		}
 		
 		/*$a = $type;
@@ -290,7 +290,7 @@ class social_photo {
 		if($type != 'avatar') return $this->helper->render('activity_status_action.html', "");
 	}
 	
-	public function photoQuery($where, $who, $msg, $type, $file, $wall, $time, $itop) {
+	public function photoQuery($where, $who, $msg, $type, $lwhere, $file, $wall, $time, $itop) {
 		$user = (int) $this->user->data['user_id'];	
 		switch($type) {
 			case 'avatar':
@@ -298,7 +298,14 @@ class social_photo {
 			break;			
 			case 'cover':
 				$gallery = 2;
-				$sql_cover = "UPDATE ".USERS_TABLE." SET user_pg_social_cover = '".$file."', user_pg_social_cover_position = '".$itop."' WHERE user_id = '".$user."'";
+				switch($lwhere) {
+					case 'page':
+						$sql_cover = "UPDATE ".$this->table_prefix."pg_social_pages SET page_cover = '".$file."', page_cover_position = '".$itop."' WHERE page_id = '".$who."'";
+					break;
+					case 'profile':
+						$sql_cover = "UPDATE ".USERS_TABLE." SET user_pg_social_cover = '".$file."', user_pg_social_cover_position = '".$itop."' WHERE user_id = '".$user."'";
+					break;
+				}
 				$this->db->sql_query($sql_cover);
 			break;
 			case 'wall':

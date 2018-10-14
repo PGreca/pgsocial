@@ -1,0 +1,100 @@
+#pg_social .panel {
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile input[type="submit"] {
+	background: linear-gradient(180deg, #008465 0%, #224f77 100%);
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile input[type="submit"],
+#pg_social #pg_social_header #pg_social_actionprofile label,
+#pg_social #pg_social_header #pg_social_actionprofile a {
+	color: #008465;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile a.page_list_buttonLike span.likepage {
+	background-color: #008465;
+}
+
+#pg_social #pg_social_main ul#pg_social_menu li a {
+	color: #008465;
+}
+
+#pg_social #pg_social_main ul#pg_social_menu li.active,
+#pg_social #pg_social_main ul#pg_social_menu li.active a {
+	background-color: #008465;
+}
+
+#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery:after {
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0.0) 0%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+#pg_social form#wall_post {
+	background-color: #008465;
+}
+
+#pg_social form#wall_post label#pg_social_wall_post_img {
+    color: #176293;
+}
+
+#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people:hover {
+	background-color: rgba(43, 101, 151, 0.85);
+}
+
+#pg_social #pg_social_cont ul#profile_head_menu li.active {
+	background-color: #008465;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer {
+	background-color: #008465;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments {
+	background-color: #009874;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment {
+	background-color: #009874;
+}
+
+#pg_social #pg_social_sidel blockquote#profile_quote a#profile_changeQuote {
+	color: #008465;
+}
+
+#pg_social #pg_social_sidel ul#profile_menu li a {
+	color: #008465;
+}
+
+#pg_social #pg_social_sider .panel h3 {
+	color: #008465;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social div.pg_social_photo_likshare {
+	background-color: #008465;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social #pg_social_photo_comment {
+	background-color: #005c47;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments::-webkit-scrollbar-thumb {
+    background-color: rgba(85, 132, 219, 0.2);
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(85, 132, 219, 0.6);
+}
+
+/*CHAT*/
+#pg_social_chat .pg_social_chat .pg_social_chat_head {
+	background-color: #008465 !important;
+}
+
+#pg_social_chat .pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text {
+	background-color: #009874 !important;
+}
+
+@media screen and (max-width: 750px) {
+	#pg_social #pg_social_sider ul li.friend {
+		background-color: #009874;
+	}	
+}

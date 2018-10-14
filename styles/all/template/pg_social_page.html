@@ -7,12 +7,18 @@
 		Pagina in attesa di moderazione
 	</div>
 	<!-- ENDIF -->
-	<div id="pg_social_header" style="background-image:url({page.PAGE_COVER}); background-position: left {page.PAGE_COVER_POSITION}px;">		
-		<!-- IF page.PAGE_ACTION -->
+	<div id="pg_social_header" style="background-image:url({page.PAGE_COVER}); background-position: left {page.PAGE_COVER_POSITION}px;">	
 		<div id="pg_social_actionprofile">
-			<a class="page_list_buttonLike" data-page="{page.PAGE_ID}"><span class="{page.PAGE_LIKE_CHECK}">{L_LIKE}</span></a>
+			<a class="page_list_buttonLike" data-page="{page.PAGE_ID}"><span class="{page.PAGE_LIKE_CHECK}">{L_LIKE}</span></a>	
+			<!-- IF page.PAGE_ACTION -->
+			<div id="profile_upload">
+				<input id="profile_upload_submit" type="submit" value="{L_PROFILE_UPDATE}" />
+				<div class="action_profile">				
+					<a id="pg_social_edit_avatar" href="{PROFILE_AVATAR_UPDATE}">{L_PROFILE_AVATAR_UPDATE}</a><label id="pg_social_edit_cover">{L_PROFILE_COVER_UPDATE}<input type="file" accept="image/*" data-type="cover" data-where="page"></label>
+				</div>
+			</div>
+			<!-- ENDIF -->
 		</div>
-		<!-- ENDIF -->
 	</div><div id="pg_social_main">
 		<div class="profile_avatar">{page.PAGE_AVATAR}</div>			
 		<h2 class="memberlist-username">{page.PAGE_USERNAME}</h2>
@@ -24,7 +30,7 @@
 				<!-- IF page.PAGE_STATUS_ACTION -->
 				<form method="post" id="wall_post">
 					<div class="wall_post_area">
-						<div required name="wall_post_text" id="wall_post_text" placeholder="{L_WRITE_SOMETHING}..." contenteditable="true"></div>
+						<textarea required name="wall_post_text" id="wall_post_text" placeholder="{L_WRITE_SOMETHING}..."></textarea>
 					</div>
 					<div class="wall_post_option">
 						<label id="pg_social_wall_post_img">{L_ATTACH_PICTURE}<input name="wall_post_img" id="wall_post_img" type="file" accept="image/*" /></label>

@@ -19,6 +19,15 @@
 				<input type="radio" class="radio" name="pg_social_enabled" value="0" <!-- IF not PG_SOCIAL_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
 			</dl>
 			<dl>
+				<dt><label for="pg_social_color">{L_ACP_PG_SOCIAL_COLOR}</label></dt>
+				<dd><select id="pg_social_color" name="pg_social_color">
+					<option value="0"<!-- IF PG_SOCIAL_COLOR == 0 --> selected<!-- ENDIF -->>{L_ACP_PG_SOCIAL_NOCOLOR}</option>
+					<option value="1"<!-- IF PG_SOCIAL_COLOR == 1 --> selected<!-- ENDIF -->>{L_ACP_PG_SOCIAL_BLUE}</option>
+					<option value="2"<!-- IF PG_SOCIAL_COLOR == 2 --> selected<!-- ENDIF -->>{L_ACP_PG_SOCIAL_GREEN}</option>
+					<option value="3"<!-- IF PG_SOCIAL_COLOR == 3 --> selected<!-- ENDIF -->>{L_ACP_PG_SOCIAL_RED}</option>
+				</select></dd>
+			</dl>
+			<dl>
 				<dt><label for="pg_social_index_replace">{L_ACP_PG_SOCIAL_INDEX_REPLACE}</label></dt>
 				<dd><input type="radio" class="radio" name="pg_social_index_replace" value="1" <!-- IF PG_SOCIAL_INDEX_REPLACE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
 				<input type="radio" class="radio" name="pg_social_index_replace" value="0" <!-- IF not PG_SOCIAL_INDEX_REPLACE -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
@@ -126,7 +135,7 @@
 		
 		{S_FORM_TOKEN}
 	</div><div style="display:inline-block;width:30%;vertical-align:top">
-		<iframe src="http://pgreca.it/pg_social/pg_social_iframe.php" with="100%" height="300px" frameborder="0" cellpadding="0"></iframe>
+		<iframe src="https://pgreca.it/pg_social/pg_social_iframe.php" with="100%" height="300px" frameborder="0" cellpadding="0"></iframe>
 	</div>
 	<div class="panel">
 		<p class="submit-buttons">

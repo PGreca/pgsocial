@@ -110,10 +110,9 @@ class pages {
 				$this->template->assign_block_vars('page', array(
 					'PAGE_ID'			=> $page['page_id'],
 					'PAGE_ALERT'		=> $page_alert,
+					'PAGE_ACTION'		=> $page['page_action'],
 					'PAGE_AVATAR'		=> '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/'.($page['page_avatar'] != "" ? $page_avatar = 'upload/'.$page['page_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />',	     
 					'PAGE_COVER'		=> $this->pg_social_helper->social_cover($page['page_cover']),
-					'PAGE_ACTION'		=> $page['page_act'],
-					'PAGE_STATUS_ACTION'=> $page['page_action'],
 					'PAGE_USERNAME'		=> $page['page_username'],
 					
 					'PAGE_LIKE_CHECK'		=> $page_likeCheck."page",					
@@ -125,10 +124,9 @@ class pages {
 					'STATUS_WHERE'				=> 'page',
 					'PROFILE_ID'				=> $page['page_id'],
 				));
-				$this->post_status->getStatus('page', $page['page_id'], 0, "all", "seguel");
+				$this->post_status->getStatus('page', $page['page_id'], 0, "all", "seguel", "off");
 				$page_title = $page['page_username'];
-			} else {
-				
+			} else {				
 				$mode = $this->request->variable('mode', '');
 				
 				switch($mode) {

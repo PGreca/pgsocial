@@ -1,5 +1,12 @@
 <!-- IF S_PG_SOCIAL_ENABLED && S_USER_LOGGED_IN -->
 	<!-- INCLUDECSS pg_social.css -->
+	<!-- IF PG_SOCIAL_COLOR == 1 -->
+	<!-- INCLUDECSS pg_social_blue.css -->
+	<!-- ELSEIF PG_SOCIAL_COLOR == 2 -->
+	<!-- INCLUDECSS pg_social_green.css -->	
+	<!-- ELSEIF PG_SOCIAL_COLOR == 3 -->
+	<!-- INCLUDECSS pg_social_red.css -->	
+	<!-- ENDIF -->
 	<!-- INCLUDEJS js/cookie.js -->
 	<!-- INCLUDECSS https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css -->
 	<!-- INCLUDEJS https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js -->

@@ -22,6 +22,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 			
 			array('config.add', array('pg_social_enabled', 1)),			
 			array('config.add', array('pg_social_index_replace', 0)),
+			array('config.add', array('pg_social_color', 0)),
 			array('config.add', array('pg_social_profile', 1)),
 			
 			array('config.add', array('pg_social_sidebarRight', 1)),
