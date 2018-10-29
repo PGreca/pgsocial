@@ -57,25 +57,6 @@ class helper {
         $this->table_prefix = $table_prefix;
 	}
 	
-	/**
-	* @param string $message
-	* @param int $status_code
-	* @param int $redirect_time
-	* @return \Symfony\Component\HttpFoundation\Response
-	*/
-	public function finish($message, $status_code, $redirect_time = 10) {
-		$this->meta_refresh($redirect_time);
-		return $this->helper->error($this->user->lang($message), $status_code);
-	}
-	
-	/**
-	* @param int $redirect_time
-	* @return null
-	*/
-	public function meta_refresh($redirect_time) {
-		meta_refresh($redirect_time, generate_board_url());
-	}
-	
 	public function time_ago($from, $to = 0) {
 		$periods = array(
 			"SECOND",

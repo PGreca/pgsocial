@@ -19,6 +19,11 @@
 				<input type="radio" class="radio" name="pg_social_enabled" value="0" <!-- IF not PG_SOCIAL_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
 			</dl>
 			<dl>
+				<dt><label for="pg_social_index_replace">{L_ACP_PG_SOCIAL_INDEX_REPLACE}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_index_replace" value="1" <!-- IF PG_SOCIAL_INDEX_REPLACE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+				<input type="radio" class="radio" name="pg_social_index_replace" value="0" <!-- IF not PG_SOCIAL_INDEX_REPLACE -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+			</dl>	
+			<dl>
 				<dt><label for="pg_social_color">{L_ACP_PG_SOCIAL_COLOR}</label></dt>
 				<dd><select id="pg_social_color" name="pg_social_color">
 					<option value="0"<!-- IF PG_SOCIAL_COLOR == 0 --> selected<!-- ENDIF -->>{L_ACP_PG_SOCIAL_NOCOLOR}</option>
@@ -28,9 +33,9 @@
 				</select></dd>
 			</dl>
 			<dl>
-				<dt><label for="pg_social_index_replace">{L_ACP_PG_SOCIAL_INDEX_REPLACE}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_index_replace" value="1" <!-- IF PG_SOCIAL_INDEX_REPLACE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_index_replace" value="0" <!-- IF not PG_SOCIAL_INDEX_REPLACE -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_index_replace">{L_ACP_PG_SOCIAL_INDEX_ACTIVITY}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_index_activity" value="1" <!-- IF PG_SOCIAL_INDEX_ACTIVITY -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+				<input type="radio" class="radio" name="pg_social_index_activity" value="0" <!-- IF not PG_SOCIAL_INDEX_ACTIVITY -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
 			</dl>		
 		</fieldset>
 		<fieldset>

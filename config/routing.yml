@@ -1,5 +1,9 @@
+forum_page:
+    path: /forum
+    defaults: { _controller: pgreca.pg_social.forum:handle }   
+    
 profile_page:
-    path: social/
+    path: social
     defaults: { _controller: pgreca.pg_social.controller:handle:index, name:mp, mode:profile }
     
 status_page:

@@ -16,6 +16,8 @@
 	bottom: 0px;
 	right: 0px;
 	padding: 0px;
+	text-align: left;
+	font-size: 10px;
 }
 
 #pg_social_chat #pg_social_chat_box {
@@ -71,7 +73,7 @@
 }
 
 #pg_social_chat .pg_social_chat .pg_social_chat_head .pg_social_chat_head_minimize {
-	vertical-align: top;
+	vertical-align: middle;
 	display: inline-block;
 }
 
@@ -124,6 +126,7 @@
 }
 
 #pg_social_chat .pg_social_chat .pg_social_chat_profile > a {
+	display: block;
 	margin: 5px 15px 10px;
 	
 }

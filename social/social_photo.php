@@ -54,14 +54,14 @@ class social_photo {
 	    $this->pg_social_path 			= $this->root_path.'/ext/pgreca/pg_social';	
 	}
 	
-	public function getGallery($wall) {
+	public function getGallery($wall, $where) {
 		$sql = "SELECT user_id, username, username_clean, user_colour FROM ".USERS_TABLE." WHERE user_id = '".$wall."'";
 		$result = $this->db->sql_query($sql);
 		$user = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);			
 		
 		$limit = 6;
-		$sql = "SELECT *, (SELECT photo_file FROM ".$this->table_prefix."pg_social_photos as cov WHERE user_id = '".$wall."' AND ph.gallery_id = cov.gallery_id ORDER BY photo_time DESC LIMIT 0, 1) as gallery_cover, COUNT(*) as count FROM ".$this->table_prefix."pg_social_photos as ph WHERE user_id = '".$wall."' GROUP BY gallery_id";
+		$sql = "SELECT *, (SELECT photo_file FROM ".$this->table_prefix."pg_social_photos as cov WHERE user_id = '".$wall."' AND ph.gallery_id = cov.gallery_id AND photo_where = '".$where."' ORDER BY photo_time DESC LIMIT 0, 1) as gallery_cover, COUNT(*) as count FROM ".$this->table_prefix."pg_social_photos as ph WHERE user_id = '".$wall."' AND photo_where = '".$where."' GROUP BY gallery_id";
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result)) {	
 			switch($row['gallery_id']) {
@@ -171,6 +171,8 @@ class social_photo {
 				'PHOTO_DESC'				=> htmlspecialchars_decode($row['photo_desc']),
 				"LIKE"						=> $this->pg_social_helper->countAction("like", $row['post_id']),
 				"IFLIKE"					=> $this->pg_social_helper->countAction("iflike", $row['post_id']),
+				"PRE"						=> $this->prenextPhoto($row['photo_id'], 0, $row['photo_where'], false),
+				"NEX"						=> $this->prenextPhoto($row['photo_id'], 1, $row['photo_where'], false),
 				"COMMENT"					=> $comment,
 				'POST_ID'					=> $row['post_id'],
 				'USER_AVATAR'				=> $user_avatar,
@@ -378,5 +380,30 @@ class social_photo {
 			));
 		}
 		return $this->helper->render('activity_status_action.html', "");
+	}
+	
+	public function prenextPhoto($photo, $ord, $where, $template = true) {
+		if($ord == 0) {
+			$orde = ">"; 
+			$ordn = "ASC"; 
+		} else {
+			$orde = "<";
+			$ordn = "DESC";
+		}
+		if($where == "profile") $wher = '0'; elseif($where == "page") $wher = '1';
+		$photo_info = $this->getPhoto($photo);
+		$sql = "SELECT photo_id FROM ".$this->table_prefix."pg_social_photos WHERE photo_id ".$orde." '".$photo_info['photo_id']."' AND photo_where = '".$where."' AND user_id = '".$photo_info['user_id']."' AND gallery_id = '".$photo_info['gallery_id']."' ORDER BY photo_id ".$ordn." LIMIT 0, 1"; 
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+			
+		if($template) {
+			$this->template->assign_vars(array(
+				"ACTION"	=> $row['photo_id'],
+			));	
+			return $this->helper->render('activity_status_action.html', "");
+		} else {
+			if($row['photo_id']) $action = true; else $action = false;
+			return $action;
+		}		
 	}
 }

@@ -1,9 +1,15 @@
 <script type="text/javascript">
+	var site = {Name: $('title').text(), Url: $(location).attr('href')};
 	var profile_id = '<!-- IF PROFILE_ID -->{PROFILE_ID}<!-- ELSE -->{PROFILE}<!-- ENDIF -->';	
 	var root = '{ACTIVITY_PAGE}';
 	var where = '{STATUS_WHERE}';
 	var useLang = {ARE_YOU_SURE: "{L_ARE_YOU_SURE}", ARE_YOU_SURE_PHOTO: "{L_ARE_YOU_SURE_PHOTO}", DO_YOU_WANT_SHARE: "{L_DO_YOU_WANT_SHARE}"};
 	<!-- IF (PROFILE_ID || PROFILE) && ACTIVITY_PAGE -->
+	setInterval(function() {
+		jQuery(".post_status_head_date, .post_comment_time").timeago();
+	}, 200);
+<!-- IF S_USER_LOGGED_IN -->
+	if($("#posts_status").html() == "") pgwall_getStatus('seguel', where);
 	var pgsocial = setInterval(function() {
 		pgwall_getStatus('seguel', where);
 	}, 2000);
@@ -12,7 +18,7 @@
 		$("#viewprofile, h2.memberlist-title").hide().remove();
 	}
 	<!-- ENDIF -->
-	<!-- IF PG_SOCIAL_INDEX_REPLACE -->
+	<!-- IF PG_SOCIAL_INDEX_ACTIVITY -->
 	$("#pg_social_container #pg_social_containerR #pg_social #pg_social_cont ul#posts_status").css("height", $(".forumlist").height());
 	<!-- ENDIF -->
 	$("#wall_post").submit(function(e) {
@@ -31,7 +37,7 @@
 	
 	$(document).on('keydown', '.pg_social_photo_comment_text', function(e) {
 		if(e.keyCode == 13) {
-			pgwall_addComment($(this).val(), $(this).parent().parent().find('.pg_social_photo_comments').attr('data-comment'));
+			pgwall_addComment($(this).val(), $(this).parent().parent().find('.pg_social_photo_comments').attr('data-post'));
 		}
 	});
 	
@@ -46,7 +52,7 @@
 		e.stopPropagation();
 	});
 	<!-- ENDIF -->
-	
+<!-- ENDIF -->	
 	
 	
 	

@@ -2,6 +2,13 @@
 <div id="pg_social_photo_img" data-photo="{social_photo.PHOTO_ID}">
 	<img src="{social_photo.PHOTO_FILE}" />
 	<div class="pg_social_photo_side">
+		{social_photo.PRE}-{social_photo.NEX}
+		<!-- IF social_photo.PRE --><span id="pg_social_photo_sidePre">
+			<i class="icon fa fa-arrow-left"></i>
+		</span><!-- ENDIF -->
+		<!-- IF social_photo.NEX --><span id="pg_social_photo_sideNex">
+			<i class="icon fa fa-arrow-right"></i>
+		</span><!-- ENDIF -->
 		<ul id="pg_social_photo_img_footer">
 			<li>{L_OPTIONS}
 				<ul id="pg_social_photo_img_options">

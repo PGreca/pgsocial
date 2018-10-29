@@ -5,9 +5,9 @@
 			<ul id="profile_menu">
 				<!-- IF PROFILE_AVATAR --><li class="profile_avatar">{PROFILE_AVATAR}</li><!-- ENDIF -->
 				<li class="memberlist-title"><h2<!-- IF PROFILE_COLOUR --> style="color: {PROFILE_COLOUR};"<!-- ENDIF -->>{PROFILE_USERNAME}</h2></li>
-				<li class="profile-profile_link"><a href="{PROFILE_URL}"><i class="icon fa-user fa-fw" aria-hidden="true"></i> {L_READ_PROFILE}</a></li>	
-				<li class="profile-profile_edit"><a href="{PROFILE_EDIT}"><i class="icon fa-cog fa-fw" aria-hidden="true"></i> {L_EDIT_PROFILE}</a></li>
-				<li class="profile-profile_pages"><a href="{PAGES_URL}"><i class="icon fa-book fa-fw" aria-hidden="true"></i> {L_PAGES}</a></li>
+				<li class="profile-profile_link"><a href="{PROFILE_URL}"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i> {L_READ_PROFILE}</a></li>	
+				<li class="profile-profile_edit"><a href="{PROFILE_EDIT}"><i class="icon fa fa-cog fa-fw" aria-hidden="true"></i> {L_EDIT_PROFILE}</a></li>
+				<li class="profile-profile_pages"><a href="{PAGES_URL}"><i class="icon fa fa-book fa-fw" aria-hidden="true"></i> {L_PAGES}</a></li>
 				<!-- IF PROFILE_QUOTE --><li class="profile_quote"><blockquote id="profile_quote" style="padding: 5px;">{PROFILE_QUOTE}</blockquote></li><!-- ENDIF -->
 				<li class="profile_rank">
 					<!-- IF PROFILE_RANK_IMG -->{PROFILE_RANK_IMG}<br /><!-- ENDIF -->
@@ -84,6 +84,13 @@
 			</ul>
 		</div>
 		<!-- ENDIF -->
+		<div class="panel">
+			<script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
+			<h3>Support PG SOCIAL NETWORK with a coffe on Ko-fi! ❤️</h3>
+			<script type='text/javascript'>
+				kofiwidget2.init('Support Me on Ko-fi', '#46b798', 'A308YMA');kofiwidget2.draw();
+			</script>
+		</div>
 	</div>
 	<!-- ENDIF -->
 </div><!-- INCLUDE overall_footer.html -->

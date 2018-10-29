@@ -82,7 +82,7 @@ class main {
 	}
 	
 	/**
-	* Profile controller for route /social/
+	* Profile controller for route /social
 	*
 	* @param string		$name
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
@@ -110,77 +110,63 @@ class main {
 					return $this->post_status->deleteStatus($this->request->variable('post_status', ''), $name);
 				break;
 				case 'shareStatus':
-					$return = $this->post_status->shareStatus($this->request->variable('status', ''));
-					return $return;
+					return $this->post_status->shareStatus($this->request->variable('status', ''));
 				break;
 				case 'likeAction':
-					$return = $this->post_status->likeAction($this->request->variable('post_like', ''));
-					return $return;
+					return $this->post_status->likeAction($this->request->variable('post_like', ''));
 				break;
 				case 'getComments':
-					$return = $this->post_status->getComments($this->request->variable('post_status', ''), $this->request->variable('type', ''));
-					return $return;
+					return $this->post_status->getComments($this->request->variable('post_status', ''), $this->request->variable('type', ''));
 				break;
 				case 'addComment':
-					$return = $this->post_status->addComment($this->request->variable('post_status', ''), $this->request->variable('comment', ''));
-					return $return;
+					return $this->post_status->addComment($this->request->variable('post_status', ''), $this->request->variable('comment', ''));
 				break;
 				case 'removeComment':
-					$return = $this->post_status->removeComment($this->request->variable('comment', ''));
-					return $return;
+					return $this->post_status->removeComment($this->request->variable('comment', ''));
 				break;
 				case 'getFriends':
 					if($this->request->variable('friend', '')) $friends = $this->request->variable('friend', '');
-					$return = $this->social_zebra->getFriends($profile_id, $where, $friends);
-					return $return;
+					return $this->social_zebra->getFriends($profile_id, $where, $friends);
 				break;
 				case 'requestFriend':
-					$return = $this->social_zebra->requestFriend($profile_id, $this->request->variable('request', ''));
-					return $return;
+					return $this->social_zebra->requestFriend($profile_id, $this->request->variable('request', ''));
 				break;
 				case 'messageCheck':
-					$return = $this->social_chat->messageCheck($this->request->variable('exclude', ''));
-					return $return;
+					return $this->social_chat->messageCheck($this->request->variable('exclude', ''));
 				break;
 				case 'getchatPeople':
-					$return = $this->social_chat->getchatPeople($this->request->variable('person', ''));
-					return $return;
+					return $this->social_chat->getchatPeople($this->request->variable('person', ''));
 				break;
 				case 'getchatPerson':
-					$return = $this->social_chat->getchatPerson($this->request->variable('person', ''));
-					return $return;
+					return $this->social_chat->getchatPerson($this->request->variable('person', ''));
 				break;
 				case 'getchatMessage':
-					$return = $this->social_chat->getchatMessage($this->request->variable('person', ''), $this->request->variable('order', ''), $this->request->variable('lastmessage', ''));
-					return $return;
+					return $this->social_chat->getchatMessage($this->request->variable('person', ''), $this->request->variable('order', ''), $this->request->variable('lastmessage', ''));
 				break;
 				case 'messageSend':
-					$return = $this->social_chat->messageSend($this->request->variable('person', ''), $this->request->variable('message', ''));
-					return $return;
+					return $this->social_chat->messageSend($this->request->variable('person', ''), $this->request->variable('message', ''));
 				break;
 				case 'getPhoto':
-					$return = $this->social_photo->getPhoto($this->request->variable('photo', ''), 1);
-					return $return;
+					return $this->social_photo->getPhoto($this->request->variable('photo', ''), 1);
 				break;
 				case 'addPhoto':
-					$return = $this->social_photo->photoUpload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', ''), $this->request->variable('type', ''), $this->request->variable('where', ''), $this->request->file('photo'), $this->request->variable('top', ''));
-					return $return;
+					return $this->social_photo->photoUpload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', ''), $this->request->variable('type', ''), $this->request->variable('where', ''), $this->request->file('photo'), $this->request->variable('top', ''));
 				break;
 				case 'deletePhoto':
-					$return = $this->social_photo->deletePhoto($this->request->variable('photo', ''));
-					return $return;
+					return $this->social_photo->deletePhoto($this->request->variable('photo', ''));
+				break;
+				case 'prenextPhoto':
+					return $this->social_photo->prenextPhoto($this->request->variable('photo', ''), $this->request->variable('ord', ''), $this->request->variable('where', ''));
 				break;
 				case 'tag_system_search':
-					$return = $this->social_tag->tag_system_search($this->request->variable('who', ''));
-					return $return;
+					return $this->social_tag->tag_system_search($this->request->variable('who', ''));
 				break;
 				case 'pagelikeAction':
-					$return = $this->social_page->pagelikeAction($this->request->variable('page', ''));
-					return $return;
+					return $this->social_page->pagelikeAction($this->request->variable('page', ''));
 				break;
 				default: 
 				break;
-			}			
+			}	
 			
 			
 			if($name == 'mp') {
@@ -245,6 +231,10 @@ class main {
 			
 				$this->post_status->getStatus('all', $this->user->data['user_id'], 0, "all", "seguel", "");
 				$this->social_zebra->getFriends($profile_id, $where, "no");
+				$this->template->assign_block_vars('navlinks', array(
+					'FORUM_NAME'	=> $this->user->lang('ACTIVITY'),
+					'U_VIEW_FORUM'	=> $this->helper->route('profile_page'),
+				));
 				return $this->helper->render('activity_body.html', $this->user->lang['ACTIVITY']);	
 			}
 		}
@@ -257,23 +247,28 @@ class main {
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
 	public function handle_status($id) {
-		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel')) {
-			if($this->user->data['user_id'] != ANONYMOUS) {
-				echo $this->user->data['user_id'];
-				trigger_error('NO_VIEW_USERS');
+		$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour
+		FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u	
+		WHERE post_ID = '".$id."' AND (w.user_id = u.user_id) AND u.user_type != '2'";	
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);		
+		
+		if($row['post_ID']) {
+			if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel')) {
+				if($this->user->data['user_id'] != ANONYMOUS) {
+					echo $this->user->data['user_id'];
+					trigger_error('NO_VIEW_USERS');
+				}
+				login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
+			} else {	
+				$this->template->assign_vars(array(
+					'PROFILE_ID'	=> $row['wall_id'],
+				));
+				return $this->post_status->status('', $row['wall_id'], $row['post_type'], 'half', $row);	
 			}
-			login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
 		} else {
-					
-			$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour
-			FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u	
-			WHERE post_ID = '".$id."' AND (w.user_id = u.user_id) AND u.user_type != '2'";	
-			
-			$result = $this->db->sql_query($sql);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);			
-					
-			return $this->post_status->status('', $row['wall_id'], $row['post_type'], 'half', $row);	
+			redirect($this->helper->route('profile_page'));
 		}
 	}
 }

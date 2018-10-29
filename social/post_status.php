@@ -163,8 +163,7 @@ class post_status {
 							$res = $this->db->sql_query($sql_post);
 							$post = $this->db->sql_fetchrow($res);
 							
-							if(!$post['topic_id']) $rele = false;
-							$author_action = $this->user->lang("HAS_WRITED_POST_ON", '<a href="'.append_sid(generate_board_url()).'/viewtopic.php?t='.$post['topic_id'].'#p'.$posts[1].'">'.$post['topic_title'].'</a>');
+							if(!$post['topic_id']) $author_action = $this->user->lang("HAS_WRITED_POST_ON_CANCEL"); else $author_action = $this->user->lang("HAS_WRITED_POST_ON", '<a href="'.append_sid(generate_board_url()).'/viewtopic.php?t='.$post['topic_id'].'#p'.$posts[1].'">'.$post['topic_title'].'</a>');
 							$msg = '';
 							$msg_align = '';						
 						break;						
@@ -273,6 +272,7 @@ class post_status {
 				"POST_TYPE"					=> $row['post_type'],
 				"POST_URL"					=> $this->helper->route("status_page", array("id" => $row['post_ID'])),
 				"POST_DATE"					=> date('c', $row['time']),
+				"POST_DATE_AGO"				=> $this->pg_social_helper->time_ago($row['time']),
 				"MESSAGE"					=> htmlspecialchars_decode($msg),
 				"MESSAGE_ALIGN"				=> $msg_align,
 				"POST_PRIVACY"				=> $this->user->lang($this->pg_social_helper->social_privacy($row['post_privacy'])),
