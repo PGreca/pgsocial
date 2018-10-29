@@ -353,7 +353,7 @@ class listener implements EventSubscriberInterface {
 		$photo['tmp_name'] = $event['filedata']['filename'];
 		$photo['type'] = $event['filedata']['mimetype'];
 		
-		$this->social_photo->photoUpload("", $this->user->data['user_id'], "", "avatar", $photo);
+		$this->social_photo->photoUpload("", $this->user->data['user_id'], "", "avatar", "profile", $photo);
 	}
 	
 	public function user_status_post($event) {
