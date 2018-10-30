@@ -1,44 +1,44 @@
-<!-- INCLUDE mcp_header.html -->
-<form id="mcp" method="post" action="{S_MCP_ACTION}"{S_FORM_ENCTYPE}>
-<!-- IF MCP_PG_SOCIAL_PAGE == 'page_manage' -->
-	<h2>{L_MCP_PG_SOCIAL_PAGE_MANAGE}</h2>
-	<div class="panel">
-		<div class="inner">	
-			<h3>Pagine in attesa</h3>
-			<!-- IF PAGE_MANAGE_ACTION -->
-			<!-- IF .pages -->
-			<table class="table1 responsive">
-				<thead>
-					<tr>
-						<th class="name">{L_PAGE_USERNAME}</th>
-						<th class="name">{L_USERNAME}</th>
-						<th class="center">{L_TIME}</th>
-						<th class="center">{L_APPROVE_PAGE}</th>
-					</tr>
-				</thead>
-				<tbody>
-				<!-- BEGIN pages -->
-					<tr class="bg1">
-						<td>{pages.PAGE_USERNAME}</td>
-						<td><a href="{pages.PAGE_FOUNDERL}">{pages.PAGE_FOUNDER}</a></td>
-						<td class="center">{pages.PAGE_REGDATA}</td>
-						<td style="width: 5%" align="center"><input type="checkbox" name="page_selected[]" value="{pages.PAGE_ID}" /></td>
-					</tr>	
-				<!-- END pages -->
-				</tbody>
-			</table>
-			<!-- ELSE -->
-			Nessuna pagina da approvare
-			<!-- ENDIF -->
-			<!-- ELSE -->
-			Non disponi dei permessi per la gestione delle pagine.
-			<!-- ENDIF -->
-			<fieldset class="submit-buttons">
-				{S_FORM_TOKEN}
-				<input type="reset" value="{L_RESET}" name="reset" class="button2" />&nbsp;<input type="submit" name="submit" value="{L_SUBMIT}" class="button1" />
-			</fieldset>
-		</div>
-	</div>
-<!-- ENDIF -->
-</form>
-<!-- INCLUDE mcp_footer.html -->
+{% INCLUDE 'mcp_header.html' %}
+<form id="mcp" method="post" action="{{ S_MCP_ACTION }}"{{ S_FORM_ENCTYPE }}>
+{% if MCP_PG_SOCIAL_PAGE == 'page_manage' %}
+	<h2>{{ lang('MCP_PG_SOCIAL_PAGE_MANAGE') }}</h2>
+	<div class="panel">
+		<div class="inner">	
+			<h3>Pagine in attesa</h3>
+			{% if PAGE_MANAGE_ACTION %}
+			{% if loops.pages|length %}
+			<table class="table1 responsive">
+				<thead>
+					<tr>
+						<th class="name">{{ lang('PAGE_USERNAME') }}</th>
+						<th class="name">{{ lang('USERNAME') }}</th>
+						<th class="center">{{ lang('TIME') }}</th>
+						<th class="center">{{ lang('APPROVE_PAGE') }}</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for pages in loops.pages %}
+					<tr class="bg1">
+						<td>{{ pages.PAGE_USERNAME }}</td>
+						<td><a href="{{ pages.PAGE_FOUNDERL }}">{{ pages.PAGE_FOUNDER }}</a></td>
+						<td class="center">{{ pages.PAGE_REGDATA }}</td>
+						<td style="width: 5%" align="center"><input type="checkbox" name="page_selected[]" value="{{ pages.PAGE_ID }}" /></td>
+					</tr>	
+				{% endfor %}
+				</tbody>
+			</table>
+			{% else %}
+			Nessuna pagina da approvare
+			{% endif %}
+			{% else %}
+			Non disponi dei permessi per la gestione delle pagine.
+			{% endif %}
+			<fieldset class="submit-buttons">
+				{{ S_FORM_TOKEN }}
+				<input type="reset" value="{{ lang('RESET') }}" name="reset" class="button2" />&nbsp;<input type="submit" name="submit" value="{{ lang('SUBMIT') }}" class="button1" />
+			</fieldset>
+		</div>
+	</div>
+{% endif %}
+</form>
+{% INCLUDE 'mcp_footer.html' %}

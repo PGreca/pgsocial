@@ -11,7 +11,8 @@
 
 namespace pgreca\pg_social\mcp;
 
-class main_module {
+class main_module
+{
 	protected $db;	
 	protected $auth;
 	protected $request;
@@ -21,7 +22,8 @@ class main_module {
 	protected $table_prefix;
 
 	// Main function
-	function main($id, $mode) {
+	function main($id, $mode)
+	{
 		global $db, $auth, $request, $template, $user, $u_action, $table_prefix;
 
 		$this->db = $db;
@@ -36,10 +38,13 @@ class main_module {
 		$this->page_title = 'MCP_PG_SOCIAL_MAIN';
 		add_form_key('mcp_pg_social');
 		
-		switch($mode) {
+		switch($mode)
+		{
 			case 'page_manage':
-				if($this->request->is_set_post('submit')) {
-					if(!check_form_key('mcp_pg_social')) {
+				if($this->request->is_set_post('submit'))
+				{
+					if(!check_form_key('mcp_pg_social'))
+					{
 						trigger_error('FORM_INVALID');
 					}
 						
@@ -47,7 +52,8 @@ class main_module {
 						'page_status' => 1
 					);
 					$sql = 'UPDATE '.$this->table_prefix.'pg_social_pages SET '.$this->db->sql_build_array('UPDATE', $sql_arr).' WHERE page_id IN ("'.implode('", "', $this->request->variable('page_selected', array('' => ''))).'")';
-					if($this->db->sql_query($sql)) {				
+					if($this->db->sql_query($sql))
+					{				
 						$message = $this->user->lang('PREFERENCES_UPDATED').'<br /><br /><a href="'.$this->u_action.'">A</a>';
 						trigger_error($message);
 					}
@@ -55,7 +61,8 @@ class main_module {
 				
 				$sql = "SELECT p.*, u.username, u.user_colour FROM ".$this->table_prefix."pg_social_pages as p, ".USERS_TABLE." as u WHERE p.page_founder = u.user_id AND p.page_status = '0'";
 				$result = $this->db->sql_query($sql);
-				while($row = $this->db->sql_fetchrow($result)){	
+				while($row = $this->db->sql_fetchrow($result))
+				{	
 					$this->template->assign_block_vars('pages', array(
 						'PAGE_ID'		=> $row['page_id'],
 						'PAGE_USERNAME'	=> $row['page_username'],

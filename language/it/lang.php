@@ -9,11 +9,13 @@
  *
  */
 
-if (!defined('IN_PHPBB')) {
+if(!defined('IN_PHPBB'))
+{
 	exit;
 }
 
-if (empty($lang) || !is_array($lang)) {
+if(empty($lang) || !is_array($lang))
+{
 	$lang = array();
 }
 
@@ -36,13 +38,13 @@ $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_RED'					=> 'Rosso',
 	'ACP_PG_SOCIAL_BBCODE_ENABLED'		=> 'Abilita i BBCode',
 	'ACP_PG_SOCIAL_SMILIES_ENABLED'		=> 'Abilita gli Smiles',
-	'ACP_PG_SOCIAL_URL_ENABLED'			=> 'Abilita i Link', //TRADURRE
+	'ACP_PG_SOCIAL_URL_ENABLED'			=> 'Abilita i Link',
 	'ACP_PG_SOCIAL_PROFILE'				=> 'Attiva i Profili PG Social',
 	'ACP_PG_SOCIAL_PROFILE_EXPLAIN'		=> 'Sostituisce i Profili predefiniti',
 	'ACP_PG_SOCIAL_SETTINGS'			=> 'Impostazioni PG Social',
 	'ACP_SOCIAL_SIDEBAR_RIGHT'			=> 'Abilita la barra laterale a Destra',
 	'ACP_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM'	=> 'Abilita gli Amici Casuali nella barra laterale a destra',
-	'ACP_SOCIAL_SIDEBAR_RIGHT_LAST_POST'=> 'Abilita gli Ultimi Post nella barra laterale a destra',
+	'ACP_SOCIAL_SIDEBAR_RIGHT_LAST_POST'=> 'Abilita gli ultimi stati nella barra laterale a destra',
 	'ACP_PG_SOCIAL_CHAT'				=> 'Impostazioni CHAT',
 	'ACP_SOCIAL_SOCIAL_CHAT_ENABLED'	=> 'Abilita Chat',
 	'ACP_PG_SOCIAL_CHAT_BBCODE_ENABLED'	=> 'Abilita i BBCode nei messaggi',
@@ -56,14 +58,14 @@ $lang = array_merge($lang, array(
 	'ACTIVITY'							=> 'Attività',
 	'ACTIVITY_PAGE'						=> 'Attività',
 	'AGO'								=> 'fa',
-	'ALL'								=> 'Tutti', //TRADURRE
+	'ALL'								=> 'Tutti',
 	'APPROVE_PAGE'						=> 'Approva',
 	'ARE_YOU_SURE'						=> 'Questo stato sarà eliminato e non potrai trovarlo più. Confermi?',
 	'ARE_YOU_SURE_PHOTO'				=> 'Questa foto sarà eliminata e non potrai trovarla più. Confermi?',
 	'ATTACH_PICTURE'					=> 'Allega immagine',
 	'AVATAR'							=> 'Immagine di profilo',
 	'COMMENT'							=> 'Commento',
-	'COMMENT_NO'						=> 'Nessun commento', //TRADURRE
+	'COMMENT_NO'						=> 'Nessun commento',
 	'COMMENT_THIS_POST'					=> 'Commenta questo stato!',
 	'COMMENTS'							=> 'Commenti',
 	'COVER'								=> 'Immagine di copertina',
@@ -73,22 +75,22 @@ $lang = array_merge($lang, array(
 	'EDIT'								=> 'Modifica',
 	'EDIT_PROFILE'						=> 'Modifica profilo',
 	'FRIENDS'							=> 'Amici',
-	'GALLER'							=> 'Galleria', //TRADURRE
-	'GENDER'							=> 'Sesso', //TRADURRE
-	'GENDER_FEMALE'						=> 'Femmina', //TRADURRE
-	'GENDER_MALE'						=> 'Maschio', //TRADURRE
-	'GENDER_UNKNOWN'					=> 'Sconosciuto', //TRADURRE
+	'GALLER'							=> 'Galleria',
+	'GENDER'							=> 'Sesso',
+	'GENDER_FEMALE'						=> 'Femmina',
+	'GENDER_MALE'						=> 'Maschio',
+	'GENDER_UNKNOWN'					=> 'Sconosciuto',
 	'HAS_COMMENT_YOUR_POST'				=> '%s ha commentato uno stato',
-	'HAS_LIKE_YOUR_POST'				=> 'A %s piace un tuo stato', //TRADURRE
+	'HAS_LIKE_YOUR_POST'				=> 'A %s piace un tuo stato',
 	'HAS_SHARED_STATUS'					=> 'ha condiviso uno %s',
-	'HAS_UPLOADED_AVATAR'				=> 'ha caricato una nuovo foto di profilo', //TRADURRE
-	'HAS_UPLOADED_COVER'				=> 'ha caricato una nuova foto di copertina', //TRADURRE
-	'HAS_TAGGED_YOU'					=> '%s ti ha taggato in uno stato', //TRADURRE
-	'HAS_WRITE_IN'						=> ' ha scritto sulla bacheca di', //TRADURRE
-	'HAS_WRITE_IN_YOUR'					=> '%s ha scritto sulla tua bacheca', //TRADURRE
+	'HAS_UPLOADED_AVATAR'				=> 'ha caricato una nuovo foto di profilo',
+	'HAS_UPLOADED_COVER'				=> 'ha caricato una nuova foto di copertina',
+	'HAS_TAGGED_YOU'					=> '%s ti ha taggato in uno stato',
+	'HAS_WRITE_IN'						=> ' ha scritto sulla bacheca di',
+	'HAS_WRITE_IN_YOUR'					=> '%s ha scritto sulla tua bacheca',
 	'HAS_WRITED_POST_ON'				=> 'ha scritto un post in %s',
 	'HAS_WRITED_POST_ON_CANCEL'			=> 'ha scritto un post in una discussione',
-	'INFO'								=> 'Informazioni', //TRADURRE
+	'INFO'								=> 'Informazioni',
 	'LESS'								=> 'meno di',
 	'LIKE'								=> 'Mi Piace',
 	'LIKE_ACTIVE'  						=> 'Ti Piace già',
@@ -99,11 +101,11 @@ $lang = array_merge($lang, array(
 	'MCP_PG_SOCIAL_PAGE_MANAGE'			=> 'Modera pagine',
 	
 	
-	'NOTIFICATION_PG_SOCIAL'			=> 'Notifiche social', //TRADURRE
-	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'Qualcuno scrive uno stato nella tua bacheca', //TRADURRE
-	'NOTIFICATION_TYPE_SOCIAL_COMMENTS'	=> 'Qualcuno scrive un commento in un tuo stato', //TRADURRE
-	'NOTIFICATION_TYPE_SOCIAL_LIKES'	=> 'Qualcuno mette un like ad un tuo stato', //TRADURRE
-	'NOTIFICATION_TYPE_SOCIAL_TAG'		=> 'Qualcuno ti tagga in uno stato', //TRADURRE
+	'NOTIFICATION_PG_SOCIAL'			=> 'Notifiche social',
+	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'Qualcuno scrive uno stato nella tua bacheca',
+	'NOTIFICATION_TYPE_SOCIAL_COMMENTS'	=> 'Qualcuno scrive un commento in un tuo stato',
+	'NOTIFICATION_TYPE_SOCIAL_LIKES'	=> 'Qualcuno mette un like ad un tuo stato',
+	'NOTIFICATION_TYPE_SOCIAL_TAG'		=> 'Qualcuno ti tagga in uno stato',
 	'ONLY_YOU'							=> 'Solo tu',
 	'OPTIONS'							=> 'Opzioni',
 	'PAGE_USERNAME'						=> 'Nome pagina',
@@ -166,3 +168,4 @@ $lang = array_merge($lang, array(
 	'WRITE_SOMETHING'					=> 'Scrivi qualcosa',
 	'VERSION'							=> 'Versione',
 ));
+?>

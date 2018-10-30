@@ -10,7 +10,8 @@
 
 namespace pgreca\pg_social\social;
 
-class social_chat {
+class social_chat
+{
 	/* @var \phpbb\template\template */
 	protected $template;
 
@@ -40,7 +41,8 @@ class social_chat {
 	* @param \pg_social\\controller\helper $pg_social_helper	
 	*/
 	
-	public function __construct($template, $user, $helper, $config, $db, $pg_social_helper, $social_zebra, $root_path, $php_ext, $table_prefix) {
+	public function __construct($template, $user, $helper, $config, $db, $pg_social_helper, $social_zebra, $root_path, $php_ext, $table_prefix)
+	{
 		$this->template					= $template;
 		$this->user						= $user;
 		$this->helper					= $helper;
@@ -53,13 +55,15 @@ class social_chat {
         $this->table_prefix 			= $table_prefix;
 	}
 	
-	public function messageCheck($exclude) {
+	public function messageCheck($exclude)
+	{
 		$user_id = (int) $this->user->data['user_id'];
 		$sql = "SELECT user.user_id, user.username, user.user_colour, user.user_avatar, user.user_avatar_type FROM ".$this->table_prefix."pg_social_chat as chat, ".USERS_TABLE." as user
 		WHERE (chat.chat_member = '".$user_id."' AND chat.user_id NOT IN (".$exclude.")) AND (chat.user_id = user.user_id AND chat_read = '0')
 		GROUP BY chat.user_id ORDER BY chat_time DESC";
 		$result = $this->db->sql_query($sql);
-		while($row = $this->db->sql_fetchrow($result)) {
+		while($row = $this->db->sql_fetchrow($result))
+		{
 			$this->template->assign_block_vars('pg_social_chat_person', array(
 				'PROFILE_ID'						=> $row['user_id'],
 				'PROFILE_URL'						=> append_sid("{$this->root_path}memberlist.$this->php_ext", "mode=viewprofile&amp;u={$row["user_id"]}"),
@@ -73,19 +77,25 @@ class social_chat {
 		return $this->helper->render('pg_social_chatperson.html', '');
 	}
 	
-	public function getchatPeople($person) {
+	public function getchatPeople($person)
+	{
 		$user_id = (int) $this->user->data['user_id'];
-		if($person) {
+		if($person)
+		{
 			$searchPerson = "(u.username_clean LIKE '".$person."' OR u.username LIKE '%".$person."%') AND";
-		} else {
+		}
+		else
+		{
 			$searchPerson = "";
 		}
 		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_colour, u.user_avatar, u.user_avatar_type
 		FROM ".USERS_TABLE." as u
 		WHERE u.user_type IN (".USER_NORMAL.", ".USER_FOUNDER.") AND ".$searchPerson." u.user_id != '".$user_id."'";
 		$result = $this->db->sql_query($sql);
-		while($row = $this->db->sql_fetchrow($result)) {
-			if($this->social_zebra->friendStatus($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS') {
+		while($row = $this->db->sql_fetchrow($result))
+		{
+			if($this->social_zebra->friendStatus($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS')
+			{
 				$this->template->assign_block_vars('pg_social_chat', array(
 					'USER_ID'					=> $row['user_id'],
 					'USER_USERNAME'				=> $row['username'],
@@ -101,7 +111,8 @@ class social_chat {
 		return $this->helper->render('pg_social_chatpeople.html', '');
 	}
 	
-	public function getchatPerson($person) {
+	public function getchatPerson($person)
+	{
 		$sql = "SELECT user_id, username, username_clean, user_colour, user_avatar, user_avatar_type
 		FROM ".USERS_TABLE."
 		WHERE user_id = '".$person."'";
@@ -119,7 +130,8 @@ class social_chat {
 		return $this->helper->render('pg_social_chatperson.html', '');
 	}
 	
-	public function getchatMessage($person, $type, $lastmessage) {
+	public function getchatMessage($person, $type, $lastmessage)
+	{
 		$limit = 1; 
 		$user = (int) $this->user->data['user_id'];
 	
@@ -127,7 +139,8 @@ class social_chat {
 		WHERE chat_id > '".$lastmessage."' AND ((user_id = '".$person."' AND chat_member = '".$user."') OR (user_id = '".$user."' AND chat_member = '".$person."')) AND chat_status  = '1'
 		ORDER BY chat_time DESC";
 		$result = $this->db->sql_query_limit($sql, $limit);
-		while($row = $this->db->sql_fetchrow($result)){			
+		while($row = $this->db->sql_fetchrow($result))
+		{			
 			if($row['user_id'] == $user) $ifright = 1; else $ifright = 0; $this->messageRead();
 			
 			$allow_bbcode = false;
@@ -149,13 +162,15 @@ class social_chat {
 		return $this->helper->render('pg_social_chatmessage.html', '');
 	}
 	
-	public function messageRead() {
+	public function messageRead()
+	{
 		$user = (int) $this->user->data['user_id'];
 		$sql = "UPDATE ".$this->table_prefix."pg_social_chat SET chat_read = '1' WHERE chat_member = '".$user."'";
 		$this->db->sql_query($sql);
 	}
 	
-	public function messageSend($person, $message) {
+	public function messageSend($person, $message)
+	{
 		$allow_urls = $this->config['pg_social_chat_message_url_enabled'];
 		$allow_smilies = $this->config['pg_social_chat_smilies_enabled'];
 		generate_text_for_storage($message, $uid, $bitfield, $flags, false, $allow_urls, $allow_smilies);

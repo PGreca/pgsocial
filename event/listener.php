@@ -24,7 +24,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @package pgreca/pg_social
  */
-class listener implements EventSubscriberInterface {
+class listener implements EventSubscriberInterface
+{
 	/** @var \phpbb\template\template */
 	protected $template;
 	
@@ -82,7 +83,8 @@ class listener implements EventSubscriberInterface {
 	 */
 	
 	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request,
-	helper $helper, db $config, $root_path, $php_ext, $social_helper, $post_status, $social_photo, $social_zebra, $table_prefix, $phpbb_container) {
+	helper $helper, db $config, $root_path, $php_ext, $social_helper, $post_status, $social_photo, $social_zebra, $table_prefix, $phpbb_container)
+	{
 		$this->template				= $template;
 		$this->user					= $user;
 		$this->db					= $db;
@@ -113,7 +115,8 @@ class listener implements EventSubscriberInterface {
 	 *
 	 * @return array
 	 */
-	static public function getSubscribedEvents() {
+	static public function getSubscribedEvents()
+	{
 		return array(
 			'core.user_setup'								=> 'load_language_on_setup',
 			'core.permissions'								=> 'add_permission',			
@@ -132,7 +135,8 @@ class listener implements EventSubscriberInterface {
 		);
 	}
 	
-	public function load_language_on_setup($event) {
+	public function load_language_on_setup($event)
+	{
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
 			'ext_name' => 'pgreca/pg_social',
@@ -146,7 +150,8 @@ class listener implements EventSubscriberInterface {
 	 *
 	 * @param \phpbb\event\data $event The event object
 	*/
-	public function add_permission($event) {
+	public function add_permission($event)
+	{
 		$permissions = $event['permissions'];
 		$categories = $event['categories'];
 
@@ -163,9 +168,12 @@ class listener implements EventSubscriberInterface {
 	/**
 	 * @return void
 	 */
-	public function set_startpage($event) {
-		if($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->is_startpage && $this->user->data['user_id'] != ANONYMOUS) {
-			if($this->config['pg_social_index_replace']) {
+	public function set_startpage($event)
+	{
+		if($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->is_startpage && $this->user->data['user_id'] != ANONYMOUS)
+		{
+			if($this->config['pg_social_index_replace'])
+			{
 				$this->is_startpage = true;
 				$sql_ary = $event['sql_ary'];
 
@@ -175,7 +183,8 @@ class listener implements EventSubscriberInterface {
 				$event['sql_ary'] = $sql_ary;
 				
 				$controller_object = $this->get_startpage_controller();
-				if($controller_object) {
+				if($controller_object)
+				{
 					$controller_dir = explode('\\', get_class($controller_object));
 					$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
 					$this->template->set_style(array($controller_style_dir, 'styles'));
@@ -192,12 +201,15 @@ class listener implements EventSubscriberInterface {
 	/**
 	 * @return object|false
 	 */
-	protected function get_startpage_controller() {
-		if($this->phpbb_container->has("pgreca.pg_social.controller")) {
+	protected function get_startpage_controller()
+	{
+		if($this->phpbb_container->has("pgreca.pg_social.controller"))
+		{
 			$controller_object = $this->phpbb_container->get("pgreca.pg_social.controller");
 			$method = "handle";
 
-			if(is_callable(array($controller_object, $method))) {
+			if(is_callable(array($controller_object, $method)))
+			{
 				return $controller_object;
 			}
 		}
@@ -206,15 +218,19 @@ class listener implements EventSubscriberInterface {
 	/**
 	 * @param \phpbb\event\data $event
 	 */
-	public function add_viewonline_location(\phpbb\event\data $event) {
-		if($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0) {
+	public function add_viewonline_location(\phpbb\event\data $event)
+	{
+		if($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0)
+		{
 			$event['location'] = $this->translator->lang('FORUM_INDEX');
 			$event['location_url'] = $this->phpbb_container->get('controller.helper')->route('forum_page');
 		}
 	}
 	
-	public function memberlist_view_profile($event) {
-		if($this->config['pg_social_profile']) {
+	public function memberlist_view_profile($event)
+	{
+		if($this->config['pg_social_profile'])
+		{
 			$member = $event['member'];
 			$user_id = $member['user_id'];
 					
@@ -258,7 +274,8 @@ class listener implements EventSubscriberInterface {
 		}	
 	}
 		
-	public function load($event) {
+	public function load($event)
+	{
 		$this->template->assign_vars(array(				
 			'PROFILE'					=> $this->user->data['user_id'],			
 			'PG_SOCIAL_CHAT'			=> $this->config['pg_social_chat_enabled'] ? true : false,	
@@ -269,7 +286,8 @@ class listener implements EventSubscriberInterface {
 		if($this->is_startpage) $this->template->destroy_block_vars('navlinks');
 	}
 	
-	public function add_page_links($event) {
+	public function add_page_links($event)
+	{
 		if($this->config['pg_social_index_replace']) $forumnav = $this->helper->route('forum_page');
 		$this->template->assign_vars(array(
 			'S_PG_SOCIAL_ENABLED' 	=> $this->config['pg_social_enabled'] ? true : false,
@@ -279,7 +297,8 @@ class listener implements EventSubscriberInterface {
 			'SOCIAL_FORUM'			=> $forumnav,
 		));
 		
-		if($this->request->is_set('f') && $this->config['pg_social_index_replace']) {
+		if($this->request->is_set('f') && $this->config['pg_social_index_replace'])
+		{
 			$this->template->alter_block_array('navlinks', array(
 				'FORUM_NAME'	=> $this->user->lang('FORUM'),
 				'U_VIEW_FORUM' 	=> $forumnav,
@@ -294,11 +313,15 @@ class listener implements EventSubscriberInterface {
 	* @return null
 	* @access public
 	*/
-	public function user_profile($event) {
-		if(DEFINED('IN_ADMIN')) {
+	public function user_profile($event)
+	{
+		if(DEFINED('IN_ADMIN'))
+		{
 			$user_quote = $event['user_row']['user_quote'];
 			$user_gender = $event['user_row']['user_gender'];
-		} else {
+		}
+		else
+		{
 			$user_quote = $this->user->data['user_quote'];
 			$user_gender = $this->user->data['user_gender'];
 		}
@@ -321,7 +344,8 @@ class listener implements EventSubscriberInterface {
 	* @return null
 	* @access public
 	*/
-	public function user_profile_validate($event) {
+	public function user_profile_validate($event)
+	{
 		$array = $event['error'];
 		//ensure gender is validated
 		$validate_array = array(
@@ -339,14 +363,16 @@ class listener implements EventSubscriberInterface {
 	* @return null
 	* @access public
 	*/
-	public function user_profile_sql($event) {
+	public function user_profile_sql($event)
+	{
 		$event['sql_ary'] = array_merge($event['sql_ary'], array(
 			'user_quote'	=> $event['data']['user_quote'],
 			'user_gender'	=> $event['data']['user_gender'],
 		));
 	}
 	
-	public function user_avatar_change($event) {
+	public function user_avatar_change($event)
+	{
 		$photo = array();
 		$photo['name'] = $event['filedata']['real_filename'];
 		$photo['size'] = $event['filedata']['filesize'];
@@ -356,7 +382,8 @@ class listener implements EventSubscriberInterface {
 		$this->social_photo->photoUpload("", $this->user->data['user_id'], "", "avatar", "profile", $photo);
 	}
 	
-	public function user_status_post($event) {
+	public function user_status_post($event)
+	{
 		$info = $event['data'];
 		$this->post_status->addStatus('post', $this->user->data['user_id'], '', 2, 4, $info['topic_id']."#p".$info['post_id']); 
 	}		

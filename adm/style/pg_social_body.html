@@ -1,152 +1,152 @@
-<!-- INCLUDE overall_header.html -->
+{% INCLUDE 'overall_header.html' %}
 
-<h1>{L_ACP_PG_SOCIAL_TITLE}</h1><br />
-<span style="font-size:0.8em; font-style:italic">{L_ACP_PG_SOCIAL_SETTINGS_EXPLAIN}<br />{L_VERSION}{L_COLON} {PG_SOCIAL_VERSION}</span>
+<h1>{{ lang('ACP_PG_SOCIAL_TITLE') }}</h1><br />
+<span style="font-size:0.8em; font-style:italic">{{ lang('ACP_PG_SOCIAL_SETTINGS_EXPLAIN') }}<br />{{ lang('VERSION') }}{{ lang('COLON') }} {{ PG_SOCIAL_VERSION }}</span>
 <br />
-<!-- IF PG_SOCIAL_ERROR -->
-<div class="errorbox"><h3>{L_WARNING}</h3>
-	<p>{PG_SOCIAL_ERROR}</p>
+{% if PG_SOCIAL_ERROR %}
+<div class="errorbox"><h3>{{ lang('WARNING') }}</h3>
+	<p>{{ PG_SOCIAL_ERROR }}</p>
 </div>
-<!-- ENDIF -->
-<form id="acp_board" method="post" action="{U_ACTION}">
+{% endif %}
+<form id="acp_board" method="post" action="{{ U_ACTION }}">
 	<div style="display:inline-block;width:70%;vertical-align:top">
-		<!-- IF PG_SOCIAL_PAGE_MAIN -->  
+		{% if PG_SOCIAL_PAGE_MAIN %}  
 		<fieldset>
-			<legend>{L_ACP_PG_SOCIAL_GENERAL}</legend> 
+			<legend>{{ lang('ACP_PG_SOCIAL_GENERAL') }}</legend> 
 			<dl>
-				<dt><label for="pg_social_enabled">{L_ACP_PG_SOCIAL_ENABLED}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_enabled" value="1" <!-- IF PG_SOCIAL_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_enabled" value="0" <!-- IF not PG_SOCIAL_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_enabled">{{ lang('ACP_PG_SOCIAL_ENABLED') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_enabled" value="1" {% if PG_SOCIAL_ENABLED %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_enabled" value="0" {% if not PG_SOCIAL_ENABLED %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>
 			<dl>
-				<dt><label for="pg_social_index_replace">{L_ACP_PG_SOCIAL_INDEX_REPLACE}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_index_replace" value="1" <!-- IF PG_SOCIAL_INDEX_REPLACE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_index_replace" value="0" <!-- IF not PG_SOCIAL_INDEX_REPLACE -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_index_replace">{{ lang('ACP_PG_SOCIAL_INDEX_REPLACE') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_index_replace" value="1" {% if PG_SOCIAL_INDEX_REPLACE %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_index_replace" value="0" {% if not PG_SOCIAL_INDEX_REPLACE %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>	
 			<dl>
-				<dt><label for="pg_social_color">{L_ACP_PG_SOCIAL_COLOR}</label></dt>
+				<dt><label for="pg_social_color">{{ lang('ACP_PG_SOCIAL_COLOR') }}</label></dt>
 				<dd><select id="pg_social_color" name="pg_social_color">
-					<option value="0"<!-- IF PG_SOCIAL_COLOR == 0 --> selected<!-- ENDIF -->>{L_ACP_PG_SOCIAL_NOCOLOR}</option>
-					<option value="1"<!-- IF PG_SOCIAL_COLOR == 1 --> selected<!-- ENDIF -->>{L_ACP_PG_SOCIAL_BLUE}</option>
-					<option value="2"<!-- IF PG_SOCIAL_COLOR == 2 --> selected<!-- ENDIF -->>{L_ACP_PG_SOCIAL_GREEN}</option>
-					<option value="3"<!-- IF PG_SOCIAL_COLOR == 3 --> selected<!-- ENDIF -->>{L_ACP_PG_SOCIAL_RED}</option>
+					<option value="0"{% if PG_SOCIAL_COLOR == 0 %} selected{% endif %}>{{ lang('ACP_PG_SOCIAL_NOCOLOR') }}</option>
+					<option value="1"{% if PG_SOCIAL_COLOR == 1 %} selected{% endif %}>{{ lang('ACP_PG_SOCIAL_BLUE') }}</option>
+					<option value="2"{% if PG_SOCIAL_COLOR == 2 %} selected{% endif %}>{{ lang('ACP_PG_SOCIAL_GREEN') }}</option>
+					<option value="3"{% if PG_SOCIAL_COLOR == 3 %} selected{% endif %}>{{ lang('ACP_PG_SOCIAL_RED') }}</option>
 				</select></dd>
 			</dl>
 			<dl>
-				<dt><label for="pg_social_index_replace">{L_ACP_PG_SOCIAL_INDEX_ACTIVITY}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_index_activity" value="1" <!-- IF PG_SOCIAL_INDEX_ACTIVITY -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_index_activity" value="0" <!-- IF not PG_SOCIAL_INDEX_ACTIVITY -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_index_replace">{{ lang('ACP_PG_SOCIAL_INDEX_ACTIVITY') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_index_activity" value="1" {% if PG_SOCIAL_INDEX_ACTIVITY %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_index_activity" value="0" {% if not PG_SOCIAL_INDEX_ACTIVITY %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>		
 		</fieldset>
 		<fieldset>
-			<legend>{L_ACP_PG_SOCIAL_SETTINGS}</legend>
+			<legend>{{ lang('ACP_PG_SOCIAL_SETTINGS') }}</legend>
 			<dl>
-				<dt><label for="pg_social_profile">{L_ACP_PG_SOCIAL_PROFILE}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_profile" value="1" <!-- IF PG_SOCIAL_PROFILE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_profile" value="0" <!-- IF not PG_SOCIAL_PROFILE -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_profile">{{ lang('ACP_PG_SOCIAL_PROFILE') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_profile" value="1" {% if PG_SOCIAL_PROFILE %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_profile" value="0" {% if not PG_SOCIAL_PROFILE %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>
 			<dl>
-				<dt><label for="pg_social_sidebarRight">{L_ACP_SOCIAL_SIDEBAR_RIGHT}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_sidebarRight" value="1" <!-- IF PG_SOCIAL_SIDEBAR_RIGHT -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_sidebarRight" value="0" <!-- IF not PG_SOCIAL_SIDEBAR_RIGHT -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_sidebarRight">{{ lang('ACP_SOCIAL_SIDEBAR_RIGHT') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_sidebarRight" value="1" {% if PG_SOCIAL_SIDEBAR_RIGHT %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_sidebarRight" value="0" {% if not PG_SOCIAL_SIDEBAR_RIGHT %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>
 			<dl>
-				<dt><label for="pg_social_sidebarRight_friendsRandom">{L_ACP_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_sidebarRight_friendsRandom" value="1" <!-- IF PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_sidebarRight_friendsRandom" value="0" <!-- IF not PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_sidebarRight_friendsRandom">{{ lang('ACP_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_sidebarRight_friendsRandom" value="1" {% if PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_sidebarRight_friendsRandom" value="0" {% if not PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>
 			<dl>
-				<dt><label for="pg_social_block_posts_last">{L_ACP_SOCIAL_SIDEBAR_RIGHT_LAST_POST}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_block_posts_last" value="1" <!-- IF PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_block_posts_last" value="0" <!-- IF not PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_block_posts_last">{{ lang('ACP_SOCIAL_SIDEBAR_RIGHT_LAST_POST') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_block_posts_last" value="1" {% if PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_block_posts_last" value="0" {% if not PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>
 		</fieldset>
 		
 		<fieldset>
-			<legend>{L_ACP_PG_SOCIAL_CHAT}</legend>
+			<legend>{{ lang('ACP_PG_SOCIAL_CHAT') }}</legend>
 			<dl>
-				<dt><label for="pg_social_chat_enabled">{L_ACP_SOCIAL_SOCIAL_CHAT_ENABLED}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_chat_enabled" value="1"<!-- IF PG_SOCIAL_CHAT -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_chat_enabled" value="0"<!-- IF not PG_SOCIAL_CHAT -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_chat_enabled">{{ lang('ACP_SOCIAL_SOCIAL_CHAT_ENABLED') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_chat_enabled" value="1"{% if PG_SOCIAL_CHAT %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_chat_enabled" value="0"{% if not PG_SOCIAL_CHAT %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>
 		</fieldset>	
-		<!-- ENDIF -->	
-		<!-- IF PG_SOCIAL_PAGE_SOCIAL -->  
+		{% endif %}	
+		{% if PG_SOCIAL_PAGE_SOCIAL %}  
 			<fieldset>
-			<legend>{L_ACP_PG_SOCIAL_STATUS}</legend> 
+			<legend>{{ lang('ACP_PG_SOCIAL_STATUS') }}</legend> 
 			<dl>
-				<dt><label for="pg_social_smilies">{L_ACP_PG_SOCIAL_SMILIES_ENABLED}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_smilies" value="1" <!-- IF PG_SOCIAL_SMILIES -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_smilies" value="0" <!-- IF not PG_SOCIAL_SMILIES -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_smilies">{{ lang('ACP_PG_SOCIAL_SMILIES_ENABLED') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_smilies" value="1" {% if PG_SOCIAL_SMILIES %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_smilies" value="0" {% if not PG_SOCIAL_SMILIES %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>
 			<dl>
-				<dt><label for="pg_social_smilies">{L_ACP_PG_SOCIAL_BBCODE_ENABLED}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_bbcode" value="1" <!-- IF PG_SOCIAL_BBCODE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_bbcode" value="0" <!-- IF not PG_SOCIAL_BBCODE -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_smilies">{{ lang('ACP_PG_SOCIAL_BBCODE_ENABLED') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_bbcode" value="1" {% if PG_SOCIAL_BBCODE %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_bbcode" value="0" {% if not PG_SOCIAL_BBCODE %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>
 			<dl>
-				<dt><label for="pg_social_smilies">{L_ACP_PG_SOCIAL_URL_ENABLED}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_url" value="1" <!-- IF PG_SOCIAL_URL -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_url" value="0" <!-- IF not PG_SOCIAL_URL -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_smilies">{{ lang('ACP_PG_SOCIAL_URL_ENABLED') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_url" value="1" {% if PG_SOCIAL_URL %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_url" value="0" {% if not PG_SOCIAL_URL %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>
 		</fieldset>	
-		<!-- ENDIF -->
-		<!-- IF PG_SOCIAL_PAGE_CHAT -->
+		{% endif %}
+		{% if PG_SOCIAL_PAGE_CHAT %}
 			<fieldset>
 			<legend>Messaggi</legend> 
 			<dl>
-				<dt><label for="pg_social_enabled">{L_ACP_PG_SOCIAL_CHAT_BBCODE_ENABLED}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_chat_message_bbcode_enabled" value="1" <!-- IF PG_SOCIAL_CHAT_MESSAGE_BBCODE_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_chat_message_bbcode_enabled" value="0" <!-- IF not PG_SOCIAL_CHAT_MESSAGE_BBCODE_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_enabled">{{ lang('ACP_PG_SOCIAL_CHAT_BBCODE_ENABLED') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_chat_message_bbcode_enabled" value="1" {% if PG_SOCIAL_CHAT_MESSAGE_BBCODE_ENABLED %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_chat_message_bbcode_enabled" value="0" {% if not PG_SOCIAL_CHAT_MESSAGE_BBCODE_ENABLED %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>
 			<dl>
-				<dt><label for="pg_social_enabled">{L_ACP_PG_SOCIAL_CHAT_URL_ENABLED}</label></dt>
-				<dd><input type="radio" class="radio" name="pg_social_chat_message_url_enabled" value="1" <!-- IF PG_SOCIAL_CHAT_MESSAGE_URL_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="pg_social_chat_message_url_enabled" value="0" <!-- IF not PG_SOCIAL_CHAT_MESSAGE_URL_ENABLED -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+				<dt><label for="pg_social_enabled">{{ lang('ACP_PG_SOCIAL_CHAT_URL_ENABLED') }}</label></dt>
+				<dd><input type="radio" class="radio" name="pg_social_chat_message_url_enabled" value="1" {% if PG_SOCIAL_CHAT_MESSAGE_URL_ENABLED %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+				<input type="radio" class="radio" name="pg_social_chat_message_url_enabled" value="0" {% if not PG_SOCIAL_CHAT_MESSAGE_URL_ENABLED %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>
 		</fieldset>	
-		<!-- ENDIF -->
-		<!-- IF PG_SOCIAL_PAGE_PAGE_MANAGE -->	
-			<!-- IF PAGE_MANAGE_ACTION -->
-			<!-- IF .pages -->
+		{% endif %}
+		{% if PG_SOCIAL_PAGE_PAGE_MANAGE %}	
+			{% if PAGE_MANAGE_ACTION %}
+			{% if loops.pages|length %}
 			<table class="table1 responsive">
 				<thead>
 					<tr>
-						<th class="name">{L_PAGE_USERNAME}</th>
-						<th class="name">{L_USERNAME}</th>
-						<th class="center">{L_TIME}</th>
-						<th class="center">{L_APPROVE_PAGE}</th>
+						<th class="name">{{ lang('PAGE_USERNAME') }}</th>
+						<th class="name">{{ lang('USERNAME') }}</th>
+						<th class="center">{{ lang('TIME') }}</th>
+						<th class="center">{{ lang('APPROVE_PAGE') }}</th>
 					</tr>
 				</thead>
 				<tbody>
-				<!-- BEGIN pages -->
+				{% for pages in loops.pages %}
 					<tr class="bg1">
-						<td>{pages.PAGE_USERNAME}</td>
-						<td><a href="{pages.PAGE_FOUNDERL}">{pages.PAGE_FOUNDER}</a></td>
-						<td class="center">{pages.PAGE_REGDATA}</td>
-						<td style="width: 5%" align="center"><input type="checkbox" name="page_selected[]" value="{pages.PAGE_ID}" /></td>
+						<td>{{ pages.PAGE_USERNAME }}</td>
+						<td><a href="{{ pages.PAGE_FOUNDERL }}">{{ pages.PAGE_FOUNDER }}</a></td>
+						<td class="center">{{ pages.PAGE_REGDATA }}</td>
+						<td style="width: 5%" align="center"><input type="checkbox" name="page_selected[]" value="{{ pages.PAGE_ID }}" /></td>
 					</tr>	
-				<!-- END pages -->
+				{% endfor %}
 				</tbody>
 			</table>
-			<!-- ELSE -->
+			{% else %}
 			Nessuna pagina da approvare
-			<!-- ENDIF -->
-			<!-- ELSE -->
+			{% endif %}
+			{% else %}
 			Non disponi dei permessi per la gestione delle pagine.
-			<!-- ENDIF -->
-		<!-- ENDIF -->	
+			{% endif %}
+		{% endif %}	
 				
 		
-		{S_FORM_TOKEN}
+		{{ S_FORM_TOKEN }}
 	</div><div style="display:inline-block;width:30%;vertical-align:top">
 		<iframe src="https://pgreca.it/pg_social/pg_social_iframe.php" with="100%" height="300px" frameborder="0" cellpadding="0"></iframe>
 	</div>
 	<div class="panel">
 		<p class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
 		</p>
 	</div>
 </form>
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}

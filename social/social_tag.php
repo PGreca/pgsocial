@@ -10,7 +10,8 @@
 
 namespace pgreca\pg_social\social;
 
-class social_tag {
+class social_tag
+{
 	/* @var \phpbb\template\template */
 	protected $template;
 
@@ -35,7 +36,8 @@ class social_tag {
 	* @param \phpbb\db\driver\driver_interface	$db 		
 	*/
 	
-	public function __construct($template, $user, $helper, $pg_social_helper, $social_zebra, $notifyhelper, $config, $db, $table_prefix) {
+	public function __construct($template, $user, $helper, $pg_social_helper, $social_zebra, $notifyhelper, $config, $db, $table_prefix)
+	{
 		$this->template					= $template;
 		$this->user						= $user;
 		$this->helper					= $helper;
@@ -47,12 +49,15 @@ class social_tag {
         $this->table_prefix 			= $table_prefix;
 	}
 	
-	public function tag_system_search($who) {
+	public function tag_system_search($who)
+	{
 		$who = str_replace("@", "", $who);
 		$sql = "SELECT user_id, username, username_clean, user_avatar, user_avatar_type, user_colour FROM ".USERS_TABLE." WHERE (username LIKE '%".$who."%' OR username_clean LIKE '%".$who."%') AND user_id != '".$this->user->data['user_id']."' AND user_type IN (".USER_NORMAL.", ".USER_FOUNDER.") ORDER BY username_clean ASC";
 		$result = $this->db->sql_query($sql);
-		while($row = $this->db->sql_fetchrow($result)) {
-			if($this->social_zebra->friendStatus($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS') {
+		while($row = $this->db->sql_fetchrow($result))
+		{
+			if($this->social_zebra->friendStatus($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS')
+			{
 				$this->template->assign_block_vars('tag_system_search', array(
 					'USER_ID'		=> $row['user_id'],
 					'USERNAME'		=> $row['username'],
@@ -65,21 +70,25 @@ class social_tag {
 		return $this->helper->render('pg_social_tag_system_search.html', '');
 	}
 	
-	public function showTag($text) {
+	public function showTag($text)
+	{
 		$reg_str = '/&lt;span data-people="(.*?)" data-people_tagged="(.*?)" class="people_tagged" contenteditable="false"&gt;(.*?)\&lt;\/span&gt;/';
 		preg_match_all($reg_str, $text, $matches);
 		$texta = '';
-		for($i=0; $i < count($matches[1]); $i++) {
+		for($i=0; $i < count($matches[1]); $i++)
+		{
 			$text = str_replace('&lt;span data-people="'.$matches[1][$i].'" data-people_tagged="'.$matches[2][$i].'" class="people_tagged" contenteditable="false"&gt;'.$matches[2][$i].'&lt;/span&gt;', '<a href="'.get_username_string('profile', $matches[1][$i], $matches[2][$i], '').'" class="people_tagged">'.$matches[2][$i].'</a>', $text);
 		}
 		return trim($text);
 	}
 	
-	public function addTag($status, $text) {
+	public function addTag($status, $text)
+	{
 		$reg_str = '/<span data-people="(.*?)" data-people_tagged="(.*?)" class="people_tagged" contenteditable="false">(.*?)<\/span>/';
 		preg_match_all($reg_str, $text, $matches);
 		$tagged_user = '';
-		for($i=0; $i < count($matches[1]); $i++) {
+		for($i=0; $i < count($matches[1]); $i++)
+		{
 			$this->notify->notify('add_tag', $status, $text, $matches[1][$i], (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_TAG_ADD');			
 			$tagged_user .= $matches[1][$i].', ';
 		}

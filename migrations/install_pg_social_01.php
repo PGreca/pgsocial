@@ -11,12 +11,15 @@
 
 namespace pgreca\pg_social\migrations;
 
-class install_pg_social_01 extends \phpbb\db\migration\migration {
-	static public function depends_on() {
+class install_pg_social_01 extends \phpbb\db\migration\migration
+{
+	static public function depends_on()
+{
 		return array('\phpbb\db\migration\data\v32x\v321');
 	}
 
-	public function update_data() {
+	public function update_data()
+{
 		$data = array(
 			array('config.add', array('pg_social_version', '0.1.0-a7')),
 			
@@ -122,29 +125,36 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 				),
 			)),
 		);
-		if ($this->role_exists('ROLE_USER_STANDARD')) {
+		if($this->role_exists('ROLE_USER_STANDARD'))
+	{
 			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_page_create'));
 		}
-		if ($this->role_exists('ROLE_USER_FULL')) {
+		if($this->role_exists('ROLE_USER_FULL'))
+	{
 			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_page_create'));
 		}
-		if ($this->role_exists('ROLE_MOD_STANDARD')) {
+		if($this->role_exists('ROLE_MOD_STANDARD'))
+	{
 			$data[] = array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_page_manage'));
 		}
-		if ($this->role_exists('ROLE_MOD_FULL')) {
+		if($this->role_exists('ROLE_MOD_FULL'))
+	{
 			$data[] = array('permission.permission_set', array('ROLE_MOD_FULL', 'm_page_manage'));
 		}
-		if ($this->role_exists('ROLE_ADMIN_STANDARD')) {
+		if($this->role_exists('ROLE_ADMIN_STANDARD'))
+	{
 			$data[] = array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_page_manage'));
 		}
-		if ($this->role_exists('ROLE_ADMIN_FULL')) {
+		if($this->role_exists('ROLE_ADMIN_FULL'))
+	{
 			$data[] = array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_page_manage'));
 		}
 		return $data;
 	}	
 	
 	// Add chat DB tables and columns
-	public function update_schema()	{
+	public function update_schema()
+	{
 		return array(
 			'add_tables'	=> array(
 				$this->table_prefix.'pg_social_wall_post'	=> array(
@@ -263,7 +273,8 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 		);
 	}	
 	
-	public function revert_data() {
+	public function revert_data()
+	{
 		return array(
 			array(
 				'module.remove', array(
@@ -319,7 +330,8 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 		);
 	}
 	
-	public function revert_schema() {
+	public function revert_schema()
+	{
 		return array(
 			'drop_tables'	=> array(
 				$this->table_prefix.'pg_social_wall_post',
@@ -347,17 +359,23 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 		);
 	}
 	
-	public function remove_photos() {
+	public function remove_photos()
+	{
         global $phpbb_root_path;
 		$this->RemoveFolderContent($phpbb_root_path. 'ext/pgreca/pg_social/images/upload/');
 	}
 	  
-	function RemoveFolderContent($folder) {
-		foreach(glob($folder."/*") as $file) {
-			if(is_dir($file)) {
+	function RemoveFolderContent($folder)
+	{
+		foreach(glob($folder."/*") as $file)
+		{
+			if(is_dir($file))
+			{
 				$this->RemoveFolderContent($file);
 				rmdir($file);
-			} else {
+			}
+			else
+			{
 				unlink($file);
 			}
 		}
@@ -369,7 +387,8 @@ class install_pg_social_01 extends \phpbb\db\migration\migration {
 	 * @return void
 	 * @access public
 	*/
-	private function role_exists($role) {
+	private function role_exists($role)
+	{
 		$sql = "SELECT role_id FROM ".ACL_ROLES_TABLE." WHERE role_name = '".$this->db->sql_escape($role)."'";
 		$result = $this->db->sql_query_limit($sql, 1);
 		$role_id = $this->db->sql_fetchfield('role_id');

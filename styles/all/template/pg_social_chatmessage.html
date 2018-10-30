@@ -1,14 +1,14 @@
-<!-- BEGIN pg_social_chat_message -->
-<li class="pg_social_chat_message <!-- IF pg_social_chat_message.IFRIGHT -->right<!-- ELSE -->left<!-- ENDIF -->" data-message="{pg_social_chat_message.MESSAGE_ID}">
+{% for pg_social_chat_message in loops.pg_social_chat_message %}
+<li class="pg_social_chat_message {% if pg_social_chat_message.IFRIGHT %}right{% else %}left{% endif %}" data-message="{{ pg_social_chat_message.MESSAGE_ID }}">
 	<div class="pg_social_chat_message_text">
-		{pg_social_chat_message.MESSAGE}
+		{{ pg_social_chat_message.MESSAGE }}
 	</div><span class="pg_social_chat_message_time">
-		{pg_social_chat_message.TIME}
+		{{ pg_social_chat_message.TIME }}
 	</span>
-<!-- IF pg_social_chat_message.SOUND -->
+{% if pg_social_chat_message.SOUND %}
 	<script>
 		pg_social_chat_sound.play();
 	</script>
-<!-- ENDIF -->
+{% endif %}
 </li>
-<!-- END pg_social_chat_message -->
+{% endfor %}

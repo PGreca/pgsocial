@@ -1,43 +1,43 @@
-<!-- BEGIN social_photo -->
-<div id="pg_social_photo_img" data-photo="{social_photo.PHOTO_ID}">
-	<img src="{social_photo.PHOTO_FILE}" />
+{% for social_photo in loops.social_photo %}
+<div id="pg_social_photo_img" data-photo="{{ social_photo.PHOTO_ID }}">
+	<img src="{{ social_photo.PHOTO_FILE }}" />
 	<div class="pg_social_photo_side">
-		{social_photo.PRE}-{social_photo.NEX}
-		<!-- IF social_photo.PRE --><span id="pg_social_photo_sidePre">
+		{{ social_photo.PRE }}-{{ social_photo.NEX }}
+		{% if social_photo.PRE %}<span id="pg_social_photo_sidePre">
 			<i class="icon fa fa-arrow-left"></i>
-		</span><!-- ENDIF -->
-		<!-- IF social_photo.NEX --><span id="pg_social_photo_sideNex">
+		</span>{% endif %}
+		{% if social_photo.NEX %}<span id="pg_social_photo_sideNex">
 			<i class="icon fa fa-arrow-right"></i>
-		</span><!-- ENDIF -->
+		</span>{% endif %}
 		<ul id="pg_social_photo_img_footer">
-			<li>{L_OPTIONS}
+			<li>{{ lang('OPTIONS') }}
 				<ul id="pg_social_photo_img_options">
-					<!-- IF social_photo.PHOTO_ACTION --><li id="pg_social_photo_img_option_delete"><a>{L_PHOTO_DELETE}</a></li><!-- ENDIF -->
+					{% if social_photo.PHOTO_ACTION %}<li id="pg_social_photo_img_option_delete"><a>{{ lang('PHOTO_DELETE') }}</a></li>{% endif %}
 				</ul>
 			</li>
 		</ul>
 	</div>
 </div><div id="pg_social_photo_social">
-	{social_photo.AUTHOR_AVATAR}
+	{{ social_photo.AUTHOR_AVATAR }}
 	<div id="pg_social_photo_info">
-		<a href="{social_photo.AUTHOR_PROFILE}" class="author_profile"<!-- IF social_photo.AUTHOR_COLOUR --> style="color: {social_photo.AUTHOR_COLOUR}"<!-- ENDIF-->>{social_photo.AUTHOR_USERNAME}</a>
-		<span class="photo_time">{social_photo.PHOTO_TIME}</span>
-	</div><p class="photo_desc">{social_photo.PHOTO_DESC}</p><div class="pg_social_photo_likshare" data-post="{social_photo.POST_ID}">
-		<div class="post_status_like <!-- IF social_photo.IFLIKE != 0 -->active<!-- ENDIF -->">
-			<a><i class="icon fa-heart fa-fw" aria-hidden="true"></i><span>{social_photo.LIKE}</span> {L_LIKE}</a>
+		<a href="{{ social_photo.AUTHOR_PROFILE }}" class="author_profile"{% if social_photo.AUTHOR_COLOUR %} style="color: {{ social_photo.AUTHOR_COLOUR }}"{% endif%}>{{ social_photo.AUTHOR_USERNAME }}</a>
+		<span class="photo_time">{{ social_photo.PHOTO_TIME }}</span>
+	</div><p class="photo_desc">{{ social_photo.PHOTO_DESC }}</p><div class="pg_social_photo_likshare" data-post="{{ social_photo.POST_ID }}">
+		<div class="post_status_like {% if social_photo.IFLIKE != 0 %}active{% endif %}">
+			<a><i class="icon fa-heart fa-fw" aria-hidden="true"></i><span>{{ social_photo.LIKE }}</span> {{ lang('LIKE') }}</a>
 		</div>
 		<div class="social_photo_comment">
-			<a><i class="icon fa-comments fa-fw" aria-hidden="true"></i>{social_photo.COMMENT}</a>
+			<a><i class="icon fa-comments fa-fw" aria-hidden="true"></i>{{ social_photo.COMMENT }}</a>
 		</div>
 	</div><div id="pg_social_photo_comment">
-		<ul class="pg_social_photo_comments" id="pg_social_photo_comments_{social_photo.POST_ID}" data-post="{social_photo.POST_ID}">
-			<!-- INCLUDE activity_comment.html -->
+		<ul class="pg_social_photo_comments" id="pg_social_photo_comments_{{ social_photo.POST_ID }}" data-post="{{ social_photo.POST_ID }}">
+			{% INCLUDE 'activity_comment.html' %}
 		</ul>
 		<form method="post" class="pg_social_photo_comment_form">
-			{social_photo.USER_AVATAR}<input type="text" required name="pg_social_photo_comment_text" class="pg_social_photo_comment_text" placeholder="{L_COMMENT_THIS_POST}" />
-			{S_HIDDEN_FIELDS}
-			{S_FORM_TOKEN}
+			{{ social_photo.USER_AVATAR }}<input type="text" required name="pg_social_photo_comment_text" class="pg_social_photo_comment_text" placeholder="{{ lang('COMMENT_THIS_POST') }}" />
+			{{ S_HIDDEN_FIELDS }}
+			{{ S_FORM_TOKEN }}
 		</form>
 	</div>
 </div>
-<!-- END social_photo -->
+{% endfor %}

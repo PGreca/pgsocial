@@ -14,7 +14,8 @@ namespace pgreca\pg_social\notification;
 *
 * @package notifications
 */
-class social_tag extends \phpbb\notification\type\base {
+class social_tag extends \phpbb\notification\type\base
+{
 	
 	/* @var \phpbb\controller\helper */
 	protected $helper;
@@ -41,7 +42,8 @@ class social_tag extends \phpbb\notification\type\base {
 	* @param string $user_notifications_table
 	* @return \phpbb\notification\type\base
 	*/
-	public function __construct($db, $cache, $user, $auth, $config, $helper, $pg_social_helper, $phpbb_root_path, $php_ext, $notification_types_table, $notifications_table, $user_notifications_table) {
+	public function __construct($db, $cache, $user, $auth, $config, $helper, $pg_social_helper, $phpbb_root_path, $php_ext, $notification_types_table, $notifications_table, $user_notifications_table)
+	{
 		$this->db 						= $db;
 		$this->cache 					= $cache;
 		$this->user 					= $user;
@@ -83,7 +85,8 @@ class social_tag extends \phpbb\notification\type\base {
 	*
 	* @return bool True/False whether or not this is available to the user
 	*/
-	public function is_available() {
+	public function is_available()
+	{
 		return true;
 	}
 	
@@ -92,7 +95,8 @@ class social_tag extends \phpbb\notification\type\base {
 	*
 	* @param array $data The data for the updated rules
 	*/
-	public static function get_item_id($data) {
+	public static function get_item_id($data)
+	{
 		return $data['status_id'];
 	}
 	
@@ -101,7 +105,8 @@ class social_tag extends \phpbb\notification\type\base {
 	*
 	* @param array $data The data for the updated rules
 	*/
-	public static function get_item_parent_id($data) {
+	public static function get_item_parent_id($data)
+	{
 		// No parent
 		return $data['status_id'];
 	}
@@ -113,7 +118,8 @@ class social_tag extends \phpbb\notification\type\base {
 	*
 	* @return array
 	*/
-	public function find_users_for_notification($data, $options = array()) {
+	public function find_users_for_notification($data, $options = array())
+	{
 		$users = array();
 		$users[$data['user_id']] = $this->notification_manager->get_default_methods();
 
@@ -125,14 +131,16 @@ class social_tag extends \phpbb\notification\type\base {
 	*
 	* @return array Array of user_ids
 	*/
-	public function users_to_query() {
+	public function users_to_query()
+	{
 		return array();
 	}
 	
 	/**
 	* Get the user's avatar
 	*/
-	public function get_avatar() {
+	public function get_avatar()
+	{
 		$sql = "SELECT user_avatar, user_avatar_type FROM ".USERS_TABLE." WHERE user_id = '".$this->get_data('poster_id')."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
@@ -146,7 +154,8 @@ class social_tag extends \phpbb\notification\type\base {
 	*
 	* @return string
 	*/
-	public function get_title() {
+	public function get_title()
+	{
 		$sql = "SELECT username, user_colour FROM ".USERS_TABLE." WHERE user_id = '".$this->get_data('poster_id')."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);		
@@ -158,7 +167,8 @@ class social_tag extends \phpbb\notification\type\base {
 	*
 	* @return string URL
 	*/
-	public function get_url() {
+	public function get_url()
+	{
 		$sql = "SELECT user_id, username, user_colour FROM ".USERS_TABLE." WHERE user_id = '".$this->get_data('user_id')."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
@@ -170,7 +180,8 @@ class social_tag extends \phpbb\notification\type\base {
 	*
 	* @return string|bool
 	*/
-	public function get_email_template() {
+	public function get_email_template()
+	{
 		return false;
 	}
 	
@@ -179,7 +190,8 @@ class social_tag extends \phpbb\notification\type\base {
 	*
 	* @return array
 	*/
-	public function get_email_template_variables() {
+	public function get_email_template_variables()
+	{
       return array();
 	}
 	
@@ -198,7 +210,8 @@ class social_tag extends \phpbb\notification\type\base {
 	*
 	* @return array Array of data ready to be inserted into the database
 	*/
-	public function create_insert_array($data, $pre_create_data = array()) {
+	public function create_insert_array($data, $pre_create_data = array())
+	{
 		$this->set_data('user_id', $data['user_id']);
 		$this->set_data('poster_id', $data['poster_id']);
 		$this->set_data('status_id', $data['status_id']);

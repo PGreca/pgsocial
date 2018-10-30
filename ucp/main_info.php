@@ -11,8 +11,10 @@
 namespace pgreca\pg_social\ucp;
 
 // Define the new UCP tab and single page
-class main_info {
-	function module() {
+class main_info
+{
+	function module()
+	{
 		return array(
 			'filename' => '\pgreca\pg_social\ucp\main_module',
 			'title' => 'UCP_PG_SOCIAL_MAIN',

@@ -10,7 +10,8 @@
 
 namespace pgreca\pg_social\controller;
 
-class main {
+class main
+{
 	/** @var \phpbb\files\factory */
 	protected $files_factory;
 	
@@ -59,7 +60,8 @@ class main {
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
 	*/
-	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix) {
+	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix)
+	{
 		$this->files_factory		= $files_factory;
 		$this->auth					= $auth;
 		$this->config				= $config;
@@ -87,19 +89,27 @@ class main {
 	* @param string		$name
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function handle($name) {
-		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel')) {
-			if($this->user->data['user_id'] != ANONYMOUS) {
+	public function handle($name)
+	{
+		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
+		{
+			/*if($this->user->data['user_id'] != ANONYMOUS){
 				echo $this->user->data['user_id'];
 				trigger_error('NO_VIEW_USERS');
 			}
 			login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
-		} else {	
+			*/
+			
+			meta_refresh(0, $this->root_path);
+		}
+		else
+		{	
 			$mode = $this->request->variable('mode', '');
 			$profile_id = $this->request->variable('profile_id', '');
 			$where = $this->request->variable('where', '');
 			
-			switch($mode) {
+			switch($mode)
+			{
 				case 'getStatus':	
 					return $this->post_status->getStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('lastp', ''), $where, $this->request->variable('order', ''), "on");
 				break;
@@ -169,13 +179,18 @@ class main {
 			}	
 			
 			
-			if($name == 'mp') {
-				if($this->config['pg_social_block_posts_last']) {
+			if($name == 'mp')
+			{
+				if($this->config['pg_social_block_posts_last'])
+				{
 					$a_f_auth_read = $this->auth->acl_getf('f_read');
 					$a_f_read = array();
-					if(!empty($a_f_auth_read)) {
-						foreach($a_f_auth_read as $i_f_id => $a_auth) {
-							if($a_auth['f_read'] == 1) {
+					if(!empty($a_f_auth_read))
+					{
+						foreach($a_f_auth_read as $i_f_id => $a_auth)
+						{
+							if($a_auth['f_read'] == 1)
+							{
 								$a_f_read[] = $i_f_id;
 							}
 						}
@@ -197,7 +212,8 @@ class main {
 					$last_topics_result = $this->db->sql_query_limit($last_topics, 10);
 					$last_topics_rowset = $this->db->sql_fetchrowset($last_topics_result);
 					$this->db->sql_freeresult($last_topics_result);
-					for($i = 0; isset($last_topics_rowset[$i]); $i++) {
+					for($i = 0; isset($last_topics_rowset[$i]); $i++)
+					{
 						$last_topics = $last_topics_rowset[$i];
 						$this->template->assign_block_vars('last_topics', array(
 						'TOPIC_TITLE'		 => $last_topics['topic_title'],
@@ -246,7 +262,8 @@ class main {
 	* @param string		$id
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function handle_status($id) {
+	public function handle_status($id)
+	{
 		$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour
 		FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u	
 		WHERE post_ID = '".$id."' AND (w.user_id = u.user_id) AND u.user_type != '2'";	
@@ -254,20 +271,27 @@ class main {
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);		
 		
-		if($row['post_ID']) {
-			if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel')) {
-				if($this->user->data['user_id'] != ANONYMOUS) {
+		if($row['post_ID'])
+		{
+			if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
+			{
+				if($this->user->data['user_id'] != ANONYMOUS)
+				{
 					echo $this->user->data['user_id'];
 					trigger_error('NO_VIEW_USERS');
 				}
 				login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
-			} else {	
+			}
+			else
+			{	
 				$this->template->assign_vars(array(
 					'PROFILE_ID'	=> $row['wall_id'],
 				));
 				return $this->post_status->status('', $row['wall_id'], $row['post_type'], 'half', $row);	
 			}
-		} else {
+		}
+		else
+		{
 			redirect($this->helper->route('profile_page'));
 		}
 	}

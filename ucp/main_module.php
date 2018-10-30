@@ -11,7 +11,8 @@
 
 namespace pgreca\pg_social\ucp;
 
-class main_module {
+class main_module
+{
 	protected $db;
 	
 	protected $auth;
@@ -25,7 +26,8 @@ class main_module {
 	public $u_action;
 
 	// Main function
-	function main($id, $mode) {
+	function main($id, $mode)
+	{
 		global $db, $auth, $request, $template, $user, $u_action;
 
 		$this->db = $db;
@@ -39,10 +41,13 @@ class main_module {
 		$this->page_title = 'UCP_PG_SOCIAL_MAIN';
 		add_form_key('ucp_pg_social');
 		
-		switch($mode) {
+		switch($mode)
+		{
 			case 'chat':
-				if($request->is_set_post('submit')) {
-					if(!check_form_key('ucp_pg_social')) {
+				if($request->is_set_post('submit'))
+				{
+					if(!check_form_key('ucp_pg_social'))
+					{
 						trigger_error('FORM_INVALID');
 					}
 					

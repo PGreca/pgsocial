@@ -10,7 +10,8 @@
 
 namespace pgreca\pg_social\controller;
 
-class helper {
+class helper
+{
 	/* @var \phpbb\auth\auth */
 	protected $auth;
 	
@@ -44,7 +45,8 @@ class helper {
 	* @param \phpbb\log\log              $log
 	*/
 	
-	public function __construct($auth, $user, $helper, $notifyhelper, $config, $db, $log, $root_path, $php_ext, $table_prefix) {
+	public function __construct($auth, $user, $helper, $notifyhelper, $config, $db, $log, $root_path, $php_ext, $table_prefix)
+	{
 		$this->auth = $auth;
 	    $this->user = $user;
 		$this->helper = $helper;
@@ -57,7 +59,8 @@ class helper {
         $this->table_prefix = $table_prefix;
 	}
 	
-	public function time_ago($from, $to = 0) {
+	public function time_ago($from, $to = 0)
+	{
 		$periods = array(
 			"SECOND",
 			"MINUTE",
@@ -77,32 +80,40 @@ class helper {
 			"12",
 			"10",
 		);
-		if($to == 0) {
+		if($to == 0)
+		{
 			$to = time();
 		}
 
-		if ($to > $from) {
+		if($to > $from)
+		{
 			$difference = $to - $from;
 			$tense = 'WALL_TIME_AGO';
-		} else {
+		}
+		else
+		{
 			$difference = $from - $to;
 			$tense = 'WALL_TIME_FROM_NOW';
 		}
-		for($j = 0; $difference >= $lengths[$j] && $j < count($lengths) - 1; $j++) {
+		for($j = 0; $difference >= $lengths[$j] && $j < count($lengths) - 1; $j++)
+		{
 			$difference /= $lengths[$j];
 		}
 
 		$difference = round($difference);
 		$period = $periods[$j];
-		if($difference != 1) {
+		if($difference != 1)
+		{
 			$period .= "S";
 		}
 
 		return sprintf($this->user->lang[$tense], $difference, $this->user->lang['WALL_TIME_PERIODS'][$period]);
 	} 	
 	
-	public function social_privacy($privacy) {
-		switch($privacy) {
+	public function social_privacy($privacy)
+	{
+		switch($privacy)
+		{
 			case '1':
 				$privacySet = "FRIENDS";
 			break;
@@ -116,16 +127,21 @@ class helper {
 		return $privacySet;
 	}
 	
-	public function social_cover($cover) {
-		if($cover == "") {
+	public function social_cover($cover)
+	{
+		if($cover == "")
+		{
 			$cover = generate_board_url()."/ext/pgreca/pg_social/images/no_cover.jpg"; 
-		} else {
+		}
+		else
+		{
 			$cover = generate_board_url()."/ext/pgreca/pg_social/images/upload/".$cover; 
 		}
 		return $cover;		
 	}
 	
-	public function social_avatar($avatar, $avatar_type) {
+	public function social_avatar($avatar, $avatar_type)
+	{
 		$data = array(
 			"user_avatar"         => $avatar,
 			"user_avatar_type"    => $avatar_type,
@@ -134,7 +150,8 @@ class helper {
 		$core_avatar =  phpbb_get_user_avatar($data);
      	preg_match('#(src=")(.+?)(download|images)#', $core_avatar, $matches);
 		 
-		if($matches){		
+		if($matches)
+		{		
 			$core_avatar = preg_replace('#('.$matches[2].')#', $base_url = generate_board_url(). '/', $core_avatar, 1);
 		}
       
@@ -142,7 +159,8 @@ class helper {
 		return ($core_avatar) ? $core_avatar : $wall_avatar;
     }	
 	
-	public function social_avatar_thumb($avatar, $avatar_type) {
+	public function social_avatar_thumb($avatar, $avatar_type)
+	{
 		$data = array(
 			"user_avatar"         => $avatar,
 			"user_avatar_type"    => $avatar_type,
@@ -153,7 +171,8 @@ class helper {
 		 
 		$core_avatar = str_replace('" alt', ')" src="'.generate_board_url().'/ext/pgreca/pg_social/images/transp.gif" alt', str_replace("src=\"", 'style="background-image:url(', $core_avatar));
 		 
-		if($matches){		
+		if($matches)
+		{		
 			$core_avatar = preg_replace('#('.$matches[2].')#', $base_url = generate_board_url(). '/', $core_avatar, 1);
 		}
       
@@ -161,8 +180,10 @@ class helper {
 		return ($core_avatar) ? $core_avatar : $wall_avatar;
     }	
 	
-	public function social_gender($gender) {
-		switch($gender) {
+	public function social_gender($gender)
+	{
+		switch($gender)
+		{
 			case 1:
 				$return = "GENDER_FEMALE";
 			break;
@@ -176,20 +197,25 @@ class helper {
 		return $return;
 	}
 	
-	public function social_rank($rank) {
-		if($rank) {
+	public function social_rank($rank)
+	{
+		if($rank)
+		{
 			$sql = "SELECT * FROM ".RANKS_TABLE." WHERE rank_id = '".$rank."'";
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
 			
 			$row['rank_image'] = '<img src="'.generate_board_url().'/images/ranks/'.$row['rank_image'].'" />';
 			if($row['rank_image']) return $row;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
 	
-	public function social_age($birth) {
+	public function social_age($birth)
+	{
 			list($bday_day, $bday_month, $bday_year) = array_map('intval', explode('-', $birth));
 			$now = $this->user->create_datetime();
 			$now = phpbb_gmgetdate($now->getTimestamp() + $now->getOffset());
@@ -201,7 +227,8 @@ class helper {
 			return $age;
 	}
 	
-	public function social_status($user) {
+	public function social_status($user)
+	{
 		$sql = "SELECT MAX(session_time) AS session_time, MIN(session_viewonline) AS session_viewonline
 		FROM ".SESSIONS_TABLE." as s
 		WHERE session_user_id = '".$user."'";
@@ -217,15 +244,18 @@ class helper {
 		return $online;		
 	}
 	
-	public function social_smilies($text) {
+	public function social_smilies($text)
+	{
 		$text = str_replace("./../", generate_board_url()."/", $text);
 		$text = str_replace("/..", "", $text);
 		return $text;		
 	}
 	
-	public function countAction($action, $post) {
+	public function countAction($action, $post)
+	{
 		$user_id = (int) $this->user->data['user_id'];
-		switch($action) {
+		switch($action)
+		{
 			case 'like':
 				$sql = "SELECT COUNT(post_like_ID) AS count
 				FROM ".$this->table_prefix."pg_social_wall_like
@@ -248,13 +278,16 @@ class helper {
 		return $return;
 	}
 	
-	public function extraText($text) {
+	public function extraText($text)
+	{
 		$a = $this->youtube($text);
 		return $a;
 	}
 	
-	public function youtube($text) {                        
-		if(strstr($text, 'youtube.com/watch?v=') !== false) {
+	public function youtube($text)
+	{                        
+		if(strstr($text, 'youtube.com/watch?v=') !== false)
+		{
 			$domain = strstr($text, 'youtube.com/watch?v=');
 			$domain = str_replace("youtube.com/watch?v=", "", $domain);
 			$domain = explode('&', $domain);
@@ -264,7 +297,8 @@ class helper {
 		}
 	}
 	
-	public function log($user, $ip, $action, $id) {
+	public function log($user, $ip, $action, $id)
+	{
 		$this->log->add('user', $user, $ip, 'PG_SOCIAL_'.$action.'_LOG', time(), array($id));
 	}
 

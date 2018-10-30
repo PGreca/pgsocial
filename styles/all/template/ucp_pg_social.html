@@ -1,31 +1,31 @@
-<!-- INCLUDE ucp_header.html -->
-<form id="ucp" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
-<!-- IF UCP_PG_SOCIAL_PAGE == 'chat' -->
-	<h2>{L_UCP_PG_SOCIAL_CHAT}</h2>
+{% INCLUDE 'ucp_header.html' %}
+<form id="ucp" method="post" action="{{ S_UCP_ACTION }}"{{ S_FORM_ENCTYPE }}>
+{% if UCP_PG_SOCIAL_PAGE == 'chat' %}
+	<h2>{{ lang('UCP_PG_SOCIAL_CHAT') }}</h2>
 	<div class="panel">
 		<div class="inner">	
 			<fieldset>
 				<dl>
-					<dt><label for="chat_sound">{L_UCP_PG_SOCIAL_SIGNATURE_STATUS}</label></dt>
-					<dd><input type="radio" class="radio" name="signature_status" value="1" <!-- IF UCP_PG_SOCIAL_SIGNATURE_STATUS -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-					<input type="radio" class="radio" name="signature_status" value="0" <!-- IF not UCP_PG_SOCIAL_SIGNATURE_STATUS -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+					<dt><label for="chat_sound">{{ lang('UCP_PG_SOCIAL_SIGNATURE_STATUS') }}</label></dt>
+					<dd><input type="radio" class="radio" name="signature_status" value="1" {% if UCP_PG_SOCIAL_SIGNATURE_STATUS %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+					<input type="radio" class="radio" name="signature_status" value="0" {% if not UCP_PG_SOCIAL_SIGNATURE_STATUS %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 				</dl>		
 			</fieldset>		
 		
 			<fieldset>
 				<dl>
-					<dt><label for="chat_sound">{L_UCP_PG_SOCIAL_CHAT_SOUND}</label></dt>
-					<dd><input type="radio" class="radio" name="chat_sound" value="1" <!-- IF UCP_PG_SOCIAL_CHAT_SOUND -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-					<input type="radio" class="radio" name="chat_sound" value="0" <!-- IF not UCP_PG_SOCIAL_CHAT_SOUND -->checked="checked"<!-- ENDIF -->/> {L_NO}</dd>
+					<dt><label for="chat_sound">{{ lang('UCP_PG_SOCIAL_CHAT_SOUND') }}</label></dt>
+					<dd><input type="radio" class="radio" name="chat_sound" value="1" {% if UCP_PG_SOCIAL_CHAT_SOUND %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+					<input type="radio" class="radio" name="chat_sound" value="0" {% if not UCP_PG_SOCIAL_CHAT_SOUND %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 				</dl>		
 			</fieldset>
 	
 			<fieldset class="submit-buttons">
-				{S_FORM_TOKEN}
-				<input type="reset" value="{L_RESET}" name="reset" class="button2" />&nbsp;<input type="submit" name="submit" value="{L_SUBMIT}" class="button1" />
+				{{ S_FORM_TOKEN }}
+				<input type="reset" value="{{ lang('RESET') }}" name="reset" class="button2" />&nbsp;<input type="submit" name="submit" value="{{ lang('SUBMIT') }}" class="button1" />
 			</fieldset>
 		</div>
 	</div>
-<!-- ENDIF -->
+{% endif %}
 </form>
-<!-- INCLUDE ucp_footer.html -->
+{% INCLUDE 'ucp_footer.html' %}

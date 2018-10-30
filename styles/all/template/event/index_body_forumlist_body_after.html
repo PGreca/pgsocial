@@ -1,13 +1,13 @@
-<!-- IF PG_SOCIAL_INDEX_ACTIVITY && S_USER_LOGGED_IN -->
-	</div><div id="pg_social_containerR">
-		<div id="pg_social">
-			<div id="pg_social_cont">
-				<ul id="posts_status">
-					<!-- INCLUDE activity_status.html -->
-				</ul>	
-				<div id="load_more"></div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- ENDIF -->
+{% if PG_SOCIAL_INDEX_ACTIVITY && S_USER_LOGGED_IN %}
+	</div><div id="pg_social_containerR">
+		<div id="pg_social">
+			<div id="pg_social_cont">
+				<ul id="posts_status">
+					{% INCLUDE 'activity_status.html' %}
+				</ul>	
+				<div id="load_more"></div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}

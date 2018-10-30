@@ -1,61 +1,62 @@
-<!-- INCLUDE overall_header.html -->
+{% INCLUDE 'overall_header.html' %}
+<div style="background-color: #008465; padding: 10px; border: 1px solid; border-color: #E5E6E9 #DFE0E4 #D0D1D5; color: #fff; font-weight: bold; font-size: 3em; text-align: center; text-transform: uppercase;">Work in progress</div>
 <div id="pg_social" class="pg_social_pageactivity">
 	<div id="pg_social_sidel">
 		<div class="panel">
 			<ul id="profile_menu">
-				<!-- IF PROFILE_AVATAR --><li class="profile_avatar">{PROFILE_AVATAR}</li><!-- ENDIF -->
-				<li class="memberlist-title"><h2<!-- IF PROFILE_COLOUR --> style="color: {PROFILE_COLOUR};"<!-- ENDIF -->>{PROFILE_USERNAME}</h2></li>
-				<li class="profile-profile_link"><a href="{PROFILE_URL}"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i> {L_READ_PROFILE}</a></li>	
-				<li class="profile-profile_edit"><a href="{PROFILE_EDIT}"><i class="icon fa fa-cog fa-fw" aria-hidden="true"></i> {L_EDIT_PROFILE}</a></li>
-				<li class="profile-profile_pages"><a href="{PAGES_URL}"><i class="icon fa fa-book fa-fw" aria-hidden="true"></i> {L_PAGES}</a></li>
-				<!-- IF PROFILE_QUOTE --><li class="profile_quote"><blockquote id="profile_quote" style="padding: 5px;">{PROFILE_QUOTE}</blockquote></li><!-- ENDIF -->
+				{% if PROFILE_AVATAR %}<li class="profile_avatar">{{ PROFILE_AVATAR }}</li>{% endif %}
+				<li class="memberlist-title"><h2{% if PROFILE_COLOUR %} style="color: {{ PROFILE_COLOUR }};"{% endif %}>{{ PROFILE_USERNAME }}</h2></li>
+				<li class="profile-profile_link"><a href="{{ PROFILE_URL }}"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i> {{ lang('READ_PROFILE') }}</a></li>	
+				<li class="profile-profile_edit"><a href="{{ PROFILE_EDIT }}"><i class="icon fa fa-cog fa-fw" aria-hidden="true"></i> {{ lang('EDIT_PROFILE') }}</a></li>
+				<li class="profile-profile_pages"><a href="{{ PAGES_URL }}"><i class="icon fa fa-book fa-fw" aria-hidden="true"></i> {{ lang('PAGES') }}</a></li>
+				{% if PROFILE_QUOTE %}<li class="profile_quote"><blockquote id="profile_quote" style="padding: 5px;">{{ PROFILE_QUOTE }}</blockquote></li>{% endif %}
 				<li class="profile_rank">
-					<!-- IF PROFILE_RANK_IMG -->{PROFILE_RANK_IMG}<br /><!-- ENDIF -->
-					<!-- IF PROFILE_RANK -->{PROFILE_RANK}<!-- ENDIF -->
+					{% if PROFILE_RANK_IMG %}{{ PROFILE_RANK_IMG }}<br />{% endif %}
+					{% if PROFILE_RANK %}{{ PROFILE_RANK }}{% endif %}
 				</li>
 			</ul>
 		</div>
-	</div><div id="pg_social_cont"<!-- IF not PG_SOCIAL_SIDEBAR_RIGHT --> style="width:calc(80% - 20px);"<!-- ENDIF -->>
-		<!-- INCLUDE activity_form.html -->
+	</div><div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80% - 20px);"{% endif %}>
+		{% INCLUDE 'activity_form.html' %}
 		<ul id="posts_status">
-			<!-- INCLUDE activity_status.html -->
+			{% INCLUDE 'activity_status.html' %}
 		</ul>	
 		<div id="load_more"></div>
 	</div>
-	<!-- IF PG_SOCIAL_SIDEBAR_RIGHT -->
+	{% if PG_SOCIAL_SIDEBAR_RIGHT %}
 	<div id="pg_social_sider">
-		<!-- IF PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM && .profileFriends -->
+		{% if PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM && loops.profileFriends|length %}
 		<div class="panel" id="profile_FriendsRandom">
 			<ul>
-				<!-- BEGIN profileFriends -->
-				<li class="friend" id="friend_{profileFriends.PROFILE_ID}" data-friend="{profileFriends.PROFILE_ID}">
-					<a href="{profileFriends.PROFILE_URL}" style="color:{profileFriends.PROFILE_COLOUR}">
-						{profileFriends.AVATAR}
+				{% for profileFriends in loops.profileFriends %}
+				<li class="friend" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
+					<a href="{{ profileFriends.PROFILE_URL }}" style="color:{{ profileFriends.PROFILE_COLOUR }}">
+						{{ profileFriends.AVATAR }}
 						<div class="friend_username">
-							<span>{profileFriends.USERNAME}</span>
-							<!-- IF profileFriends.PROFILE_FRIEND_ACTION -->
+							<span>{{ profileFriends.USERNAME }}</span>
+							{% if profileFriends.PROFILE_FRIEND_ACTION %}
 							<div class="friend_action">
-								<!-- IF profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' -->
-									{L_PG_SOCIAL_FRIENDS}
-								<!-- ELSEIF profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' -->
-								<a href="{SOCIAL_PROFILE_PATH}?mode=requestFriend&profile_id={profileFriends.PROFILE_ID}&request=addFriend" id="profile_friend_add" data-ajax="requestFriend" data-refresh="true">{L_PG_SOCIAL_FRIENDS_ADD}</a>
-								<!-- ELSEIF profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' -->
-								<a href="{SOCIAL_PROFILE_PATH}?mode=requestFriend&profile_id={profileFriends.PROFILE_ID}&request=undoFriend" id="profile_friend_undo" data-ajax="requestFriend" data-refresh="true">{L_PG_SOCIAL_FRIENDS_CANCEL_REQ}</a>
-								<!-- ELSEIF profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ'	-->
-								<a href="{SOCIAL_PROFILE_PATH}?mode=requestFriend&profile_id={profileFriends.PROFILE_ID}&request=acceptFriend" id="profile_friend_accept" data-ajax="requestFriend" data-refresh="true">{L_PG_SOCIAL_FRIENDS_ACCEPT_REQ}</a>	
-								<a href="{SOCIAL_PROFILE_PATH}?mode=requestFriend&profile_id={profileFriends.PROFILE_ID}&request=declineFriend" id="profile_friend_declide" data-ajax="requestFriend" data-refresh="true">{L_PG_SOCIAL_FRIENDS_DECLINE_REQ}</a>
-								<!-- ELSE -->
-								{PROFILE_FRIEND_ACTION}			
-							<!-- ENDIF -->
+								{% if profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' %}
+									{{ lang('PG_SOCIAL_FRIENDS') }}
+								{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' %}
+								<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=addFriend" id="profile_friend_add" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ADD') }}</a>
+								{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' %}
+								<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=undoFriend" id="profile_friend_undo" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_CANCEL_REQ') }}</a>
+								{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ'	%}
+								<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=acceptFriend" id="profile_friend_accept" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ACCEPT_REQ') }}</a>	
+								<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=declineFriend" id="profile_friend_declide" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_DECLINE_REQ') }}</a>
+								{% else %}
+								{{ PROFILE_FRIEND_ACTION }}			
+							{% endif %}
 							</div>
-							<!-- ENDIF -->
+							{% endif %}
 						</div>		
 					</a>
 				</li>
-				<!-- END profileFriends -->
+				{% endfor %}
 			</ul>
 		</div>
-		<!-- ENDIF -->
+		{% endif %}
 		<div class="panel ads" style="display: none;">
 			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 			<!-- PGreca Social - Sidebar -->
@@ -69,21 +70,21 @@
 			(adsbygoogle = window.adsbygoogle || []).push({});
 			</script>
 		</div>	
-		<!-- IF PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST -->
+		{% if PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST %}
 		<div class="panel" id="sid_last_topics">
 			<h3>Ultimi post</h3>
 			<ul>
-				<!-- BEGIN last_topics -->
+				{% for last_topics in loops.last_topics %}
 					<li class="posts">
-						<a href="{last_topics.POST_LINK}" class="post_topic">
-							{last_topics.TOPIC_TITLE}
+						<a href="{{ last_topics.POST_LINK }}" class="post_topic">
+							{{ last_topics.TOPIC_TITLE }}
 						</a>
-						su <a href="{last_topics.TOPIC_FORUM_LINK}">{last_topics.TOPIC_FORUM}</a> - <span class="posts_time">{last_topics.POST_TIME}</span> 
+						su <a href="{{ last_topics.TOPIC_FORUM_LINK }}">{{ last_topics.TOPIC_FORUM }}</a> - <span class="posts_time">{{ last_topics.POST_TIME }}</span> 
 					</li>
-				<!-- END last_topics -->
+				{% endfor %}
 			</ul>
 		</div>
-		<!-- ENDIF -->
+		{% endif %}
 		<div class="panel">
 			<script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
 			<h3>Support PG SOCIAL NETWORK with a coffe on Ko-fi! ❤️</h3>
@@ -92,5 +93,5 @@
 			</script>
 		</div>
 	</div>
-	<!-- ENDIF -->
-</div><!-- INCLUDE overall_footer.html -->
+	{% endif %}
+</div>{% INCLUDE 'overall_footer.html' %}

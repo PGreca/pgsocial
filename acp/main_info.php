@@ -11,8 +11,10 @@
 
 namespace pgreca\pg_social\acp;
 
-class main_info {
-	function module() {
+class main_info
+{
+	function module()
+	{
 		return array(
 			'filename'	=> '\pgreca\pg_social\acp\main_module',
 			'title'		=> 'ACP_PG_SOCIAL_MAIN',

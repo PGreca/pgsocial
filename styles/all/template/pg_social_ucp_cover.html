@@ -1,25 +1,25 @@
-<!-- INCLUDE ucp_header.html -->
-<form id="ucp" method="post" action="{S_UCP_ACTION}"{S_FORM_ENCTYPE}>
-<h2>{L_UCP_PROFILE_COVER}</h2>
+{% INCLUDE 'ucp_header.html' %}
+<form id="ucp" method="post" action="{{ S_UCP_ACTION }}"{{ S_FORM_ENCTYPE }}>
+<h2>{{ lang('UCP_PROFILE_COVER') }}</h2>
 <div class="panel">
 	<div class="inner">
 		<fieldset>
-		<!-- IF ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
+		{% if ERROR %}<p class="error">{{ ERROR }}</p>{% endif %}
 			<dl>
-				<dt><label>{L_CURRENT_IMAGE}{L_COLON}</label><br /><span>{L_COVER_EXPLAIN}</span></dt>
-				<dd><!-- IF COVER -->{COVER}<!-- ELSE --><img src="{T_THEME_PATH}/images/no_cover.png" alt="" /><!-- ENDIF --></dd>
-				<dd><label for="cover_delete"><input type="checkbox" name="cover_delete" id="cover_delete" /> {L_COVER_DELETE}</label></dd>
+				<dt><label>{{ lang('CURRENT_IMAGE') }}{{ lang('COLON') }}</label><br /><span>{{ lang('COVER_EXPLAIN') }}</span></dt>
+				<dd>{% if COVER %}{{ COVER }}{% else %}<img src="{{ T_THEME_PATH }}/images/no_cover.png" alt="" />{% endif %}</dd>
+				<dd><label for="cover_delete"><input type="checkbox" name="cover_delete" id="cover_delete" /> {{ lang('COVER_DELETE') }}</label></dd>
 			</dl>
 		</fieldset>
-		<!-- IF not S_GROUP_MANAGE -->
+		{% if not S_GROUP_MANAGE %}
 		<fieldset class="submit-buttons">
-			<input type="reset" value="{L_RESET}" name="reset" class="button2" /> &nbsp;
-			<input type="submit" name="submit" value="{L_SUBMIT}" class="button1" />
+			<input type="reset" value="{{ lang('RESET') }}" name="reset" class="button2" /> &nbsp;
+			<input type="submit" name="submit" value="{{ lang('SUBMIT') }}" class="button1" />
 		</fieldset>
-		<!-- ENDIF -->
+		{% endif %}
 	</div>
 </div>
-{S_HIDDEN_FIELDS}
-{S_FORM_TOKEN}
+{{ S_HIDDEN_FIELDS }}
+{{ S_FORM_TOKEN }}
 </form>
-<!-- INCLUDE ucp_footer.html -->
+{% INCLUDE 'ucp_footer.html' %}

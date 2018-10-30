@@ -1,7 +1,7 @@
-<!-- BEGIN pg_social_chat -->
-<li class="pg_social_chat_people_online_single {pg_social_chat.USER_STATUS}_status" data-people="{pg_social_chat.USER_ID}">
-	{pg_social_chat.USER_AVATAR}
-	<div class="pg_social_chat_people_online_single_author">{pg_social_chat.USER_USERNAME}</div>
-	<span class="pg_socialchat_people_online_single_status {pg_social_chat.USER_STATUS}"><i class="icon fa fa-circle fa-fw" aria-hidden="true"></i></span>
+{% for pg_social_chat in loops.pg_social_chat %}
+<li class="pg_social_chat_people_online_single {{ pg_social_chat.USER_STATUS }}_status" data-people="{{ pg_social_chat.USER_ID }}">
+	{{ pg_social_chat.USER_AVATAR }}
+	<div class="pg_social_chat_people_online_single_author">{{ pg_social_chat.USER_USERNAME }}</div>
+	<span class="pg_socialchat_people_online_single_status {{ pg_social_chat.USER_STATUS }}"><i class="icon fa fa-circle fa-fw" aria-hidden="true"></i></span>
 </li>
-<!-- END pg_social_chat -->
+{% endfor %}

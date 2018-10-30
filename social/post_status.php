@@ -10,7 +10,8 @@
 
 namespace pgreca\pg_social\social;
 
-class post_status {
+class post_status
+{
 	/* @var \phpbb\template\template */
 	protected $template;
 
@@ -41,7 +42,8 @@ class post_status {
 	* @param \phpbb\db\driver\driver_interface	$db 		
 	*/
 	
-	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $social_photo, $social_tag, $social_zebra, $social_page, $config, $db, $root_path, $php_ext, $table_prefix) {
+	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $social_photo, $social_tag, $social_zebra, $social_page, $config, $db, $root_path, $php_ext, $table_prefix)
+	{
 		$this->template					= $template;
 		$this->user						= $user;
 		$this->helper					= $helper;
@@ -58,13 +60,15 @@ class post_status {
         $this->table_prefix 			= $table_prefix;
 	}
 	
-	public function getStatus($post_where, $wall_id, $lastp, $type, $order, $template){
-		switch($post_where) {
+	public function getStatus($post_where, $wall_id, $lastp, $type, $order, $template)
+	{
+		switch($post_where)
+		{
 			case 'page':	
 				$where = "(w.wall_id = '".$wall_id."') AND post_where = '1' AND (w.user_id = u.user_id) AND (u.user_type != '2') AND ";
 			break;
 			default:
-				switch($type) {
+				switch($type){
 					case "profile":
 						$where = "(w.wall_id = '".$wall_id."') AND post_where = '0' AND ";
 					break;
@@ -77,7 +81,8 @@ class post_status {
 		}
 		
 		
-		switch($lastp) {
+		switch($lastp)
+		{
 			case 0:
 				$limit = 5; 
 				$orderby = "DESC"; 
@@ -88,7 +93,8 @@ class post_status {
 			break;
 		}
 		
-		switch($order) {
+		switch($order)
+		{
 			case 'prequel':
 				$order_vers = '<';
 				$orderby = "DESC";
@@ -102,32 +108,40 @@ class post_status {
 		FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u WHERE ".$where." w.user_id = u.user_id
 		AND (w.post_ID ".$order_vers." '".$lastp."') GROUP BY post_ID ORDER BY w.time ".$orderby;
 		$result = $this->db->sql_query_limit($sql, $limit);
-		while($row = $this->db->sql_fetchrow($result)){	
+		while($row = $this->db->sql_fetchrow($result))
+		{	
 			$this->status($post_where, $wall_id, $type, $template, $row);
 			
 		}
-		if($template == "on") {
+		if($template == "on")
+		{
 				return $this->helper->render('activity_status.html', "");
 			} 
 	}
 	
-	public function status($post_where, $wall_id, $type, $template, $row) {
+	public function status($post_where, $wall_id, $type, $template, $row)
+	{
 		$rele = true;
 		$author_action = '';
 		$user_id = (int) $this->user->data['user_id'];
-		if($post_where == 'page'|| $row['post_where'] == 1 && $this->social_page->user_likePages($user_id, $row['wall_id']) == $row['wall_id'] || $row['post_where'] == 0 && ($row['wall_id'] == $user_id || $row['post_privacy'] == 0 && $row['wall_id'] == $user_id || $row['post_privacy'] == 1 && $this->social_zebra->friendStatus($row['wall_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $row['post_privacy'] == 2)) {
+		if($post_where == 'page'|| $row['post_where'] == 1 && $this->social_page->user_likePages($user_id, $row['wall_id']) == $row['wall_id'] || $row['post_where'] == 0 && ($row['wall_id'] == $user_id || $row['post_privacy'] == 0 && $row['wall_id'] == $user_id || $row['post_privacy'] == 1 && $this->social_zebra->friendStatus($row['wall_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $row['post_privacy'] == 2))
+		{
 			$share = $row['post_ID'];
 			
-			switch($row['post_where']) {
+			switch($row['post_where'])
+			{
 				case 1:
 					$sqlpage = "SELECT * FROM ".$this->table_prefix."pg_social_pages WHERE page_id = '".$row['wall_id']."'";
 					$resultpage = $this->db->sql_query($sqlpage);
 					$page = $this->db->sql_fetchrow($resultpage);
 					$status_title = $page['page_username'];
 					$status_avatar = '<img class="avatar" src="'.generate_board_url().'/ext/pgreca/pg_social/images/transp.gif" style="background-image:url('.generate_board_url().'/ext/pgreca/pg_social/images/';
-					if($page['page_avatar'] != "") {
+					if($page['page_avatar'] != "")
+					{
 						$status_avatar .= 'upload/'.$page['page_avatar']; 
-					} else {
+					}
+					else
+					{
 						$status_avatar .= 'page_no_avatar.jpg';
 					}
 					$status_avatar .= ')" />';
@@ -143,20 +157,23 @@ class post_status {
 					$status_aut_id = $row['user_id'];
 					$status_profile = get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']);
 					$status_color = "#".$row['user_colour'];
-					if(($row['user_id'] != $row['wall_id']) && $type != "profile") {
+					if(($row['user_id'] != $row['wall_id']) && $type != "profile")
+					{
 						$sqla = "SELECT user_id, username, username_clean, user_colour FROM ".USERS_TABLE."
 						WHERE user_id = '".$row['wall_id']."'";
 						$resulta = $this->db->sql_query($sqla);
 						$wall = $this->db->sql_fetchrow($resulta);					
 						$wall_action = $this->user->lang("HAS_WRITE_IN");
-					} else {
+					}
+					else
+					{
 						$wall['user_id'] = '';
 						$wall['username'] = '';
 						$wall['user_colour'] = '';
 						$wall_action = '';
 					}
-					switch($row['post_type']) {
-						
+					switch($row['post_type'])
+					{						
 						case 4:
 							$posts = explode("#p", $row['post_extra']);
 							$sql_post = "SELECT * FROM ".TOPICS_TABLE." WHERE topic_id = '".$posts[0]."'";
@@ -170,7 +187,8 @@ class post_status {
 					}	
 				break;
 			}
-			switch($row['post_type']) {
+			switch($row['post_type'])
+			{
 				case 1:
 						$author_action = $this->user->lang("HAS_UPLOADED_AVATAR");
 						$photo = $this->photo($row['post_extra']);
@@ -185,13 +203,17 @@ class post_status {
 					break;
 				case '3':
 				default:
-					if($row['post_parent'] != 0) {
+					if($row['post_parent'] != 0)
+					{
 						$share = $row['post_parent'];
-						if($this->status_where($row['post_parent']) == 1) {
+						if($this->status_where($row['post_parent']) == 1)
+						{
 							$sqlpar = "p.page_id as user_id, p.page_username as username, p.page_username_clean as username_clean, p.page_avatar as user_avatar ";
 							$sqlfro = $this->table_prefix."pg_social_pages as p";
 							$sqlwhe = "p.page_id";
-						} else {
+						}
+						else
+						{
 							$sqlpar = "u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour ";
 							$sqlfro = USERS_TABLE." as u ";
 							$sqlwhe = "u.user_id";
@@ -203,16 +225,20 @@ class post_status {
 						$post_parent = $this->db->sql_query($sql);
 						$parent = $this->db->sql_fetchrow($post_parent);
 						$parent['url'] = get_username_string('profile', $parent['user_id'], $parent['username'], $parent['user_colour']);
-						if(isset($parent['post_ID'])) {
+						if(isset($parent['post_ID']))
+						{
 							$author_action = $this->user->lang("HAS_SHARED_STATUS", '<a href="'.append_sid($this->helper->route("status_page", array("id" => $parent['post_ID']))).'">'.$this->user->lang('STATUS').'</a>');
 							$msg = generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags);
 							$msg .= $this->pg_social_helper->extraText($row['message']);
 							$msg .= '<div class="post_parent_cont">';
-							if($parent['post_extra'] != "") {
+							if($parent['post_extra'] != "")
+							{
 								$photo = $this->photo($parent['post_extra']);
 								$msg .= $photo['msg'];
 								$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
-							} else {
+							}
+							else
+							{
 								$allow_bbcode = $this->config['pg_social_bbcode'];
 								$allow_urls = $this->config['pg_social_url'];
 								$allow_smilies = $this->config['pg_social_smilies'];
@@ -227,12 +253,17 @@ class post_status {
 							$msg .= '</div>';
 							$msg .= '</div>';
 						}
-					} else {
-						if($row['post_extra'] != "" && $row['post_type'] != 4) {
+					}
+					else
+					{
+						if($row['post_extra'] != "" && $row['post_type'] != 4)
+						{
 							$photo = $this->photo($row['post_extra']);
 							$msg = $photo['msg'];
 							$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
-						} else {
+						}
+						else
+						{
 							$allow_bbcode = $this->config['pg_social_bbcode'];
 							$allow_urls = $this->config['pg_social_url'];
 							$allow_smilies = $this->config['pg_social_smilies'];
@@ -247,9 +278,12 @@ class post_status {
 				break;					
 			}
 			$comment = "<span>".$this->pg_social_helper->countAction("comments", $row['post_ID'])."</span> ";
-			if($this->pg_social_helper->countAction("comments", $row['post_ID']) == 0 || $this->pg_social_helper->countAction("comments", $row['post_ID']) > 1) {
+			if($this->pg_social_helper->countAction("comments", $row['post_ID']) == 0 || $this->pg_social_helper->countAction("comments", $row['post_ID']) > 1)
+			{
 				$comment .= $this->user->lang('COMMENTS');
-			} else {
+			}
+			else
+			{
 				$comment .= $this->user->lang('COMMENT');
 			}
 		
@@ -284,15 +318,18 @@ class post_status {
 			)); 	
 			$this->getComments($row['post_ID'], $row['post_type'], false);
 		}
-		if($template == "half") {
+		if($template == "half")
+		{
 			return $this->helper->render('status.html', 'Stai vedendo uno stato di'. $status_username);
 		}
 		$this->db->sql_freeresult($result);
 	}
 		
 	
-	public function addStatus($post_where, $wall_id, $text, $privacy, $type = 0, $extra = NULL) {
-		switch($post_where) {
+	public function addStatus($post_where, $wall_id, $text, $privacy, $type = 0, $extra = NULL)
+	{
+		switch($post_where)
+		{
 			case 'page':
 				$post_where = 1;
 			break;	
@@ -329,11 +366,13 @@ class post_status {
 		);
 		
 		if($text != "" || $extra != "") $sql = "INSERT INTO " . $this->table_prefix . 'pg_social_wall_post' . $this->db->sql_build_array('INSERT', $sql_arr);
-		if($this->db->sql_query($sql)) {	
+		if($this->db->sql_query($sql))
+		{	
 			$last_status = "SELECT post_ID FROM ".$this->table_prefix."pg_social_wall_post WHERE time = '".$time."' AND user_id = '".$user_id."' AND wall_id = '".$wall_id."' ORDER BY time DESC LIMIT 0, 1";
 			$last = $this->db->sql_query($last_status);
 			$row = $this->db->sql_fetchrow();	
-			if($post_where == 0 && $wall_id == $user_id && $this->user->data['user_signature_replace'] && $privacy != 0 && $type != 4 && !$this->pg_social_helper->extraText($text)) {
+			if($post_where == 0 && $wall_id == $user_id && $this->user->data['user_signature_replace'] && $privacy != 0 && $type != 4 && !$this->pg_social_helper->extraText($text))
+			{
 				$new_sign = $text."<br /><a class=\"profile_signature_status\" href=\"".$this->helper->route("status_page", array("id" => $row['post_ID']))."\">#status</a></a>";
 				//generate_text_for_storage($new_sign, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
 				
@@ -352,7 +391,8 @@ class post_status {
 		if($type != 4) return $this->helper->render('activity_status_action.html', $this->user->lang['ACTIVITY']);	
 	}
 	
-	public function deleteStatus($post) {
+	public function deleteStatus($post)
+	{
 		$sql_status = "DELETE FROM ".$this->table_prefix."pg_social_wall_post WHERE ".$this->db->sql_in_set('post_ID', array($post));
 		$sql_comment = "DELETE FROM ".$this->table_prefix."pg_social_wall_comment WHERE ".$this->db->sql_in_set('post_ID', array($post));
 		$sql_like = "DELETE FROM ".$this->table_prefix."pg_social_wall_like WHERE ".$this->db->sql_in_set('post_ID', array($post));
@@ -368,7 +408,8 @@ class post_status {
 		return $this->helper->render('activity_status_action.html', "");
 	}
 	
-	public function shareStatus($post) {
+	public function shareStatus($post)
+	{
 		$time = time();
 		$sql_arr = array(
 			'post_parent'		=> $post,
@@ -397,7 +438,8 @@ class post_status {
 		return $this->helper->render('activity_status_action.html', "");
 	}
 	
-	public function likeAction($post) {
+	public function likeAction($post)
+	{
 		$post_info = "SELECT user_id, wall_id FROM ".$this->table_prefix."pg_social_wall_post WHERE post_ID = '".$post."'";
 		$res = $this->db->sql_query($post_info);
 		$post_info = $this->db->sql_fetchrow($res);
@@ -407,12 +449,15 @@ class post_status {
 		WHERE post_ID = '".$post."' AND user_id = '".$user_id."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
-		if($row['post_like_ID'] != "") {
+		if($row['post_like_ID'] != "")
+		{
 			$sql = "DELETE FROM ".$this->table_prefix."pg_social_wall_like WHERE post_ID = '".$post."' AND user_id = '".$user_id."'";
 			$action = "dislike";
 			if($post_info['user_id'] != $user_id || $post_info['wall_id'] == $user_id) $this->notify->notify('remove_like', $post, '', (int) $post_info['user_id'], (int) $user_id, 'NOTIFICATION_SOCIAL_LIKE_ADD');		
 			$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, "DISLIKE_NEW", "<a href='".$this->helper->route("status_page", array("id" => $post))."'>#".$post."</a>");
-		} else {
+		}
+		else
+		{
 			$sql_arr = array(
 				'post_ID'			=> $post,
 				'user_id'			=> $user_id,
@@ -432,7 +477,8 @@ class post_status {
 		return $this->helper->render('activity_status_action.html', '');
 	}
 	
-	public function getComments($post, $type, $template = true) {
+	public function getComments($post, $type, $template = true)
+	{
 		$user_id = (int) $this->user->data['user_id'];
 						
 		$sql = "SELECT *
@@ -440,7 +486,8 @@ class post_status {
 		WHERE post_ID = '".$post."'
 		ORDER BY time DESC";
 		$result = $this->db->sql_query($sql);
-		while($row = $this->db->sql_fetchrow($result)){
+		while($row = $this->db->sql_fetchrow($result))
+		{
 			$allow_bbcode = false; //$this->config['pg_social_bbcode'];
 			$allow_urls = false; //$this->config['pg_social_url'];
 			$allow_smilies = false; //$this->config['pg_social_smilies'];
@@ -467,7 +514,8 @@ class post_status {
 		if($template) return $this->helper->render('activity_comment.html', '');				
 	}
 	
-	public function addComment($post, $comment) {
+	public function addComment($post, $comment)
+	{
 		$post_info = "SELECT user_id, wall_id FROM ".$this->table_prefix."pg_social_wall_post WHERE post_ID = '".$post."'";
 		$res = $this->db->sql_query($post_info);
 		$post_info = $this->db->sql_fetchrow($res);
@@ -504,7 +552,8 @@ class post_status {
 		return $this->helper->render('activity_status_action.html', '');
 	}
 
-	public function removeComment($comment) {
+	public function removeComment($comment)
+	{
 		$sql = "DELETE FROM ".$this->table_prefix."pg_social_wall_comment WHERE post_comment_ID = '".$comment."' AND user_id = '".$this->user->data['user_id']."'";
 		$this->db->sql_query($sql);		
 		$this->template->assign_vars(array(
@@ -514,7 +563,8 @@ class post_status {
 		return $this->helper->render('activity_status_action.html', '');
 	}
 		
-	public function photo($photo) {
+	public function photo($photo)
+	{
 		$img = $this->social_photo->getPhoto($photo);
 		
 		return array(
@@ -523,7 +573,8 @@ class post_status {
 		);
 	}
 	
-	public function status_where($status) {
+	public function status_where($status)
+	{
 		$sql = "SELECT post_where FROM ".$this->table_prefix."pg_social_wall_post WHERE post_ID = '".$status."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);

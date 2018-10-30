@@ -10,7 +10,8 @@
 
 namespace pgreca\pg_social\social;
 
-class social_page {
+class social_page
+{
 	/* @var \phpbb\template\template */
 	protected $template;
 
@@ -41,7 +42,8 @@ class social_page {
 	* @param \phpbb\db\driver\driver_interface	$db 		
 	*/
 	
-	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $social_photo, $social_tag, $social_zebra, $config, $db, $root_path, $php_ext, $table_prefix) {
+	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $social_photo, $social_tag, $social_zebra, $config, $db, $root_path, $php_ext, $table_prefix)
+	{
 		$this->template					= $template;
 		$this->user						= $user;
 		$this->helper					= $helper;
@@ -57,7 +59,8 @@ class social_page {
         $this->table_prefix 			= $table_prefix;
 	}
 	
-	public function pageCreate($page_name, $page_category = 0) {
+	public function pageCreate($page_name, $page_category = 0)
+	{
 		$sql_arr = array(
 			'page_type'				=> 0,
 			'page_status'			=> 0,
@@ -70,7 +73,8 @@ class social_page {
 			'page_cover_position'	=> '',
 		);
 		$sql = "INSERT INTO ".$this->table_prefix.'pg_social_pages'.$this->db->sql_build_array('INSERT', $sql_arr);
-		if($this->db->sql_query($sql)) {
+		if($this->db->sql_query($sql))
+		{
 			redirect($this->helper->route('pages_page', array("name" => strtolower(str_replace(' ', '_', $page_name)))));
 		}
 		$this->template->assign_vars(array(
@@ -79,26 +83,32 @@ class social_page {
 		return $this->helper->render('activity_status_action.html', "");
 	}
 	
-	public function user_likePages($user, $page = false) {		
+	public function user_likePages($user, $page = false)
+	{		
 		if(isset($page)) $where = " AND page_id = '".$page."'"; else $array = array();
 		$sql = "SELECT page_id FROM ".$this->table_prefix."pg_social_pages_like WHERE user_id = '".$user."'".$where;
 		$result = $this->db->sql_query($sql);
-		while($row = $this->db->sql_fetchrow($result)){	
+		while($row = $this->db->sql_fetchrow($result))
+		{	
 			if(isset($page) && $row['page_id'] != "") $array = $row['page_id']; else $array[] = $row['page_id'];
 		}
 		if($array == "") $array = 0;
 		return $array;
 	}
 	
-	public function pagelikeAction($page) {
+	public function pagelikeAction($page)
+	{
 		$sql = "SELECT page_like_ID FROM ".$this->table_prefix."pg_social_pages_like WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
 		$result = $this->db->sql_query($sql);
 		$like = $this->db->sql_fetchrow($result);
 		
-		if($like['page_like_ID'] != "") {
+		if($like['page_like_ID'] != "")
+		{
 			$sql = "DELETE FROM ".$this->table_prefix."pg_social_pages_like WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
 			$action = "dislikepage";
-		} else {
+		}
+		else
+		{
 			$sql_arr = array(
 				'page_id'			=> $page,
 				'user_id'			=> $this->user->data['user_id'],

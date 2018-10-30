@@ -1,52 +1,52 @@
-<!-- INCLUDE overall_header.html -->
+{% INCLUDE 'overall_header.html' %}
 <div id="pg_social" class="pg_social_pagepage">
-<!-- IF not PAGES -->
-<!-- BEGIN page -->
-	<!-- IF page.PAGE_ALERT -->
+{% if not PAGES %}
+{% for page in loops.page %}
+	{% if page.PAGE_ALERT %}
 	<div class="pg_social_alert">
 		Pagina in attesa di moderazione
 	</div>
-	<!-- ENDIF -->
-	<div id="pg_social_header" style="background-image:url({page.PAGE_COVER}); background-position: left {page.PAGE_COVER_POSITION}px;">	
+	{% endif %}
+	<div id="pg_social_header" style="background-image:url({{ page.PAGE_COVER }}); background-position: left {{ page.PAGE_COVER_POSITION }}px;">	
 		<div id="pg_social_actionprofile">
-			<a class="page_list_buttonLike" data-page="{page.PAGE_ID}"><span class="{page.PAGE_LIKE_CHECK}">{L_LIKE}</span></a>	
-			<!-- IF page.PAGE_ACTION -->
+			<a class="page_list_buttonLike" data-page="{{ page.PAGE_ID }}"><span class="{{ page.PAGE_LIKE_CHECK }}">{{ lang('LIKE') }}</span></a>	
+			{% if page.PAGE_ACTION %}
 			<div id="profile_upload">
-				<input id="profile_upload_submit" type="submit" value="{L_PROFILE_UPDATE}" />
+				<input id="profile_upload_submit" type="submit" value="{{ lang('PROFILE_UPDATE') }}" />
 				<div class="action_profile">				
-					<a id="pg_social_edit_avatar" href="{PROFILE_AVATAR_UPDATE}">{L_PROFILE_AVATAR_UPDATE}</a><label id="pg_social_edit_cover">{L_PROFILE_COVER_UPDATE}<input type="file" accept="image/*" data-type="cover"></label>
+					<a id="pg_social_edit_avatar" href="{{ PROFILE_AVATAR_UPDATE }}">{{ lang('PROFILE_AVATAR_UPDATE') }}</a><label id="pg_social_edit_cover">{{ lang('PROFILE_COVER_UPDATE') }}<input type="file" accept="image/*" data-type="cover"></label>
 				</div>
 			</div>
-			<!-- ENDIF -->
+			{% endif %}
 		</div>
 	</div><div id="pg_social_main">
-		<div class="profile_avatar">{page.PAGE_AVATAR}</div>			
-		<h2 class="memberlist-username">{page.PAGE_USERNAME}</h2>
-		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa-user fa-fw" aria-hidden="true"></i> {L_ACTIVITY}</a></li><!--<li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i> {L_LIKES} <span>({page.PAGE_COUNT_FOLLOWER})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa-camera fa-fw" aria-hidden="true"></i> {L_GALLERY}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i> {L_INFO}</a></li>--></ul>
+		<div class="profile_avatar">{{ page.PAGE_AVATAR }}</div>			
+		<h2 class="memberlist-username">{{ page.PAGE_USERNAME }}</h2>
+		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa-user fa-fw" aria-hidden="true"></i> {{ lang('ACTIVITY') }}</a></li><!--<li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i> {{ lang('LIKES') }} <span>({{ page.PAGE_COUNT_FOLLOWER }})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa-camera fa-fw" aria-hidden="true"></i> {{ lang('GALLERY') }}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i> {{ lang('INFO') }}</a></li>--></ul>
 		<div id="pg_social_sidel">
 			SIDE L
-		</div><div id="pg_social_cont"<!-- IF not PG_SOCIAL_SIDEBAR_RIGHT --> style="width:calc(80%);"<!-- ENDIF -->>
+		</div><div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80%);"{% endif %}>
 			<div class="pg_social_pagesub" id="page_activity">
-				<!-- IF page.PAGE_STATUS_ACTION -->
+				{% if page.PAGE_STATUS_ACTION %}
 				<form method="post" id="wall_post">
 					<div class="wall_post_area">
-						<textarea required name="wall_post_text" id="wall_post_text" placeholder="{L_WRITE_SOMETHING}..."></textarea>
+						<textarea required name="wall_post_text" id="wall_post_text" placeholder="{{ lang('WRITE_SOMETHING') }}..."></textarea>
 					</div>
 					<div class="wall_post_option">
-						<label id="pg_social_wall_post_img">{L_ATTACH_PICTURE}<input name="wall_post_img" id="wall_post_img" type="file" accept="image/*" /></label>
-						<input name="submit" type="submit" value="{L_PUBLIC}" />
+						<label id="pg_social_wall_post_img">{{ lang('ATTACH_PICTURE') }}<input name="wall_post_img" id="wall_post_img" type="file" accept="image/*" /></label>
+						<input name="submit" type="submit" value="{{ lang('PUBLIC') }}" />
 					</div>
 					<div id="wall_post_thumb"><img id="wall_post_thumb_img" src="" /></div>
-					{S_HIDDEN_FIELDS}
-					{S_FORM_TOKEN}
+					{{ S_HIDDEN_FIELDS }}
+					{{ S_FORM_TOKEN }}
 				</form>
-				<!-- ENDIF -->		
+				{% endif %}		
 				<ul id="posts_status">
-					<!-- INCLUDE activity_status.html -->
+					{% INCLUDE 'activity_status.html' %}
 				</ul>
 				<div id="load_more"></div>
 			</div>
-		</div><!-- IF PG_SOCIAL_SIDEBAR_RIGHT --><div id="pg_social_sider">
+		</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
 			SIDE R
 			<div class="panel ads" style="display: none;">
 				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -61,33 +61,33 @@
 				(adsbygoogle = window.adsbygoogle || []).push({});
 				</script>
 			</div>	
-		</div><!-- ENDIF -->	
+		</div>{% endif %}	
 	</div>
-<!-- END page -->
-<!-- ELSE -->
-<div id="pg_social_cont" style="width:calc(<!-- IF not PG_SOCIAL_SIDEBAR_RIGHT -->100<!-- ELSE -->80<!-- ENDIF -->%);">			
+{% endfor %}
+{% else %}
+<div id="pg_social_cont" style="width:calc({% if not PG_SOCIAL_SIDEBAR_RIGHT %}100{% else %}80{% endif %}%);">			
 	<ul id="pages_list">
-		<!-- BEGIN pages -->
-		<li class="page_list" id="page_list_{pages.PAGE_ID}">
-			<a class="page_list_head" style="background-image: url({pages.PAGE_AVATAR});" href="{pages.PAGE_URL}"></a>
-			<a class="page_list_username" href="{pages.PAGE_URL}">{pages.PAGE_USERNAME}</a>
-			<span class="page_list_likesCount">Piace a {pages.PAGE_COUNT_FOLLOWER}</span><a class="page_list_buttonLike" data-page="{pages.PAGE_ID}"><span class="{pages.PAGE_LIKE_CHECK}">{L_LIKE}</span></a>
+		{% for pages in loops.pages %}
+		<li class="page_list" id="page_list_{{ pages.PAGE_ID }}">
+			<a class="page_list_head" style="background-image: url({{ pages.PAGE_AVATAR }});" href="{{ pages.PAGE_URL }}"></a>
+			<a class="page_list_username" href="{{ pages.PAGE_URL }}">{{ pages.PAGE_USERNAME }}</a>
+			<span class="page_list_likesCount">Piace a {{ pages.PAGE_COUNT_FOLLOWER }}</span><a class="page_list_buttonLike" data-page="{{ pages.PAGE_ID }}"><span class="{{ pages.PAGE_LIKE_CHECK }}">{{ lang('LIKE') }}</span></a>
 		</li>
-		<!-- END pages -->
+		{% endfor %}
 	</ul>
 </div><div id="pg_social_sider">
-	<!-- IF PAGE_CREATE -->
+	{% if PAGE_CREATE %}
 	<div class="panel">
 		<h3>Crea pagina</h3>
-		<form id="page_new_form" method="post" action="{PAGE_FORM}">
+		<form id="page_new_form" method="post" action="{{ PAGE_FORM }}">
 			<label for="page_new_name">
 				<input type="text" name="page_new_name" placeholder="Inserisci il nome della Pagina" />
 			</label>
 			<input type="submit" name="page_new_submit" />
 		</form>
 	</div>
-	<!-- ENDIF -->
+	{% endif %}
 </div>
-<!-- ENDIF -->
+{% endif %}
 </div>
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}

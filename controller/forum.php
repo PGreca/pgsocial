@@ -10,7 +10,8 @@
 
 namespace pgreca\pg_social\controller;
 
-class forum {
+class forum
+{
 	/** @var \phpbb\files\factory */
 	protected $files_factory;
 	
@@ -59,7 +60,8 @@ class forum {
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
 	*/
-	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix) {
+	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix)
+	{
 		$this->files_factory		= $files_factory;
 		$this->auth					= $auth;
 		$this->config				= $config;
@@ -87,7 +89,8 @@ class forum {
 	* @param string		$name
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function handle() {		
+	public function handle()
+	{		
 		if($this->user->data['user_id'] == ANONYMOUS || !$this->config['pg_social_index_replace']) redirect($this->root_path);
 		/**
 		 * This is ugly but the only way I could find
@@ -107,12 +110,15 @@ class forum {
 
 		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
 		// Grab group details for legend display
-		if($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel')) {
+		if($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel'))
+		{
 			$sql = 'SELECT group_id, group_name, group_colour, group_type, group_legend
 				FROM ' . GROUPS_TABLE . '
 				WHERE group_legend > 0
 				ORDER BY ' . $order_legend . ' ASC';
-		} else {
+		}
+		else
+		{
 			$sql = 'SELECT g.group_id, g.group_name, g.group_colour, g.group_type, g.group_legend
 				FROM ' . GROUPS_TABLE . ' g
 				LEFT JOIN ' . USER_GROUP_TABLE . ' ug
@@ -131,13 +137,17 @@ class forum {
 		$group_helper = $phpbb_container->get('group_helper');
 
 		$legend = array();
-		while ($row = $this->db->sql_fetchrow($result)) {
+		while ($row = $this->db->sql_fetchrow($result))
+		{
 			$colour_text = ($row['group_colour']) ? ' style="color:#' . $row['group_colour'] . '"' : '';
 			$group_name = $group_helper->get_name($row['group_name']);
 
-			if($row['group_name'] == 'BOTS' || ($this->user->data['user_id'] != ANONYMOUS && !$this->auth->acl_get('u_viewprofile'))) {
+			if($row['group_name'] == 'BOTS' || ($this->user->data['user_id'] != ANONYMOUS && !$this->auth->acl_get('u_viewprofile')))
+			{
 				$legend[] = '<span' . $colour_text . '>' . $group_name . '</span>';
-			} else {
+			}
+			else
+			{
 				$legend[] = '<a' . $colour_text . ' href="' . append_sid("{$this->root_path}memberlist.$phpEx", 'mode=group&amp;g=' . $row['group_id']) . '">' . $group_name . '</a>';
 			}
 		}
@@ -149,13 +159,15 @@ class forum {
 		$show_birthdays = ($this->config['load_birthdays'] && $this->config['allow_birthdays'] && $this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'));
 
 		$birthdays = $birthday_list = array();
-		if($show_birthdays) {
+		if($show_birthdays)
+		{
 			$time = $this->user->create_datetime();
 			$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
 
 			// Display birthdays of 29th february on 28th february in non-leap-years
 			$leap_year_birthdays = '';
-			if($now['mday'] == 28 && $now['mon'] == 2 && !$time->format('L')) {
+			if($now['mday'] == 28 && $now['mon'] == 2 && !$time->format('L'))
+			{
 				$leap_year_birthdays = " OR u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', 29, 2)) . "%'";
 			}
 
@@ -192,7 +204,8 @@ class forum {
 			$rows = $this->db->sql_fetchrowset($result);
 			$this->db->sql_freeresult($result);
 
-			foreach ($rows as $row) {
+			foreach ($rows as $row)
+			{
 				$birthday_username	= get_username_string('full', $row['user_id'], $row['username'], $row['user_colour']);
 				$birthday_year		= (int) substr($row['user_birthday'], -4);
 				$birthday_age		= ($birthday_year) ? max(0, $now['year'] - $birthday_year) : '';
@@ -266,8 +279,10 @@ class forum {
 	/**
 	 * @return void
 	 */
-	protected function set_mcp_url() {
-		if($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) {
+	protected function set_mcp_url()
+	{
+		if($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_'))
+		{
 			$this->template->assign_var('U_MCP', append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=main&amp;mode=front', true, $this->user->session_id));
 		}
 	}

@@ -14,7 +14,8 @@ use Symfony\Component\DependencyInjection\Container;
 /**
 * Admin controller
 */
-class notifyhelper {
+class notifyhelper
+{
 	/**
 	* Constructor
 	*
@@ -28,7 +29,8 @@ class notifyhelper {
 	* @param string $php_ext                                   phpEx
 	* @access public
 	*/
-	public function __construct($config, $db, $request, $template, $user, $phpbb_container, $root_path, $php_ext) {
+	public function __construct($config, $db, $request, $template, $user, $phpbb_container, $root_path, $php_ext)
+	{
 		$this->config 			= $config;
 		$this->db 				= $db;
 		$this->request			= $request;
@@ -39,7 +41,8 @@ class notifyhelper {
 		$this->php_ext 			= $php_ext;
 	}
 	
-	public function notify($type, $status_id, $status, $wall_id, $user_id, $lang) {
+	public function notify($type, $status_id, $status, $wall_id, $user_id, $lang)
+	{
 		$notification_data = array(
 			'status_id'	=> (int) $status_id,
 			'status'	=>	substr(preg_replace("(\r\n|\n|\r)", " ", utf8_normalize_nfc($status)),0,40).((strlen($status) > 39)?'...':''),
@@ -50,29 +53,30 @@ class notifyhelper {
 
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
 		
-			switch($type) {
-				case 'add_status':
-					$phpbb_notifications->add_notifications('notification.type.social_status', $notification_data);
-				break;
-				case 'remove_status':
-					$phpbb_notifications->delete_notifications('notification.type.social_status', $notification_data);
-				break;
-				case 'add_tag':
-					$phpbb_notifications->add_notifications('notification.type.social_tag', $notification_data);					
-				break;
-				case 'add_comment':
-					$phpbb_notifications->add_notifications('notification.type.social_comments', $notification_data);
-				break;
-				case 'remove_cmt':
-					$phpbb_notifications->delete_notifications('notification.type.social_comments', $notification_data);
-				break;				
-				case 'add_like':
-					$phpbb_notifications->add_notifications('notification.type.social_likes', $notification_data);
-				break;
-				case 'remove_like':
-					$phpbb_notifications->delete_notifications('notification.type.social_likes', $notification_data);
-				break;
-			}
+		switch($type)
+		{
+			case 'add_status':
+				$phpbb_notifications->add_notifications('notification.type.social_status', $notification_data);
+			break;
+			case 'remove_status':
+				$phpbb_notifications->delete_notifications('notification.type.social_status', $notification_data);
+			break;
+			case 'add_tag':
+				$phpbb_notifications->add_notifications('notification.type.social_tag', $notification_data);					
+			break;
+			case 'add_comment':
+				$phpbb_notifications->add_notifications('notification.type.social_comments', $notification_data);
+			break;
+			case 'remove_cmt':
+				$phpbb_notifications->delete_notifications('notification.type.social_comments', $notification_data);
+			break;				
+			case 'add_like':
+				$phpbb_notifications->add_notifications('notification.type.social_likes', $notification_data);
+			break;
+			case 'remove_like':
+				$phpbb_notifications->delete_notifications('notification.type.social_likes', $notification_data);
+			break;
+		}
 		
 	}
 }

@@ -1,15 +1,15 @@
-<!-- IF S_PG_SOCIAL_ENABLED -->
-<!-- IF not SOCIAL_FORUM -->
-<li class="no-bulletin" data-last-responsive="true">
-	<a href="{ACTIVITY_PAGE_NAV}" rel="{L_ACTIVITY_PAGE}" title="{L_ACTIVITY_PAGE}" role="menuitem">
-		<i class="icon fa fa-users fa-fw" aria-hidden="true"></i><span>{L_ACTIVITY_PAGE}</span>
-	</a>
-</li>
-<!-- ELSE -->
-<li class="no-bulletin" data-last-responsive="true">
-	<a href="{SOCIAL_FORUM}" rel="{L_FORUM}" title="{L_FORUM}" role="menuitem">
-		<i class="icon fa fa-comments fa-fw" aria-hidden="true"></i><span>{L_FORUM}</span>
-	</a>
-</li>
-<!-- ENDIF -->
-<!-- ENDIF -->
+{% if S_PG_SOCIAL_ENABLED %}
+{% if not SOCIAL_FORUM %}
+<li class="no-bulletin" data-last-responsive="true">
+	<a href="{{ ACTIVITY_PAGE_NAV }}" rel="{{ lang('ACTIVITY_PAGE') }}" title="{{ lang('ACTIVITY_PAGE') }}" role="menuitem">
+		<i class="icon fa fa-users fa-fw" aria-hidden="true"></i><span>{{ lang('ACTIVITY_PAGE') }}</span>
+	</a>
+</li>
+{% else %}
+<li class="no-bulletin" data-last-responsive="true">
+	<a href="{{ SOCIAL_FORUM }}" rel="{{ lang('FORUM') }}" title="{{ lang('FORUM') }}" role="menuitem">
+		<i class="icon fa fa-comments fa-fw" aria-hidden="true"></i><span>{{ lang('FORUM') }}</span>
+	</a>
+</li>
+{% endif %}
+{% endif %}

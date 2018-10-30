@@ -10,7 +10,8 @@
 
 namespace pgreca\pg_social\controller;
 
-class pages {
+class pages
+{
 	/** @var \phpbb\files\factory */
 	protected $files_factory;
 	
@@ -58,7 +59,8 @@ class pages {
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
 	*/
-	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix) {
+	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix)
+	{
 		$this->files_factory		= $files_factory;
 		$this->auth					= $auth;
 		$this->config				= $config;
@@ -85,21 +87,27 @@ class pages {
 	* @param string		$name
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function handle($name) {
-		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel')) {
-			if($this->user->data['user_id'] != ANONYMOUS) {
+	public function handle($name)
+	{
+		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
+		{
+			if($this->user->data['user_id'] != ANONYMOUS)
+			{
 				echo $this->user->data['user_id'];
 				trigger_error('NO_VIEW_USERS');
 			}
 			login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
-		} else {	
+		}
+		else
+		{	
 			$page_title = $this->user->lang['PAGES'];
 	
 			$sql = "SELECT * FROM ".$this->table_prefix."pg_social_pages WHERE page_username_clean = '".$name."'";
 			$result = $this->db->sql_query($sql);
 			$page = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
-			if($page && ($page['page_status'] == 1 || $page['page_founder'] == $this->user->data['user_id'] || $this->auth->acl_get('a_page_manage'))) {	
+			if($page && ($page['page_status'] == 1 || $page['page_founder'] == $this->user->data['user_id'] || $this->auth->acl_get('a_page_manage')))
+			{	
 				$page_title = $page['page_username'];
 				if($page['page_status'] == 0) $page_alert = true; else $page_alert = false;
 				
@@ -126,10 +134,13 @@ class pages {
 				));
 				$this->post_status->getStatus('page', $page['page_id'], 0, "all", "seguel", "off");
 				$page_title = $page['page_username'];
-			} else {				
+			}
+			else
+			{				
 				$mode = $this->request->variable('mode', '');
 				
-				switch($mode) {
+				switch($mode)
+				{
 					case 'page_new':
 						return $this->social_page->pageCreate($this->request->variable('page_new_name', ''));
 					break;
@@ -137,7 +148,8 @@ class pages {
 				
 				$sql = "SELECT *, (SELECT COUNT(*) FROM ".$this->table_prefix."pg_social_pages_like WHERE ".$this->table_prefix."pg_social_pages.page_id = ".$this->table_prefix."pg_social_pages_like.page_id) AS countlike FROM ".$this->table_prefix."pg_social_pages WHERE page_status = '1'";
 				$result = $this->db->sql_query($sql);
-				while($pages = $this->db->sql_fetchrow($result)) {
+				while($pages = $this->db->sql_fetchrow($result))
+				{
 					if($page['page_avatar'] != "") $page_avatar = 'upload/'.$page['page_avatar']; else $page_avatar = 'page_no_avatar.jpg';
 					if($pages['countlike'] > 1 || $pages['countlike'] == 0) $people = 'persone'; else $people = 'persona'; 
 					if($this->social_page->user_likePages($this->user->data['user_id'], $pages['page_id']) == $pages['page_id']) $page_likeCheck = "like"; else $page_likeCheck = "dislike";

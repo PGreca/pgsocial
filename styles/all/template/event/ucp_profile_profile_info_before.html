@@ -1,16 +1,16 @@
 <dl>
-	<dt><label for="user_quote">{L_QUOTE}{L_COLON}</label></dt>
+	<dt><label for="user_quote">{{ lang('QUOTE') }}{{ lang('COLON') }}</label></dt>
 	<dd>
-		<input type="text" name="user_quote" id="user_quote" maxlength="255" value="{QUOTE}" class="inputbox" autocomplete="off" />
+		<input type="text" name="user_quote" id="user_quote" maxlength="255" value="{{ QUOTE }}" class="inputbox" autocomplete="off" />
 	</dd>
 </dl>
 <dl>
-	<dt><label for="user_gender">{L_GENDER}{L_COLON}</label></dt>
+	<dt><label for="user_gender">{{ lang('GENDER') }}{{ lang('COLON') }}</label></dt>
 	<dd>
 		<select name="user_gender" id="user_gender">
-			<option <!-- IF PROFILE_GENDER == 0 -->selected="selected"<!-- ENDIF --> value="0">{L_GENDER_UNKNOWN}</option>
-			<option <!-- IF PROFILE_GENDER == 1 -->selected="selected"<!-- ENDIF --> value="1">{L_GENDER_FEMALE}</option>
-			<option <!-- IF PROFILE_GENDER == 2 -->selected="selected"<!-- ENDIF --> value="2">{L_GENDER_MALE}</option>
+			<option {% if PROFILE_GENDER == 0 %}selected="selected"{% endif %} value="0">{{ lang('GENDER_UNKNOWN') }}</option>
+			<option {% if PROFILE_GENDER == 1 %}selected="selected"{% endif %} value="1">{{ lang('GENDER_FEMALE') }}</option>
+			<option {% if PROFILE_GENDER == 2 %}selected="selected"{% endif %} value="2">{{ lang('GENDER_MALE') }}</option>
 		</select>
 	</dd>
 </dl>
