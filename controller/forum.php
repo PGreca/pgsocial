@@ -35,7 +35,13 @@ class forum
 
 	/* @var \phpbb\user */
 	protected $user;
+		
+	/** @var \phpbb\group\helper */
+	protected $group_helper;
 	
+	/** @var \phpbb\eent\dispatcher */
+	protected $dispatcher;
+
 	/* @var string phpBB root path */
 	protected $root_path;	
 	
@@ -59,8 +65,10 @@ class forum
 	* @param \pg_social\social\$social_page $social_page	 
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
+	* @param \phpbb\group\helper     $group_helper 
+	* @param \phpbb\event\dispatcher $dispatcher
 	*/
-	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix)
+	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $group_helper, $dispatcher, $root_path, $php_ext, $table_prefix)
 	{
 		$this->files_factory		= $files_factory;
 		$this->auth					= $auth;
@@ -78,6 +86,8 @@ class forum
 		$this->social_page			= $social_page;
 		$this->template				= $template;
 		$this->user					= $user;
+		$this->group_helper			= $group_helper;
+		$this->dispatcher			= $dispatcher;
 	    $this->root_path			= $root_path;
 		$this->php_ext				= $php_ext;	
         $this->table_prefix 		= $table_prefix;	
@@ -92,11 +102,6 @@ class forum
 	public function handle()
 	{		
 		if($this->user->data['user_id'] == ANONYMOUS || !$this->config['pg_social_index_replace']) redirect($this->root_path);
-		/**
-		 * This is ugly but the only way I could find
-		 * to fix relative paths for forum images
-		 */
-		global $phpbb_container, $phpbb_dispatcher;
 		
 		// @codeCoverageIgnoreStart
 		if(!function_exists('display_forums'))
@@ -133,14 +138,11 @@ class forum
 		}
 		$result = $this->db->sql_query($sql);
 
-		/** @var \phpbb\group\helper $group_helper */
-		$group_helper = $phpbb_container->get('group_helper');
-
 		$legend = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$colour_text = ($row['group_colour']) ? ' style="color:#' . $row['group_colour'] . '"' : '';
-			$group_name = $group_helper->get_name($row['group_name']);
+			$group_name = $this->group_helper->get_name($row['group_name']);
 
 			if($row['group_name'] == 'BOTS' || ($this->user->data['user_id'] != ANONYMOUS && !$this->auth->acl_get('u_viewprofile')))
 			{
@@ -246,7 +248,7 @@ class forum
 		* @since 3.1.0-a1
 		*/
 		$vars = array('page_title');
-		extract($phpbb_dispatcher->trigger_event('core.index_modify_page_title', compact($vars)));
+		extract($this->dispatcher->trigger_event('core.index_modify_page_title', compact($vars)));
 
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang('FORUM'),

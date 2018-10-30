@@ -18,6 +18,8 @@ services:
             - '@pgreca.pg_social.social.social_page'
             - '@template'
             - '@user'
+            - '@group_helper'
+            - '@dispatcher'
             - '%core.root_path%'
             - '%core.php_ext%'   
             - '%core.table_prefix%'            
