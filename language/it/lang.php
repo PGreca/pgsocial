@@ -168,4 +168,3 @@ $lang = array_merge($lang, array(
 	'WRITE_SOMETHING'					=> 'Scrivi qualcosa',
 	'VERSION'							=> 'Versione',
 ));
-?>

@@ -61,7 +61,7 @@ class social_zebra
 		if($friend == "no")
 		{
 			//return $this->last_register(); exit();
-			return $this->noFriends(); exit();
+			return $this->noFriends();
 		}
 		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour
 		FROM ".ZEBRA_TABLE." AS z, ".USERS_TABLE." AS u

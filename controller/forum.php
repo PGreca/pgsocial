@@ -89,7 +89,7 @@ class forum
 	* @param string		$name
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function handle()
+	public function forum()
 	{		
 		if($this->user->data['user_id'] == ANONYMOUS || !$this->config['pg_social_index_replace']) redirect($this->root_path);
 		/**

@@ -388,4 +388,3 @@ class listener implements EventSubscriberInterface
 		$this->post_status->addStatus('post', $this->user->data['user_id'], '', 2, 4, $info['topic_id']."#p".$info['post_id']); 
 	}		
 }
-?>

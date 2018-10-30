@@ -19,9 +19,27 @@ class ext extends \phpbb\extension\base
 	const PG_SOCIAL_VERSION = '0.1.0-a7';
 
 	public function is_enableable()
-	{
-		$config = $this->container->get('config');
-		return (version_compare($config['version'], '0.1.0-a7', '>=') && (version_compare(PHP_VERSION, '5.2.*', '>=')));
+	{	
+		// Set globals for use in the language file
+		global $ver_error, $cookie_error;
+		
+		// Requires phpBB 3.2.2 or newer.
+		$ver  = phpbb_version_compare(PHPBB_VERSION, '3.2.2', '>=');
+		
+		// Display a custom warning message if this requirement fails.
+		
+		$ver_error = ($ver) ? false : true;
+		
+		// Need to cater for 3.1 and 3.2
+		if (phpbb_version_compare(PHPBB_VERSION, '3.2.0', '>='))
+		{
+			$this->container->get('language')->add_lang('ext_enable_error', 'pgreca/pg_social');
+		}
+		else
+		{
+			$this->container->get('user')->add_lang_ext('pgreca/pg_social', 'ext_enable_error');
+		}
+		return $ver;
 	}
 	
 	/**

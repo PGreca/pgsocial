@@ -87,7 +87,7 @@ class pages
 	* @param string		$name
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function handle($name)
+	public function handlepage($name)
 	{
 		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
 		{

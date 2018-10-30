@@ -25,4 +25,4 @@ $lang = array_merge($lang, array(
 	'ACL_A_PAGE_MANAGE'		=> 'Abilitare pagine',
 	
 	'ACL_M_PAGE_MANAGE'		=> 'Abilitare pagine',
-));
+));

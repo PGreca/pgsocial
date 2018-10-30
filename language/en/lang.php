@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * PGreca Social extension for phpBB.
@@ -8,17 +7,15 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
-
-if(!defined('IN_PHPBB'))
+ 
+if (!defined('IN_PHPBB'))
 {
 	exit;
 }
-
-if(empty($lang) || !is_array($lang))
+if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
-
 $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_TITLE'				=> 'PG Social',
 	'ACP_PG_SOCIAL_MAIN'				=> 'Main menu',
@@ -172,4 +169,3 @@ $lang = array_merge($lang, array(
 	'WRITE_SOMETHING'					=> 'Write something',
 	'VERSION'							=> 'Version',
 ));
-?>
