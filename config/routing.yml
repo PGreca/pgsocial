@@ -1,6 +1,6 @@
 forum_page:
     path: /forum
-    defaults: { _controller: pgreca.pg_social.forum:forum }   
+    defaults: { _controller: pgreca.pg_social.forum:handle }   
     
 profile_page:
     path: social

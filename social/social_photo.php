@@ -242,7 +242,7 @@ class social_photo
 				$CreatedImage = imagecreatefromjpeg($TempSrc);
 				break;
 			default:
-				trigger_error($this->user->lang['ATTACHED_IMAGE_NOT_IMAGE'];
+				trigger_error($this->user->lang['ATTACHED_IMAGE_NOT_IMAGE']);
 			break;
 		}
 		

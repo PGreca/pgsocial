@@ -89,7 +89,7 @@ class forum
 	* @param string		$name
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function forum()
+	public function handle()
 	{		
 		if($this->user->data['user_id'] == ANONYMOUS || !$this->config['pg_social_index_replace']) redirect($this->root_path);
 		/**
@@ -186,16 +186,7 @@ class forum
 					AND (u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) . "%' $leap_year_birthdays)
 					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')',
 			);
-
-			/**
-			* Event to modify the SQL query to get birthdays data
-			*
-			* @event core.index_modify_birthdays_sql
-			* @var	array	now			The assoc array with the 'now' local timestamp data
-			* @var	array	sql_ary		The SQL array to get the birthdays data
-			* @var	object	time		The user related Datetime object
-			* @since 3.1.7-RC1
-			*/
+			
 			$vars = array('now', 'sql_ary', 'time');
 			extract($phpbb_dispatcher->trigger_event('core.index_modify_birthdays_sql', compact($vars)));
 
