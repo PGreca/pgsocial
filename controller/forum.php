@@ -207,16 +207,7 @@ class forum
 				$birthday_list[] = $birthday_username . (($birthday_age) ? " ({$birthday_age})" : '');
 			}
 
-			/**
-			* Event to modify the birthdays list
-			*
-			* @event core.index_modify_birthdays_list
-			* @var	array	birthdays		Array with the users birthdays data
-			* @var	array	rows			Array with the birthdays SQL query result
-			* @since 3.1.7-RC1
-			*/
-			$vars = array('birthdays', 'rows');
-			extract($phpbb_dispatcher->trigger_event('core.index_modify_birthdays_list', compact($vars)));
+			
 
 			$this->template->assign_block_vars_array('birthdays', $birthdays);
 		}
