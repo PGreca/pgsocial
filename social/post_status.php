@@ -546,7 +546,7 @@ class post_status
 		if($post_info['wall_id'] != $user_id) $this->notify->notify('add_comment', $post, '', (int) $post_info['wall_id'], (int) $user_id, 'NOTIFICATION_SOCIAL_COMMENT_ADD');		
 			
 		$this->template->assign_vars(array(
-			"ACTION"	=> var_dump($post_info),
+			"ACTION"	=> "",
 		));
 		$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, "COMMENT_NEW", "<a href='".$this->helper->route("status_page", array("id" => $post))."'>#".$post."</a>");
 		return $this->helper->render('activity_status_action.html', '');

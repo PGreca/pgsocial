@@ -123,5 +123,4 @@ class social_page
 		));
 		return $this->helper->render('activity_status_action.html', "");
 	}
-	
-}
+}

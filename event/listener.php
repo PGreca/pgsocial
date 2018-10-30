@@ -261,7 +261,7 @@ class listener implements EventSubscriberInterface
 				'PROFILE_GENDER'			=> $this->user->lang($profile_gender),
 				'PROFILE_COUNT_FRIENDS'		=> $this->social_zebra->countFriends($user_id),
 				
-				'GALLERY_NAME'				=> $this->social_photo->gallery_info(request_var('gall', ''))['gallery_name'],
+				'GALLERY_NAME'				=> $this->social_photo->gallery_info($this->request->variable('gall', ''))['gallery_name'],
 				
 				'SOCIAL_PROFILE_PATH'		=> $this->helper->route('profile_page'),
 				'STATUS_WHERE'				=> 'profile',
@@ -270,7 +270,7 @@ class listener implements EventSubscriberInterface
 			$this->post_status->getStatus("profile", $user_id, 0, "profile", "seguel", "");
 			$this->social_zebra->getFriends($user_id, "profile", "yes");
 			$this->social_photo->getGallery($user_id, "profile");
-			if(request_var('gall', '')) $this->social_photo->getPhotos(0, $user_id, request_var('gall', ''));
+			if($this->request->variable('gall', '')) $this->social_photo->getPhotos(0, $user_id, $this->request->variable('gall', ''));
 		}	
 	}
 		

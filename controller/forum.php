@@ -187,9 +187,6 @@ class forum
 					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')',
 			);
 			
-			$vars = array('now', 'sql_ary', 'time');
-			extract($phpbb_dispatcher->trigger_event('core.index_modify_birthdays_sql', compact($vars)));
-
 			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 			$result = $this->db->sql_query($sql);
 			$rows = $this->db->sql_fetchrowset($result);
@@ -278,4 +275,3 @@ class forum
 		}
 	}
 }
-
