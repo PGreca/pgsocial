@@ -277,7 +277,6 @@ class main
 			{
 				if($this->user->data['user_id'] != ANONYMOUS)
 				{
-					echo $this->user->data['user_id'];
 					trigger_error('NO_VIEW_USERS');
 				}
 				login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
