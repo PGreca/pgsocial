@@ -8,7 +8,7 @@
  *
  */
 
-namespace pgreca\pg_social\ucp;
+namespace pgreca\pgsocial\ucp;
 
 // Define the new UCP tab and single page
 class main_info
@@ -16,12 +16,12 @@ class main_info
 	function module()
 	{
 		return array(
-			'filename' => '\pgreca\pg_social\ucp\main_module',
+			'filename' => '\pgreca\pgsocial\ucp\main_module',
 			'title' => 'UCP_PG_SOCIAL_MAIN',
 			'modes' => array(
 				'chat' => array(
 					'title'	=> 'UCP_PG_SOCIAL_CHAT',
-					'auth' => 'ext_pgreca/pg_social', 
+					'auth' => 'ext_pgreca/pgsocial', 
 					'cat' => array('UCP_PG_SOCIAL_MAIN'),
 				),
 			),

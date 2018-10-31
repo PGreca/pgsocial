@@ -9,7 +9,7 @@
  *
  */
 
-namespace pgreca\pg_social\migrations;
+namespace pgreca\pgsocial\migrations;
 
 class install_pg_social_01 extends \phpbb\db\migration\migration
 {
@@ -60,7 +60,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 				'acp',
 				'ACP_PG_SOCIAL_MAIN',
 				array(
-					'module_basename'	=> '\pgreca\pg_social\acp\main_module',
+					'module_basename'	=> '\pgreca\pgsocial\acp\main_module',
 					'modes'				=> array('settings'),
 				),
 			)),	
@@ -68,7 +68,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 				'acp',
 				'ACP_PG_SOCIAL_MAIN',
 				array(
-					'module_basename'	=> '\pgreca\pg_social\acp\main_module',
+					'module_basename'	=> '\pgreca\pgsocial\acp\main_module',
 					'modes'				=> array('social'),
 				),
 			)),		
@@ -76,7 +76,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 				'acp',
 				'ACP_PG_SOCIAL_MAIN',
 				array(
-					'module_basename'	=> '\pgreca\pg_social\acp\main_module',
+					'module_basename'	=> '\pgreca\pgsocial\acp\main_module',
 					'modes'				=> array('chat'),
 				),
 			)),
@@ -89,7 +89,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 				'acp',
 				'ACP_PG_SOCIAL_PAGE',
 				array(
-					'module_basename'	=> '\pgreca\pg_social\acp\main_module',
+					'module_basename'	=> '\pgreca\pgsocial\acp\main_module',
 					'modes'				=> array('page_manage'),
 				),
 			)),
@@ -107,7 +107,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 				'mcp',
 				'MCP_PG_SOCIAL_MAIN',
 				array(
-					'module_basename'	=> '\pgreca\pg_social\mcp\main_module',
+					'module_basename'	=> '\pgreca\pgsocial\mcp\main_module',
 					'modes'				=> array('page_manage'),
 				),
 			)),
@@ -120,7 +120,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 				'ucp',
 				'UCP_PG_SOCIAL_MAIN',				
 				array(
-					'module_basename'    => '\pgreca\pg_social\ucp\main_module',
+					'module_basename'    => '\pgreca\pgsocial\ucp\main_module',
 					'modes'              => array('chat'),
 				),
 			)),
@@ -281,42 +281,42 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 					'acp',
 					'ACP_PG_SOCIAL_MAIN',
 					array(
-						'module_basename'	=> '\pgreca\pg_social\acp\main_module',
+						'module_basename'	=> '\pgreca\pgsocial\acp\main_module',
 					),
 				),
 				'module.remove', array(
 					'acp',
 					'ACP_PG_SOCIAL_PAGE',
 					array(
-						'module_basename'	=> '\pgreca\pg_social\acp\main_module',
+						'module_basename'	=> '\pgreca\pgsocial\acp\main_module',
 					),
 				),
 				'module.remove', array(
 					'acp',
 					'ACP_PG_SOCIAL_TITLE',
 					array(
-						'module_basename'	=> '\pgreca\pg_social\acp\main_module',
+						'module_basename'	=> '\pgreca\pgsocial\acp\main_module',
 					),
 				),
 				'module.remove', array(
 					'ucp',
 					'UCP_PG_SOCIAL_MAIN',
 					array(
-						'module_basename'	=> '\pgreca\pg_social\ucp\main_module',
+						'module_basename'	=> '\pgreca\pgsocial\ucp\main_module',
 					)
 				),
 				'module.remove', array(
 					'mcp',
 					'MCP_PG_SOCIAL_PAGE',
 					array(
-						'module_basename'	=> '\pgreca\pg_social\mcp\main_module',
+						'module_basename'	=> '\pgreca\pgsocial\mcp\main_module',
 					),
 				),
 				'module.remove', array(
 					'mcp',
 					'MCP_PG_SOCIAL_TITLE',
 					array(
-						'module_basename'	=> '\pgreca\pg_social\mcp\main_module',
+						'module_basename'	=> '\pgreca\pgsocial\mcp\main_module',
 					),
 				),
 			),	
@@ -362,7 +362,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 	public function remove_photos()
 	{
         global $phpbb_root_path;
-		$this->RemoveFolderContent($phpbb_root_path. 'ext/pgreca/pg_social/images/upload/');
+		$this->RemoveFolderContent($phpbb_root_path. 'ext/pgreca/pgsocial/images/upload/');
 	}
 	  
 	function RemoveFolderContent($folder)

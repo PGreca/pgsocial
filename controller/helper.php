@@ -8,7 +8,7 @@
 *
 */
 
-namespace pgreca\pg_social\controller;
+namespace pgreca\pgsocial\controller;
 
 class helper
 {

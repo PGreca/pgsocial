@@ -9,7 +9,7 @@
  *
  */
 
-namespace pgreca\pg_social\ucp;
+namespace pgreca\pgsocial\ucp;
 
 class main_module
 {
@@ -39,7 +39,7 @@ class main_module
 		
 		$this->tpl_name = 'ucp_pg_social';
 		$this->page_title = 'UCP_PG_SOCIAL_MAIN';
-		add_form_key('ucp_pg_social');
+		add_form_key('ucp_pgsocial');
 		
 		switch($mode)
 		{

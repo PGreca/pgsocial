@@ -9,20 +9,20 @@
  *
  */
 
-namespace pgreca\pg_social\mcp;
+namespace pgreca\pgsocial\mcp;
 
 class main_info
 {
 	function module()
 	{
 		return array(
-			'filename'	=> '\pgreca\pg_social\mcp\main_module',
+			'filename'	=> '\pgreca\pgsocial\mcp\main_module',
 			'title'		=> 'MCP_PG_SOCIAL_TITLE',
 			'version'	=> '1.0.0',
 			'modes'		=> array(
 				'page_manage'	=> array(
 					'title'	=> 'MCP_PG_SOCIAL_PAGE_MANAGE',
-					'auth'	=> 'ext_pgreca/pg_social',
+					'auth'	=> 'ext_pgreca/pgsocial',
 					'cat'	=> array('MCP_PG_SOCIAL_PAGE')
 				),
 			)

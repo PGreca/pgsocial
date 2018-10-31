@@ -9,7 +9,7 @@
  *
  */
 
-namespace pgreca\pg_social\acp;
+namespace pgreca\pgsocial\acp;
 
 class main_module
 {
@@ -21,7 +21,7 @@ class main_module
 
 		$this->tpl_name = 'pg_social_body';
 		$this->page_title = $user->lang('ACP_PG_SOCIAL_TITLE');
-		add_form_key('pgreca/pg_social');
+		add_form_key('pgreca/pgsocial');
 		
 		$template->assign_vars(array(
 			'PG_SOCIAL_VERSION'							=> $config['pg_social_version'],
@@ -32,7 +32,7 @@ class main_module
 			case 'settings':
 				if($request->is_set_post('submit'))
 				{
-					if(!check_form_key('pgreca/pg_social'))
+					if(!check_form_key('pgreca/pgsocial'))
 					{
 						trigger_error('FORM_INVALID');
 					}
@@ -73,7 +73,7 @@ class main_module
 			case 'social':
 				if($request->is_set_post('submit'))
 				{
-					if (!check_form_key('pgreca/pg_social'))
+					if (!check_form_key('pgreca/pgsocial'))
 					{
 						trigger_error('FORM_INVALID');
 					}					
@@ -93,7 +93,7 @@ class main_module
 			break;
 			case 'chat':
 				if($request->is_set_post('submit')){
-					if (!check_form_key('pgreca/pg_social'))
+					if (!check_form_key('pgreca/pgsocial'))
 					{
 						trigger_error('FORM_INVALID');
 					}
@@ -112,7 +112,7 @@ class main_module
 			case 'page_manage':
 				if($request->is_set_post('submit'))
 				{
-					if(!check_form_key('pgreca/pg_social'))
+					if(!check_form_key('pgreca/pgsocial'))
 					{
 						trigger_error('FORM_INVALID');
 					}

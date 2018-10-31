@@ -8,7 +8,7 @@
 *
 */
 
-namespace pgreca\pg_social\controller;
+namespace pgreca\pgsocial\controller;
 
 class forum
 {
@@ -111,8 +111,7 @@ class forum
 		// @codeCoverageIgnoreEnd
 
 		display_forums('', $this->config['load_moderators']);
-		$this->set_mcp_url();
-
+		
 		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
 		// Grab group details for legend display
 		if($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel'))
@@ -150,7 +149,7 @@ class forum
 			}
 			else
 			{
-				$legend[] = '<a' . $colour_text . ' href="' . append_sid("{$this->root_path}memberlist.$phpEx", 'mode=group&amp;g=' . $row['group_id']) . '">' . $group_name . '</a>';
+				$legend[] = '<a' . $colour_text . ' href="' . append_sid("{$this->root_path}memberlist.$this->php_ext", 'mode=group&amp;g=' . $row['group_id']) . '">' . $group_name . '</a>';
 			}
 		}
 		$this->db->sql_freeresult($result);
@@ -229,13 +228,13 @@ class forum
 			'FORUM_LOCKED_IMG'		=> $this->user->img('forum_read_locked', 'NO_UNREAD_POSTS_LOCKED'),
 			'FORUM_UNREAD_LOCKED_IMG'	=> $this->user->img('forum_unread_locked', 'UNREAD_POSTS_LOCKED'),
 
-			'S_LOGIN_ACTION'			=> append_sid("{$this->root_path}ucp.$phpEx", 'mode=login'),
-			'U_SEND_PASSWORD'           => ($this->config['email_enable']) ? append_sid("{$this->root_path}ucp.$phpEx", 'mode=sendpassword') : '',
+			'S_LOGIN_ACTION'			=> append_sid("{$this->root_path}ucp.$this->php_ext", 'mode=login'),
+			'U_SEND_PASSWORD'           => ($this->config['email_enable']) ? append_sid("{$this->root_path}ucp.$this->php_ext", 'mode=sendpassword') : '',
 			'S_DISPLAY_BIRTHDAY_LIST'	=> $show_birthdays,
 			'S_INDEX'					=> true,
 
-			'U_MARK_FORUMS'		=> ($this->data['is_registered'] || $this->config['load_anon_lastread']) ? append_sid("{$this->root_path}index.$phpEx", 'hash=' . generate_link_hash('global') . '&amp;mark=forums&amp;mark_time=' . time()) : '',
-			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.$phpEx", 'i=main&amp;mode=front', true, $this->session_id) : '')
+			'U_MARK_FORUMS'		=> ($this->data['is_registered'] || $this->config['load_anon_lastread']) ? append_sid("{$this->root_path}index.$this->php_ext", 'hash=' . generate_link_hash('global') . '&amp;mark=forums&amp;mark_time=' . time()) : '',
+			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.$this->php_ext", 'i=main&amp;mode=front', true, $this->session_id) : '')
 		);
 
 		$page_title = ($this->config['board_index_text'] !== '') ? $this->config['board_index_text'] : $this->user->lang['INDEX'];
@@ -255,16 +254,5 @@ class forum
 			'U_VIEW_FORUM'	=> $this->helper->route('forum_page'),
 		));
 		return $this->helper->render('index_body.html', $page_title);
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function set_mcp_url()
-	{
-		if($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_'))
-		{
-			$this->template->assign_var('U_MCP', append_sid("{$this->root_path}mcp.{$this->php_ext}", 'i=main&amp;mode=front', true, $this->user->session_id));
-		}
 	}
 }

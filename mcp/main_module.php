@@ -9,7 +9,7 @@
  *
  */
 
-namespace pgreca\pg_social\mcp;
+namespace pgreca\pgsocial\mcp;
 
 class main_module
 {

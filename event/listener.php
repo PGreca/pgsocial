@@ -8,7 +8,7 @@
 *
 */
 
-namespace pgreca\pg_social\event;
+namespace pgreca\pgsocial\event;
 
 use phpbb\template\template;
 use phpbb\user;
@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Event listener
  *
- * @package pgreca/pg_social
+ * @package pgreca/pgsocial
  */
 class listener implements EventSubscriberInterface
 {
@@ -94,7 +94,7 @@ class listener implements EventSubscriberInterface
 		$this->config				= $config;
 		$this->root_path			= $root_path;
 		$this->php_ext				= $php_ext;
-		$this->pg_social_helper		= $social_helper;
+		$this->pgsocial_helper		= $social_helper;
 		$this->post_status			= $post_status;
 		$this->social_photo			= $social_photo;
 		$this->social_zebra			= $social_zebra;
@@ -139,7 +139,7 @@ class listener implements EventSubscriberInterface
 	{
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
-			'ext_name' => 'pgreca/pg_social',
+			'ext_name' => 'pgreca/pgsocial',
 			'lang_set' => 'lang',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
@@ -203,9 +203,9 @@ class listener implements EventSubscriberInterface
 	 */
 	protected function get_startpage_controller()
 	{
-		if($this->phpbb_container->has("pgreca.pg_social.controller"))
+		if($this->phpbb_container->has("pgreca.pgsocial.controller"))
 		{
-			$controller_object = $this->phpbb_container->get("pgreca.pg_social.controller");
+			$controller_object = $this->phpbb_container->get("pgreca.pgsocial.controller");
 			$method = "handle";
 
 			if(is_callable(array($controller_object, $method)))
@@ -235,7 +235,7 @@ class listener implements EventSubscriberInterface
 			$user_id = $member['user_id'];
 					
 			if($user_id == $this->user->data['user_id']) $member['user_action'] = true; else $member['user_action'] = false;
-			if($member['user_gender'] == 0) $profile_gender = ""; else $profile_gender = $this->pg_social_helper->social_gender($member['user_gender']);
+			if($member['user_gender'] == 0) $profile_gender = ""; else $profile_gender = $this->pgsocial_helper->social_gender($member['user_gender']);
 			$friends = $this->social_zebra->friendStatus($user_id);
 			if($friends['status'] == "PG_SOCIAL_FRIENDS" || $user_id == $this->user->data['user_id']) $member['status_action'] = 1;	 		
 					
@@ -250,10 +250,10 @@ class listener implements EventSubscriberInterface
 				
 				'PROFILE_ID'				=> $user_id,
 				'PROFILE_UPDATE'			=> append_sid($this->root_path."ucp.".$this->php_ext, 'i=ucp_profile&mode=profile_info'),
-				'PROFILE_COVER'				=> $this->pg_social_helper->social_cover($member['user_pg_social_cover']),
+				'PROFILE_COVER'				=> $this->pgsocial_helper->social_cover($member['user_pg_social_cover']),
 				'PROFILE_COVER_POSITION'	=> $member['user_pg_social_cover_position'],
-				'PROFILE_AVATAR'			=> $this->pg_social_helper->social_avatar($member['user_avatar'], $member['user_avatar_type']),	
-				'PROFILE_AVATAR_THUMB'		=> $this->pg_social_helper->social_avatar_thumb($member['user_avatar'], $member['user_avatar_type']),	       
+				'PROFILE_AVATAR'			=> $this->pgsocial_helper->social_avatar($member['user_avatar'], $member['user_avatar_type']),	
+				'PROFILE_AVATAR_THUMB'		=> $this->pgsocial_helper->social_avatar_thumb($member['user_avatar'], $member['user_avatar_type']),	       
 				'PROFILE_AVATAR_UPDATE'     => append_sid($this->root_path."ucp.".$this->php_ext, 'i=profile&mode=avatar'),
 				'PROFILE_USERNAME'			=>$member['username'],
 				'PROFILE_COLOUR'			=> "#".$member['user_colour'],

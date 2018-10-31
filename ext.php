@@ -9,7 +9,7 @@
  *
  */
 
-namespace pgreca\pg_social;
+namespace pgreca\pgsocial;
 
 /**
 * Extension class for custom enable/disable/purge actions
@@ -33,11 +33,11 @@ class ext extends \phpbb\extension\base
 		// Need to cater for 3.1 and 3.2
 		if (phpbb_version_compare(PHPBB_VERSION, '3.2.0', '>='))
 		{
-			$this->container->get('language')->add_lang('ext_enable_error', 'pgreca/pg_social');
+			$this->container->get('language')->add_lang('ext_enable_error', 'pgreca/pgsocial');
 		}
 		else
 		{
-			$this->container->get('user')->add_lang_ext('pgreca/pg_social', 'ext_enable_error');
+			$this->container->get('user')->add_lang_ext('pgreca/pgsocial', 'ext_enable_error');
 		}
 		return $ver;
 	}

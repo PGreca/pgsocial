@@ -8,7 +8,7 @@
 *
 */
 
-namespace pgreca\pg_social\social;
+namespace pgreca\pgsocial\social;
 
 class social_page
 {

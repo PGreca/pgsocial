@@ -1,15 +1,15 @@
 forum_page:
     path: /forum
-    defaults: { _controller: pgreca.pg_social.forum:handle }   
+    defaults: { _controller: pgreca.pgsocial.forum:handle }   
     
 profile_page:
-    path: social
-    defaults: { _controller: pgreca.pg_social.controller:handle:index, name:mp, mode:profile }
+    path: /social
+    defaults: { _controller: pgreca.pgsocial.controller:handle:index, name:mp, mode:profile }
     
 status_page:
-    path: status/{id}
-    defaults: { _controller: pgreca.pg_social.controller:handle_status:index, id:0 }
+    path: /status/{id}
+    defaults: { _controller: pgreca.pgsocial.controller:handle_status:index, id:0 }
     
 pages_page:
-    path: page/{name}
-    defaults: { _controller: pgreca.pg_social.pages:handlepage:index, name:0 }
+    path: /page/{name}
+    defaults: { _controller: pgreca.pgsocial.pages:handlepage:index, name:0 }
