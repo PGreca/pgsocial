@@ -49,6 +49,9 @@ class social_tag
         $this->table_prefix 			= $table_prefix;
 	}
 	
+	/**
+	 * Search user for tag
+	*/
 	public function tag_system_search($who)
 	{
 		$who = str_replace("@", "", $who);
@@ -70,6 +73,9 @@ class social_tag
 		return $this->helper->render('pg_social_tag_system_search.html', '');
 	}
 	
+	/**
+	 * Display who can tag
+	*/
 	public function showTag($text)
 	{
 		$reg_str = '/&lt;span data-people="(.*?)" data-people_tagged="(.*?)" class="people_tagged" contenteditable="false"&gt;(.*?)\&lt;\/span&gt;/';
@@ -82,6 +88,9 @@ class social_tag
 		return trim($text);
 	}
 	
+	/**
+	 * Tag activity query
+	*/
 	public function addTag($status, $text)
 	{
 		$reg_str = '/<span data-people="(.*?)" data-people_tagged="(.*?)" class="people_tagged" contenteditable="false">(.*?)<\/span>/';

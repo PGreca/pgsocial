@@ -60,6 +60,9 @@ class post_status
         $this->table_prefix 			= $table_prefix;
 	}
 	
+	/**
+	 * The wall
+	*/
 	public function getStatus($post_where, $wall_id, $lastp, $type, $order, $template)
 	{
 		switch($post_where)
@@ -119,6 +122,9 @@ class post_status
 			} 
 	}
 	
+	/**
+	 * Information or Output of the Activity
+	*/
 	public function status($post_where, $wall_id, $type, $template, $row)
 	{
 		$rele = true;
@@ -325,7 +331,9 @@ class post_status
 		$this->db->sql_freeresult($result);
 	}
 		
-	
+	/**
+	 * Add new activity on wall
+	*/
 	public function addStatus($post_where, $wall_id, $text, $privacy, $type = 0, $extra = NULL)
 	{
 		switch($post_where)
@@ -391,6 +399,9 @@ class post_status
 		if($type != 4) return $this->helper->render('activity_status_action.html', $this->user->lang['ACTIVITY']);	
 	}
 	
+	/**
+	 * Delete the activity from the wall 
+	*/
 	public function deleteStatus($post)
 	{
 		$sql_status = "DELETE FROM ".$this->table_prefix."pg_social_wall_post WHERE ".$this->db->sql_in_set('post_ID', array($post));
@@ -408,6 +419,9 @@ class post_status
 		return $this->helper->render('activity_status_action.html', "");
 	}
 	
+	/**
+	 * Share the activity on the wall
+	*/
 	public function shareStatus($post)
 	{
 		$time = time();
@@ -438,6 +452,10 @@ class post_status
 		return $this->helper->render('activity_status_action.html', "");
 	}
 	
+	/** 
+	 * Like / Dislike
+	 * Count Like on the activity
+	*/
 	public function likeAction($post)
 	{
 		$post_info = "SELECT user_id, wall_id FROM ".$this->table_prefix."pg_social_wall_post WHERE post_ID = '".$post."'";
@@ -477,6 +495,9 @@ class post_status
 		return $this->helper->render('activity_status_action.html', '');
 	}
 	
+	/**
+	 * The comments of activity
+	*/
 	public function getComments($post, $type, $template = true)
 	{
 		$user_id = (int) $this->user->data['user_id'];
@@ -514,6 +535,9 @@ class post_status
 		if($template) return $this->helper->render('activity_comment.html', '');				
 	}
 	
+	/**
+	 * Add new comment on activity
+	*/
 	public function addComment($post, $comment)
 	{
 		$post_info = "SELECT user_id, wall_id FROM ".$this->table_prefix."pg_social_wall_post WHERE post_ID = '".$post."'";
@@ -552,6 +576,9 @@ class post_status
 		return $this->helper->render('activity_status_action.html', '');
 	}
 
+	/**
+	 * Remove the comment on activity
+	*/
 	public function removeComment($comment)
 	{
 		$sql = "DELETE FROM ".$this->table_prefix."pg_social_wall_comment WHERE post_comment_ID = '".$comment."' AND user_id = '".$this->user->data['user_id']."'";
@@ -563,6 +590,9 @@ class post_status
 		return $this->helper->render('activity_status_action.html', '');
 	}
 		
+	/**
+	 * Array information photo
+	*/
 	public function photo($photo)
 	{
 		$img = $this->social_photo->getPhoto($photo);
@@ -573,6 +603,9 @@ class post_status
 		);
 	}
 	
+	/**
+	 * Profile or page is published the activity?
+	*/
 	public function status_where($status)
 	{
 		$sql = "SELECT post_where FROM ".$this->table_prefix."pg_social_wall_post WHERE post_ID = '".$status."'";

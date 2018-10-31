@@ -135,6 +135,9 @@ class listener implements EventSubscriberInterface
 		);
 	}
 	
+	/**
+	 * Load language for PG Social Network 
+	*/
 	public function load_language_on_setup($event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
@@ -166,7 +169,7 @@ class listener implements EventSubscriberInterface
 	}
 		
 	/**
-	 * @return void
+	 * Remove forumlist from index and replace with Social
 	 */
 	public function set_startpage($event)
 	{
@@ -222,11 +225,14 @@ class listener implements EventSubscriberInterface
 	{
 		if($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0)
 		{
-			$event['location'] = $this->translator->lang('FORUM_INDEX');
+			$event['location'] = $this->user->lang('FORUM_INDEX');
 			$event['location_url'] = $this->phpbb_container->get('controller.helper')->route('forum_page');
 		}
 	}
 	
+	/**
+	 * New look for memberlist_view_profile
+	*/
 	public function memberlist_view_profile($event)
 	{
 		if($this->config['pg_social_profile'])
@@ -371,6 +377,9 @@ class listener implements EventSubscriberInterface
 		));
 	}
 	
+	/** 
+	 * Activity for new avatar
+	*/
 	public function user_avatar_change($event)
 	{
 		$photo = array();
@@ -382,6 +391,9 @@ class listener implements EventSubscriberInterface
 		$this->social_photo->photoUpload("", $this->user->data['user_id'], "", "avatar", "profile", $photo);
 	}
 	
+	/**
+	 * Activity for new post in topic_id
+	*/
 	public function user_status_post($event)
 	{
 		$info = $event['data'];

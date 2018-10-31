@@ -57,8 +57,10 @@ class helper
 	    $this->root_path = $root_path;	
 		$this->php_ext = $php_ext;
         $this->table_prefix = $table_prefix;
+	    $this->pg_social_path = $this->root_path.'/ext/pgreca/pgsocial';	
 	}
 	
+	/* TIME AGO - FOR ACTIVITY AND MESSAGES CHAT */
 	public function time_ago($from, $to = 0)
 	{
 		$periods = array(
@@ -110,6 +112,7 @@ class helper
 		return sprintf($this->user->lang[$tense], $difference, $this->user->lang['WALL_TIME_PERIODS'][$period]);
 	} 	
 	
+	/* PRIVACY OF ACTIVITY */
 	public function social_privacy($privacy)
 	{
 		switch($privacy)
@@ -127,19 +130,21 @@ class helper
 		return $privacySet;
 	}
 	
+	/* COVER DEFAULT */
 	public function social_cover($cover)
 	{
 		if($cover == "")
 		{
-			$cover = generate_board_url()."/ext/pgreca/pg_social/images/no_cover.jpg"; 
+			$cover = $this->pg_social_path."/images/no_cover.jpg"; 
 		}
 		else
 		{
-			$cover = generate_board_url()."/ext/pgreca/pg_social/images/upload/".$cover; 
+			$cover = $this->pg_social_path."/images/upload/".$cover; 
 		}
 		return $cover;		
 	}
 	
+	/* AVATAR DEFAULT ON SOCIAL */
 	public function social_avatar($avatar, $avatar_type)
 	{
 		$data = array(
@@ -155,10 +160,11 @@ class helper
 			$core_avatar = preg_replace('#('.$matches[2].')#', $base_url = generate_board_url(). '/', $core_avatar, 1);
 		}
       
-		$wall_avatar = '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/no_avatar.jpg" class="avatar" />';
+		$wall_avatar = '<img src="'.$this->pg_social_path.'/images/no_avatar.jpg" class="avatar" />';
 		return ($core_avatar) ? $core_avatar : $wall_avatar;
     }	
 	
+	/* AVATAR THUMB ON SOCIAL */
 	public function social_avatar_thumb($avatar, $avatar_type)
 	{
 		$data = array(
@@ -169,17 +175,18 @@ class helper
 		$core_avatar =  phpbb_get_user_avatar($data);
      	preg_match('#(src=")(.+?)(download|images)#', $core_avatar, $matches);
 		 
-		$core_avatar = str_replace('" alt', ')" src="'.generate_board_url().'/ext/pgreca/pg_social/images/transp.gif" alt', str_replace("src=\"", 'style="background-image:url(', $core_avatar));
+		$core_avatar = str_replace('" alt', ')" src="'.$this->pg_social_path.'/images/transp.gif" alt', str_replace("src=\"", 'style="background-image:url(', $core_avatar));
 		 
 		if($matches)
 		{		
 			$core_avatar = preg_replace('#('.$matches[2].')#', $base_url = generate_board_url(). '/', $core_avatar, 1);
 		}
       
-		$wall_avatar = '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/no_avatar.jpg" class="avatar" />';
+		$wall_avatar = '<img src="'.$this->pg_social_path.'/images/no_avatar.jpg" class="avatar" />';
 		return ($core_avatar) ? $core_avatar : $wall_avatar;
     }	
 	
+	/* GENDER OF USER */
 	public function social_gender($gender)
 	{
 		switch($gender)
@@ -197,6 +204,7 @@ class helper
 		return $return;
 	}
 	
+	/* RANK OF USER */
 	public function social_rank($rank)
 	{
 		if($rank)
@@ -214,6 +222,7 @@ class helper
 		}
 	}
 	
+	/* AGE OF USER */
 	public function social_age($birth)
 	{
 			list($bday_day, $bday_month, $bday_year) = array_map('intval', explode('-', $birth));
@@ -227,6 +236,7 @@ class helper
 			return $age;
 	}
 	
+	/* ONLINE STATUS OF USER */
 	public function social_status($user)
 	{
 		$sql = "SELECT MAX(session_time) AS session_time, MIN(session_viewonline) AS session_viewonline
@@ -244,6 +254,7 @@ class helper
 		return $online;		
 	}
 	
+	/* FIX PATCH OF SMILIES */
 	public function social_smilies($text)
 	{
 		$text = str_replace("./../", generate_board_url()."/", $text);
@@ -251,6 +262,7 @@ class helper
 		return $text;		
 	}
 	
+	/* COUNT LIKES OR COMMENTS OF ACTIVITY */
 	public function countAction($action, $post)
 	{
 		$user_id = (int) $this->user->data['user_id'];
@@ -278,12 +290,14 @@ class helper
 		return $return;
 	}
 	
+	/* EXTRA OF ACTIVITY */
 	public function extraText($text)
 	{
 		$a = $this->youtube($text);
 		return $a;
 	}
 	
+	/* PLAYER YOUTUBE FOR ACTIVITY OR MESSAGES CHAT */
 	public function youtube($text)
 	{                        
 		if(strstr($text, 'youtube.com/watch?v=') !== false)
@@ -297,6 +311,7 @@ class helper
 		}
 	}
 	
+	/* ADD LOG OF USER */
 	public function log($user, $ip, $action, $id)
 	{
 		$this->log->add('user', $user, $ip, 'PG_SOCIAL_'.$action.'_LOG', time(), array($id));

@@ -41,6 +41,7 @@ class notifyhelper
 		$this->php_ext 			= $php_ext;
 	}
 	
+	/* MANAGE NOTIFICATIONS SOCIAL */
 	public function notify($type, $status_id, $status, $wall_id, $user_id, $lang)
 	{
 		$notification_data = array(

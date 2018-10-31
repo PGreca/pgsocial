@@ -239,16 +239,6 @@ class forum
 
 		$page_title = ($this->config['board_index_text'] !== '') ? $this->config['board_index_text'] : $this->user->lang['INDEX'];
 
-		/**
-		* You can use this event to modify the page title and load data for the index
-		*
-		* @event core.index_modify_page_title
-		* @var	string	page_title		Title of the index page
-		* @since 3.1.0-a1
-		*/
-		$vars = array('page_title');
-		extract($this->dispatcher->trigger_event('core.index_modify_page_title', compact($vars)));
-
 		$this->template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $this->user->lang('FORUM'),
 			'U_VIEW_FORUM'	=> $this->helper->route('forum_page'),

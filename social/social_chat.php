@@ -55,6 +55,9 @@ class social_chat
         $this->table_prefix 			= $table_prefix;
 	}
 	
+	/**
+	 * Check if has new message on chat
+	*/
 	public function messageCheck($exclude)
 	{
 		$user_id = (int) $this->user->data['user_id'];
@@ -77,6 +80,9 @@ class social_chat
 		return $this->helper->render('pg_social_chatperson.html', '');
 	}
 	
+	/**
+	 * Return people online on chat
+	*/
 	public function getchatPeople($person)
 	{
 		$user_id = (int) $this->user->data['user_id'];
@@ -111,6 +117,9 @@ class social_chat
 		return $this->helper->render('pg_social_chatpeople.html', '');
 	}
 	
+	/**
+	 * Return info of user's chat
+	*/
 	public function getchatPerson($person)
 	{
 		$sql = "SELECT user_id, username, username_clean, user_colour, user_avatar, user_avatar_type
@@ -130,6 +139,9 @@ class social_chat
 		return $this->helper->render('pg_social_chatperson.html', '');
 	}
 	
+	/**
+	 * Message of chat
+	*/
 	public function getchatMessage($person, $type, $lastmessage)
 	{
 		$limit = 1; 
@@ -161,7 +173,10 @@ class social_chat
 		}
 		return $this->helper->render('pg_social_chatmessage.html', '');
 	}
-	
+
+	/**
+	 * Mark read message on chat's user
+	*/
 	public function messageRead()
 	{
 		$user = (int) $this->user->data['user_id'];
@@ -169,6 +184,10 @@ class social_chat
 		$this->db->sql_query($sql);
 	}
 	
+	
+	/**
+	 * Send new message on chat
+	*/	
 	public function messageSend($person, $message)
 	{
 		$allow_urls = $this->config['pg_social_chat_message_url_enabled'];

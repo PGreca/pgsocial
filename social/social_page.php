@@ -58,7 +58,10 @@ class social_page
 		$this->php_ext 					= $php_ext;
         $this->table_prefix 			= $table_prefix;
 	}
-	
+		
+	/**
+	 * Create new page
+	*/
 	public function pageCreate($page_name, $page_category = 0)
 	{
 		$sql_arr = array(
@@ -83,6 +86,9 @@ class social_page
 		return $this->helper->render('activity_status_action.html', "");
 	}
 	
+	/**
+	 * Count likes pages
+	*/
 	public function user_likePages($user, $page = false)
 	{		
 		if(isset($page)) $where = " AND page_id = '".$page."'"; else $array = array();
@@ -96,6 +102,9 @@ class social_page
 		return $array;
 	}
 	
+	/**
+	 * Action like on page
+	*/
 	public function pagelikeAction($page)
 	{
 		$sql = "SELECT page_like_ID FROM ".$this->table_prefix."pg_social_pages_like WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";

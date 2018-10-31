@@ -56,6 +56,9 @@ class social_zebra
         $this->table_prefix = $table_prefix;			
 	}	
 	
+	/**
+	 * Return the friends or no-friends
+	*/
 	public function getFriends($profile, $type = NULL, $friend = "yes")
 	{		
 		if($friend == "no")
@@ -87,7 +90,10 @@ class social_zebra
 		}
 		//return $this->helper->render('pg_social_friends.html', '');
 	}
-		
+	
+	/**
+	 * Zebra status
+	*/	
 	public function friendStatus($user_id)
 	{
 		if($user_id != $this->user->data['user_id'])
@@ -117,6 +123,9 @@ class social_zebra
 		}
 	}
 	
+	/**
+	 * Send request friend
+	*/
 	public function requestFriend($profile, $request)
 	{
 		$user_id = (int) $this->user->data['user_id'];
@@ -170,6 +179,9 @@ class social_zebra
 		return $this->helper->render('activity_status_action.html', "");
 	}
 		
+	/**
+	 * Count the friends
+	*/
 	public function countFriends($user)
 	{
 		$sql = "SELECT COUNT(friend) AS count
@@ -181,6 +193,9 @@ class social_zebra
 		return $return;
 	}
 		
+	/**
+	 * The $s last register
+	*/
 	public function last_register()
 	{
 		$user_id = (int) $this->user->data['user_id'];
@@ -202,6 +217,9 @@ class social_zebra
 		//return $this->helper->render('pg_social_friends.html', '');
 	}
 	
+	/**
+	 * Return who not is your friend
+	*/
 	public function noFriends()
 	{
 		$user_id = (int) $this->user->data['user_id'];
