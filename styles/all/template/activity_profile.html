@@ -31,7 +31,7 @@
 	</div><div id="pg_social_main">
 		<div class="profile_avatar">{{ PROFILE_AVATAR_THUMB }}</div>			
 		<h2 class="memberlist-username"{% if PROFILE_COLOUR %} style="color: {{ PROFILE_COLOUR }};"{% endif %}>{% if S_ONLINE %}<i class="icon fa fa-circle" style="color: #25da2c;" aria-hidden="true"></i>{% endif %}{{ PROFILE_USERNAME }}</h2>
-		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('ACTIVITY') }}</a></li><li data-social_menu="friends"><a href="#friends"><i class="icon fa fa-users fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('FRIENDS') }} <span>({{ PROFILE_COUNT_FRIENDS }})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa fa-camera fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('GALLER') }}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa fa-info fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('INFO') }}</a></li></ul>
+		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('ACTIVITY') }}</a></li><li data-social_menu="friends"><a href="#friends"><i class="icon fa fa-users fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('FRIEND', 2) }} <span>({{ PROFILE_COUNT_FRIENDS }})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa fa-camera fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('GALLER') }}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa fa-info fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('INFO') }}</a></li></ul>
 		<div id="pg_social_sidel">
 			<div class="panel">
 				{% if PROFILE_QUOTE %}<blockquote id="profile_quote">{{ PROFILE_QUOTE }}{% if PROFILE_ACTION %}<a href="{{ PROFILE_UPDATE }}" id="profile_changeQuote">{{ lang('EDIT') }}</a>{% endif %}</blockquote>{% endif %}
@@ -98,10 +98,12 @@
 					{% endfor %}
 				</ul>
 				{% endif %}
-				{% if GALLERY_NAME %}<h5>{{ GALLERY_NAME }}</h5>{% endif %}
+				{% if GALLERY_NAME %}
+				<h5>{{ GALLERY_NAME }}</h5>
 				<ul class="template_photos" id="pg_social_photos">
 					{% INCLUDE 'pg_social_photos.html' %}
 				</ul>
+				{% endif %}
 			</div>
 			<div class="pg_social_pagesub" id="page_info">
 				{% EVENT memberlist_view_contact_before %}

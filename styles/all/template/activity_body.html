@@ -22,9 +22,7 @@
 			{% INCLUDE 'activity_status.html' %}
 		</ul>	
 		<div id="load_more"></div>
-	</div>
-	{% if PG_SOCIAL_SIDEBAR_RIGHT %}
-	<div id="pg_social_sider">
+	</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
 		{% if PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM && loops.profileFriends|length %}
 		<div class="panel" id="profile_FriendsRandom">
 			<ul>
@@ -92,6 +90,5 @@
 				kofiwidget2.init('Support Me on Ko-fi', '#46b798', 'A308YMA');kofiwidget2.draw();
 			</script>
 		</div>
-	</div>
-	{% endif %}
+	</div>{% endif %}
 </div>{% INCLUDE 'overall_footer.html' %}

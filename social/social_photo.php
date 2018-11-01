@@ -53,7 +53,7 @@ class social_photo
 	    $this->root_path 				= $root_path;	
 		$this->php_ext 					= $php_ext;
         $this->table_prefix 			= $table_prefix;	
-	    $this->pg_social_path 			= $this->root_path.'/ext/pgreca/pgsocial';	
+	    $this->pg_social_path 			= $this->root_path.'ext/pgreca/pgsocial';	
 	}
 	
 	/**
@@ -74,13 +74,13 @@ class social_photo
 			switch($row['gallery_id'])
 			{
 				case 3: 
-					$row['gallery_name'] = $this->user->lang('WALL');				
+					$row['gallery_name'] = $this->user->lang('PG_SOCIAL_WALL');				
 				break;
 				case 1:
-					$row['gallery_name'] = $this->user->lang('AVATAR');
+					$row['gallery_name'] = $this->user->lang('PG_SOCIAL_AVATAR');
 				break;
 				case 2:
-					$row['gallery_name'] = $this->user->lang('COVER');
+					$row['gallery_name'] = $this->user->lang('PG_SOCIAL_COVER');
 				break;				
 			}
 			$this->template->assign_block_vars('social_gallery', array(
@@ -103,13 +103,13 @@ class social_photo
 		switch($gallery)
 		{
 			case 3: 
-				$row['gallery_name'] = $this->user->lang('WALL');				
+				$row['gallery_name'] = $this->user->lang('PG_SOCIAL_WALL');				
 			break;
 			case 1:
-				$row['gallery_name'] = $this->user->lang('AVATAR');
+				$row['gallery_name'] = $this->user->lang('PG_SOCIAL_AVATAR');
 			break;
 			case 2:
-				$row['gallery_name'] = $this->user->lang('COVER');
+				$row['gallery_name'] = $this->user->lang('PG_SOCIAL_COVER');
 			break;			
 			default:
 				$sql = "SELECT * FROM ".$this->table_prefix."pg_social_gallery WHERE gallery_id = '".$gallery."'";
@@ -222,10 +222,8 @@ class social_photo
 	    $ImageType	 	= $photo['type']; 
 		$imageAlbum 	= $this->pg_social_path.'/images/upload/';
 
-		$targetFolder = $this->root_path.$imageAlbum;
-		if(!file_exists($targetFolder)) mkdir($targetFolder);
+		if(!file_exists($imageAlbum)) mkdir($imageAlbum);
 		$BigImageMaxSize 		= 1500; //Image Maximum height or width
-		$DestinationDirectory	= $targetFolder;
 		$Quality 				= 100;
 		$now = time();
 		
@@ -263,7 +261,7 @@ class social_photo
 		
 		$NewImageName = $ImageName.'-'.$RandomNumber.'.'.$ImageExt;
 		//set the Destination Image
-		$DestRandImageName 			= $DestinationDirectory.$NewImageName; //Name for Big Image
+		$DestRandImageName 			= $imageAlbum.$NewImageName; //Name for Big Image
 		
 		// This function will proportionally resize image 
 		function resizeImage($CurWidth,$CurHeight,$MaxSize,$DestFolder,$SrcImage,$Quality,$ImageType)

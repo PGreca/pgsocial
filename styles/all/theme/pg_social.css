@@ -44,7 +44,7 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social {
-	margin-top: 25px; 
+	margin-top: 10px; 
 	text-align: left;
 	font-size: 10px;
 }
@@ -69,7 +69,7 @@ body.section-memberlist form#viewprofile {
 #pg_social .panel {
 	/*background-color: rgba(0, 0, 0, 0.08);*/
 	width: calc(100% - 20px - 2px);
-	margin: 0px 0px 20px;
+	margin: 0px 0px 10px;
 	padding: 10px;
 	border-radius: 4px;
 	border: 1px solid transparent;
@@ -236,7 +236,7 @@ body.section-memberlist form#viewprofile {
 	position: relative;
 	background-color: rgba(255, 255, 255, 0.9);
 	width: calc(100% - 1px);
-	margin: 0px 0px 20px;
+	margin: 0px 0px 10px;
 	border: 0.5px solid #ccc;
 	border-top: 0px;
 	border-radius: 0px 0px 5px 5px;
@@ -288,8 +288,8 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_sidel {
 	display: inline-block;
-	width: calc(20% - 20px);
-	padding: 0px 20px 10px 0px;	
+	width: calc(20% - 10px);
+	padding: 0px 10px 10px 0px;	
 	vertical-align: top;
 }
 
@@ -464,6 +464,7 @@ body.section-memberlist form#viewprofile {
 #pg_social #pg_social_cont ul.template_photos li {
 	position: relative;
 	display: inline-block;
+	background-color: #000;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -527,7 +528,7 @@ body.section-memberlist form#viewprofile {
 #pg_social form#wall_post {
 	position: relative;
 	background-color: rgba(0, 0, 0, 0.5);
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	padding: 10px;
 	border-radius: 4px;
 }
@@ -547,10 +548,16 @@ body.section-memberlist form#viewprofile {
 	display: inline-block;
 	vertical-align: top;
 	width: 100%;
+	min-height: 40px;
 	overflow-y: auto;
 	resize: none;
 	font-size: 1.1em;
 	user-select: text;
+}
+
+#pg_social form#wall_post #wall_post_text[contenteditable=true]:empty:before {
+	display: block; /* For Firefox */
+	content: attr(placeholder);
 }
 
 #pg_social form#wall_post.active #wall_post_text {
@@ -600,7 +607,7 @@ body.section-memberlist form#viewprofile {
 	display: inline-block;
 	vertical-align: top;
 	width: 50%;
-	margin-top: 10px;
+	margin-top: 15px;
 	text-align: right;
 }
 
@@ -635,27 +642,31 @@ body.section-memberlist form#viewprofile {
 	color: #fff;
 }
 
-#pg_social form#wall_post ul#pg_social_wall_tag_system {
+#pg_social form#wall_post #pg_social_wall_tag {
+	position: relative;
 	display: inline-block;
+	width: 50%;	
+	margin-top: 15px;
+}
+
+#pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system {
 	background-color: #fff;
-	width: 50%;
 	max-height: 34px;
-	margin-top: 10px;
 	overflow-y: auto;
 	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
 	border-radius: 4px;
 }
 
-#pg_social form#wall_post ul#pg_social_wall_tag_system::-webkit-scrollbar {
+#pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system::-webkit-scrollbar {
     width: 0.5em;
 }
 
-#pg_social form#wall_post ul#pg_social_wall_tag_system::-webkit-scrollbar-thumb {
+#pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system::-webkit-scrollbar-thumb {
     background-color: #000;
 	border-radius: 4px;
 }
 
-#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people {
+#pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system li.tag_system_search_people {
 	display: inline-block;
 	width: calc((100% / 2) - 20px - 2px);
 	height: calc(34px - 10px);
@@ -663,24 +674,40 @@ body.section-memberlist form#viewprofile {
 	cursor: pointer;
 }
 
-#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people:hover {
+#pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system li.tag_system_search_people:hover {
 	background-color: rgba(43, 101, 151, 0.85);
 	color: #fff;
 }
 
-#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people img.avatar {
+#pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system li.tag_system_search_people img.avatar {
 	width: 20px;
 	border-radius: 100%;
 	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
 }
 
-#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people .tag_system_search_people_username {
+#pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system li.tag_system_search_people .tag_system_search_people_username {
 	display: inline-block;
+}
+
+#pg_social form#wall_post #pg_social_wall_tag i#pg_social_wall_tag_systemClose {
+	display: none;
+	position: absolute;
+    top: 0px;
+    right: -10px;
+    background: #fff;
+    width: 20px;
+    height: 20px;
+	border: 1px solid;
+    border-color: #E5E6E9 #DFE0E4 #D0D1D5;
+    line-height: 20px;
+    border-radius: 100%;
+    text-align: center;
 }
 
 #pg_social form#wall_post #wall_post_thumb {
 	display: none;
 	width: 100%;
+	margin-top: 5px;
     text-align: center;
 }
 
@@ -920,7 +947,13 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content blockquote {
+	margin-bottom: 10px;
 	padding: 10px;
+	text-align: right;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content blockquote:before {
+	content: '\f10e';
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer {
@@ -1181,8 +1214,8 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_sider {
 	display: inline-block;
-	width: calc(20% - 20px - 4px);
-	padding: 0px 0px 10px 20px;
+	width: calc(20% - 10px);
+	padding: 0px 0px 10px 10px;
 	vertical-align: top;	
 }
 
@@ -1684,6 +1717,14 @@ a.profile_signature_status {
 	#pg_social {
 		display: flex;
 		flex-direction: column;
+	}
+	
+	#pg_social_container #pg_social_containerL {
+		width: 100%;
+	}
+	
+	#pg_social_container #pg_social_containerR {
+		display: none;
 	}
 	
 	#pg_social #pg_social_sidel,

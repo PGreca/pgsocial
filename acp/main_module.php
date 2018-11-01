@@ -18,7 +18,7 @@ class main_module
 	function main($id, $mode){
 		global $db, $user, $auth, $template, $cache, $request, $helper;
 		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx, $table_prefix;
-
+		
 		$this->tpl_name = 'pg_social_body';
 		$this->page_title = $user->lang('ACP_PG_SOCIAL_TITLE');
 		add_form_key('pgreca/pgsocial');

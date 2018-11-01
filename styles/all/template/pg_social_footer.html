@@ -25,9 +25,9 @@
 		e.preventDefault();
 		e.stopPropagation();
 		if($('#wall_post_img').length && $('#wall_post_img').val() != "") {
-			uploadPhoto($('#wall_post_text').val(), $('#wall_post_img')[0].files[0], "wall");
+			uploadPhoto($('#wall_post_text').text(), $('#wall_post_img')[0].files[0], "wall");
 		} else {
-			pgwall_addStatus($('#wall_post_text').val(), $('#wall_post_privacy option:selected').val());
+			pgwall_addStatus($('#wall_post_text').text(), $('#wall_post_privacy option:selected').val());
 		}
 	});
 	

@@ -7,7 +7,7 @@
 		</div><div class="post_status_head_author">
 			<h4 class="post_status_head_author_username"><a href="{{ post_status.AUTHOR_PROFILE }}"{% if post_status.AUTHOR_COLOUR %} style="color: {{ post_status.AUTHOR_COLOUR }};"{% endif %}>{{ post_status.AUTHOR_USERNAME }}</a>{% if post_status.WALL_ACTION %} {{ post_status.WALL_ACTION }} <a href="{{ post_status.WALL_PROFILE }}"{% if post_status.WALL_COLOUR %} style="color: {{ post_status.WALL_COLOUR }};"{% endif %}>{{ post_status.WALL_USERNAME }}</a>{% endif %}{% if post_status.AUTHOR_ACTION %} <span class="post_status_head_author_action">{{ post_status.AUTHOR_ACTION }}</span>{% endif %}</h4>
 			<a id="post_status_head_link" href="{{ post_status.POST_URL }}"><div class="post_status_head_date" title="{{ post_status.POST_DATE }}"></div></a>
-		</div>{% if S_USER_LOGGED_IN && post_status.ACTION == "yes" %}<div class="post_status_action">
+		</div>{% if S_USER_LOGGED_IN && post_status.ACTION %}<div class="post_status_action">
 			<div class="post_status_privacy">{{ lang('PRIVACY_VISIBLE_FOR') }}{{ lang('COLON') }} <span>{{ post_status.POST_PRIVACY }}</span></div>
 			<div class="post_status_remove"><i class="icon fa-minus-circle fa-fw" aria-hidden="true"></i></div>
 		</div>
@@ -16,7 +16,7 @@
 	{% endif %}
 	<div class="post_status_content{{ post_status.MESSAGE_ALIGN }}">{{ post_status.MESSAGE }}</div>
 	<div class="post_status_footer">
-		<div class="post_status_like {% if post_status.IFLIKE != 0 %}active{% endif %}">
+		<div class="post_status_like {% if post_status.IFLIKE %}active{% endif %}">
 			<a><i class="icon fa-heart fa-fw" aria-hidden="true"></i><span>{{ post_status.LIKE }}</span> {{ lang('LIKE') }}</a>
 		</div><div class="post_status_comment">
 			<a><i class="icon fa-comments fa-fw" aria-hidden="true"></i>{{ post_status.COMMENT }}</a>
@@ -29,7 +29,7 @@
 	</ul>
 	{% if S_USER_LOGGED_IN %}
 	<form method="post" class="wall_comment">
-		{{ post_status.USER_AVATAR }}<input type="text" autocomplete="off" required name="wall_comment_text" class="wall_comment_text" placeholder="{{ lang('COMMENT_THIS_POST') }}" />
+		{{ post_status.USER_AVATAR }}<input type="text" autocomplete="off" required name="wall_comment_text" class="wall_comment_text" placeholder="{{ lang('COMMENT_THIS_ACTIVITY') }}" />
 		{{ S_HIDDEN_FIELDS }}
 		{{ S_FORM_TOKEN }}
 	</form>

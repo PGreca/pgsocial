@@ -57,7 +57,7 @@ class helper
 	    $this->root_path = $root_path;	
 		$this->php_ext = $php_ext;
         $this->table_prefix = $table_prefix;
-	    $this->pg_social_path = $this->root_path.'/ext/pgreca/pgsocial';	
+	    $this->pg_social_path = generate_board_url().'/ext/pgreca/pgsocial';	
 	}
 	
 	/* TIME AGO - FOR ACTIVITY AND MESSAGES CHAT */
@@ -118,7 +118,7 @@ class helper
 		switch($privacy)
 		{
 			case '1':
-				$privacySet = "FRIENDS";
+				$privacySet = "FRIEND";
 			break;
 			case '2':
 				$privacySet = "ALL";
@@ -294,6 +294,13 @@ class helper
 	public function extraText($text)
 	{
 		$a = $this->youtube($text);
+		return $a;
+	}
+	
+	/*   */
+	public function noextra($text)
+	{
+		$a = preg_replace('/\b((https?|):\/\/|www\.)[-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i', ' ', $text);
 		return $a;
 	}
 	

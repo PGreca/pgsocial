@@ -60,6 +60,10 @@
 		} 
 	});
 	
+	$(document).on('click', '#pg_social_wall_tag_systemClose', function() {
+		$('#pg_social_wall_tag_system').html("");
+	});
+	
 	$(document).on('click', "#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people", function() {
 		var username = $(this).attr('data-people_username');
 		var user = $(this).attr('data-people');
@@ -237,7 +241,7 @@ function pgwall_addStatus(texta, privacy) {
 			contentType: false,
 			processData: false, 
 			success: function(data) {
-				$('#wall_post_text').val("");
+				$('#wall_post_text').html("");
 			}
 		});
 	}
@@ -362,7 +366,7 @@ function uploadPhoto(msg, photo, type, where, itop) {
 		processData: false, 
 		success: function(data) {	
 			if(type == 'cover') location.reload();
-			$('#wall_post_text').val("");
+			$('#wall_post_text').html("");
 			$("#wall_post_img").val("");
 			$("#wall_post_thumb").removeAttr("style");
 			$("#wall_post_thumb img#wall_post_thumb_img").removeAttr('src');

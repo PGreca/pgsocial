@@ -58,6 +58,7 @@ class post_status
 	    $this->root_path				= $root_path;	
 		$this->php_ext 					= $php_ext;
         $this->table_prefix 			= $table_prefix;
+	    $this->pg_social_path 			= $this->root_path.'/ext/pgreca/pgsocial';	
 	}
 	
 	/**
@@ -129,6 +130,7 @@ class post_status
 	{
 		$rele = true;
 		$author_action = '';
+		$action = false;
 		$user_id = (int) $this->user->data['user_id'];
 		if($post_where == 'page'|| $row['post_where'] == 1 && $this->social_page->user_likePages($user_id, $row['wall_id']) == $row['wall_id'] || $row['post_where'] == 0 && ($row['wall_id'] == $user_id || $row['post_privacy'] == 0 && $row['wall_id'] == $user_id || $row['post_privacy'] == 1 && $this->social_zebra->friendStatus($row['wall_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $row['post_privacy'] == 2))
 		{
@@ -141,7 +143,7 @@ class post_status
 					$resultpage = $this->db->sql_query($sqlpage);
 					$page = $this->db->sql_fetchrow($resultpage);
 					$status_title = $page['page_username'];
-					$status_avatar = '<img class="avatar" src="'.generate_board_url().'/ext/pgreca/pg_social/images/transp.gif" style="background-image:url('.generate_board_url().'/ext/pgreca/pg_social/images/';
+					$status_avatar = '<img class="avatar" src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url('.generate_board_url().'/ext/pgreca/pg_social/images/';
 					if($page['page_avatar'] != "")
 					{
 						$status_avatar .= 'upload/'.$page['page_avatar']; 
@@ -275,7 +277,7 @@ class post_status
 							$allow_smilies = $this->config['pg_social_smilies'];
 							$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
 		
-							$msg = generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags);
+							$msg = generate_text_for_display($this->pg_social_helper->noextra($row['message']), $row['bbcode_uid'], $row['bbcode_bitfield'], $flags);
 							$msg = $this->social_tag->showTag($msg);	
 							$msg .= $this->pg_social_helper->extraText($row['message']);
 						}		
@@ -286,14 +288,14 @@ class post_status
 			$comment = "<span>".$this->pg_social_helper->countAction("comments", $row['post_ID'])."</span> ";
 			if($this->pg_social_helper->countAction("comments", $row['post_ID']) == 0 || $this->pg_social_helper->countAction("comments", $row['post_ID']) > 1)
 			{
-				$comment .= $this->user->lang('COMMENTS');
+				$comment .= $this->user->lang('COMMENT', 2);
 			}
 			else
 			{
-				$comment .= $this->user->lang('COMMENT');
+				$comment .= $this->user->lang('COMMENT', 1);
 			}
 		
-			if($row['wall_id'] == $user_id || $user_id == $row['user_id']) $action = "yes";
+			if($row['wall_id'] == $user_id || $user_id == $row['user_id']) $action = true;
 			
 			$this->template->assign_block_vars('post_status', array(
 				'USER_AVATAR'				=> $this->pg_social_helper->social_avatar_thumb($this->user->data['user_avatar'], $this->user->data['user_avatar_type']),				

@@ -1,6 +1,6 @@
 {% if ACTION == "like" || ACTION == "dislike" %}
 <div class="post_status_like{% if ACTION == "like" %} active{% endif %}">
-	<a><i class="icon fa-heart fa-fw" aria-hidden="true"></i><span>{{ LIKE_TOT }}</span> {{ lang('LIKE') }}</a>
+	<a><i class="icon fa-heart fa-fw" aria-hidden="true"></i><span>{{ LIKE_TOT }}</span> {{ lang('LIKE', 1) }}</a>
 </div>
 {% else %}
 {{ ACTION }}

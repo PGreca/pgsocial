@@ -1,9 +1,13 @@
 {% if S_USER_LOGGED_IN %}
 <form method="post" id="wall_post">
 	<div class="wall_post_area">
-		<textarea required name="wall_post_text" id="wall_post_text" placeholder="{{ lang('WRITE_SOMETHING') }}..."></textarea>
+		<div contenteditable="true" required name="wall_post_text" id="wall_post_text" placeholder="{{ lang('PG_SOCIAL_WRITE_SOMETHING') }}..."></div>
+		<!--<textarea required name="wall_post_text" id="wall_post_text" placeholder="{{ lang('WRITE_SOMETHING') }}..."></textarea>-->
 	</div>
-	<ul id="pg_social_wall_tag_system"></ul><div class="wall_post_option">
+	<div id="pg_social_wall_tag">
+		<ul id="pg_social_wall_tag_system"></ul>
+		<i class="icon fa fa-close" id="pg_social_wall_tag_systemClose"></i>
+	</div><div class="wall_post_option">
 		{% if PROFILE_ACTION == true || STATUS_WHERE == '' %} 
 		<label id="pg_social_wall_post_img">{{ lang('ATTACH_PICTURE') }}<input name="wall_post_img" id="wall_post_img" type="file" accept="image/*" /></label>
 		<select name="wall_post_privacy" id="wall_post_privacy">

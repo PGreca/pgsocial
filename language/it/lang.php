@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * PGreca Social extension for phpBB.
@@ -13,44 +12,11 @@ if(!defined('IN_PHPBB'))
 {
 	exit;
 }
-
 if(empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
-
-$lang = array_merge($lang, array(
-	'ACP_PG_SOCIAL_TITLE'				=> 'PG Social',
-	'ACP_PG_SOCIAL_MAIN'				=> 'Menù principale',
-	'ACP_PG_SOCIAL_GENERAL'				=> 'Generale',
-	'ACP_PG_SOCIAL_PAGE'				=> 'Menù pagine',
-	'ACP_PG_SOCIAL_PAGE_MANAGE'			=> 'Amministra pagine',
-	'ACP_PG_SOCIAL_SETTINGS_EXPLAIN'	=> 'Questa è la pagina delle impostazioni per l\' estensione "Phpbb PGreca Social"',
-	'ACP_PG_SOCIAL_VERSION'				=> 'Versione',
-	'ACP_PG_SOCIAL_ENABLED'				=> 'Attiva PG Social',
-	'ACP_PG_SOCIAL_INDEX_REPLACE'		=> 'Sostituisci la Home con la pagina Attività',
-	'ACP_PG_SOCIAL_INDEX_ACTIVITY'		=> 'Abilita la barra laterale a Destra degli ultimi stati nella pagina del Forum',
-	'ACP_PG_SOCIAL_STATUS'				=> 'Impostazioni stato',
-	'ACP_PG_SOCIAL_COLOR'				=> 'Imposta colore',
-	'ACP_PG_SOCIAL_NOCOLOR'				=> 'Nessuno',
-	'ACP_PG_SOCIAL_BLUE'				=> 'Blu',
-	'ACP_PG_SOCIAL_GREEN'				=> 'Verde',
-	'ACP_PG_SOCIAL_RED'					=> 'Rosso',
-	'ACP_PG_SOCIAL_BBCODE_ENABLED'		=> 'Abilita i BBCode',
-	'ACP_PG_SOCIAL_SMILIES_ENABLED'		=> 'Abilita gli Smiles',
-	'ACP_PG_SOCIAL_URL_ENABLED'			=> 'Abilita i Link',
-	'ACP_PG_SOCIAL_PROFILE'				=> 'Attiva i Profili PG Social',
-	'ACP_PG_SOCIAL_PROFILE_EXPLAIN'		=> 'Sostituisce i Profili predefiniti',
-	'ACP_PG_SOCIAL_SETTINGS'			=> 'Impostazioni PG Social',
-	'ACP_SOCIAL_SIDEBAR_RIGHT'			=> 'Abilita la barra laterale a Destra',
-	'ACP_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM'	=> 'Abilita gli Amici Casuali nella barra laterale a destra',
-	'ACP_SOCIAL_SIDEBAR_RIGHT_LAST_POST'=> 'Abilita gli ultimi stati nella barra laterale a destra',
-	'ACP_PG_SOCIAL_CHAT'				=> 'Impostazioni CHAT',
-	'ACP_SOCIAL_SOCIAL_CHAT_ENABLED'	=> 'Abilita Chat',
-	'ACP_PG_SOCIAL_CHAT_BBCODE_ENABLED'	=> 'Abilita i BBCode nei messaggi',
-	'ACP_PG_SOCIAL_CHAT_URL_ENABLED'	=> 'Abilita gli URL nei messaggi', 
-	'ACP_PG_SOCIAL_SETTING_SAVED'		=> 'Configurazione aggiornata.',
-	
+$lang = array_merge($lang, array(	
 	'ABOUT_HOUR'						=> '1 ora',
 	'ABOUT_HOURS'						=> 'ore',
 	'ABOUT_MONTH'						=> '1 mese',
@@ -63,18 +29,25 @@ $lang = array_merge($lang, array(
 	'ARE_YOU_SURE'						=> 'Questo stato sarà eliminato e non potrai trovarlo più. Confermi?',
 	'ARE_YOU_SURE_PHOTO'				=> 'Questa foto sarà eliminata e non potrai trovarla più. Confermi?',
 	'ATTACH_PICTURE'					=> 'Allega immagine',
-	'AVATAR'							=> 'Immagine di profilo',
-	'COMMENT'							=> 'Commento',
-	'COMMENT_NO'						=> 'Nessun commento',
-	'COMMENT_THIS_POST'					=> 'Commenta questo stato!',
-	'COMMENTS'							=> 'Commenti',
-	'COVER'								=> 'Immagine di copertina',
-	'DAY'								=> '1 giorno',
-	'DAYS'								=> 'giorni',
+	'PG_SOCIAL_AVATAR'					=> 'Immagine di profilo',
+	'COMMENT'							=> array(
+		0				=> 'Nessun commento',
+		1				=> 'Commento',
+		2				=> 'Commenti',
+	),
+	'COMMENT_THIS_ACTIVITY'				=> 'Commenta questo stato!',
+	'PG_SOCIAL_COVER'					=> 'Immagine di copertina',
+	'DAY'								=> array(
+		1	=> 'giorno',
+		2	=> 'giorni',
+	),
 	'DO_YOU_WANT_SHARE'					=> 'Vuoi condividere questo stato?',
 	'EDIT'								=> 'Modifica',
 	'EDIT_PROFILE'						=> 'Modifica profilo',
-	'FRIENDS'							=> 'Amici',
+	'FRIEND'							=> array(
+		1				=> 'Amico',
+		2				=> 'Amici',
+	),	
 	'GALLER'							=> 'Galleria',
 	'GENDER'							=> 'Sesso',
 	'GENDER_FEMALE'						=> 'Femmina',
@@ -92,14 +65,13 @@ $lang = array_merge($lang, array(
 	'HAS_WRITED_POST_ON_CANCEL'			=> 'ha scritto un post in una discussione',
 	'INFO'								=> 'Informazioni',
 	'LESS'								=> 'meno di',
-	'LIKE'								=> 'Mi Piace',
+	'LIKE'								=> array(
+		1				=> 'Mi Piace',
+		2				=> 'Piace',
+	),
 	'LIKE_ACTIVE'  						=> 'Ti Piace già',
 	'LIKES'								=> 'Mi Piace',
 	'MINUTES'							=> 'minuti',
-	'MCP_PG_SOCIAL_TITLE'				=> 'Social',
-	'MCP_PG_SOCIAL_MAIN'				=> 'Menù principale',
-	'MCP_PG_SOCIAL_PAGE_MANAGE'			=> 'Modera pagine',
-	
 	
 	'NOTIFICATION_PG_SOCIAL'			=> 'Notifiche social',
 	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'Qualcuno scrive uno stato nella tua bacheca',
@@ -138,12 +110,7 @@ $lang = array_merge($lang, array(
 	'SHARE'								=> 'Condividi',
 	'STATUS'							=> 'stato',
 	
-	'UCP_PG_SOCIAL_CHAT'				=> 'Imposta la chat',
-	'UCP_PG_SOCIAL_MAIN'				=> 'Social',
-	'UCP_PG_SOCIAL_CHAT_SOUND'			=> 'Abilita suono alla ricezione di nuovi messaggi in chat',
-	'UCP_PG_SOCIAL_SIGNATURE_STATUS'	=> 'Sostituisci la tua firma con ogni tuo nuovo stato nella tua bacheca',
-	'USER_FORUM'						=> 'Statistiche',
-	'WALL'								=> 'Bacheca',
+	'PG_SOCIAL_WALL'				=> 'Bacheca',
 	'WALL_TIME_AGO'						=> '%1$u %2$s fa',
 	'WALL_TIME_FROM_NOW'				=> '%1$u %2$s fa',
 	'WALL_TIME_PERIODS'					=> array(
@@ -164,7 +131,7 @@ $lang = array_merge($lang, array(
 		'DECADE'	 => 'decade',
 		'DECADES'	 => 'decadi',
 	),
-	'WRITE_A_MESSAGE'					=> 'Scrivi un messaggio',
-	'WRITE_SOMETHING'					=> 'Scrivi qualcosa',
-	'VERSION'							=> 'Versione',
+	'PG_SOCIAL_WRITE_A_MESSAGE'					=> 'Scrivi un messaggio',
+	'PG_SOCIAL_WRITE_SOMETHING'					=> 'Scrivi qualcosa',
+	'PG_SOCIAL_VERSION'							=> 'Versione',
 ));

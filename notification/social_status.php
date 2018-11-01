@@ -8,7 +8,7 @@
 *
 */
 
-namespace pgreca\pg_social\notification;
+namespace pgreca\pgsocial\notification;
 
 /**
 *
