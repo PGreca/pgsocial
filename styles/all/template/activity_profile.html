@@ -12,9 +12,7 @@
 			{% elseif PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ'	%}
 			<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ PROFILE_ID }}&request=acceptFriend" id="profile_friend_accept" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ACCEPT_REQ') }}</a>	
 			<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ PROFILE_ID }}&request=declineFriend" id="profile_friend_decline" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_DECLINE_REQ') }}</a>
-			{% else %}
-			{{ PROFILE_FRIEND_ACTION }}			
-			{% endif %}
+			{% endif %}				
 			{% else %}
 			<div id="profile_upload">
 				<input id="profile_upload_submit" type="submit" value="{{ lang('PROFILE_UPDATE') }}" />

@@ -65,9 +65,12 @@ $lang = array_merge($lang, array(
 	'HAS_WRITED_POST_ON_CANCEL'			=> 'has witten a post on a topic',
 	'INFO'								=> 'Info',
 	'LESS'								=> 'less than',
-	'LIKE'								=> 'Like',
+	'LIKE'								=> array(
+		1				=> 'Like',
+		2				=> 'Likes',
+	),
 	'LIKE_ACTIVE'  						=> 'You like it',
-	'LIKES'								=> 'Likes',
+	'LIKE_TO'							=> 'Like to',
 	'MINUTES'							=> 'minutes',
 	
 	'NOTIFICATION_PG_SOCIAL'			=> 'Social notifications',
@@ -77,6 +80,8 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_SOCIAL_TAG'		=> 'tagged in an activity',
 	'ONLY_YOU'							=> 'Only you',
 	'OPTIONS'							=> 'Options',
+	'PAGE_CREATE'						=> 'Create page',
+	'PAGE_INSERT_NAME'					=> 'Insert the name of the page',
 	'PAGE_USERNAME'						=> 'Page name',
 	'PAGES'								=> 'Pages',
 	'PG_SOCIAL_COMMENT_NEW_LOG'			=> '<strong>Has commented an activity</strong><br />» %s',
@@ -106,7 +111,7 @@ $lang = array_merge($lang, array(
 	'SECONDS'							=> 'seconds',
 	'SHARE'								=> 'Share',
 	'STATUS'							=> 'status',
-	
+	'PG_SOCIAL_SUPPORT_EXT_KOFI'		=> 'Support PG SOCIAL NETWORK on Ko-fi',
 	'PG_SOCIAL_WALL'					=> 'Wall',
 	'WALL_TIME_AGO'						=> '%1$u %2$s ago',
 	'WALL_TIME_FROM_NOW'			  => '%1$u %2$s ago',

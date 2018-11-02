@@ -58,7 +58,7 @@ class post_status
 	    $this->root_path				= $root_path;	
 		$this->php_ext 					= $php_ext;
         $this->table_prefix 			= $table_prefix;
-	    $this->pg_social_path 			= $this->root_path.'/ext/pgreca/pgsocial';	
+	    $this->pg_social_path 			= generate_board_url().'/ext/pgreca/pgsocial';	
 	}
 	
 	/**
@@ -143,7 +143,7 @@ class post_status
 					$resultpage = $this->db->sql_query($sqlpage);
 					$page = $this->db->sql_fetchrow($resultpage);
 					$status_title = $page['page_username'];
-					$status_avatar = '<img class="avatar" src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url('.generate_board_url().'/ext/pgreca/pg_social/images/';
+					$status_avatar = '<img class="avatar" src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url('.$this->pg_social_path.'/images/';
 					if($page['page_avatar'] != "")
 					{
 						$status_avatar .= 'upload/'.$page['page_avatar']; 

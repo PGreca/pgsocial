@@ -127,7 +127,7 @@ body.section-memberlist form#viewprofile {
 	text-align: right;
 }
 
-#pg_social #pg_social_header #pg_social_actionprofile .action_profile {
+#pg_social #pg_social_header #pg_social_actionprofile .action_profile:not(:empty) {
 	margin-top: 10px;
 }
 
@@ -792,7 +792,7 @@ body.section-memberlist form#viewprofile {
 	border-radius: 100%;
 }
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author > a {
-	display: block;
+	display: inline-block;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author_avatar img {

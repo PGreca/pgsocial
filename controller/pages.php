@@ -8,7 +8,7 @@
 *
 */
 
-namespace pgreca\pg_social\controller;
+namespace pgreca\pgsocial\controller;
 
 class pages
 {
@@ -118,7 +118,7 @@ class pages
 					'PAGE_ID'			=> $page['page_id'],
 					'PAGE_ALERT'		=> $page_alert,
 					'PAGE_ACTION'		=> $page['page_action'],
-					'PAGE_AVATAR'		=> '<img src="'.generate_board_url().'/ext/pgreca/pg_social/images/'.($page['page_avatar'] != "" ? $page_avatar = 'upload/'.$page['page_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />',	     
+					'PAGE_AVATAR'		=> '<img src="'.generate_board_url().'/ext/pgreca/pgsocial/images/'.($page['page_avatar'] != "" ? $page_avatar = 'upload/'.$page['page_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />',	     
 					'PAGE_COVER'		=> $this->pg_social_helper->social_cover($page['page_cover']),
 					'PAGE_USERNAME'		=> $page['page_username'],
 					
@@ -155,7 +155,7 @@ class pages
 					
 					$this->template->assign_block_vars('pages', array(
 						'PAGE_ID'				=> $pages['page_id'],
-						'PAGE_AVATAR'			=> generate_board_url().'/ext/pgreca/pg_social/images/'.$page_avatar,	     
+						'PAGE_AVATAR'			=> generate_board_url().'/ext/pgreca/pgsocial/images/'.$page_avatar,	     
 						'PAGE_COUNT_FOLLOWER'	=> $pages['countlike'].' '.$people,
 						'PAGE_USERNAME'			=> $pages['page_username'],
 						'PAGE_URL'				=> $this->helper->route('pages_page', array('name' => $pages['page_username_clean'])),

@@ -20,4 +20,7 @@ $lang = array_merge($lang, array(
 	'MCP_PG_SOCIAL_TITLE'				=> 'Social',
 	'MCP_PG_SOCIAL_MAIN'				=> 'Menù principale',
 	'MCP_PG_SOCIAL_PAGE_MANAGE'			=> 'Modera pagine',	
+	'MCP_PG_SOCIAL_PAGES_AWAITING'		=> 'Pagine in attesa di approvazione',
+	'MCP_PG_SOCIAL_PAGE_NOAPPROVE'		=> 'Non ci sono pagine che attendono approvazione.',
+	'MCP_NO_MANAGE'						=> 'Non disponi dei permessi per la gestione delle pagine.'
 ));

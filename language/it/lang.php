@@ -70,7 +70,7 @@ $lang = array_merge($lang, array(
 		2				=> 'Piace',
 	),
 	'LIKE_ACTIVE'  						=> 'Ti Piace già',
-	'LIKES'								=> 'Mi Piace',
+	'LIKE_TO'							=> 'Piace a',
 	'MINUTES'							=> 'minuti',
 	
 	'NOTIFICATION_PG_SOCIAL'			=> 'Notifiche social',
@@ -80,6 +80,8 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_SOCIAL_TAG'		=> 'Qualcuno ti tagga in uno stato',
 	'ONLY_YOU'							=> 'Solo tu',
 	'OPTIONS'							=> 'Opzioni',
+	'PAGE_CREATE'						=> 'Crea pagina',
+	'PAGE_INSERT_NAME'					=> 'Inserisci il nome della pagina',
 	'PAGE_USERNAME'						=> 'Nome pagina',
 	'PAGES'								=> 'Pagine',
 	'PG_SOCIAL_COMMENT_NEW_LOG'			=> '<strong>Ha commentato uno stato</strong><br />» %s',
@@ -109,7 +111,7 @@ $lang = array_merge($lang, array(
 	'SECONDS'							=> 'secondi',
 	'SHARE'								=> 'Condividi',
 	'STATUS'							=> 'stato',
-	
+	'PG_SOCIAL_SUPPORT_EXT_KOFI'		=> 'Supporta PG SOCIAL NETWORK su Ko-fi',	
 	'PG_SOCIAL_WALL'				=> 'Bacheca',
 	'WALL_TIME_AGO'						=> '%1$u %2$s fa',
 	'WALL_TIME_FROM_NOW'				=> '%1$u %2$s fa',

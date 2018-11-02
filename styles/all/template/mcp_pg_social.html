@@ -4,7 +4,7 @@
 	<h2>{{ lang('MCP_PG_SOCIAL_PAGE_MANAGE') }}</h2>
 	<div class="panel">
 		<div class="inner">	
-			<h3>Pagine in attesa</h3>
+			<h3>{{ lang('MCP_PG_SOCIAL_PAGES_AWAITING') }}</h3>
 			{% if PAGE_MANAGE_ACTION %}
 			{% if loops.pages|length %}
 			<table class="table1 responsive">
@@ -28,10 +28,10 @@
 				</tbody>
 			</table>
 			{% else %}
-			Nessuna pagina da approvare
+			{{ lang('MCP_PG_SOCIAL_PAGE_NOAPPROVE') }}
 			{% endif %}
 			{% else %}
-			Non disponi dei permessi per la gestione delle pagine.
+			{{ lang(('MCP_NO_MANAGE') } 
 			{% endif %}
 			<fieldset class="submit-buttons">
 				{{ S_FORM_TOKEN }}

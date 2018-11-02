@@ -5,8 +5,9 @@
 	var where = '{{ STATUS_WHERE }}';
 	var useLang = {ARE_YOU_SURE: "{{ lang('ARE_YOU_SURE') }}", ARE_YOU_SURE_PHOTO: "{{ lang('ARE_YOU_SURE_PHOTO') }}", DO_YOU_WANT_SHARE: "{{ lang('DO_YOU_WANT_SHARE') }}"};
 	{% if (PROFILE_ID || PROFILE) && ACTIVITY_PAGE %}
+	console.log($(".post_status_head_date, .post_comment_time").length);
 	setInterval(function() {
-		jQuery(".post_status_head_date, .post_comment_time").timeago();
+		if($(".post_status_head_date, .post_comment_time").length > 0) jQuery(".post_status_head_date, .post_comment_time").timeago();
 	}, 200);
 {% if S_USER_LOGGED_IN %}
 	if($("#posts_status").html() == "") pgwall_getStatus('seguel', where);

@@ -44,16 +44,16 @@ class social_zebra
 	
 	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $config, $db, $root_path, $php_ext, $table_prefix)
 	{	
-		$this->template = $template;
-	    $this->user = $user;
-		$this->helper = $helper;
-		$this->pg_social_helper = $pg_social_helper;
-		$this->notify 					= $notifyhelper;
-		$this->config = $config;
-		$this->db = $db;
-	    $this->root_path = $root_path;	
-		$this->php_ext = $php_ext;
-        $this->table_prefix = $table_prefix;			
+		$this->template							= $template;
+	    $this->user								= $user;
+		$this->helper							= $helper;
+		$this->pg_social_helper					= $pg_social_helper;
+		$this->notify 							= $notifyhelper;
+		$this->config							= $config;
+		$this->db								= $db;
+	    $this->root_path						= $root_path;	
+		$this->php_ext							= $php_ext;
+        $this->table_prefix						= $table_prefix;			
 	}	
 	
 	/**
@@ -128,31 +128,29 @@ class social_zebra
 	*/
 	public function requestFriend($profile, $request)
 	{
-		$user_id = (int) $this->user->data['user_id'];
-		
 		switch($request)
 		{
 			case 'addFriend':
 				$sql_arr = array(
-					'user_id'	=> $user_id,
+					'user_id'	=> $this->user->data['user_id'],
 					'zebra_id'	=> $profile,
 					'friend'	=> 0,
 					'foe'		=> 0,
 					'approval'	=> 1,
 				);
 				$sql = "INSERT INTO ".ZEBRA_TABLE.$this->db->sql_build_array('INSERT', $sql_arr);
-				$this->notify->notify('add_friend', '', '', (int) $profile, (int) $user_id, 'NOTIFICATION_SOCIAL_FRIEND_ADD');		
+				$this->notify->notify('add_friend', '', '', $profile, $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_FRIEND_ADD');		
 				if($this->db->sql_query($sql)) $action = "REQUEST_SEND";
 			break;
 			case 'undoFriend':
-				$sql = "DELETE FROM ".ZEBRA_TABLE." WHERE (zebra_id = '".$user_id."' AND user_id = '".$profile."') OR (user_id = '".$user_id."' AND zebra_id = '".$profile."')";
+				$sql = "DELETE FROM ".ZEBRA_TABLE." WHERE (zebra_id = '".$this->user->data['user_id']."' AND user_id = '".$profile."') OR (user_id = '".$this->user->data['user_id']."' AND zebra_id = '".$profile."')";
 				if($this->db->sql_query($sql)) $action = "REQUEST_DELETE";
 			break;
 			case 'acceptFriend':
 				$sql = "UPDATE ".ZEBRA_TABLE." SET friend = '1', approval = '0' 
-				WHERE user_id = '".$profile."' AND zebra_id = '".$user_id."'";
+				WHERE user_id = '".$profile."' AND zebra_id = '".$this->user->data['user_id']."'";
 				$sql_arr = array(
-					'user_id'	=> $user_id,
+					'user_id'	=> $this->user->data['user_id'],
 					'zebra_id'	=> $profile,
 					'friend'	=> 1,
 					'foe'		=> 0,
@@ -168,7 +166,7 @@ class social_zebra
 			case 'declineFriend':
 			case 'cancelFriend':
 				$sql = "DELETE FROM ".ZEBRA_TABLE." 
-				WHERE (zebra_id = '".$profile."' AND user_id = '".$user_id."') OR (user_id = '".$profile."' AND zebra_id = '".$user_id."')";
+				WHERE (zebra_id = '".$profile."' AND user_id = '".$this->user->data['user_id']."') OR (user_id = '".$profile."' AND zebra_id = '".$this->user->data['user_id']."')";
 				if($this->db->sql_query($sql)) $action = "FRIEND_DELETE";
 			break;			
 		}
