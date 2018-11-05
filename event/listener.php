@@ -331,6 +331,7 @@ class listener implements EventSubscriberInterface
 			$user_quote = $this->user->data['user_quote'];
 			$user_gender = $this->user->data['user_gender'];
 		}
+		
 		// Request the user option vars and add them to the data array
 		$event['data'] = array_merge($event['data'], array(
 			'user_quote'	=> $this->request->variable('user_quote', $user_quote),

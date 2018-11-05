@@ -49,7 +49,7 @@ class main
 	* @param \phpbb\db\driver\driver $db
 	* @param \phpbb\controller\helper  $helper
 	* @param \phpbb\request\request	$request	
-	* @param \pgsocial\\controller\helper $pgsocial_helper	
+	* @param \pgsocial\\controller\helper $pg_social_helper	
 	* @param \pgsocial\controller\notifyhelper $notifyhelper Notification helper.	 	
 	* @param \pgsocial\social\post_status $post_status 	
 	* @param \pgsocial\social\$social_zebra $social_zebra	 	
@@ -60,7 +60,7 @@ class main
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
 	*/
-	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pgsocial_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix)
+	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix)
 	{
 		$this->files_factory		= $files_factory;
 		$this->auth					= $auth;
@@ -68,7 +68,7 @@ class main
 		$this->db					= $db;
 		$this->helper				= $helper;
 		$this->request				= $request;
-		$this->pgsocial_helper		= $pgsocial_helper;
+		$this->pg_social_helper		= $pg_social_helper;
 		$this->notifyhelper			= $notifyhelper;
 		$this->post_status 			= $post_status;		
 		$this->social_zebra 		= $social_zebra;		
@@ -181,6 +181,39 @@ class main
 			
 			if($name == 'mp')
 			{
+				$cache_days = 7;
+				$sql_days = array();
+
+				while ($cache_days >= 0)
+				{
+					$day = getdate(time() + 86400 * $cache_days + $this->user->timezone + $user->dst - date('Z'));
+					$sql_days[] = "u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', $day['mday'], $day['mon'])) . "%'";
+					$cache_days--;
+				}
+				$time = $this->user->create_datetime();
+				$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
+				$birthdays = 'SELECT u.user_id, u.username, u.user_birthday, u.user_colour, u.user_avatar, u.user_avatar_type
+					FROM ' . USERS_TABLE . ' u
+					LEFT JOIN ' . BANLIST_TABLE . " b ON (u.user_id = b.ban_userid)
+					WHERE (b.ban_id IS NULL	OR b.ban_exclude = 1)
+						AND (" . implode(" OR ", $sql_days) . ")
+						AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')
+				';
+				$birthdays_result = $this->db->sql_query($birthdays);
+				while($birthday = $this->db->sql_fetchrow($birthdays_result))
+				{
+					$birthday_username	= get_username_string('full', $birthday['user_id'], $birthday['username'], $birthday['user_colour']);
+					$birthday_year		= (int) substr($birthday['user_birthday'], -4);
+					$birthday_age		= ($birthday_year) ? max(0, $now['year'] - $birthday_year) : '';
+			
+					$this->template->assign_block_vars('friend_birthday', array(
+						'USERNAME'		=> $birthday_username,
+						'AGE'			=> $birthday_age,
+						'AVATAR'		=> $this->pg_social_helper->social_avatar_thumb($birthday['user_avatar'], $birthday['user_avatar_type']),
+						'PROFILE'		=> get_username_string('profile', $birthday['user_id'], $birthday['username'], $birthday['user_colour']),
+					));
+				}
+				
 				if($this->config['pg_social_block_posts_last'])
 				{
 					$a_f_auth_read = $this->auth->acl_getf('f_read');
@@ -220,7 +253,7 @@ class main
 						'POST_LINK'			 => append_sid($this->root_path."viewtopic.".$this->php_ext, "t=".$last_topics['topic_id']."&amp;p=".$last_topics['topic_last_post_id']."#p".$last_topics['topic_last_post_id']),
 						'TOPIC_FORUM'		 => $last_topics['forum_name'],
 						'TOPIC_FORUM_LINK'	 => append_sid($this->root_path."viewforum.".$this->php_ext, "f=".$last_topics['forum_id']),
-						'POST_TIME'			 => $this->pgsocial_helper->time_ago($last_topics['topic_last_post_time']),
+						'POST_TIME'			 => $this->pg_social_helper->time_ago($last_topics['topic_last_post_time']),
 						));
 					}
 				}			
@@ -233,14 +266,14 @@ class main
 					'PROFILE'								=> $this->user->data['user_id'],
 					'PROFILE_URL'							=> get_username_string('profile', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
 					'PROFILE_EDIT'							=> append_sid($this->root_path."ucp.".$this->php_ext, "i=ucp_profile&amp;mode=profile_info"),
-					'PROFILE_AVATAR'						=> $this->pgsocial_helper->social_avatar($this->user->data['user_avatar'], $this->user->data['user_avatar_type']),	     
+					'PROFILE_AVATAR'						=> $this->pg_social_helper->social_avatar($this->user->data['user_avatar'], $this->user->data['user_avatar_type']),	     
 					'PROFILE_USERNAME'						=> $this->user->data['username'],
 					'PROFILE_USERNAME_CLEAN'				=> $this->user->data['username_clean'],
 					'PROFILE_COLOUR'						=> "#".$this->user->data['user_colour'],
 					'PROFILE_QUOTE'							=> $this->user->data['user_quote'],
 					'PROFILE_GENDER'						=> $this->user->data['user_gender'],
-					'PROFILE_RANK'							=> $this->pgsocial_helper->social_rank($this->user->data['user_rank'])['rank_title'],					
-					'PROFILE_RANK_IMG'						=> $this->pgsocial_helper->social_rank($this->user->data['user_rank'])['rank_image'],				
+					'PROFILE_RANK'							=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_title'],					
+					'PROFILE_RANK_IMG'						=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_image'],				
 				
 					'PAGES_URL'								=> $this->helper->route("pages_page"),
 				));	

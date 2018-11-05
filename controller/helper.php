@@ -293,19 +293,15 @@ class helper
 	/* EXTRA OF ACTIVITY */
 	public function extraText($text)
 	{
-		$a = $this->youtube($text);
-		return $a;
-	}
-	
-	/*   */
-	public function noextra($text)
-	{
-		$a = preg_replace('/\b((https?|):\/\/|www\.)[-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i', ' ', $text);
+		$a = "";
+		$a .= $this->youtube_embed($text);
+		if($a == "") $a .= $this->facebook_embed($text);
+		if($a == "") $a .= $this->website_embed($text);
 		return $a;
 	}
 	
 	/* PLAYER YOUTUBE FOR ACTIVITY OR MESSAGES CHAT */
-	public function youtube($text)
+	public function youtube_embed($text)
 	{                        
 		if(strstr($text, 'youtube.com/watch?v=') !== false)
 		{
@@ -316,6 +312,71 @@ class helper
 			</p>';
 			if($youtube) return $youtube;
 		}
+	}
+	
+	/* EMBED FACEBOOK POST FOR ACTIVITY OR MESSAGES CHAT */
+	public function facebook_embed($text)
+	{
+		if(strstr($text, 'facebook.com/') !== false)
+		{
+			$domain = strstr($text, 'facebook.com/');
+			$domain = str_replace("facebook.com/", "", $domain);
+			$domain = explode('/?', $domain);
+			$domain[0] = str_replace(":", "%3A", $domain[0]);
+			$domain[0] = str_replace("/", "%2F", $domain[0]);
+			//$facebook = '<iframe src="https://www.facebook.com/plugins/post.php?href=https://www.facebook.com/GameOfThronesASOIAF/photos/a.161819403998674/1135208339993104/?type=3&theater
+			$facebook = '<iframe class="post_status_facebook" src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F'.$domain[0].'&appId=1605771702975630" allowTransparency="true" allow="encrypted-media"></iframe>';
+			if($facebook) return $facebook;
+		}
+	}
+	
+	/* EMBED LINK FOR ACTIVITY OR MESSAGES CHAT */
+	public function website_embed($text)
+	{
+		if(strstr($text, 'http') !== false)
+		{
+			$domain = strstr($text, 'http');
+			$domain = explode('">', $domain);
+			
+			if($domain[0])
+			{
+				$url = $domain[0];
+				$site_domain = parse_url($domain[0]);
+				$fp = fopen($url, 'r');
+				if($fp)
+				{
+					while(!feof($fp))
+					{
+						$buffer = trim(fgets($fp, 4096));
+						$content .= $buffer;
+					}
+					$start = '<title>';
+					$end = '</title>';
+					preg_match('!<title>(.*?)</title>!i', $content, $match);
+					$title = $match[1];
+					$metatagarray = get_meta_tags($url);
+					$keywords = $metatagarray["keywords"];
+					$description = $metatagarray["description"];
+					$screen = '<a href="'.$domain[0].'" class="post_status_site" target="_blank">
+						<div class="post_status_site_content">
+							<div class="post_status_site_title_domain">'.$site_domain['host'].'</div>
+							<h6 class="post_status_site_title">'.$title.'</h6>';
+							if($description) $screen .= '<div class="post_status_description">'.$description.'</div>';
+					$screen .= '</div>
+					</a>';
+					return $screen;
+				}
+			} 			
+		}
+	}
+	
+	public function noextra($text) {
+		$cont = $text;
+		$domain = strstr($text, 'http');
+		$domain = explode('">', $domain);
+		if($domain[0]) $cont = str_replace($domain[0], "", $text);
+		return $cont;
+				
 	}
 	
 	/* ADD LOG OF USER */

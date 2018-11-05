@@ -97,7 +97,7 @@
 				</ul>
 				{% endif %}
 				{% if GALLERY_NAME %}
-				<h5>{{ GALLERY_NAME }}</h5>
+				<h5><a href="{{ U_VIEW_PROFILE }}#gallery"><i class="icon fa fa-arrow-left" aria-hidden="true"></i></a> {{ GALLERY_NAME }}</h5>
 				<ul class="template_photos" id="pg_social_photos">
 					{% INCLUDE 'pg_social_photos.html' %}
 				</ul>
@@ -142,6 +142,7 @@
 					</dl>
 				</div>
 				{% endif %}
+				<!--{% EVENT memberlist_view_content_append %}-->
 			</div>
 		</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
 			<div class="panel ads">

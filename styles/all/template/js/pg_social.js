@@ -1,19 +1,25 @@
 (function($) {
 	$(document).ready(function() {		
 		if(where == undefined || where == '') where = "all";
-		
-		if(!$("ul#pg_social_menu li").hasClass("active")) {
-			$("ul#pg_social_menu li:first-child").addClass("active");
-			$("#pg_social #pg_social_cont .pg_social_pagesub:first-child").show();			
-		}	
-		
-		if(window.location.href.indexOf("gall") > -1)  {
+				
+		if(window.location.hash) {
+			var hash = window.location.hash.substring(1);
 			$("ul#pg_social_menu li").removeClass();
-			$("ul#pg_social_menu li[data-social_menu='gallery']").addClass("active");
+			$("ul#pg_social_menu li[data-social_menu='"+hash+"']").addClass("active");
 			$("#pg_social #pg_social_cont .pg_social_pagesub").hide();
-			$("#pg_social #pg_social_cont #page_gallery").show();
+			$("#pg_social #pg_social_cont #page_"+hash+"").show();
 			$("#pg_social_photos").offset().top;
-		}		
+		} else {
+			if(window.location.href.indexOf("gall") > -1)  {		
+				$("ul#pg_social_menu li").removeClass();
+				$("#pg_social #pg_social_cont .pg_social_pagesub").hide();
+				$("ul#pg_social_menu li[data-social_menu='gallery']").addClass("active");
+				$("#pg_social #pg_social_cont #page_gallery").show();
+			} else {
+				$("ul#pg_social_menu li:first-child").addClass("active");
+				$("#pg_social #pg_social_cont .pg_social_pagesub:first-child").show();	
+			}
+		}
 			
 		//ACTION FRIENDS
 		phpbb.addAjaxCallback('requestFriend', function(response) {

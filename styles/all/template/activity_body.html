@@ -7,6 +7,7 @@
 				{% if PROFILE_AVATAR %}<li class="profile_avatar">{{ PROFILE_AVATAR }}</li>{% endif %}
 				<li class="memberlist-title"><h2{% if PROFILE_COLOUR %} style="color: {{ PROFILE_COLOUR }};"{% endif %}>{{ PROFILE_USERNAME }}</h2></li>
 				<li class="profile-profile_link"><a href="{{ PROFILE_URL }}"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i> {{ lang('READ_PROFILE') }}</a></li>	
+				<li class="profile-profile-friends"><a href=" {{ PROFILE_URL }}#friends"><i class="icon fa fa-handshake-o fa-fw" aria-hidden="true"></i> {{ lang('FRIEND', 2) }}</a></li>
 				<li class="profile-profile_edit"><a href="{{ PROFILE_EDIT }}"><i class="icon fa fa-cog fa-fw" aria-hidden="true"></i> {{ lang('EDIT_PROFILE') }}</a></li>
 				<li class="profile-profile_pages"><a href="{{ PAGES_URL }}"><i class="icon fa fa-book fa-fw" aria-hidden="true"></i> {{ lang('PAGES') }}</a></li>
 				{% if PROFILE_QUOTE %}<li class="profile_quote"><blockquote id="profile_quote" style="padding: 5px;">{{ PROFILE_QUOTE }}</blockquote></li>{% endif %}
@@ -20,11 +21,13 @@
 		{% INCLUDE 'activity_form.html' %}
 		<ul id="posts_status">
 			{% INCLUDE 'activity_status.html' %}
+			{{ ACTIVITY_NOTHING }}
 		</ul>	
 		<div id="load_more"></div>
 	</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
-		{% if PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM && loops.profileFriends|length %}
+		{% if PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM && loops.profileFriends %}
 		<div class="panel" id="profile_FriendsRandom">
+			<h3><i class="icon fa fa-users fa-fw" aria-hidden="true"></i>{{ lang('PEOPLE_MAY_KNOW') }}</h3>
 			<ul>
 				{% for profileFriends in loops.profileFriends %}
 				<li class="friend" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
@@ -68,9 +71,22 @@
 			(adsbygoogle = window.adsbygoogle || []).push({});
 			</script>
 		</div>	
+		{% if loops.friend_birthday %}
+		<div class="panel" id="sid_birthday">
+			<h3><i class="icon fa fa-birthday-cake fa-fw" aria-hidden="true"></i>{{ lang('BIRTHDAYS') }}</h3>
+			<ul>
+				{% for friend_birthday in loops.friend_birthday %}
+				<li class="birthday">
+					<a href="{friend_birthday.PROFILE}">{{ friend_birthday.AVATAR }}</a>					
+					{friend_birthday.USERNAME} {% if friend_birthday.AGE %}(<b>{friend_birthday.AGE}</b>){% endif %}
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% endif %}
 		{% if PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST %}
 		<div class="panel" id="sid_last_topics">
-			<h3>Ultimi post</h3>
+			<h3><i class="icon fa fa-plus-square fa-fw" aria-hidden="true"></i>{{ lang('RECENT_DISCUSSIONS') }}</h3>
 			<ul>
 				{% for last_topics in loops.last_topics %}
 					<li class="posts">

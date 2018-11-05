@@ -163,7 +163,7 @@ class social_photo
 		
 		if(!$template)
 		{
-			$row['photo_file'] = $this->pg_social_path."/images/upload/".$row['photo_file'];
+			$row['photo_file'] = generate_board_url().$this->pg_social_path."/images/upload/".$row['photo_file'];
 			return $row;
 		}
 		else{
@@ -171,12 +171,22 @@ class social_photo
 			$comment = "<span>".$this->pg_social_helper->countAction("comments", $row['post_id'])."</span> ";
 			if($this->pg_social_helper->countAction("comments", $row['post_id']) == 0 || $this->pg_social_helper->countAction("comments", $row['post_id']) > 1)
 			{
-				$comment .= $this->user->lang('COMMENTS');
+				$comment .= $this->user->lang('COMMENT', 2);
 			}
 			else
 			{
-				$comment .= $this->user->lang('COMMENT');
+				$comment .= $this->user->lang('COMMENT', 1);
 			}
+			$likes = "<span>".$this->pg_social_helper->countAction("like", $row['post_id'])."</span> ";
+			if($this->pg_social_helper->countAction("like", $row['post_id']) == 0 | $this->pg_social_helper->countAction("like", $row['post_id']) > 1)
+			{
+				$likes .= $this->user->lang('LIKE', 2);
+			}
+			else
+			{
+				$likes .= $this->user->lang('LIKE', 1);
+			}			
+			
 			if($this->user->data['user_id'] == $user['user_id'] && $row['photo_file'] != $this->user->data['user_pg_social_cover']) $photo_action = 1; else $photo_action = 0;	
 				
 			$this->template->assign_block_vars('social_photo', array(
@@ -188,8 +198,10 @@ class social_photo
 				'AUTHOR_USERNAME'			=> $user['username'],
 				'AUTHOR_COLOUR'				=> '#'.$user['user_colour'],
 				'AUTHOR_AVATAR'				=> ($row['photo_where'] == 0 ? $this->pg_social_helper->social_avatar_thumb($user['user_avatar'], $user['user_avatar_type']) : '<img src="'.$this->pg_social_path.'/images/'.($page['page_avatar'] != "" ? $page_avatar = 'upload/'.$page['page_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />'),
+				'GALLERY_URL'				=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour'])."&gall=".$row['gallery_id'],
+				'PHOTO_ALBUM'				=> $this->gallery_info($row['gallery_id'])['gallery_name'],
 				'PHOTO_DESC'				=> htmlspecialchars_decode($row['photo_desc']),
-				"LIKE"						=> $this->pg_social_helper->countAction("like", $row['post_id']),
+				"LIKE"						=> $likes,
 				"IFLIKE"					=> $this->pg_social_helper->countAction("iflike", $row['post_id']),
 				"PRE"						=> $this->prenextPhoto($row['photo_id'], 0, $row['photo_where'], false),
 				"NEX"						=> $this->prenextPhoto($row['photo_id'], 1, $row['photo_where'], false),

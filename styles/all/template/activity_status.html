@@ -17,7 +17,7 @@
 	<div class="post_status_content{{ post_status.MESSAGE_ALIGN }}">{{ post_status.MESSAGE }}</div>
 	<div class="post_status_footer">
 		<div class="post_status_like {% if post_status.IFLIKE %}active{% endif %}">
-			<a><i class="icon fa-heart fa-fw" aria-hidden="true"></i><span>{{ post_status.LIKE }}</span> {{ lang('LIKE') }}</a>
+			<a><i class="icon fa-heart fa-fw" aria-hidden="true"></i>{{ post_status.LIKE }}</a>
 		</div><div class="post_status_comment">
 			<a><i class="icon fa-comments fa-fw" aria-hidden="true"></i>{{ post_status.COMMENT }}</a>
 		</div><div class="post_status_share" data-parent="{{ post_status.SHARE }}">

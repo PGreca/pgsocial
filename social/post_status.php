@@ -119,8 +119,8 @@ class post_status
 		}
 		if($template == "on")
 		{
-				return $this->helper->render('activity_status.html', "");
-			} 
+			return $this->helper->render('activity_status.html', "");
+		} 
 	}
 	
 	/**
@@ -134,6 +134,7 @@ class post_status
 		$user_id = (int) $this->user->data['user_id'];
 		if($post_where == 'page'|| $row['post_where'] == 1 && $this->social_page->user_likePages($user_id, $row['wall_id']) == $row['wall_id'] || $row['post_where'] == 0 && ($row['wall_id'] == $user_id || $row['post_privacy'] == 0 && $row['wall_id'] == $user_id || $row['post_privacy'] == 1 && $this->social_zebra->friendStatus($row['wall_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $row['post_privacy'] == 2))
 		{
+			//$this->getComments($row['post_ID'], $row['post_type'], false);
 			$share = $row['post_ID'];
 			
 			switch($row['post_where'])
@@ -295,6 +296,16 @@ class post_status
 				$comment .= $this->user->lang('COMMENT', 1);
 			}
 		
+			$likes = "<span>".$this->pg_social_helper->countAction("like", $row['post_ID'])."</span> ";
+			if($this->pg_social_helper->countAction("like", $row['post_ID']) == 0 | $this->pg_social_helper->countAction("like", $row['post_ID']) > 1)
+			{
+				$likes .= $this->user->lang('LIKE', 2);
+			}
+			else
+			{
+				$likes .= $this->user->lang('LIKE', 1);
+			}	
+			
 			if($row['wall_id'] == $user_id || $user_id == $row['user_id']) $action = true;
 			
 			$this->template->assign_block_vars('post_status', array(
@@ -319,12 +330,11 @@ class post_status
 				"MESSAGE_ALIGN"				=> $msg_align,
 				"POST_PRIVACY"				=> $this->user->lang($this->pg_social_helper->social_privacy($row['post_privacy'])),
 				"ACTION"					=> $action,
-				"LIKE"						=> $this->pg_social_helper->countAction("like", $row['post_ID']),
+				"LIKE"						=> $likes,
 				"IFLIKE"					=> $this->pg_social_helper->countAction("iflike", $row['post_ID']),
 				"COMMENT"					=> $comment,
 				"SHARE"						=> $share		
 			)); 	
-			$this->getComments($row['post_ID'], $row['post_type'], false);
 		}
 		if($template == "half")
 		{
@@ -529,11 +539,11 @@ class post_status
 				"AUTHOR_USERNAME"			=> $wall['username'],
 				"AUTHOR_AVATAR"				=> $this->pg_social_helper->social_avatar_thumb($wall['user_avatar'], $wall['user_avatar_type']),
 				"AUTHOR_COLOUR"				=> "#".$wall['user_colour'],
-				'COMMENT_TEXT'				=> $this->pg_social_helper->social_smilies(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags)),			
+				'COMMENT_TEXT'				=> $row['post_ID'].$this->pg_social_helper->social_smilies(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags)),			
 				'COMMENT_TIME'				=> date('c', $row['time']),
 			));		
 		}
-		//$this->db->sql_freeresult($result);	
+		$this->db->sql_freeresult($result);	
 		if($template) return $this->helper->render('activity_comment.html', '');				
 	}
 	
