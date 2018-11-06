@@ -20,9 +20,8 @@
 	</div><div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80% - 20px);"{% endif %}>
 		{% INCLUDE 'activity_form.html' %}
 		<ul id="posts_status">
-			{% INCLUDE 'activity_status.html' %}
-			{{ ACTIVITY_NOTHING }}
-		</ul>	
+			{% INCLUDE 'activity_status.html' %}					
+		</ul>
 		<div id="load_more"></div>
 	</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
 		{% if PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM && loops.profileFriends %}

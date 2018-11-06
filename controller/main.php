@@ -111,7 +111,7 @@ class main
 			switch($mode)
 			{
 				case 'getStatus':	
-					return $this->post_status->getStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('lastp', ''), $where, $this->request->variable('order', ''), "on");
+					return $this->post_status->getStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('lastp', ''), $where, $this->request->variable('order', ''), true);
 				break;
 				case 'addStatus':
 					return $this->post_status->addStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', ''), $this->request->variable('privacy', ''), 0, '');

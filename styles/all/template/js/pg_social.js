@@ -178,6 +178,10 @@
 		});
 	});
 	
+	$(document).on('click', '.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li#pg_social_photo_img_close', function() {
+		closePopup(true);		
+	});
+	
 	$(document).on('click', "#pg_social_photo_social .pg_social_photo_likshare .post_status_like a", function() {
 		pgwall_likeAction($(this).parent().parent().attr('data-post'));
 	});
@@ -208,7 +212,7 @@ function pgwall_getStatus(order, post_where) {
 		fdata.append("lastp", lastp);
 		fdata.append("where", where);
 		fdata.append("order", order);
-			
+		
 		$.ajax({
 			method: "POST",
 			url: root, 
@@ -224,7 +228,7 @@ function pgwall_getStatus(order, post_where) {
 					}
 				}
 				$("#load_more").show();
-			}
+			}, 
 		});
 	}
 }

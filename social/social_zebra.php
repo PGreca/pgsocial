@@ -221,7 +221,13 @@ class social_zebra
 	public function noFriends()
 	{
 		$user_id = (int) $this->user->data['user_id'];
-		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour FROM ".USERS_TABLE." AS u WHERE u.user_id != '".$user_id."' AND u.user_type NOT IN (1, 2) ORDER BY RAND()";
+		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour, u.user_email
+		FROM ".USERS_TABLE." AS u 
+		LEFT JOIN ".BANLIST_TABLE." b ON (u.user_id = b.ban_userid)
+		WHERE (b.ban_id IS NULL	OR b.ban_exclude = 1)
+			AND u.user_id != '".$user_id."' 
+			AND u.user_type NOT IN (1, 2) 
+		ORDER BY RAND()";
 		$result = $this->db->sql_query_limit($sql, 3);
 		while($row = $this->db->sql_fetchrow($result))
 		{
