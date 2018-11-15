@@ -100,7 +100,7 @@ class main
 			login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
 			*/
 			
-			meta_refresh(0, $this->root_path);
+			redirect($this->root_path);
 		}
 		else
 		{	
@@ -160,7 +160,7 @@ class main
 					return $this->social_photo->getPhoto($this->request->variable('photo', ''), 1);
 				break;
 				case 'addPhoto':
-					return $this->social_photo->photoUpload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', ''), $this->request->variable('type', ''), $this->request->variable('where', ''), $this->request->file('photo'), $this->request->variable('top', ''));
+					return $this->social_photo->photoUpload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', ''), $this->request->variable('type', ''), $where, $this->request->file('photo'), $this->request->variable('top', ''));
 				break;
 				case 'deletePhoto':
 					return $this->social_photo->deletePhoto($this->request->variable('photo', ''));
@@ -181,25 +181,33 @@ class main
 			
 			if($name == 'mp')
 			{
-				$cache_days = 7;
-				$sql_days = array();
-
-				while ($cache_days >= 0)
-				{
-					$day = getdate(time() + 86400 * $cache_days + $this->user->timezone + $user->dst - date('Z'));
-					$sql_days[] = "u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', $day['mday'], $day['mon'])) . "%'";
-					$cache_days--;
-				}
 				$time = $this->user->create_datetime();
 				$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
-				$birthdays = 'SELECT u.user_id, u.username, u.user_birthday, u.user_colour, u.user_avatar, u.user_avatar_type
-					FROM ' . USERS_TABLE . ' u
-					LEFT JOIN ' . BANLIST_TABLE . " b ON (u.user_id = b.ban_userid)
-					WHERE (b.ban_id IS NULL	OR b.ban_exclude = 1)
-						AND (" . implode(" OR ", $sql_days) . ")
-						AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')
-				';
-				$birthdays_result = $this->db->sql_query($birthdays);
+
+				// Display birthdays of 29th february on 28th february in non-leap-years
+				$leap_year_birthdays = '';
+				if ($now['mday'] == 28 && $now['mon'] == 2 && !$time->format('L'))
+				{
+					$leap_year_birthdays = " OR u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', 29, 2)) . "%'";
+				}
+
+				$sql_ary = array(
+					'SELECT' => 'u.user_id, u.username, u.user_colour, u.user_birthday, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height',
+					'FROM' => array(
+						USERS_TABLE => 'u',
+					),
+					'LEFT_JOIN' => array(
+						array(
+							'FROM' => array(BANLIST_TABLE => 'b'),
+							'ON' => 'u.user_id = b.ban_userid',
+						),
+					),
+					'WHERE' => "(b.ban_id IS NULL OR b.ban_exclude = 1)
+						AND (u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) . "%' $leap_year_birthdays)
+						AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')',
+				);
+				$birthdays_sql = $this->db->sql_build_query('SELECT', $sql_ary);
+				$birthdays_result = $this->db->sql_query($birthdays_sql);
 				while($birthday = $this->db->sql_fetchrow($birthdays_result))
 				{
 					$birthday_username	= get_username_string('full', $birthday['user_id'], $birthday['username'], $birthday['user_colour']);
@@ -209,10 +217,11 @@ class main
 					$this->template->assign_block_vars('friend_birthday', array(
 						'USERNAME'		=> $birthday_username,
 						'AGE'			=> $birthday_age,
-						'AVATAR'		=> $this->pg_social_helper->social_avatar_thumb($birthday['user_avatar'], $birthday['user_avatar_type']),
+						'AVATAR'		=> $this->pg_social_helper->social_avatar_thumb($birthday['user_avatar'], $birthday['user_avatar_type'], $birthday['user_avatar_width'], $birthday['user_avatar_height']),
 						'PROFILE'		=> get_username_string('profile', $birthday['user_id'], $birthday['username'], $birthday['user_colour']),
 					));
 				}
+				$this->db->sql_freeresult($birthdays_result);
 				
 				if($this->config['pg_social_block_posts_last'])
 				{
@@ -266,7 +275,7 @@ class main
 					'PROFILE'								=> $this->user->data['user_id'],
 					'PROFILE_URL'							=> get_username_string('profile', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
 					'PROFILE_EDIT'							=> append_sid($this->root_path."ucp.".$this->php_ext, "i=ucp_profile&amp;mode=profile_info"),
-					'PROFILE_AVATAR'						=> $this->pg_social_helper->social_avatar($this->user->data['user_avatar'], $this->user->data['user_avatar_type']),	     
+					'PROFILE_AVATAR'						=> $this->pg_social_helper->social_avatar_thumb($this->user->data['user_avatar'], $this->user->data['user_avatar_type'], $this->user->data['user_avatar_width'], $this->user->data['user_avatar_height']),	     
 					'PROFILE_USERNAME'						=> $this->user->data['username'],
 					'PROFILE_USERNAME_CLEAN'				=> $this->user->data['username_clean'],
 					'PROFILE_COLOUR'						=> "#".$this->user->data['user_colour'],

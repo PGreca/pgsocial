@@ -76,6 +76,7 @@ services:
             - '@config'
             - '@dbal.conn'
             - '@log'
+            - '@service_container'
             - '%core.root_path%'
             - '%core.php_ext%'
             - '%core.table_prefix%'

@@ -88,11 +88,11 @@ class post_status
 		switch($lastp)
 		{
 			case 0:
-				$limit = 5; 
+				$limit = 10; 
 				$orderby = "DESC"; 
 			break;
 			default:
-				$limit = 1; 
+				$limit = 3; 
 				$orderby = "ASC";
 			break;
 		}
@@ -108,7 +108,7 @@ class post_status
 				$order_vers = '>';
 			break;
 		}
-		$sql = "SELECT w.*, w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour
+		$sql = "SELECT w.*, w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 		FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u 
 		WHERE ".$where." w.user_id = u.user_id
 			AND (w.post_ID ".$order_vers." '".$lastp."') 
@@ -129,6 +129,7 @@ class post_status
 				}
 			}
 		}
+		$this->db->sql_freeresult($result);
 		if($template)
 		{
 			return $this->helper->render('activity_status.html', "");
@@ -144,8 +145,12 @@ class post_status
 		$author_action = '';
 		$action = false;
 		$user_id = (int) $this->user->data['user_id'];
-		
 		$share = $row['post_ID'];
+		$msg = '';
+		$allow_bbcode = $this->config['pg_social_bbcode'];
+		$allow_urls = $this->config['pg_social_url'];
+		$allow_smilies = $this->config['pg_social_smilies'];
+		$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
 		
 		switch($row['post_where'])
 		{
@@ -172,7 +177,7 @@ class post_status
 			case 0:
 				$status_title = $this->user->lang['ACTIVITY'];
 				$status_username = $row['username'];
-				$status_avatar = $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type']);
+				$status_avatar = $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']);
 				$status_aut_id = $row['user_id'];
 				$status_profile = get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']);
 				$status_color = "#".$row['user_colour'];
@@ -233,7 +238,7 @@ class post_status
 					}
 					else
 					{
-						$sqlpar = "u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour ";
+						$sqlpar = "u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour ";
 						$sqlfro = USERS_TABLE." as u ";
 						$sqlwhe = "u.user_id";
 					}
@@ -246,10 +251,19 @@ class post_status
 					$parent['url'] = get_username_string('profile', $parent['user_id'], $parent['username'], $parent['user_colour']);
 					if(isset($parent['post_ID']))
 					{
+						$sauthor_action = '';
 						$author_action = $this->user->lang("HAS_SHARED_STATUS", '<a href="'.append_sid($this->helper->route("status_page", array("id" => $parent['post_ID']))).'">'.$this->user->lang('STATUS').'</a>');
 						$msg = $this->pg_social_helper->noextra(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags));
 						$msg .= $this->pg_social_helper->extraText($row['message']);
 						$msg .= '<div class="post_parent_cont">';
+						$msg .= '<div class="post_parent_info">';
+						$msg .= '<div class="post_parent_author"><a href="'.$parent['url'].'">'.$parent['username'].'</a>'.$sauthor_action.'</div>';
+						$msg .= '<div class="post_parent_date">'.$this->pg_social_helper->time_ago($parent['time']).'</div>';
+						$msg .= '<div class="post_parent_cont">'.$this->pg_social_helper->noextra(generate_text_for_display($parent['message'], $parent['bbcode_uid'], $parent['bbcode_bitfield'], $flags)).'</div>';
+						$msg .= $this->pg_social_helper->extraText($parent['message']);
+							
+						$msg .= '</div>';
+						$msg .= '</div>';
 						if($parent['post_extra'] != "")
 						{
 							switch($parent['post_type'])
@@ -265,46 +279,25 @@ class post_status
 								break;	
 								default :
 									$photo = $this->photo($parent['post_extra']);
-									$msg .= $photo['msg'];
-									$msg .= '<div class="status_photos">'.$photo['img'].'</div>';								
+									//$msg .= $photo['msg'];
+									$msg .= '<div class="status_photos">'.$photo['img'].'</div>';	
+									$sauthor_action = '';
 								break;
 							}	
 						}
-						else
-						{
-							$allow_bbcode = $this->config['pg_social_bbcode'];
-							$allow_urls = $this->config['pg_social_url'];
-							$allow_smilies = $this->config['pg_social_smilies'];
-							$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
-		
-							$msg .= $this->pg_social_helper->noextra(generate_text_for_display($parent['message'], $parent['bbcode_uid'], $parent['bbcode_bitfield'], $flags));
-							$msg .= $this->pg_social_helper->extraText($parent['message']);
-						}	
-						
-						$msg .= '<div class="post_parent_info">';
-						$msg .= '<div class="post_parent_author"><a href="'.$parent['url'].'">'.$parent['username'].'</a>'.$sauthor_action.'</div>';
-						$msg .= '<div class="post_parent_date">'.$this->pg_social_helper->time_ago($parent['time']).'</div>';
-						$msg .= '</div>';
-						$msg .= '</div>';
 					}
 				}
 				else
 				{
+					$msg = $this->pg_social_helper->noextra(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags));
+					$msg = $this->social_tag->showTag($msg);	
 					if($row['post_extra'] != "" && $row['post_type'] != 4)
 					{
 						$photo = $this->photo($row['post_extra']);
-						$msg = $photo['msg'];
 						$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
 					}
 					else
 					{
-						$allow_bbcode = $this->config['pg_social_bbcode'];
-						$allow_urls = $this->config['pg_social_url'];
-						$allow_smilies = $this->config['pg_social_smilies'];
-						$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
-	
-						$msg = $this->pg_social_helper->noextra(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags));
-						$msg = $this->social_tag->showTag($msg);	
 						$msg .= $this->pg_social_helper->extraText($row['message']);
 					}		
 				}							
@@ -324,7 +317,7 @@ class post_status
 		$likes = "<span>".$this->pg_social_helper->countAction("like", $row['post_ID'])."</span> ";
 		if($this->pg_social_helper->countAction("like", $row['post_ID']) == 0 | $this->pg_social_helper->countAction("like", $row['post_ID']) > 1)
 		{
-			$likes .= $this->user->lang('LIKE', 2);
+			$likes .= $this->user->lang('LIKE', 1);
 		}
 		else
 		{
@@ -332,9 +325,7 @@ class post_status
 		}	
 		
 		if($row['wall_id'] == $user_id || $user_id == $row['user_id']) $action = true;
-		
 		$this->template->assign_block_vars('post_status', array(
-			'USER_AVATAR'				=> $this->pg_social_helper->social_avatar_thumb($this->user->data['user_avatar'], $this->user->data['user_avatar_type']),				
 			"POST_STATUS_ID"            => $row['post_ID'],
 			"AUTHOR_ACTION"				=> $author_action,
 			"AUTHOR_PROFILE"			=> $status_profile,
@@ -365,9 +356,8 @@ class post_status
 		{
 			return $this->helper->render('status.html', 'Stai vedendo uno stato di'. $status_username);
 		}
-		$this->db->sql_freeresult($result);
 	}
-		
+	
 	/**
 	 * Add new activity on wall
 	*/
@@ -383,9 +373,6 @@ class post_status
 			break;
 		}
 		
-		$user_id = (int) $this->user->data['user_id'];
-		$time = time();
-		
 		$allow_bbcode = $this->config['pg_social_bbcode'];
 		$allow_urls = $this->config['pg_social_url'];
 		$allow_smilies = $this->config['pg_social_smilies'];
@@ -393,13 +380,13 @@ class post_status
 		$time = time();
 		if(!$extra) $extra = "";
 		generate_text_for_storage($text, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
-			
 		$text = str_replace('&amp;nbsp;', ' ', $text);
+		
 		$sql_arr = array(
 			'post_parent'		=> 0,
 			'post_where'		=> $post_where,
 			'wall_id'			=> $wall_id,
-			'user_id'			=> $user_id,
+			'user_id'			=> $this->user->data['user_id'],
 			'message'			=> $text,
 			'time'				=> $time,
 			'post_privacy'		=> $privacy,
@@ -413,10 +400,10 @@ class post_status
 		if($text != "" || $extra != "") $sql = "INSERT INTO " . $this->table_prefix . 'pg_social_wall_post' . $this->db->sql_build_array('INSERT', $sql_arr);
 		if($this->db->sql_query($sql))
 		{	
-			$last_status = "SELECT post_ID FROM ".$this->table_prefix."pg_social_wall_post WHERE time = '".$time."' AND user_id = '".$user_id."' AND wall_id = '".$wall_id."' ORDER BY time DESC LIMIT 0, 1";
+			$last_status = "SELECT post_ID FROM ".$this->table_prefix."pg_social_wall_post WHERE time = '".$time."' AND user_id = '".$this->user->data['user_id']."' AND wall_id = '".$wall_id."' ORDER BY time DESC LIMIT 0, 1";
 			$last = $this->db->sql_query($last_status);
 			$row = $this->db->sql_fetchrow();	
-			if($post_where == 0 && $wall_id == $user_id && $this->user->data['user_signature_replace'] && $privacy != 0 && $type != 4 && !$this->pg_social_helper->extraText($text))
+			if($post_where == 0 && $wall_id == $this->user->data['user_id'] && $this->user->data['user_signature_replace'] && $privacy != 0 && $type != 4 && !$this->pg_social_helper->extraText($text))
 			{
 				$new_sign = $text."<br /><a class=\"profile_signature_status\" href=\"".$this->helper->route("status_page", array("id" => $row['post_ID']))."\">#status</a></a>";
 				//generate_text_for_storage($new_sign, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
@@ -424,7 +411,7 @@ class post_status
 				$sql = "UPDATE ".USERS_TABLE." SET user_sig = '".$new_sign."' WHERE user_id = '".$this->user->data['user_id']."'";
 				$this->db->sql_query($sql);
 			}
-			if($post_where == 0 && $wall_id != $user_id) $this->notify->notify('add_status', $row['post_ID'], $text, (int) $wall_id, (int) $user_id, 'NOTIFICATION_SOCIAL_STATUS_ADD');		
+			if($post_where == 0 && $wall_id != $this->user->data['user_id']) $this->notify->notify('add_status', $row['post_ID'], $text, (int) $wall_id, (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_STATUS_ADD');		
 			$this->social_tag->addTag($row['post_ID'], $text);
 			$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, "STATUS_NEW", "<a href='".$this->helper->route("status_page", array("id" => $row['post_ID']))."'>#".$row['post_ID']."</a>");
 		
@@ -562,9 +549,9 @@ class post_status
 				"AUTHOR_PROFILE"			=> get_username_string('profile', $wall['user_id'], $wall['username'], $wall['user_colour']),	
 				"AUTHOR_ID"					=> $wall['user_id'],
 				"AUTHOR_USERNAME"			=> $wall['username'],
-				"AUTHOR_AVATAR"				=> $this->pg_social_helper->social_avatar_thumb($wall['user_avatar'], $wall['user_avatar_type']),
+				"AUTHOR_AVATAR"				=> $this->pg_social_helper->social_avatar_thumb($wall['user_avatar'], $wall['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
 				"AUTHOR_COLOUR"				=> "#".$wall['user_colour'],
-				'COMMENT_TEXT'				=> $this->pg_social_helper->social_smilies(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags)),			
+				'COMMENT_TEXT'				=> generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags),			
 				'COMMENT_TIME'				=> date('c', $row['time']),
 			));		
 		}
@@ -586,18 +573,17 @@ class post_status
 		
 		$allow_bbcode = false; //$this->config['pg_social_bbcode'];
 		$allow_urls = false; //$this->config['pg_social_url'];
-		$allow_smilies = false; //$this->config['pg_social_smilies'];
+		$allow_smilies =  $this->config['pg_social_smilies'];
 		
 		$comment = urldecode($comment);
-		generate_text_for_storage($text, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
+		generate_text_for_storage($comment, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
 			
-		$text = str_replace('&amp;nbsp;', ' ', $text);
-		generate_text_for_storage($comment, $uid, $bitfield, $flags, $allow_bbcode, true, $allow_smilies);
+		$comment = str_replace('&amp;nbsp;', ' ', $comment);
 		
 		$sql_arr = array(
 			'post_ID'	=> $post,
 			'user_id'			=> $user_id,
-			'time'				=> time(),
+			'time'				=> $time,
 			'message'			=> $comment,
 			'bbcode_bitfield'	=> $bitfield,
 			'bbcode_uid'		=> $uid

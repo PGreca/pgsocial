@@ -2,8 +2,8 @@
 <li class="pg_social_chat_message {% if pg_social_chat_message.IFRIGHT %}right{% else %}left{% endif %}" data-message="{{ pg_social_chat_message.MESSAGE_ID }}">
 	<div class="pg_social_chat_message_text">
 		{{ pg_social_chat_message.MESSAGE }}
-	</div><span class="pg_social_chat_message_time">
-		{{ pg_social_chat_message.TIME }}
+	</div><span class="pg_social_chat_message_time"{% if not pg_social_chat_message.TIME_AGO %} title="{{ pg_social_chat_message.TIME }}"{% endif %}>
+		{{ pg_social_chat_message.TIME_AGO }}
 	</span>
 {% if pg_social_chat_message.SOUND %}
 	<script>

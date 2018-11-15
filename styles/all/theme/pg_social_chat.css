@@ -30,27 +30,45 @@
 #pg_social_chat .pg_social_chat {
     display: inline-block;
 	vertical-align: bottom;
-    width: 280px;
+    width: 100px;
 	background-color: #fff;
 	margin-right: 10px;
 	border-bottom: 0px;
 	border-radius: 4px 4px 0px 0px;
 }
 
+#pg_social_chat .pg_social_chat.opened {
+    width: 280px;	
+}
+
 #pg_social_chat .pg_social_chat .pg_social_chat_head {
+	background-color: rgba(0, 0, 0, 0.65);
 	padding: 7px 10px;
 	border-radius: 4px 4px 0px 0px;
 	font-size: 1.2em;
 	color: #fff;
 }
 
-#pg_social_chat .pg_social_chat .pg_social_chat_head {
-	background-color: rgba(0, 0, 0, 0.65);
+#pg_social_chat .pg_social_chat .pg_social_chat_head .pg_social_chat_head_avatar {
+	display: inline-block;
+	width: calc(100% - 18px - 18px - 18px - 10px);
+	vertical-align: middle;
+}
+
+#pg_social_chat .pg_social_chat .pg_social_chat_head .pg_social_chat_head_avatar img.avatar {
+	background-position: center;
+	background-size: cover;
+	height: 15px;
+	border-radius: 100%;
+}
+
+#pg_social_chat .pg_social_chat.opened .pg_social_chat_head .pg_social_chat_head_avatar {
+	display: none;	
 }
 
 #pg_social_chat .pg_social_chat .pg_social_chat_head .pg_social_chat_head_status.status {
 	display: inline-block;
-	vertical-align: top;
+	vertical-align: middle;
 }
 
 #pg_social_chat .pg_social_chat .pg_social_chat_head .pg_social_chat_head_status.online_status {
@@ -68,10 +86,13 @@
 }
 
 #pg_social_chat .pg_social_chat .pg_social_chat_head .pg_social_chat_head_username {
-	display: inline-block;
+	display: none;	
 	width: calc(100% - 18px - 18px - 18px - 10px);
 	vertical-align: bottom;
 	font-size: 1.2em;
+}
+#pg_social_chat .pg_social_chat.opened .pg_social_chat_head .pg_social_chat_head_username {
+	display: inline-block;
 }
 
 #pg_social_chat .pg_social_chat .pg_social_chat_head .pg_social_chat_head_minimize {
@@ -114,7 +135,7 @@
 }
 
 #pg_social_chat .pg_social_chat .pg_social_chat_head .chat_close {
-	vertical-align: top;
+	vertical-align: middle;
 	display: inline-block;
 	background-color: rgba(0, 0, 0, 0.4);
     border-radius: 100%;
@@ -289,6 +310,7 @@
 	background-size: cover;
 	vertical-align: middle;
 	width: 25px;
+	height: auto;
 	border-radius: 100%;
 }
 
@@ -342,6 +364,11 @@
 @media screen and (max-width: 750px) {
 	#pg_social_chat #pg_social_chat_box {
 		width: calc(180px - 2px);
+	}
+	
+	#pg_social_chat .pg_social_chat {
+		display: inherit;
+		margin-right: 0px;
 	}
 	
 	#pg_social_chat .pg_social_chat ul.pg_social_chat_messages {

@@ -17,7 +17,10 @@ if(empty($lang) || !is_array($lang))
 	$lang = array();
 }
 $lang = array_merge($lang, array(	
-	'ABOUT_HOUR'						=> '1 ora',
+	'ABOUT_HOUR'						=> array(
+		1				=> 'ora',
+		2				=> 'ore',
+	),
 	'ABOUT_HOURS'						=> 'ore',
 	'ABOUT_MONTH'						=> '1 mese',
 	'ABOUT_MONTHS'						=> 'mesi',
@@ -64,12 +67,15 @@ $lang = array_merge($lang, array(
 	'HAS_WRITED_POST_ON'				=> 'ha scritto un post in %s',
 	'HAS_WRITED_POST_ON_CANCEL'			=> 'ha scritto un post in una discussione',
 	'INFO'								=> 'Informazioni',
+	'LAST_PHOTO'						=> array(
+		1				=> 'Ultima foto',
+		2				=> 'Ultime foto',
+	),
 	'LESS'								=> 'meno di',
 	'LIKE'								=> array(
 		1				=> 'Mi Piace',
-		2				=> 'Piace',
+		2				=> 'Ti piace già',
 	),
-	'LIKE_ACTIVE'  						=> 'Ti Piace già',
 	'LIKE_TO'							=> 'Piace a',
 	'MINUTES'							=> 'minuti',
 	
@@ -99,7 +105,10 @@ $lang = array_merge($lang, array(
 	'PG_SOCIAL_STATUS_SHARE_LOG'		=> '<strong>Ha condiviso uno stato</strong><br />» %s',
 	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>Ha cancellato uno stato</strong>',
 	'PHOTO_DELETE'						=> 'Elimina questa foto',
-	'PHOTOS'							=> 'Foto',
+	'PHOTO'								=> array(
+		1				=> 'Foto',
+		2				=> 'Foto',
+	),
 	'PRIVACY_ALL'						=> 'Tutti',
 	'PRIVACY_ONLY_FRIENDS'				=> 'Amici',
 	'PRIVACY_ONLY_ME'					=> 'Solo io',

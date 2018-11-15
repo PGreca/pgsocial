@@ -233,8 +233,8 @@ class forum
 			'S_DISPLAY_BIRTHDAY_LIST'	=> $show_birthdays,
 			'S_INDEX'					=> true,
 
-			'U_MARK_FORUMS'		=> ($this->data['is_registered'] || $this->config['load_anon_lastread']) ? append_sid("{$this->root_path}index.$this->php_ext", 'hash=' . generate_link_hash('global') . '&amp;mark=forums&amp;mark_time=' . time()) : '',
-			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.$this->php_ext", 'i=main&amp;mode=front', true, $this->session_id) : '')
+			'U_MARK_FORUMS'		=> ($this->user->data['is_registered'] || $this->config['load_anon_lastread']) ? append_sid("{$this->root_path}index.$this->php_ext", 'hash=' . generate_link_hash('global') . '&amp;mark=forums&amp;mark_time=' . time()) : '',
+			'U_MCP'				=> ($this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_')) ? append_sid("{$this->root_path}mcp.$this->php_ext", 'i=main&amp;mode=front', true, $this->user->data['user_id']) : '')
 		);
 
 		$page_title = ($this->config['board_index_text'] !== '') ? $this->config['board_index_text'] : $this->user->lang['INDEX'];

@@ -66,26 +66,29 @@ class social_zebra
 			//return $this->last_register(); exit();
 			return $this->noFriends();
 		}
-		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour
+		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_pg_social_cover, u.user_colour
 		FROM ".ZEBRA_TABLE." AS z, ".USERS_TABLE." AS u
-		WHERE (z.zebra_id != '".$profile."' AND z.user_id = '".$profile."')
-		AND u.user_id = z.zebra_id
-		AND u.user_type NOT IN (".USER_INACTIVE.", ".USER_IGNORE.")
-		AND z.friend = '1'
+		LEFT JOIN ".BANLIST_TABLE." b ON (u.user_id = b.ban_userid)
+		WHERE (b.ban_id IS NULL	OR b.ban_exclude = 1)
+			AND (z.zebra_id != '".$profile."' AND z.user_id = '".$profile."')
+			AND u.user_id = z.zebra_id
+			AND u.user_type NOT IN (".USER_INACTIVE.", ".USER_IGNORE.")
+			AND z.friend = '1'
 		ORDER BY u.username_clean ASC";
 		if($type != 'profile') $result = $this->db->sql_query_limit($sql, 2); else $result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
 		{	
 			$this->template->assign_block_vars('profileFriends', array(
-				'SQL'						=> '',
 				'PROFILE_ID'				=> $row['user_id'],
 				'PROFILE_URL'				=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),	
 				'USERNAME'					=> $row['username'],				
 				'USERNAME_CLEAN'			=> $row['username_clean'],
 				'FRIEND_COLOUR'				=> "#".$row['user_colour'],
-				'AVATAR'					=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),
-				
+				'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
+				'COVER'						=> $this->pg_social_helper->social_cover($row['user_pg_social_cover']),
 				'PROFILE_FRIEND_ACTION'		=> $this->friendStatus($row['user_id'])['status'],
+				'COUNT_FRIENDS'				=> $this->countFriends($row['user_id']),
+				'COUNT_PHOTOS'				=> $this->pg_social_helper->countPhotos($row['user_id']),
 			));
 		}
 		//return $this->helper->render('pg_social_friends.html', '');
@@ -202,7 +205,6 @@ class social_zebra
 		while($row = $this->db->sql_fetchrow($result))
 		{
 			$this->template->assign_block_vars('profileFriends', array(
-				'SQL'						=> '',
 				'PROFILE_ID'				=> $row['user_id'],
 				'PROFILE_URL'				=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
 				'USERNAME'					=> $row['username'],				
@@ -221,7 +223,7 @@ class social_zebra
 	public function noFriends()
 	{
 		$user_id = (int) $this->user->data['user_id'];
-		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour, u.user_email
+		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour, u.user_email
 		FROM ".USERS_TABLE." AS u 
 		LEFT JOIN ".BANLIST_TABLE." b ON (u.user_id = b.ban_userid)
 		WHERE (b.ban_id IS NULL	OR b.ban_exclude = 1)
@@ -234,12 +236,11 @@ class social_zebra
 			if($this->friendStatus($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS_ADD')
 			{
 				$this->template->assign_block_vars('profileFriends', array(
-					'SQL'						=> '',
 					'PROFILE_ID'				=> $row['user_id'],
 					'PROFILE_URL'				=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
 					'USERNAME'					=> $row['username'],
 					'USERNAME_CLEAN'			=> $row['username_clean'],
-					'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type']),				
+					'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),				
 				
 					
 					'PROFILE_FRIEND_ACTION'		=> $this->friendStatus($row['user_id'])['status'],

@@ -141,10 +141,10 @@ class social_likes extends \phpbb\notification\type\base
 	*/
 	public function get_avatar()
 	{
-		$sql = "SELECT user_avatar, user_avatar_type FROM ".USERS_TABLE." WHERE user_id = '".$this->get_data('poster_id')."'";
+		$sql = "SELECT user_avatar, user_avatar_type, user_avatar_width, user_avatar_height FROM ".USERS_TABLE." WHERE user_id = '".$this->get_data('poster_id')."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
-		$user_avatar = $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']);
+		$user_avatar = $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']);
 			
 		return $user_avatar;
 	}

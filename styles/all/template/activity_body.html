@@ -1,5 +1,4 @@
 {% INCLUDE 'overall_header.html' %}
-<div style="background-color: #008465; padding: 10px; border: 1px solid; border-color: #E5E6E9 #DFE0E4 #D0D1D5; color: #fff; font-weight: bold; font-size: 3em; text-align: center; text-transform: uppercase;">Work in progress  <a style=" color: #fff; text-transform: lowercase; font-size: 0.6em;" href="https://www.pgreca.it/viewtopic.php?t=3#p4">[<span>what to do</span>]</a></div>
 <div id="pg_social" class="pg_social_pageactivity">
 	<div id="pg_social_sidel">
 		<div class="panel">
@@ -17,12 +16,14 @@
 				</li>
 			</ul>
 		</div>
-	</div><div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80% - 20px);"{% endif %}>
-		{% INCLUDE 'activity_form.html' %}
-		<ul id="posts_status">
-			{% INCLUDE 'activity_status.html' %}					
-		</ul>
-		<div id="load_more"></div>
+	</div><div id="pg_social_sidec">
+		<div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80% - 20px);"{% endif %}>
+			{% INCLUDE 'activity_form.html' %}
+			<ul id="posts_status">
+				{% INCLUDE 'activity_status.html' %}					
+			</ul>
+			<div id="load_more"><i class="icon fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
+		</div>
 	</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
 		{% if PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM && loops.profileFriends %}
 		<div class="panel" id="profile_FriendsRandom">
@@ -57,22 +58,9 @@
 			</ul>
 		</div>
 		{% endif %}
-		<div class="panel ads" style="display: none;">
-			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-			<!-- PGreca Social - Sidebar -->
-			<ins class="adsbygoogle"
-				 style="display:block"
-				 data-ad-client="ca-pub-6181929637339131"
-				 data-ad-slot="8919244494"
-				 data-ad-format="auto"
-				 data-full-width-responsive="true"></ins>
-			<script>
-			(adsbygoogle = window.adsbygoogle || []).push({});
-			</script>
-		</div>	
 		{% if loops.friend_birthday %}
 		<div class="panel" id="sid_birthday">
-			<h3><i class="icon fa fa-birthday-cake fa-fw" aria-hidden="true"></i>{{ lang('BIRTHDAYS') }}</h3>
+			<h3>{{ lang('BIRTHDAYS') }}</h3>
 			<ul>
 				{% for friend_birthday in loops.friend_birthday %}
 				<li class="birthday">
@@ -85,7 +73,7 @@
 		{% endif %}
 		{% if PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST %}
 		<div class="panel" id="sid_last_topics">
-			<h3><i class="icon fa fa-plus-square fa-fw" aria-hidden="true"></i>{{ lang('RECENT_DISCUSSIONS') }}</h3>
+			<h3>{{ lang('RECENT_DISCUSSIONS') }}</h3>
 			<ul>
 				{% for last_topics in loops.last_topics %}
 					<li class="posts">

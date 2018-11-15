@@ -21,16 +21,15 @@
 		if($("#pg_social_chat_people").hasClass("opened")) {
 			getchatPeople();
 		}	
-
-		
 	});	
 	
-	/* DEV SCROLL CHAT
-	$('ul.pg_social_chat_messages').scroll(function() {
-			console.log(e);
-			console.log($(this).scrollTop());
-			console.log("aa");
-	});*/
+	$(document).on('scroll', 'ul.pg_social_chat_messages', function(e) {
+		if($("ul.pg_social_chat_messages").scrollTop() <= ($("ul.pg_social_chat_messages").height() - ($("ul.pg_social_chat_messages").height() / 1.9))) {
+			chat_messageLoad(49, 'prequel');
+		}
+		console.log($(e.target));
+	});
+	
 	
 	$(document).on('keyup', '#pg_social_chat_people_search', function(e) {
 		getchatPeople($(this).val());
@@ -151,36 +150,43 @@
 	}
 	
 	function chat_messageLoad(person, order) {
-		if(order == 'seguel') var lastmessage = $("#pg_social_chat #pg_social_chat_box_"+person+" ul.pg_social_chat_messages li:first-child").attr("data-message");
-		if(order == 'prequel') var lastmessage = $("#pg_social_chat #pg_social_chat_box_"+person+" ul.pg_social_chat_messages li:lastst-child").attr("data-message");
+		if($("#pg_social_chat #pg_social_chat_box_"+person+" .load_more_chat").is(":visible")) {
+			$("#pg_social_chat #pg_social_chat_box_"+person+" .load_more_chat").hide();
+			if(order == 'seguel') var lastmessage = $("#pg_social_chat #pg_social_chat_box_"+person+" ul.pg_social_chat_messages li:first-child[data-message]").attr("data-message");
+			if(order == 'prequel') var lastmessage = $("#pg_social_chat #pg_social_chat_box_"+person+" ul.pg_social_chat_messages li:last-child[data-message]").attr("data-message");
 		
-		if(lastmessage == undefined) lastmessage = 0; 
-		//if($(this).attr("data-people")) chat_messageLoad(person, lastmessage);
-		$.ajax({
-			method: "POST",
-			url: root,
-			data: "mode=getchatMessage&person="+person+"&lastmessage="+lastmessage+"&order="+order,
-			cache: false,
-			async: true,
-			success: function(data) {
-				//console.log(order);
-				if(order == 'prequel') {
-					$("#pg_social_chat #pg_social_chat_box_"+person+" ul.pg_social_chat_messages").prepend(data);
-				} else {
-					$("#pg_social_chat #pg_social_chat_box_"+person+" ul.pg_social_chat_messages").prepend(data);
-				}				
-			}
-		});	
+			if(lastmessage == undefined) lastmessage = 0; 
+			//if($(this).attr("data-people")) chat_messageLoad(person, lastmessage);
+			$.ajax({
+				method: "POST",
+				url: root,
+				data: "mode=getchatMessage&person="+person+"&lastmessage="+lastmessage+"&order="+order,
+				cache: false,
+				async: true,
+				success: function(data) {
+					if(order == 'prequel') {
+						$("#pg_social_chat #pg_social_chat_box_"+person+" ul.pg_social_chat_messages").append(data);
+					} else {
+						$("#pg_social_chat #pg_social_chat_box_"+person+" ul.pg_social_chat_messages").prepend(data);
+					}	
+					$("#pg_social_chat #pg_social_chat_box_"+person+" .load_more_chat").show();
+				}
+			});	
+		}
 	}
 	
 	function chat_messageSend(message, person) {
 		if($.trim(message) != "") {
+			var fdata = new FormData()
+			fdata.append("mode", "messageSend");
+			fdata.append("person", person);
+			fdata.append("message",  encodeURIComponent($.trim(message)));
 			$.ajax({
 				method: "POST",
 				url: root,
-				data: "mode=messageSend&person="+person+"&message="+message,
-				cache: false, 
-				async: true,
+				data: fdata,
+				contentType: false,
+				processData: false, 
 				success: function(data) {
 					$("#pg_social_chat #pg_social_chat_box_"+person+" form.pg_social_chat_form input[type='text'].pg_social_chat_messsage_new").val("");
 				}

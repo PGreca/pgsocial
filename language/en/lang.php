@@ -64,6 +64,10 @@ $lang = array_merge($lang, array(
 	'HAS_WRITED_POST_ON'				=> 'has written a post on %s',
 	'HAS_WRITED_POST_ON_CANCEL'			=> 'has witten a post on a topic',
 	'INFO'								=> 'Info',
+	'LAST_PHOTO'						=> array(
+		1				=> 'Last photo',
+		2				=> 'Last photos',
+	),
 	'LESS'								=> 'less than',
 	'LIKE'								=> array(
 		1				=> 'Like',
@@ -99,7 +103,10 @@ $lang = array_merge($lang, array(
 	'PG_SOCIAL_STATUS_SHARE_LOG'		=> '<strong>Has shared an activity</strong><br />» %s',
 	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>Has deleted an activity</strong>',
 	'PHOTO_DELETE'						=> 'Delete this photo',
-	'PHOTOS'							=> 'Pictures',	
+	'PHOTO'								=> array(
+		1				=> 'Photo',
+		2				=> 'Photos',
+	),
 	'PRIVACY_ALL'						=> 'All',
 	'PRIVACY_ONLY_FRIENDS'				=> 'Friends',
 	'PRIVACY_ONLY_ME'					=> 'Only me',	

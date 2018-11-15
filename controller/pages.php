@@ -112,7 +112,16 @@ class pages
 				
 				if($page['page_status'] == 1) $page['page_act'] = true; else $page['page_act'] = false;
 				if($page['page_founder'] == $this->user->data['user_id'] && $page['page_status'] == 1) $page['page_action'] = true;
-				if($this->social_page->user_likePages($this->user->data['user_id'], $page['page_id']) == $page['page_id']) $page_likeCheck = "like"; else $page_likeCheck = "dislike";
+				if($this->social_page->user_likePages($this->user->data['user_id'], $page['page_id']) == $page['page_id']) 
+				{
+					$page_likeCheck = "like"; 
+					$page_like = $this->user->lang('LIKE', 2);
+				}
+				else 
+				{
+					$page_likeCheck = "dislike"; 
+					$page_like = $this->user->lang('LIKE', 1); 
+				}
 					
 				$this->template->assign_block_vars('page', array(
 					'PAGE_ID'			=> $page['page_id'],
@@ -121,8 +130,8 @@ class pages
 					'PAGE_AVATAR'		=> '<img src="'.generate_board_url().'/ext/pgreca/pgsocial/images/'.($page['page_avatar'] != "" ? $page_avatar = 'upload/'.$page['page_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />',	     
 					'PAGE_COVER'		=> $this->pg_social_helper->social_cover($page['page_cover']),
 					'PAGE_USERNAME'		=> $page['page_username'],
-					
-					'PAGE_LIKE_CHECK'		=> $page_likeCheck."page",					
+					'PAGE_LIKE'			=> $page_like,
+					'PAGE_LIKE_CHECK'	=> $page_likeCheck."page",					
 				));
 				
 				$this->template->assign_vars(array(
@@ -131,8 +140,7 @@ class pages
 					'STATUS_WHERE'				=> 'page',
 					'PROFILE_ID'				=> $page['page_id'],
 				));
-				$this->post_status->getStatus('page', $page['page_id'], 0, "all", "seguel", "off");
-				$page_title = $page['page_username'];
+				$this->post_status->getStatus('page', $page['page_id'], 0, "all", "seguel", "");
 			}
 			else
 			{				
@@ -152,14 +160,23 @@ class pages
 					if($page['page_avatar'] != "") $page_avatar = 'upload/'.$page['page_avatar']; else $page_avatar = 'page_no_avatar.jpg';
 					if($pages['countlike'] > 1 || $pages['countlike'] == 0) $people = 'persone'; else $people = 'persona'; 
 					if($this->social_page->user_likePages($this->user->data['user_id'], $pages['page_id']) == $pages['page_id']) $page_likeCheck = "like"; else $page_likeCheck = "dislike";
-					
+					if($this->social_page->user_likePages($this->user->data['user_id'], $pages['page_id']) == $pages['page_id']) 
+					{
+						$page_likeCheck = "like"; 
+						$page_like = $this->user->lang('LIKE', 2);
+					}
+					else 
+					{
+						$page_likeCheck = "dislike"; 
+						$page_like = $this->user->lang('LIKE', 1); 
+					}
 					$this->template->assign_block_vars('pages', array(
 						'PAGE_ID'				=> $pages['page_id'],
 						'PAGE_AVATAR'			=> generate_board_url().'/ext/pgreca/pgsocial/images/'.$page_avatar,	     
 						'PAGE_COUNT_FOLLOWER'	=> $pages['countlike'].' '.$people,
 						'PAGE_USERNAME'			=> $pages['page_username'],
 						'PAGE_URL'				=> $this->helper->route('pages_page', array('name' => $pages['page_username_clean'])),
-					
+						'PAGE_LIKE'				=> $page_like,
 						'PAGE_LIKE_CHECK'		=> $page_likeCheck."page",
 					));	
 				}

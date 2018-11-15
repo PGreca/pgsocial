@@ -1,0 +1,10 @@
+<dl>
+	<dt><label for="user_gender">{{ lang('GENDER') }}{{ lang('COLON') }}</label></dt>
+	<dd>
+		<select name="user_gender" id="user_gender">
+			<option {% if PROFILE_GENDER == 0 %}selected="selected"{% endif %} value="0">{{ lang('GENDER_UNKNOWN') }}</option>
+			<option {% if PROFILE_GENDER == 1 %}selected="selected"{% endif %} value="1">{{ lang('GENDER_FEMALE') }}</option>
+			<option {% if PROFILE_GENDER == 2 %}selected="selected"{% endif %} value="2">{{ lang('GENDER_MALE') }}</option>
+		</select>
+	</dd>
+</dl>

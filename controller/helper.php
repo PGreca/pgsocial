@@ -27,6 +27,9 @@ class helper
 	/* @var \phpbb\log\log */
 	protected $log;
 	
+	/** @var ContainerInterface */
+	protected $phpbb_container;
+	
 	/* @var string phpBB root path */
 	protected $root_path;	
 	
@@ -45,7 +48,7 @@ class helper
 	* @param \phpbb\log\log              $log
 	*/
 	
-	public function __construct($auth, $user, $helper, $notifyhelper, $config, $db, $log, $root_path, $php_ext, $table_prefix)
+	public function __construct($auth, $user, $helper, $notifyhelper, $config, $db, $log, $phpbb_container, $root_path, $php_ext, $table_prefix)
 	{
 		$this->auth = $auth;
 	    $this->user = $user;
@@ -54,6 +57,7 @@ class helper
 		$this->config = $config;
 		$this->db = $db;
 		$this->log = $log;
+		$this->phpbb_container = $phpbb_container;
 	    $this->root_path = $root_path;	
 		$this->php_ext = $php_ext;
         $this->table_prefix = $table_prefix;
@@ -109,7 +113,10 @@ class helper
 			$period .= "S";
 		}
 
-		return sprintf($this->user->lang[$tense], $difference, $this->user->lang['WALL_TIME_PERIODS'][$period]);
+		if(($to - $from) > 3600)
+		{
+			return sprintf($this->user->lang[$tense], $difference, $this->user->lang['WALL_TIME_PERIODS'][$period]);
+		}
 	} 	
 	
 	/* PRIVACY OF ACTIVITY */
@@ -144,45 +151,24 @@ class helper
 		return $cover;		
 	}
 	
-	/* AVATAR DEFAULT ON SOCIAL */
-	public function social_avatar($avatar, $avatar_type)
-	{
-		$data = array(
-			"user_avatar"         => $avatar,
-			"user_avatar_type"    => $avatar_type,
-		);
-			
-		$core_avatar =  phpbb_get_user_avatar($data);
-     	preg_match('#(src=")(.+?)(download|images)#', $core_avatar, $matches);
-		 
-		if($matches)
-		{		
-			$core_avatar = preg_replace('#('.$matches[2].')#', $base_url = generate_board_url(). '/', $core_avatar, 1);
-		}
-      
-		$wall_avatar = '<img src="'.$this->pg_social_path.'/images/no_avatar.jpg" class="avatar" />';
-		return ($core_avatar) ? $core_avatar : $wall_avatar;
-    }	
-	
 	/* AVATAR THUMB ON SOCIAL */
-	public function social_avatar_thumb($avatar, $avatar_type)
+	public function social_avatar_thumb($avatar, $avatar_type, $avatar_width, $avatar_height)
 	{
 		$data = array(
 			"user_avatar"         => $avatar,
 			"user_avatar_type"    => $avatar_type,
+			"user_avatar_width"    => $avatar_width,
+			"user_avatar_height"    => $avatar_height,
 		);
-			
 		$core_avatar =  phpbb_get_user_avatar($data);
      	preg_match('#(src=")(.+?)(download|images)#', $core_avatar, $matches);
-		 
-		$core_avatar = str_replace('" alt', ')" src="'.$this->pg_social_path.'/images/transp.gif" alt', str_replace("src=\"", 'style="background-image:url(', $core_avatar));
-		 
-		if($matches)
-		{		
-			$core_avatar = preg_replace('#('.$matches[2].')#', $base_url = generate_board_url(). '/', $core_avatar, 1);
-		}
-      
+	
+		if($matches) $core_avatar = preg_replace('#('.$matches[2].')#', $base_url = generate_board_url(). '/', $core_avatar, 1);
+		//$core_avatar = preg_replace( '/(width|height)="\d*"\s/', "", str_replace("src=\"", 'src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url(', str_replace('" width', ')" width', $core_avatar)));
+		$core_avatar = str_replace('src="', 'src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url(', str_replace('" alt', ')" alt', preg_replace( '/(width|height)="\d*"\s/', "", $core_avatar)));
+		
 		$wall_avatar = '<img src="'.$this->pg_social_path.'/images/no_avatar.jpg" class="avatar" />';
+		
 		return ($core_avatar) ? $core_avatar : $wall_avatar;
     }	
 	
@@ -265,7 +251,6 @@ class helper
 	/* COUNT LIKES OR COMMENTS OF ACTIVITY */
 	public function countAction($action, $post)
 	{
-		$user_id = (int) $this->user->data['user_id'];
 		switch($action)
 		{
 			case 'like':
@@ -276,7 +261,7 @@ class helper
 			case 'iflike':
 				$sql = "SELECT COUNT(post_like_ID) AS count
 				FROM ".$this->table_prefix."pg_social_wall_like
-				WHERE post_ID = '".$post."' AND user_id = '".$user_id."'";
+				WHERE post_ID = '".$post."' AND user_id = '".$this->user->data['user_id']."'";
 			break;
 			case 'comments':
 				$sql = "SELECT COUNT(post_comment_ID) AS count 
@@ -286,8 +271,18 @@ class helper
 		}
 		$result = $this->db->sql_query($sql);
 		$count = (int) $this->db->sql_fetchfield('count');
-		$return = $count;
-		return $return;
+		return $count;
+	}
+	
+	/* COUNT PHOTOS OF USER */
+	public function countPhotos($user)
+	{
+		$sql = "SELECT COUNT(photo_id) AS count
+		FROM ".$this->table_prefix."pg_social_photos 
+		WHERE user_id = '".$user."'";
+		$result = $this->db->sql_query($sql);
+		$count = (int) $this->db->sql_fetchfield('count');
+		return $count;
 	}
 	
 	/* EXTRA OF ACTIVITY */
@@ -331,6 +326,9 @@ class helper
 	/* EMBED LINK FOR ACTIVITY OR MESSAGES CHAT */
 	public function website_embed($text)
 	{
+		$title = '';
+		$description = '';
+		$keywords = '';
 		if(strstr($text, 'http') !== false)
 		{
 			$domain = strstr($text, 'http');
@@ -342,7 +340,8 @@ class helper
 				$site_domain = parse_url($domain[0]);
 				$fp = fopen($url, 'r');
 				if($fp)
-				{
+				{	
+					$content = '';
 					while(!feof($fp))
 					{
 						$buffer = trim(fgets($fp, 4096));
@@ -351,10 +350,9 @@ class helper
 					$start = '<title>';
 					$end = '</title>';
 					preg_match('!<title>(.*?)</title>!i', $content, $match);
-					$title = $match[1];
+					if(array_key_exists(1, $match)) $title = $match[1];
 					$metatagarray = get_meta_tags($url);
-					$keywords = $metatagarray["keywords"];
-					$description = $metatagarray["description"];
+					if(array_key_exists('description', $metatagarray)) $description = $metatagarray["description"];
 					
 					$screen = '<a href="'.$domain[0].'" class="post_status_site" target="_blank">
 						<div class="post_status_site_content">

@@ -6,7 +6,7 @@
 	var useLang = {ARE_YOU_SURE: "{{ lang('ARE_YOU_SURE') }}", ARE_YOU_SURE_PHOTO: "{{ lang('ARE_YOU_SURE_PHOTO') }}", DO_YOU_WANT_SHARE: "{{ lang('DO_YOU_WANT_SHARE') }}"};
 	{% if (PROFILE_ID || PROFILE) && ACTIVITY_PAGE %}
 	setInterval(function() {
-		if($(".post_status_head_date, .post_comment_time").length > 0) jQuery(".post_status_head_date, .post_comment_time").timeago();
+		if($(".post_status_head_date, .post_comment_time, span.pg_social_chat_message_time").length > 0) jQuery(".post_status_head_date, .post_comment_time, span.pg_social_chat_message_time").timeago();
 	}, 200);
 {% if S_USER_LOGGED_IN %}
 	if($("#posts_status").html() == "") pgwall_getStatus('seguel', where);
@@ -25,9 +25,9 @@
 		e.preventDefault();
 		e.stopPropagation();
 		if($('#wall_post_img').length && $('#wall_post_img').val() != "") {
-			uploadPhoto($('#wall_post_text').text(), $('#wall_post_img')[0].files[0], "wall");
+			uploadPhoto($('#wall_post_text').html(), $('#wall_post_img')[0].files[0], "wall", where);
 		} else {
-			pgwall_addStatus($('#wall_post_text').text(), $('#wall_post_privacy option:selected').val());
+			pgwall_addStatus($('#wall_post_text').html(), $('#wall_post_privacy option:selected').val());
 		}
 	});
 	
@@ -97,10 +97,10 @@
         seconds: "{{ lang('LESS')|e('js') }} %d {{ lang('SECONDS')|e('js') }}",
         minute: "{{ lang('LESS')|e('js') }} %d {{ lang('MINUTES')|e('js') }}",
         minutes: "%d {{ lang('MINUTES')|e('js') }}",
-        hour: "{{ lang('ABOUT_HOUR')|e('js') }}",
-        hours: "%d {{ lang('ABOUT_HOURS')|e('js') }}",
+        hour: "1 {{ lang('ABOUT_HOUR', 1)|e('js') }}",
+        hours: "%d {{ lang('ABOUT_HOURS', 2)|e('js') }}",
         day: "{{ lang('DAY')|e('js') }}",
-        days: "%d {{ lang('DAYS')|e('js') }}",
+        days: "%d {{ lang('DAY', 2)|e('js') }}",
         month: "{{ lang('ABOUT_MONTH')|e('js') }}",
         year: "about a year",
         years: "%d years",

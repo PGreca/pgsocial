@@ -123,13 +123,19 @@ class listener implements EventSubscriberInterface
 			'core.viewonline_overwrite_location'			=> 'add_viewonline_location',
 			'core.display_forums_modify_sql'				=> 'set_startpage',
 			
-			'core.memberlist_view_profile'	    			=> 'memberlist_view_profile',
 			'core.page_header'								=> 'add_page_links',
 			'core.page_footer'								=> 'load',
+			'core.memberlist_view_profile'	    			=> 'memberlist_view_profile',
 			
 			'core.submit_post_end'							=> 'user_status_post',
+			
+			'core.acp_users_modify_profile'					=> 'user_profile',
+			'core.ucp_register_data_before'					=> 'user_profile',
 			'core.ucp_profile_modify_profile_info'			=> 'user_profile',
+			'core.ucp_register_data_after'					=> 'user_profile_validate',
+			'core.ucp_register_user_row_after'				=> 'user_profile_sql',
 			'core.ucp_profile_validate_profile_info'		=> 'user_profile_validate',
+			'core.acp_users_profile_modify_sql_ary'			=> 'user_profile_sql',
 			'core.ucp_profile_info_modify_sql_ary'			=> 'user_profile_sql',
 			'core.avatar_driver_upload_move_file_before'	=> 'user_avatar_change',
 		);
@@ -258,8 +264,7 @@ class listener implements EventSubscriberInterface
 				'PROFILE_UPDATE'			=> append_sid($this->root_path."ucp.".$this->php_ext, 'i=ucp_profile&mode=profile_info'),
 				'PROFILE_COVER'				=> $this->pgsocial_helper->social_cover($member['user_pg_social_cover']),
 				'PROFILE_COVER_POSITION'	=> $member['user_pg_social_cover_position'],
-				'PROFILE_AVATAR'			=> $this->pgsocial_helper->social_avatar($member['user_avatar'], $member['user_avatar_type']),	
-				'PROFILE_AVATAR_THUMB'		=> $this->pgsocial_helper->social_avatar_thumb($member['user_avatar'], $member['user_avatar_type']),	       
+				'PROFILE_AVATAR_THUMB'		=> $this->pgsocial_helper->social_avatar_thumb($member['user_avatar'], $member['user_avatar_type'], $member['user_avatar_width'], $member['user_avatar_height']),	       
 				'PROFILE_AVATAR_UPDATE'     => append_sid($this->root_path."ucp.".$this->php_ext, 'i=profile&mode=avatar'),
 				'PROFILE_USERNAME'			=>$member['username'],
 				'PROFILE_COLOUR'			=> "#".$member['user_colour'],
@@ -274,9 +279,10 @@ class listener implements EventSubscriberInterface
 			));
 			
 			$this->post_status->getStatus("profile", $user_id, 0, "profile", "seguel", "");
+			$this->social_photo->getPhotos(0, "last", $user_id);
 			$this->social_zebra->getFriends($user_id, "profile", "yes");
 			$this->social_photo->getGallery($user_id, "profile");
-			if($this->request->variable('gall', '')) $this->social_photo->getPhotos(0, $user_id, $this->request->variable('gall', ''));
+			if($this->request->variable('gall', '')) $this->social_photo->getPhotos(0, "gall", $user_id, $this->request->variable('gall', ''));
 		}	
 	}
 		
@@ -294,7 +300,9 @@ class listener implements EventSubscriberInterface
 	
 	public function add_page_links($event)
 	{
+		$forumnav = '';
 		if($this->config['pg_social_index_replace']) $forumnav = $this->helper->route('forum_page');
+		
 		$this->template->assign_vars(array(
 			'S_PG_SOCIAL_ENABLED' 	=> $this->config['pg_social_enabled'] ? true : false,
 			'PG_SOCIAL_COLOR' 		=> $this->config['pg_social_color'],

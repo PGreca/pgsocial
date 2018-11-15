@@ -5,7 +5,7 @@
 		<i class="icon fa fa-users fa-fw" aria-hidden="true"></i><span>{{ lang('ACTIVITY_PAGE') }}</span>
 	</a>
 </li>
-{% else %}
+{% elseif S_USER_LOGGED_IN %}
 <li class="no-bulletin" data-last-responsive="true">
 	<a href="{{ SOCIAL_FORUM }}" rel="{{ lang('FORUM') }}" title="{{ lang('FORUM') }}" role="menuitem">
 		<i class="icon fa fa-comments fa-fw" aria-hidden="true"></i><span>{{ lang('FORUM') }}</span>

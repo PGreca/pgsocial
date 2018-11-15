@@ -8,7 +8,6 @@
 			$("ul#pg_social_menu li[data-social_menu='"+hash+"']").addClass("active");
 			$("#pg_social #pg_social_cont .pg_social_pagesub").hide();
 			$("#pg_social #pg_social_cont #page_"+hash+"").show();
-			$("#pg_social_photos").offset().top;
 		} else {
 			if(window.location.href.indexOf("gall") > -1)  {		
 				$("ul#pg_social_menu li").removeClass();
@@ -53,23 +52,19 @@
 		}
 	});
 	
-	$(document).on("click", function(e) {
-		if(e.target.id == "darken") {
-			closePopup(true);
-		}
-	});
-	
 	$(document).on('keyup', "#wall_post_text", function() {
 		var content = $(this).html();
 		if(content.match(/@(\w+)/g)) {
 			tag_system_search(content.match(/@(\w+)/g));
-		} 
+		} else {
+			$("ul#pg_social_wall_tag_system").html("");
+		}
 	});
-	
+	/*
 	$(document).on('click', '#pg_social_wall_tag_systemClose', function() {
 		$('#pg_social_wall_tag_system').html("");
 	});
-	
+	*/
 	$(document).on('click', "#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people", function() {
 		var username = $(this).attr('data-people_username');
 		var user = $(this).attr('data-people');
@@ -153,9 +148,9 @@
 	});
 	
 	//POPUP PHOTO
-	$(document).on('click', '#pg_social #pg_social_cont ul#pg_social_photos li.photo, .post_status_content img.photo_popup', function(e) {
+	$(document).on('click', '#pg_social #pg_social_cont ul#pg_social_photos li.photo, .post_status_content img.photo_popup, #pg_social ul.template_photos li', function(e) {
 		var photo = $(this).attr("data-photo");
-		popupPhoto($.trim(photo));
+		if(photo) popupPhoto($.trim(photo));
 	});
 	
 	$(document).on('click', '.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side #pg_social_photo_sidePre, .phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side #pg_social_photo_sideNex', function() {
@@ -173,7 +168,7 @@
 			contentType: false,
 			processData: false,
 			success: function(data) {
-				popupPhoto($.trim(data));				
+				popupPhoto($.trim(data));
 			}
 		});
 	});
@@ -191,9 +186,18 @@
 
 	});
 	
+	/*
 	$(document).on('click', 'a#page_new_form_open', function(data) {
 		$("#page_new_form").show();
 	});
+	*/
+	
+	$(document).on("click", function(e) {
+		if(e.target.id == "darken") {
+			closePopup(true);
+		}
+	});
+	
 })(jQuery);
 
 /* POST ACTION */
@@ -241,9 +245,7 @@ function pgwall_addStatus(texta, privacy) {
 		fdata.append("post_where", where);
 		fdata.append("profile_id", profile_id);
 		fdata.append("text", encodeURIComponent($.trim(texta)));
-		//fdata.append("text", $.trim(texta));
 		fdata.append("privacy", privacy);
-		
 		$.ajax({
 			method: "POST",
 			url: root,
@@ -361,7 +363,7 @@ function pgwall_removeComment(comment) {
 function uploadPhoto(msg, photo, type, where, itop) {
 	var fdata = new FormData()
 	fdata.append("mode", "addPhoto");
-	if(msg) fdata.append("msg", msg);
+	if(msg) fdata.append("msg", encodeURIComponent($.trim(msg)));
 	fdata.append("post_where", where);
 	fdata.append("profile_id", profile_id);
 	fdata.append("type", type);
@@ -390,8 +392,12 @@ function pgwall_deletePhoto(photo) {
 		url: root, 
 		data: 'mode=deletePhoto&photo='+photo,
 		success: function(data) {
-			closePopup(true);
-			$('#page_gallery ul#pg_social_photos #gallery_'+photo).remove();
+			console.log(data);
+			if(data == 'deleted') {
+				closePopup(true);
+				$('#page_gallery ul#pg_social_photos #gallery_'+photo).remove();
+				$("img.photo_popup[data-photo='"+photo+"']").parent().parent().parent().remove();
+			}
 		}
 	});	
 }

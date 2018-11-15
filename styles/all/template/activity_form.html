@@ -8,7 +8,7 @@
 		<i class="icon fa fa-close" id="pg_social_wall_tag_systemClose"></i>
 	</div><div class="wall_post_option">
 		{% if PROFILE_ACTION == true || STATUS_WHERE == '' %} 
-		<label id="pg_social_wall_post_img">{{ lang('ATTACH_PICTURE') }}<input name="wall_post_img" id="wall_post_img" type="file" accept="image/*" /></label>
+		<label id="pg_social_wall_post_img"><i class="fa fa-camera" aria-hidden="true"></i><span style="display:none">{{ lang('ATTACH_PICTURE') }}</span><input name="wall_post_img" id="wall_post_img" type="file" accept="image/*" /></label>
 		<select name="wall_post_privacy" id="wall_post_privacy">
 			<option value="0">{{ lang('PRIVACY_ONLY_ME') }}</option>
 			<option value="1" selected>{{ lang('PRIVACY_ONLY_FRIENDS') }}</option>
@@ -21,17 +21,4 @@
 	{{ S_HIDDEN_FIELDS }}
 	{{ S_FORM_TOKEN }}
 </form>
-<div class="panel ads">
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<!-- PGreca Social - Sidebar -->
-	<ins class="adsbygoogle"
-		 style="display:block"
-		 data-ad-client="ca-pub-6181929637339131"
-		 data-ad-slot="8919244494"
-		 data-ad-format="auto"
-		 data-full-width-responsive="true"></ins>
-	<script>
-	(adsbygoogle = window.adsbygoogle || []).push({});
-	</script>
-</div>	
 {% endif %}

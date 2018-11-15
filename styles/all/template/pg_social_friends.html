@@ -1,27 +1,24 @@
 {% for profileFriends in loops.profileFriends %}
-{{ profileFriends.SQL }}
 <li class="friend" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
-	<a href="{{ profileFriends.PROFILE_URL }}" style="color:{{ profileFriends.PROFILE_COLOUR }}">
+	<a class="friend_avatar" href="{{ profileFriends.PROFILE_URL }}">
 		{{ profileFriends.AVATAR }}
-		<div class="friend_username">
+	</a><div class="friend_username">
+		<a href="{{ profileFriends.PROFILE_URL }}" style="color:{{ profileFriends.PROFILE_COLOUR }}">
 			<span>{{ profileFriends.USERNAME }}</span>
-			{% if profileFriends.PROFILE_FRIEND_ACTION %}
-			<div class="friend_action">
-				{% if profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' %}
-					{{ lang('PG_SOCIAL_FRIENDS') }}
-				{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' %}
-				<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=addFriend" id="profile_friend_add" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ADD') }}</a>
-				{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' %}
-				<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=undoFriend" id="profile_friend_undo" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_CANCEL_REQ') }}</a>
-				{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ'	%}
-				<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=acceptFriend" id="profile_friend_accept" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ACCEPT_REQ') }}</a>	
-				<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=declineFriend" id="profile_friend_declide" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_DECLINE_REQ') }}</a>
-				{% else %}
-				{{ PROFILE_FRIEND_ACTION }}			
+		</a>{% if profileFriends.PROFILE_FRIEND_ACTION %}<div class="friend_action">
+			{% if profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' %}
+			<a>{{ lang('PG_SOCIAL_FRIENDS') }}</a>
+			<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=cancelFriend" id="profile_friend_cancel" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_REMOVE') }}</a>
+			{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' %}
+			<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=addFriend" id="profile_friend_add" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ADD') }}</a>
+			{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' %}
+			<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=undoFriend" id="profile_friend_undo" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_CANCEL_REQ') }}</a>
+			{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ'	%}
+			<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=acceptFriend" id="profile_friend_accept" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ACCEPT_REQ') }}</a>	
+			<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=declineFriend" id="profile_friend_declide" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_DECLINE_REQ') }}</a>					
 			{% endif %}
-			</div>
-			{% endif %}
-		</div>		
-	</a>
+		</div>
+		{% endif %}
+	</div>
 </li>
 {% endfor %}
