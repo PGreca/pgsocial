@@ -1,4 +1,65 @@
 <dl>
+	<dt><label for="user_about">{{ lang('ABOUT_ME') }}{{ lang('COLON') }}</label></dt>
+	<dd>
+		<textarea name="user_about" id="user_about" class="inputbox" rows="3" cols="30">{{ PROFILE_ABOUT }}</textarea>
+	</dd>
+</dl>
+
+
+
+<dl>
+	<dt><label for="user_status_life">{{ lang('SOCIAL_STATU') }}{{ lang('COLON') }}</label></dt>
+	<dd>
+		<select name="user_status_life" id="user_status_life">
+			<option {% if PROFILE_STATUS_LIFE == 0 %}selected="selected"{% endif %} value="0">{{ lang('SOCIAL_STATUS_UNKNOW') }}</option>
+			<option {% if PROFILE_STATUS_LIFE == 1 %}selected="selected"{% endif %} value="1">{{ lang('SOCIAL_STATUS_SINGLE') }}</option>
+			<option {% if PROFILE_STATUS_LIFE == 2 %}selected="selected"{% endif %} value="2">{{ lang('SOCIAL_STATUS_ENGAGED') }}</option>
+			<option {% if PROFILE_STATUS_LIFE == 3 %}selected="selected"{% endif %} value="3">{{ lang('SOCIAL_STATUS_MARRIED') }}</option>
+			<option {% if PROFILE_STATUS_LIFE == 4 %}selected="selected"{% endif %} value="4">{{ lang('SOCIAL_STATUS_COMPLICATED') }}</option>
+			<option {% if PROFILE_STATUS_LIFE == 5 %}selected="selected"{% endif %} value="5">{{ lang('SOCIAL_STATUS_RELATIONSHIP') }}</option>
+		</select>
+	</dd>
+</dl>
+<dl>
+	<dt><label for="user_hobbies">{{ lang('HOBBY', 2) }}{{ lang('COLON') }}</label></dt>
+	<dd>
+		<textarea name="user_hobbies" id="user_hobbies" class="inputbox" rows="3" cols="30">{{ PROFILE_HOBBIES }}</textarea>
+	</dd>
+</dl>
+<dl>
+	<dt><label for="user_favorite_tvseries">{{ lang('FAVORITE_TVSHOW', 2) }}{{ lang('COLON') }}</label></dt>
+	<dd>
+		<textarea name="user_favorite_tvseries" id="user_favorite_tvseries" class="inputbox" rows="3" cols="30">{{ PROFILE_FAVORITE_TVSERIES }}</textarea>
+	</dd>
+</dl>
+<dl>
+	<dt><label for="user_favorite_movies">{{ lang('FAVORITE_MOVIE', 2) }}{{ lang('COLON') }}</label></dt>
+	<dd>
+		<textarea name="user_favorite_movies" id="user_favorite_movies" class="inputbox" rows="3" cols="30">{{ PROFILE_FAVORITE_MOVIES }}</textarea>
+	</dd>
+</dl>
+<dl>
+	<dt><label for="user_favorite_games">{{ lang('FAVORITE_GAME', 2) }}{{ lang('COLON') }}</label></dt>
+	<dd>
+		<textarea name="user_favorite_games" id="user_favorite_games" class="inputbox" rows="3" cols="30">{{ PROFILE_FAVORITE_GAMES }}</textarea>
+	</dd>
+</dl>
+<dl>
+	<dt><label for="user_favorite_musics">{{ lang('FAVORITE_MUSIC', 2) }}{{ lang('COLON') }}</label></dt>
+	<dd>
+		<textarea name="user_favorite_musics" id="user_favorite_musics" class="inputbox" rows="3" cols="30">{{ PROFILE_FAVORITE_MUSICS }}</textarea>
+	</dd>
+</dl>
+<dl>
+	<dt><label for="user_favorite_books">{{ lang('FAVORITE_BOOK', 2) }}{{ lang('COLON') }}</label></dt>
+	<dd>
+		<textarea name="user_favorite_books" id="user_favorite_books" class="inputbox" rows="3" cols="30">{{ PROFILE_FAVORITE_BOOKS }}</textarea>
+	</dd>
+</dl>
+
+
+
+<dl>
 	<dt><label for="user_quote">{{ lang('QUOTE') }}{{ lang('COLON') }}</label></dt>
 	<dd>
 		<input type="text" name="user_quote" id="user_quote" maxlength="255" value="{{ QUOTE }}" class="inputbox" autocomplete="off" />

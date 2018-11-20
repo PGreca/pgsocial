@@ -305,7 +305,7 @@ function pgwall_pagelikeAction(page) {
 		url: root,
 		data: "mode=pagelikeAction&page="+page,
 		success: function(data) {
-			$("a.page_list_buttonLike[data-page='"+page+"'] span").attr('class', '').addClass(data);
+			$("a.page_list_buttonLike[data-page='"+page+"']").removeClass('likepage dislikepage').addClass(data);
 		}		
 	});
 }

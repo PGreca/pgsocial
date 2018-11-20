@@ -21,7 +21,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 	public function update_data()
 {
 		$data = array(
-			array('config.add', array('pg_social_version', '0.1.0-a8')),
+			array('config.add', array('pg_social_version', '0.1.0-a9')),
 			
 			array('config.add', array('pg_social_enabled', 1)),			
 			array('config.add', array('pg_social_index_replace', 0)),
@@ -259,6 +259,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 			'add_columns'	=> array(
 				$this->table_prefix.'users' => array(
 					'user_gender'					=> array('UINT:1', 0),
+					'user_about'					=> array('VCHAR:255', ''),
 					'user_pg_social_cover'			=> array('VCHAR:255', ''),
 					'user_pg_social_cover_position'	=> array('VCHAR:10', ''),
 					'user_quote'					=> array('VCHAR:255', ''),
@@ -346,6 +347,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 			'drop_columns'	=> array(
 				$this->table_prefix . 'users' => array(
 					'user_gender',
+					'user_about',
 					'user_pg_social_cover',
 					'user_pg_social_cover_position',
 					'user_quote',

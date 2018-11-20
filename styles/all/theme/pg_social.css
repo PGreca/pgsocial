@@ -89,6 +89,7 @@ body.section-memberlist form#viewprofile {
 	padding: 10px;
 	border-radius: 5px;
 	border: 1px solid #e5ecf6;
+	color: #898da8;
 }
 
 #pg_social .panel h3 {
@@ -100,6 +101,7 @@ body.section-memberlist form#viewprofile {
 	border-bottom: 1px solid #cfcfcf;
 	font-size: 1.8em;
 	text-transform: inherit;
+	color: #545267;
 }
 
 #pg_social .panel h5 {
@@ -289,7 +291,7 @@ body.section-memberlist form#viewprofile {
 	position: relative;
 	display: inline-block;
 	padding: 20px 15px;
-	color: #c6c9da;
+	color: #898da8;
 }
 
 #pg_social #pg_social_main ul#pg_social_menu li a:before {
@@ -332,6 +334,10 @@ body.section-memberlist form#viewprofile {
 	width: calc(22% - 10px);
 	padding: 0px 10px 10px 0px;	
 	vertical-align: top;
+}
+
+#pg_social #page_info #pg_social_sidel {
+	width: calc(35% - 10px);
 }
 
 #pg_social #pg_social_sidel blockquote#profile_quote {
@@ -417,15 +423,19 @@ body.section-memberlist form#viewprofile {
 #pg_social #pg_social_sidec {
 	display: inline-block;
     width: 56%;
-    padding: 0px 0px 10px;
+    padding: 0px;
     vertical-align: top;
 }
-	
+
+#pg_social #page_info #pg_social_sidec {
+	width: 65%;
+}
+
 #pg_social #pg_social_cont {
 	display: inline-block;
 	width: 100%;
 	margin: 0px;
-	padding: 0px 0px 20px 0px;
+	padding: 0px;
 }
 
 #pg_social #pg_social_cont .pg_social_pagesub {
@@ -441,13 +451,14 @@ body.section-memberlist form#viewprofile {
 }
 
 #pg_social #pg_social_cont .pg_social_pagesub dl.details:last-child {
+	margin-bottom: 0px;
 	border-bottom: 0px;
 }
 
 #pg_social #pg_social_cont .pg_social_pagesub dl.details dt,
 #pg_social #pg_social_cont .pg_social_pagesub dl.details dd {
 	margin-bottom: 10px;
-	padding-right: 10px;
+	text-align: left;
 }
 
 #pg_social #pg_social_cont .pg_social_pagesub dl.signature {
@@ -470,18 +481,67 @@ body.section-memberlist form#viewprofile {
 	width: 100%;	
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend {
+#pg_social #pg_social_cont ul.bigcolums {
+}
+
+#pg_social #pg_social_cont ul.bigcolums li {
+	position: relative;
 	display: inline-block;
 	vertical-align: top;
 	background-color: #fff;
-	width: calc((100% / 4) - 4px - 15px);
-	margin: 0px 7.5px 10px;
-	border: 1px solid #e5ecf6;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: calc(25% - 12px);
+	margin: 0px 15px 15px 0px;
 	border-radius: 5px;
-	font-size: 1.3em;
+	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.08);
+	text-align: left;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend .friend_cover {
+#pg_social #pg_social_cont ul.bigcolums li.photo {
+	cursor: pointer;
+}
+
+#pg_social #pg_social_cont ul.bigcolums#last_photos li {
+	width: calc((100% / 3) - 13px);	
+}
+
+#pg_social ul#pg_social_gallery li:nth-child(4n),
+#pg_social #pg_social_cont ul.bigcolums li:nth-child(4n),
+#pg_social #pg_social_cont ul.bigcolums#last_photos li:nth-child(3n) {
+	margin-right: 0px;
+}
+
+#pg_social #pg_social_cont ul.bigcolums#last_photos li:nth-child(4n) {
+	margin-right: 15px;
+}
+
+#pg_social #pg_social_cont li.gallery {
+	min-height: 373px;
+}
+
+#pg_social #pg_social_cont ul.bigcolums li img {
+    width: 100%;
+    height: auto;
+}
+
+#pg_social #pg_social_cont ul.bigcolums li#pg_social_gallery_create {
+	background-color: transparent;
+	width: calc(25% - 12px - 14px);
+	border: 3px dashed #bbc0d6;
+}
+
+
+#pg_social #pg_social_cont ul.bigcolums li.colum .cover {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border-radius: 5px 5px 0px 0px;
+}
+
+
+#pg_social #pg_social_cont ul.bigcolums li.colum .cover.big_cover {
 	position: relative;
 	background-color: rgba(0, 0, 0, 0.2);
     background-position: center;
@@ -491,15 +551,14 @@ body.section-memberlist form#viewprofile {
 	border-radius: 5px 5px 0px 0px;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend a.friend_avatar {
+#pg_social #pg_social_cont ul.bigcolums li.colum a.aavatar {
 	position: absolute;
 	display: inline-block;
-	width: 90px;
-	margin-top: calc(110px - 45px);
-	margin-left: calc(50% - 45px);
+	width: 30%;
+	margin: calc(110px - 15%) calc(50% - 15%) 0px calc(50% - 15%);
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend a.friend_avatar img.avatar {
+#pg_social #pg_social_cont ul.bigcolums li.colum a.aavatar img.avatar {
 	display: inline-block;
 	vertical-align: middle;
 	width: calc(100% - 8px);
@@ -507,19 +566,26 @@ body.section-memberlist form#viewprofile {
 	border: 4px solid #fff;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend .friend_username {
+#pg_social #pg_social_cont ul.bigcolums li.colum .username {
+	position: relative;
 	display: inline-block;
-	width: 100%;
+	width: calc(100% - 20px);
 	margin: calc(45px + 15px) 0px 5px;
+	padding: 0px 10px;
 	text-align: center;
 	font-size: 1.15em;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend .friend_username > a span {
+#pg_social #pg_social_cont ul.bigcolums li.colum.gallery .username {
+	margin: calc(15px) 0px 5px;
+	
+}
+
+#pg_social #pg_social_cont ul.bigcolums li.colum .username > a span {
 	font-weight: bold;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend .friend_counts {
+#pg_social #pg_social_cont ul.bigcolums li.colum .counts {
 	display: inline-block;
 	width: 100%;
 	margin: 15px 0px 10px;
@@ -527,34 +593,35 @@ body.section-memberlist form#viewprofile {
 	font-size: 0.9em;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend .friend_counts .friend_count {
+#pg_social #pg_social_cont ul.bigcolums li.colum .counts .count {
 	display: inline-block;
 	margin: 0px 15px;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend .friend_counts .friend_count:first-child {
+#pg_social #pg_social_cont ul.bigcolums li.colum .counts .count:first-child {
 	margin-left: 0px;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend .friend_counts .friend_count:last-child {
+#pg_social #pg_social_cont ul.bigcolums li.colum .counts .count:last-child {
 	margin-right: 0px;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend .friend_counts .friend_count b {
+#pg_social #pg_social_cont ul.bigcolums li.colum .counts .count b {
 	display: block;
+	margin-bottom: 5px;
 	font-size: 1.2em;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend .friend_action {
+#pg_social #pg_social_cont ul.bigcolums li.colum .action {
 	display: inline-block;
 	width: 100%;
 	margin: 15px 0px 10px;
 	text-align: center;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend .friend_action a {
+#pg_social #pg_social_cont ul.bigcolums li.colum .action a {
 	display: inline-block;
-	background-color: #01b7ff;
+	background-color: #39a9ff;
 	width: 40px;
 	height: 40px;
 	line-height: 40px;
@@ -564,92 +631,40 @@ body.section-memberlist form#viewprofile {
 	color: #fff;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend .friend_action a:hover {
-	background-color: #006e99;	
-	color: #cfcfcf;
+#pg_social #pg_social_cont ul.bigcolums li.colum .action a.likepage {
+	background-color: #999fbf;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_friends li.friend .friend_action a span {
+#pg_social #pg_social_cont ul.bigcolums li.colum .action a.dislikepage {
+	background-color: #fe5e3a;
+}
+
+#pg_social #pg_social_cont ul.bigcolums li.colum .action a:hover {
+	background-color: #54c5ff;	
+}
+
+#pg_social #pg_social_cont ul.bigcolums li.colum .action a.likepage:hover {
+	background-color: #fe5e3a;
+}
+
+#pg_social #pg_social_cont ul.bigcolums li.colum .action a.dislikepage:hover {
+	background-color: #fe763a;
+}
+
+#pg_social #pg_social_cont ul.bigcolums li.colum .action a span {
 	font-size: 0px;
 }
 
-#pg_social ul.template_photos li {
-	position: relative;
-	display: inline-block;
-	background-color: #000;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	width: calc(33.33% - 13px);
-	margin: 0px 15px 15px 0px;
-	border-radius: 5px;
-	box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.15);
-	cursor: pointer;
-	text-align: left;
-}
-
-#pg_social ul#pg_social_gallery li:nth-child(3n),
-#pg_social ul.template_photos li:nth-child(3n),
-#pg_social ul.template_photos#last_photos li:nth-child(3n) {
-	margin-right: 0px;
-}
-
-#pg_social ul.template_photos#last_photos li:nth-child(5n) {
-	margin-right: 15px;
-}
-
-#pg_social ul.template_photos li img {
-    width: 100%;
-    height: auto;
-}
-
-#pg_social #pg_social_cont ul#pg_social_gallery,
-#pg_social #pg_social_cont ul#pg_social_photos {
-	padding: 20px 0px;
-}
-
-#pg_social #pg_social_cont ul#pg_social_photos li {
-	width: calc(25% - 15px);
-}
-
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery {
-    position: relative;
-}
-
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery > * {
-	display: none;
-}
-
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery:hover > * {
-	display: inherit;
-}
-
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery:after {
-	content: ' ';
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-	border-radius: 5px;
-}
-
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery:hover:after {
-	background: rgba(0, 0, 0, 0.6);
-}
-
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery a.gallery_name {
-	position: absolute;
-	z-index: 1;
+#pg_social #pg_social_cont ul.bigcolums li.colum a.gallery_name {
 	width: calc(100% - 30px);
 	height: calc(100% - 30px);
 	padding: 15px;
-	color: #fff;
+	text-align: center;
+	font-size: 1.7em;
 }
 
-#pg_social #pg_social_cont .pg_social_pagesub ul#pg_social_gallery li.gallery > img {
-	display: inherit;
-	width: 100%;
+#pg_social #pg_social_cont ul.bigcolums li.colum .gallery_count {
+	text-align: center;
 }
 
 #pg_social form#wall_post {
@@ -1005,7 +1020,7 @@ body.section-memberlist form#viewprofile {
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content {
 	padding: 15px;
-	font-size: 1em;
+	font-size: 1.3em;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content:empty {
@@ -1026,7 +1041,7 @@ body.section-memberlist form#viewprofile {
 	padding: 10px;
 	border-radius: 5px;
 	text-align: right;
-	color: rgba(0, 0, 0, 0.08);
+	color: rgba(0, 0, 0, 0.6);
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content .post_parent_info .post_parent_author a {
@@ -1312,14 +1327,6 @@ body.section-memberlist form#viewprofile {
 	vertical-align: middle;
 }
 
-/* POST_GALLERY */
-#pg_social #pg_social_cont ul#posts_gallery {
-
-}
-
-#pg_social #pg_social_cont ul#posts_gallery li.gallery {
-}
-
 #pg_social #load_more {
 	text-align: center;
 }
@@ -1344,20 +1351,6 @@ body.section-memberlist form#viewprofile {
 	font-weight: bold;
 	text-transform: uppercase;
 	cursor: pointer;
-}
-
-#pg_social ul#pages_list {
-	clear: both;
-	margin: 0px -5px;
-}
-
-#pg_social ul#pages_list li.page_list {
-	display: inline-block;
-	background-color: #fff;
-	width: calc(20% - 3px - 10px - 2px);
-	margin: 0px 5px 10px;
-	border: 1px solid #cfcfcf;
-	border-radius: 5px;
 }
 
 #pg_social ul#pages_list li.page_list a.page_list_head {
@@ -1394,24 +1387,78 @@ body.section-memberlist form#viewprofile {
 	cursor: pointer;
 }
 
-#pg_social ul#pages_list li.page_list a.page_list_buttonLike span {
-	display: block;
-	padding: 3px 5px;
-	border: 1px solid #cfcfcf;
+#pg_social .panel dl dt {
+	color: #545267;
+}
+
+#pg_social .panel dl dd {
+	color: #898da8;
+}
+
+#pg_social .panel .colum {
+	display: inline-block;
+	vertical-align: top;
+	width: calc(50% - 20px);
+	padding: 0px 10px;
+	font-size: 1.2em;
+}
+#pg_social .panel .colum.onecolum {
+	width: calc(100% - 20px) !important;
+}
+
+#pg_social .panel .colum:last-child {
+	width: calc(50% - 10px);
+	padding-right: 0px;
+}
+
+#pg_social .panel dl dt,
+#pg_social .panel > dl dd {
+	margin-top: 15px;
+}
+
+#pg_social .panel .colum.onecolum dl dt,
+#pg_social .panel .colum.onecolum > dl dd {
+	display: inline-block;
+	vertical-align: top;
+}
+
+#pg_social .panel .colum.onecolum dl dt {
+	width: 40%;
+}
+
+#pg_social .panel .colum.onecolum dl dd {
+	width: calc(60% - 4px);
+	margin-top: 15px;
+}
+
+#pg_social .panel .colum dl.social_networks dd {
+	background-color: #fff;
+	width: 100%;
 	border-radius: 5px;
-}
-
-#pg_social ul#pages_list li.page_list a.page_list_buttonLike span.likepage {
-	background-color: rgba(0, 0, 0, 0.5);
+	text-align: center;
 	color: #fff;
-	border-color: transparent;
 }
 
-#pg_social ul#pages_list li.page_list a.page_list_buttonLike:hover span,
-#pg_social a#page_new_form_open:hover span {
-	background-color: #f2f2f2;
-	color: inherit;
-	border-color: #cfcfcf;
+#pg_social .panel .colum dl.social_networks dd.phpbb_facebook {
+	background-color: #2f5b9c;
+}
+
+#pg_social .panel .colum dl.social_networks dd.phpbb_instagram {
+	background-color: #d87319;
+}
+
+#pg_social .panel .colum dl.social_networks dd.phpbb_twitter {
+	background-color: #37bff1;
+}
+
+#pg_social .panel .colum dl.social_networks dd.phpbb_github {
+	background-color: #333;
+}
+
+#pg_social .panel .colum dl.social_networks dd a {
+	display: block;
+	padding: 10px;
+	color: #fff;
 }
 
 #pg_social #pg_social_sider {
@@ -1421,35 +1468,85 @@ body.section-memberlist form#viewprofile {
 	vertical-align: top;	
 }
 
-#pg_social #pg_social_sider ul li.friend,
+#pg_social #pg_social_sider ul#friends_suggestions {
+	margin: -15px -10px -10px;
+}
+
+#pg_social #pg_social_sider ul#friends_suggestions li.friend {
+	padding: 20px;
+	border-bottom: 1px solid #cfcfcf;
+}
+
+#pg_social #pg_social_sider ul#friends_suggestions li.friend a.avatar {
+	display: inline-block;
+	width: calc(100% - 50px);
+}
+
+#pg_social #pg_social_sider ul#friends_suggestions li.friend a.avatar img.avatar {
+	width: 45px;
+	border-radius: 100%;
+}
+
+#pg_social #pg_social_sider ul#friends_suggestions li.friend .friend_username {
+	display: inline-block;
+	width: calc(100% - 45px - 10px);
+	margin-left: 10px;
+	vertical-align: middle;
+}
+
+#pg_social #pg_social_sider ul#friends_suggestions li.friend .friend_username span {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+#pg_social #pg_social_sider ul#friends_suggestions li.friend .friend_action {
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+	vertical-align: middle;
+	background-color: #39a9ff;
+	border-radius: 5px;
+	text-align: center;
+}
+
+#pg_social #pg_social_sider ul#friends_suggestions li.friend .friend_action:hover {
+	background-color: #54c5ff;	
+}
+
+#pg_social #pg_social_sider ul#friends_suggestions li.friend .friend_action a {
+	display: block;
+	color: #fff;
+}
+
+#pg_social #pg_social_sider ul#friends_suggestions li.friend .friend_action a span {
+	font-size: 0px;
+}
+
 #pg_social #pg_social_sider ul li.birthday {
 	display: inline-block;
 	width: calc(50% - 20px - 2px);
 	padding: 10px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+	border-bottom: 1px solid #cfcfcf;
 }
 
 #pg_social #pg_social_sider ul li.birthday {
 	text-align: center;
 }
 
-#pg_social #pg_social_sider ul li.friend:nth-child(-n+2),
 #pg_social #pg_social_sider ul li.birthday:nth-child(-n+2) {
 	padding-top: 0px;
 }
 
-#pg_social #pg_social_sider ul li.friend:nth-last-of-type(-n+2),
 #pg_social #pg_social_sider ul li.birthday:nth-last-of-type(-n+2) {
 	padding-bottom: 0px;
 	border-bottom: 0px;
 }
 
-#pg_social #pg_social_sider ul li.friend a:first-child,
 #pg_social #pg_social_sider ul li.birthday a:first-child {
 	display: block;
 }
 
-#pg_social #pg_social_sider ul li.friend img.avatar,
 #pg_social #pg_social_sider ul li.birthday img.avatar {
 	background-position: center;
 	background-repeat: no-repeat;
@@ -1457,28 +1554,6 @@ body.section-memberlist form#viewprofile {
 	width: 100%;
 	height: auto;
 	margin-bottom: 3px;
-}
-
-#pg_social #pg_social_sider ul li.friend .friend_username,
-#pg_social #pg_social_sider ul li.friend .friend_action {
-	text-align: center;
-}
-
-#pg_social #pg_social_sider ul li.friend .friend_username span {
-    display: inline-block;
-    width: 100%;
-    text-align: center;
-}
-
-#pg_social #pg_social_sider ul li.friend .friend_action {
-	background-color: #fff;
-	width: calc(100% - 2px);
-	margin: 5px 0px 0px 0px;	
-	padding: 4px 0px;
-	border: 1px solid #e5ecf6;
-	border-radius: 5px;
-	text-align: center;
-	font-size: 0.8em;
 }
 
 #pg_social #pg_social_sider #sid_last_topics ul li.posts {
@@ -1571,6 +1646,19 @@ form#page_new_form input[type="submit"]:hover {
 	height: 100%;
 }
 
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side:before {
+	content: ' ';
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side:hover:before {
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
 .phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side #pg_social_photo_sidePre,
 .phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side #pg_social_photo_sideNex {
 	position: absolute;
@@ -1633,7 +1721,7 @@ form#page_new_form input[type="submit"]:hover {
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side #pg_social_photo_img_header h5#pg_social_photo_name_album a {
-    color: rgba(255, 255, 255, 0.7);	
+    color: #fff;	
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer {
@@ -1964,11 +2052,12 @@ a.profile_signature_status {
 		display: none;
 	}
 	
+	#pg_social #pg_social_sidec,
 	#pg_social #pg_social_sidel,
 	#pg_social #pg_social_cont,
 	#pg_social #pg_social_sider {
 	    display: block;
-		width: 100%;
+		width: 100% !important;
 		margin-bottom: 0px;
 		padding: 0px;
 	}
@@ -2033,7 +2122,8 @@ a.profile_signature_status {
 		top: 0px;
 	}
 	
-	#pg_social.pg_social_pageprofile #pg_social_main {
+	#pg_social.pg_social_pageprofile #pg_social_main,
+	#pg_social.pg_social_pagepage #pg_social_main {
 		margin-top: -140px;
 	}
 	
@@ -2074,6 +2164,10 @@ a.profile_signature_status {
 		white-space: nowrap;
 	}
 	
+	#pg_social #pg_social_main ul#pg_social_menu li:last-child {
+		margin-right: 0px;
+	}
+	
 	#pg_social #pg_social_main ul#pg_social_menu li a {
 		font-size: 0.8em;
 	}
@@ -2102,34 +2196,23 @@ a.profile_signature_status {
 		margin-bottom: 20px;
 	}
 	
-	
-	#pg_social #pg_social_cont .pg_social_pagesub dl.details dt, 
-	#pg_social #pg_social_cont .pg_social_pagesub dl.details dd {
-		display: inline-block;
-		vertical-align: top;
-		width: calc(50% - 2px);
-		padding-right: 0px;
-	}
-	
-	#pg_social #pg_social_cont .pg_social_pagesub dl.details dt {
-		text-align: right;
-	}
-	
-	
 	#pg_social #pg_social_cont #page_gallery > h5 {
 		padding: 25px 0px 0px;
 	}
 	
-	#pg_social #pg_social_cont ul.template_photos li {
-		width: calc(50% - 1px - 5px);
+	
+	
+	#pg_social #pg_social_cont ul.bigcolums li {
+		width: calc(50% - 10px);
+		min-height: 200px;
 	}
 	
-	#pg_social #pg_social_cont ul.template_photos li:nth-child(2) {
+	#pg_social #pg_social_cont ul.bigcolums li#pg_social_gallery_create {
+		width: calc(50% - 10px - 5px);
+	}
+		
+	#pg_social #pg_social_cont ul.bigcolums li:nth-child(2n) {
 		margin-right: 0px;
-	}
-	
-	#pg_social #pg_social_cont ul.template_photos li:nth-child(3) {
-		margin-right: 5px;
 	}
 	
 	#pg_social #pg_social_sider {

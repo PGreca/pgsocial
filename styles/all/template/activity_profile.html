@@ -28,7 +28,7 @@
 	</div><div id="pg_social_main">
 		<div class="profile_avatar{% if S_ONLINE %} stat_online{% endif %}">{{ PROFILE_AVATAR_THUMB }}</div>			
 		<h2 class="memberlist-username"{% if PROFILE_COLOUR %} style="color: {{ PROFILE_COLOUR }};"{% endif %}>{{ PROFILE_USERNAME }}</h2>
-		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('ACTIVITY') }}</a></li><li data-social_menu="friends"><a href="#friends"><i class="icon fa fa-users fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('FRIEND', 2) }} <span>({{ PROFILE_COUNT_FRIENDS }})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa fa-camera fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('GALLER') }}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa fa-info fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('INFO') }}</a></li><li data-social_menu="statistics"><a href="#statistics"><i class="icon fa fa-bar-chart fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('STATISTICS') }}</a></li></ul>
+		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('ACTIVITY') }}</a></li><li data-social_menu="friends"><a href="#friends"><i class="icon fa fa-users fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('FRIEND', 2) }} <span>({{ PROFILE_COUNT_FRIENDS }})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa fa-camera fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('GALLER') }}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa fa-info fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('INFO') }}</a></li></ul>
 		<div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80% - 20px);"{% endif %}>
 			<div class="pg_social_pagesub" id="page_activity">
 				<div id="pg_social_sidel">
@@ -37,8 +37,6 @@
 						<ul id="profile_menu">
 							{% if U_USER_BAN %}<li class="profile-infoRapid"><a href="{{ U_USER_BAN }}">{{ lang('USER_BAN') }}</a></li>{% endif %}
 							{% if U_SWITCH_PERMISSIONS %}<li class="profile-infoRapid"><a href="{{ U_SWITCH_PERMISSIONS }}">{{ lang('USE_PERMISSIONS') }}</a></li>{% endif %}	
-							{% if AGE %}<li class="profile-infoRapid" id="profileAge"><a class="nolink"><i class="icon fa fa-birthday-cake" aria-hidden="true"></i> <strong>{{ lang('AGE') }}{{ lang('COLON') }}</strong> {{ AGE }}</a></li>{% endif %}
-							{% if PROFILE_GENDER %}<li class="profile-infoRapid" id="profileGender"><a class="nolink"><i class="icon fa fa-check" aria-hidden="true"></i> <strong>{{ lang('GENDER') }}{{ lang('COLON') }}</strong> {{ PROFILE_GENDER }}</a></li>{% endif %}		
 							{% if U_EMAIL %}<li class="profile-infoRapid"><dt>{{ lang('EMAIL_ADDRESS') }}{{ lang('COLON') }}</dt><dd><a href="{{ U_EMAIL }}"><i class="icon fa fa-envelope" aria-hidden="true"></i>  {{ lang('SEND_EMAIL_USER') }}</a></dd></li>{% endif %}
 							{% if U_PM %}<li class="profile-infoRapid"><dt>{{ lang('PM') }}{{ lang('COLON') }}</dt><dd><a href="{{ U_PM }}"><i class="icon fa fa-envelope" aria-hidden="true"></i>  {{ lang('SEND_PRIVATE_MESSAGE') }}</a></dd></li>{% endif %}
 							{% if U_JABBER and S_JABBER_ENABLED %}<li class="profile-infoRapid"><dt>{{ lang('JABBER') }}{{ lang('COLON') }}</dt><dd><a href="{{ U_JABBER }}" onclick="popup(this.href, 750, 320); return false;">{{ lang('SEND_JABBER_MESSAGE') }}</a></dd></li>{% elseif USER_JABBER %}<li class="profile-infoRapid"><dt>{{ lang('JABBER') }}{{ lang('COLON') }}</dt> <dd>{{ USER_JABBER }}</dd></li>{% endif %}
@@ -60,19 +58,38 @@
 								<!-- NOTE: Use a construct like this to include admin defined profile fields. Replace FIELD1 with the name of your field. -->
 								<dt>{{ PROFILE_FIELD1_NAME }}{{ lang('COLON') }}</dt> <dd>{{ PROFILE_FIELD1_VALUE }}</dd>
 							{% endif %}
-								{% if RANK_TITLE %}<li class="profile_rank">
-									{% if RANK_IMG %}{{ RANK_IMG }}<br />{% endif %}
-									{{ RANK_TITLE }}
-								</li>{% endif %}	
-							</ul>
-							{% EVENT memberlist_view_zebra_before %}
-							{% EVENT memberlist_view_zebra_after %}
+							{% if RANK_TITLE %}<li class="profile_rank">
+								{% if RANK_IMG %}{{ RANK_IMG }}<br />{% endif %}
+								{{ RANK_TITLE }}
+							</li>{% endif %}	
+						</ul>
+						{% EVENT memberlist_view_zebra_before %}
+						{% EVENT memberlist_view_zebra_after %}
+						<div class="colum" style="width: calc(100% - 20px);">
+							<dl>
+								{% if PROFILE_ABOUT_ME %}<dt>{{ lang('ABOUT_ME') }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_ABOUT_ME }}</dd>{% endif %}
+								{% if PROFILE_FAVORITE_TVSERIES %}<dt>{{ lang('FAVORITE_TVSHOW', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_FAVORITE_TVSERIES }}</dd>{% endif %}							
+								{% if PROFILE_FAVORITE_MOVIES %}<dt>{{ lang('FAVORITE_MOVIE', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_FAVORITE_MOVIES }}</dd>{% endif %}
+								{% if PROFILE_FAVORITE_MUSICS %}<dt>{{ lang('FAVORITE_MUSIC', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_FAVORITE_MUSICS }}</dd>{% endif %}	
+								{% if PROFILE_FAVORITE_BOOKS %}<dt>{{ lang('FAVORITE_BOOK', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_FAVORITE_BOOKS }}</dd>{% endif %}								
+								{% if PROFILE_FAVORITE_GAMES %}<dt>{{ lang('FAVORITE_GAME', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_FAVORITE_GAMES }}</dd>{% endif %}	
+							</dl>
+						</div>
+						<div class="colum onecolum" style="margin-top: 30px;">
+							<dl class="social_networks">
+								{% for custom_fields in loops.custom_fields %}
+								{% if custom_fields.PROFILE_FIELD_IDENT == 'phpbb_facebook' %}<dd class="{{ custom_fields.PROFILE_FIELD_IDENT }}"><a target="_blank" href="https://facebook.com/{{ custom_fields.PROFILE_FIELD_VALUE }}"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></dd>{% endif  %}
+								{% if custom_fields.PROFILE_FIELD_IDENT == 'phpbb_github' %}<dd class="{{ custom_fields.PROFILE_FIELD_IDENT }}"><a target="_blank" href="https://github.com/{{ custom_fields.PROFILE_FIELD_VALUE }}"><i class="fa fa-github" aria-hidden="true"></i> Github</a></dd>{% endif  %}
+								{% if custom_fields.PROFILE_FIELD_IDENT == 'phpbb_instagram' %}<dd class="{{ custom_fields.PROFILE_FIELD_IDENT }}"><a target="_blank" href="https://instagram.com/{{ custom_fields.PROFILE_FIELD_VALUE }}"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></dd>{% endif  %}
+								{% if custom_fields.PROFILE_FIELD_IDENT == 'phpbb_twitter' %}<dd class="{{ custom_fields.PROFILE_FIELD_IDENT }}"><a target="_blank" href="https://twitter.com/{{ custom_fields.PROFILE_FIELD_VALUE }}"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a></dd>{% endif  %}
+								{% endfor %}
+							</dl>
+						</div>
 					</div>
 				</div><div id="pg_social_sidec">
 				{% if PROFILE_STATUS_ACTION %}
 				{% INCLUDE 'activity_form.html' %}
 				{% endif %}	
-				
 				<ul id="posts_status">
 					{% INCLUDE 'activity_status.html' %}					
 				</ul>
@@ -82,10 +99,8 @@
 					<div class="panel" id="pg_social_profile_lastphotos">
 						<h3>{{ lang('LAST_PHOTO', 2) }}</h3>
 						<dl class="last_photos">
-							<ul class="template_photos" id="last_photos">
-								{% for last_photos in loops.last_photos %}
-									<li class="photo" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="../ext/pgreca/pgsocial/images/transp.gif" /></li>
-								{% endfor %}
+							<ul class="template_photos bigcolums" id="last_photos">
+								{% for last_photos in loops.last_photos %}{{ last_photos.SQL }}<li class="photo" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="../ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
 							</ul>
 						</dl>
 					</div>
@@ -93,37 +108,36 @@
 				</div>{% endif %}
 			</div>
 			<div class="pg_social_pagesub" id="page_friends">
-				<ul id="pg_social_friends">
+				<ul id="pg_social_friends" class="bigcolums">
 					{% for profileFriends in loops.profileFriends %}
-					<li class="friend" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
-						<div class="friend_cover" style="background-image:url({{ profileFriends.COVER }});">
-							<a class="friend_avatar" href="{{ profileFriends.PROFILE_URL }}">
+					<li class="friend colum" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
+						<div class="cover big_cover" style="background-image:url({{ profileFriends.COVER }});">
+							<a class="friend_avatar aavatar" href="{{ profileFriends.PROFILE_URL }}">
 								{{ profileFriends.AVATAR }}
 							</a>
 						</div>
-						<div class="friend_username">
+						<div class="friend_username username">
 							<a href="{{ profileFriends.PROFILE_URL }}" style="color:{{ profileFriends.PROFILE_COLOUR }}">
 								<span>{{ profileFriends.USERNAME }}</span>
 							</a>
 						</div>
-						<div class="friend_counts">
-							<div class="friend_count friend_count_friends">
+						<div class="friend_counts counts">
+							<div class="friend_count friend_count_friends count">
 								<b>{{ profileFriends.COUNT_FRIENDS }}</b>
 								{{ lang('FRIEND', 2) }}
-							</div><div class="friend_count friend_count_photos">
+							</div><div class="friend_count friend_count_photos count">
 								<b>{{ profileFriends.COUNT_PHOTOS }}</b>
 								{{ lang('PHOTO', 2) }}							
 							</div>
 						</div>
 						{% if profileFriends.PROFILE_FRIEND_ACTION %}
-						<div class="friend_action">
+						<div class="friend_action action">
 							{% if profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' %}
-							<!--<a>{{ lang('PG_SOCIAL_FRIENDS') }}</a>-->
-							<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=cancelFriend" id="profile_friend_cancel" data-ajax="requestFriend" data-refresh="true"><i class="fa fa-minus" aria-hidden="true"></i><span><span>{{ lang('PG_SOCIAL_FRIENDS_REMOVE') }}</span></a>
+							<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=cancelFriend" id="profile_friend_cancel" data-ajax="requestFriend" data-refresh="true"><i class="fa fa-minus" aria-hidden="true"></i><span>{{ lang('PG_SOCIAL_FRIENDS_REMOVE') }}</span></a>
 							{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' %}
 							<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=addFriend" id="profile_friend_add" data-ajax="requestFriend" data-refresh="true"><i class="fa fa-plus" aria-hidden="true"></i><span>{{ lang('PG_SOCIAL_FRIENDS_ADD') }}</span></a>
 							{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' %}
-							<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=undoFriend" id="profile_friend_undo" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_CANCEL_REQ') }}</a>
+							<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=undoFriend" id="profile_friend_undo" data-ajax="requestFriend" data-refresh="true"><i class="fa fa-minus" aria-hidden="true"></i><span>{{ lang('PG_SOCIAL_FRIENDS_CANCEL_REQ') }}</span></a>
 							{% endif %}
 						</div>
 						{% endif %}
@@ -133,41 +147,108 @@
 			</div>
 			<div class="pg_social_pagesub" id="page_gallery">
 				{% if not GALLERY_NAME %}
-				<ul class="template_photos" id="pg_social_gallery">
-					{% for social_gallery in loops.social_gallery %}
-					<li class="gallery" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}" style="background-image:url('{{ social_gallery.PHOTO_COVER }}')">
-						<a href="{{ social_gallery.GALLERY_URL }}" class="gallery_name">
-							<div class="gallery_count">{{ social_gallery.GALLERY_COUNT }}</div>
-							<h5>{{ social_gallery.GALLERY_NAME }}</h5>
-						</a>
-						<img src="../ext/pgreca/pgsocial/images/transpe.gif" />
-					</li>
-					{% endfor %}
+				<ul class="template_photos bigcolums" id="pg_social_gallery">
+					<!--<li class="gallery colum" id="pg_social_gallery_create">
+					</li>-->{% for social_gallery in loops.social_gallery %} {{ social_gallery.SQL }}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}">
+						<div class="cover" style="background-image:url('{{ social_gallery.PHOTO_COVER }}')">
+							<img src="../ext/pgreca/pgsocial/images/transp.gif" />
+						</div>
+						<div class="gallery_name username">
+							<a href="{{ social_gallery.GALLERY_URL }}">
+								<span>{{ social_gallery.GALLERY_NAME }}</h5>
+							</a>						
+						</div>						
+						<div class="gallery_counts counts counts">
+							<div class="gallery_count_count_photos count">
+								{{ social_gallery.GALLERY_COUNT }}
+							</div>
+						</div>
+					</li>{% endfor %}
 				</ul>
 				{% endif %}
 				{% if GALLERY_NAME %}
-				<div class="panel">
+				<div class="panel" style="margin-bottom: 30px;">
 					<h5>
 						<a href="{{ U_VIEW_PROFILE }}#gallery"><i class="icon fa fa-arrow-left" aria-hidden="true"></i></a> {{ GALLERY_NAME }}
 					</h5>
 				</div>
-				<ul class="template_photos" id="pg_social_photos">
-					{% for social_photos in loops.social_photos %}<li class="photo" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}" style="background-image:url({{ social_photos.PHOTO_FILE }})"><img src="../ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
+				<ul class="template_photos bigcolums" id="pg_social_photos">
+					{% for social_photos in loops.social_photos %}<li class="photo colum" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}" style="background-image:url({{ social_photos.PHOTO_FILE }})">
+						<img src="../ext/pgreca/pgsocial/images/transp.gif" />
+					</li>{% endfor %}
 				</ul>
 				{% endif %}
 			</div>
 			<div class="pg_social_pagesub" id="page_info">
-				{% EVENT memberlist_view_contact_before %}
-				{% EVENT memberlist_view_contact_custom_fields_before %}
-				<div class="panel">
-					<h3>{L_CONTACT_USER}</h3>
-					<dl class="details">
-						{% for custom_fields in loops.custom_fields %}
-						{% if not custom_fields.S_PROFILE_CONTACT %}
-						<dt>{{ custom_fields.PROFILE_FIELD_NAME }}{{ lang('COLON') }}</dt> <dd>{{ custom_fields.PROFILE_FIELD_VALUE }}</dd>
-						{% endif %}
-						{% endfor %}
-					</dl>
+				<div id="pg_social_sidel">
+					<div class="panel">
+						<h3>{{ lang('PERSONAL_INFO') }}</h3>
+						<div class="colum onecolum">
+							<dl>
+								{% if PROFILE_ABOUT_ME %}<dt>{{ lang('ABOUT_ME') }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_ABOUT_ME }}</dd>{% endif %}			
+								{% if AGE %}<dt>{{ lang('AGE') }}{{ lang('COLON') }}</dt><dd>{{ AGE }}</dd>{% endif %}
+								{% if JOINED %}<dt>{{ lang('JOINED') }}{{ lang('COLON') }}</dt><dd>{{ JOINED }}</dd>{% endif %}
+								{% if LAST_ACTIVE %}<dt>{{ lang('LAST_ACTIVE') }}{{ lang('COLON') }}</dt><dd>{{ LAST_ACTIVE }}</dd>{% endif %}
+								{% if PROFILE_GENDER %}<dt>{{ lang('GENDER') }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_GENDER }}</dd>{% endif %}		
+							</dl>
+						</div>
+						{% EVENT memberlist_view_contact_before %}
+						{% EVENT memberlist_view_contact_custom_fields_before %}
+						<div class="colum onecolum" style="margin-top: 30px;">
+							<dl class="social_networks">
+								{% for custom_fields in loops.custom_fields %}
+								{% if custom_fields.PROFILE_FIELD_IDENT == 'phpbb_facebook' %}<dd class="{{ custom_fields.PROFILE_FIELD_IDENT }}"><a target="_blank" href="https://facebook.com/{{ custom_fields.PROFILE_FIELD_VALUE }}"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></dd>{% endif  %}
+								{% if custom_fields.PROFILE_FIELD_IDENT == 'phpbb_github' %}<dd class="{{ custom_fields.PROFILE_FIELD_IDENT }}"><a target="_blank" href="https://github.com/{{ custom_fields.PROFILE_FIELD_VALUE }}"><i class="fa fa-github" aria-hidden="true"></i> Github</a></dd>{% endif  %}
+								{% if custom_fields.PROFILE_FIELD_IDENT == 'phpbb_instagram' %}<dd class="{{ custom_fields.PROFILE_FIELD_IDENT }}"><a target="_blank" href="https://instagram.com/{{ custom_fields.PROFILE_FIELD_VALUE }}"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></dd>{% endif  %}
+								{% if custom_fields.PROFILE_FIELD_IDENT == 'phpbb_twitter' %}<dd class="{{ custom_fields.PROFILE_FIELD_IDENT }}"><a target="_blank" href="https://twitter.com/{{ custom_fields.PROFILE_FIELD_VALUE }}"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a></dd>{% endif  %}
+								{% endfor %}
+							</dl>
+						</div>
+					</div>	
+				</div><div id="pg_social_sidec">
+					<div class="panel">
+						<h3>{{ lang('HOBBIES_INTERESTS') }}</h3>
+						<div class="colum">
+							<dl>
+								{% if PROFILE_HOBBIES %}<dt>{{ lang('HOBBY', 2) }}{{ lang('COLON') }}</dt>
+								<dd>{{ PROFILE_HOBBIES }}</dd>{% endif %}
+								{% if PROFILE_FAVORITE_TVSERIES %}<dt>{{ lang('FAVORITE_TVSHOW', 2) }}{{ lang('COLON') }}</dt>
+								<dd>{{ PROFILE_FAVORITE_TVSERIES }}</dd>{% endif %}							
+								{% if PROFILE_FAVORITE_MOVIES %}<dt>{{ lang('FAVORITE_MOVIE', 2) }}{{ lang('COLON') }}</dt>
+								<dd>{{ PROFILE_FAVORITE_MOVIES }}</dd>{% endif %}		
+							</dl>
+						</div><div class="colum">
+							<dl>
+								{% if PROFILE_FAVORITE_MUSICS %}<dt>{{ lang('FAVORITE_MUSIC', 2) }}{{ lang('COLON') }}</dt>
+								<dd>{{ PROFILE_FAVORITE_MUSICS }}</dd>{% endif %}	
+								{% if PROFILE_FAVORITE_BOOKS %}<dt>{{ lang('FAVORITE_BOOK', 2) }}{{ lang('COLON') }}</dt>
+								<dd>{{ PROFILE_FAVORITE_BOOKS }}</dd>{% endif %}								
+								{% if PROFILE_FAVORITE_GAMES %}<dt>{{ lang('FAVORITE_GAME', 2) }}{{ lang('COLON') }}</dt>
+								<dd>{{ PROFILE_FAVORITE_GAMES }}</dd>{% endif %}	
+							</dl>
+						</div>
+					</div>
+					<div class="panel">
+						<h3>{L_USER_FORUM}</h3>
+						<dl class="details">
+							{% EVENT memberlist_view_user_statistics_before %}
+							
+							{% if S_WARNINGS %}
+							<dt>{{ lang('WARNINGS') }}{{ lang('COLON') }} </dt>
+							<dd><strong>{{ WARNINGS }}</strong>{% if U_NOTES or U_WARN %} [ {% if U_NOTES %}<a href="{{ U_NOTES }}">{{ lang('VIEW_NOTES') }}</a>{% endif %} {% if U_WARN %}{% if U_NOTES %} | {% endif %}<a href="{{ U_WARN }}">{{ lang('WARN_USER') }}</a>{% endif %} ]{% endif %}</dd>
+							{% endif %}
+							<dt>{{ lang('TOTAL_POSTS') }}{{ lang('COLON') }}</dt>
+							<dd>{{ POSTS }} {% if S_DISPLAY_SEARCH %}| <strong><a href="{{ U_SEARCH_USER }}">{{ lang('SEARCH_USER_POSTS') }}</a></strong>{% endif %}
+								{% if POSTS_PCT %}<br />({{ POSTS_PCT }} / {{ POSTS_DAY }}){% endif %}
+								{% if POSTS_IN_QUEUE and U_MCP_QUEUE %}<br />(<a href="{{ U_MCP_QUEUE }}">{{ lang('POSTS_IN_QUEUE') }}</a>){% elseif POSTS_IN_QUEUE %}<br />({{ lang('POSTS_IN_QUEUE') }}){% endif %}
+							</dd>
+							{% if S_SHOW_ACTIVITY and POSTS %}
+							<dt>{{ lang('ACTIVE_IN_FORUM') }}{{ lang('COLON') }}</dt> <dd>{% if ACTIVE_FORUM != '' %}<strong><a href="{{ U_ACTIVE_FORUM }}">{{ ACTIVE_FORUM }}</a></strong><br />({{ ACTIVE_FORUM_POSTS }} / {{ ACTIVE_FORUM_PCT }}){% else %} - {% endif %}</dd>
+							<dt>{{ lang('ACTIVE_IN_TOPIC') }}{{ lang('COLON') }}</dt> <dd>{% if ACTIVE_TOPIC != '' %}<strong><a href="{{ U_ACTIVE_TOPIC }}">{{ ACTIVE_TOPIC }}</a></strong><br />({{ ACTIVE_TOPIC_POSTS }} / {{ ACTIVE_TOPIC_PCT }}){% else %} - {% endif %}</dd>
+							{% endif %}
+							{% EVENT memberlist_view_user_statistics_after %}
+						</dl>	
+					</div>
 				</div>
 				{% if SIGNATURE %}
 				<div class="panel">
@@ -177,33 +258,8 @@
 					</dl>
 				</div>
 				{% endif %}
-				<!--{% EVENT memberlist_view_content_append %}-->
-				
 			</div>
-			<div class="pg_social_pagesub" id="page_statistics">
-				<div class="panel">
-					<h3>{L_USER_FORUM}</h3>
-					<dl class="details">
-						{% EVENT memberlist_view_user_statistics_before %}
-						<dt>{{ lang('JOINED') }}{{ lang('COLON') }}</dt> <dd>{{ JOINED }}</dd>
-						<dt>{{ lang('LAST_ACTIVE') }}{{ lang('COLON') }}</dt> <dd>{{ LAST_ACTIVE }}</dd>
-						{% if S_WARNINGS %}
-						<dt>{{ lang('WARNINGS') }}{{ lang('COLON') }} </dt>
-						<dd><strong>{{ WARNINGS }}</strong>{% if U_NOTES or U_WARN %} [ {% if U_NOTES %}<a href="{{ U_NOTES }}">{{ lang('VIEW_NOTES') }}</a>{% endif %} {% if U_WARN %}{% if U_NOTES %} | {% endif %}<a href="{{ U_WARN }}">{{ lang('WARN_USER') }}</a>{% endif %} ]{% endif %}</dd>
-						{% endif %}
-						<dt>{{ lang('TOTAL_POSTS') }}{{ lang('COLON') }}</dt>
-							<dd>{{ POSTS }} {% if S_DISPLAY_SEARCH %}| <strong><a href="{{ U_SEARCH_USER }}">{{ lang('SEARCH_USER_POSTS') }}</a></strong>{% endif %}
-								{% if POSTS_PCT %}<br />({{ POSTS_PCT }} / {{ POSTS_DAY }}){% endif %}
-								{% if POSTS_IN_QUEUE and U_MCP_QUEUE %}<br />(<a href="{{ U_MCP_QUEUE }}">{{ lang('POSTS_IN_QUEUE') }}</a>){% elseif POSTS_IN_QUEUE %}<br />({{ lang('POSTS_IN_QUEUE') }}){% endif %}
-							</dd>
-						{% if S_SHOW_ACTIVITY and POSTS %}
-							<dt>{{ lang('ACTIVE_IN_FORUM') }}{{ lang('COLON') }}</dt> <dd>{% if ACTIVE_FORUM != '' %}<strong><a href="{{ U_ACTIVE_FORUM }}">{{ ACTIVE_FORUM }}</a></strong><br />({{ ACTIVE_FORUM_POSTS }} / {{ ACTIVE_FORUM_PCT }}){% else %} - {% endif %}</dd>
-							<dt>{{ lang('ACTIVE_IN_TOPIC') }}{{ lang('COLON') }}</dt> <dd>{% if ACTIVE_TOPIC != '' %}<strong><a href="{{ U_ACTIVE_TOPIC }}">{{ ACTIVE_TOPIC }}</a></strong><br />({{ ACTIVE_TOPIC_POSTS }} / {{ ACTIVE_TOPIC_PCT }}){% else %} - {% endif %}</dd>
-						{% endif %}
-						{% EVENT memberlist_view_user_statistics_after %}
-					</dl>	
-				</div>
-			</div>
+			
 		</div>
 	</div>
 </div>

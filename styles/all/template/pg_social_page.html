@@ -9,7 +9,7 @@
 	{% endif %}
 	<div id="pg_social_header" style="background-image:url({{ page.PAGE_COVER }}); background-position: left {{ page.PAGE_COVER_POSITION }}px;">	
 		<div id="pg_social_actionprofile">
-			<a class="page_list_buttonLike" data-page="{{ page.PAGE_ID }}"><span class="{{ page.PAGE_LIKE_CHECK }}">{{ page.PAGE_LIKE }}</span></a>	
+			<a class="page_list_buttonLike" data-page="{{ page.PAGE_ID }}"><span class="{{ page.PAGE_LIKE_CHECK }}">{{ page.PAGE_LIKE_CHECKLANG }}</span></a>	
 			{% if page.PAGE_ACTION %}
 			<div id="profile_upload">
 				<input id="profile_upload_submit" type="submit" value="{{ lang('PROFILE_UPDATE') }}" />
@@ -22,66 +22,113 @@
 	</div><div id="pg_social_main">
 		<div class="profile_avatar">{{ page.PAGE_AVATAR }}</div>			
 		<h2 class="memberlist-username">{{ page.PAGE_USERNAME }}</h2>
-		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa-user fa-fw" aria-hidden="true"></i> {{ lang('ACTIVITY') }}</a></li><!--<li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i> {{ lang('LIKES') }} <span>({{ page.PAGE_COUNT_FOLLOWER }})</span></a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa-camera fa-fw" aria-hidden="true"></i> {{ lang('GALLERY') }}</a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i> {{ lang('INFO') }}</a></li>--></ul>
-		<div id="pg_social_sidel">
-			SIDE L
-		</div><div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80%);"{% endif %}>
+		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('ACTIVITY') }}</a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa fa-camera fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('GALLER') }}</a></li><!--<li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i> {{ lang('LIKES') }} <span>({{ page.PAGE_COUNT_FOLLOWER }})</span></a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i> {{ lang('INFO') }}</a></li>--></ul>
+		
+		<div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80%);"{% endif %}>
 			<div class="pg_social_pagesub" id="page_activity">
-				<div style="width: 100%; margin-bottom: 10px; text-align: center;">
-					<script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
-					<script type='text/javascript'>
-						kofiwidget2.init('{{ lang("PG_SOCIAL_SUPPORT_EXT_KOFI") }}', '#46b798', 'A308YMA');kofiwidget2.draw();
-					</script>
-				</div>
-				{% if page.PAGE_ACTION %}
-				<form method="post" id="wall_post">
-					<div class="wall_post_area">
-						<div contenteditable="true" required name="wall_post_text" id="wall_post_text" placeholder="{{ lang('PG_SOCIAL_WRITE_SOMETHING') }}..."></div>
+				<div id="pg_social_sidel">
+					<div class="panel">
+						<div class="colum" style="width: calc(100% - 20px);">
+							<dl>
+								{% if page.ABOUT_WE %}<dd>{{ page.ABOUT_WE }}</dd>{% endif %}
+								<dt>{{ lang('CREATED') }}{{ lang('COLON') }}</dt><dd>{{ page.PAGE_REGDATE }}</dd>
+								<dt>{{ lang('LIKE', 1) }}{{ lang('COLON') }}</dt><dd>{{ page.PAGE_LIKE }}</dd>
+							</dl>
+						</div>
 					</div>
-					<div class="wall_post_option">
-						<label id="pg_social_wall_post_img">{{ lang('ATTACH_PICTURE') }}<input name="wall_post_img" id="wall_post_img" type="file" accept="image/*" /></label>
-						<input name="submit" type="submit" value="{{ lang('PUBLIC') }}" />
+				</div><div id="pg_social_sidec">
+					{% if page.PAGE_ACTION %}
+					<form method="post" id="wall_post">
+						<div class="wall_post_area">
+							<div contenteditable="true" required name="wall_post_text" id="wall_post_text" placeholder="{{ lang('PG_SOCIAL_WRITE_SOMETHING') }}..."></div>
+						</div>
+						<div class="wall_post_option">
+							<label id="pg_social_wall_post_img"><i class="fa fa-camera" aria-hidden="true"></i><span style="display:none">{{ lang('ATTACH_PICTURE') }}</span><input name="wall_post_img" id="wall_post_img" type="file" accept="image/*" /></label>
+							<input name="submit" type="submit" value="{{ lang('PUBLIC') }}" />
+						</div>
+						<div id="wall_post_thumb"><img id="wall_post_thumb_img" src="" /></div>
+						{{ S_HIDDEN_FIELDS }}
+						{{ S_FORM_TOKEN }}
+					</form>
+					{% endif %}		
+					<ul id="posts_status">
+						{% INCLUDE 'activity_status.html' %}
+					</ul>
+					<div id="load_more"></div>
+				</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
+					{% if loops.last_photos %}
+					<div class="panel" id="pg_social_profile_lastphotos">
+						<h3>{{ lang('LAST_PHOTO', 2) }}</h3>
+						<dl class="last_photos">
+							<ul class="template_photos bigcolums" id="last_photos">
+								{% for last_photos in loops.last_photos %}<li class="photo" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="../ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
+							</ul>
+						</dl>
 					</div>
-					<div id="wall_post_thumb"><img id="wall_post_thumb_img" src="" /></div>
-					{{ S_HIDDEN_FIELDS }}
-					{{ S_FORM_TOKEN }}
-				</form>
-				{% endif %}		
-				<ul id="posts_status">
-					{% INCLUDE 'activity_status.html' %}
-				</ul>
-				<div id="load_more"></div>
+					{% endif %}
+				</div>{% endif %}	
 			</div>
-		</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
-			SIDE R
-			<div class="panel ads" style="display: none;">
-				<div style="width:100%; text-align: center">
-					<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-					<!-- PGreca Social - Sidebar -->
-					<ins class="adsbygoogle"
-						 style="display:block"
-						 data-ad-client="ca-pub-6181929637339131"
-						 data-ad-slot="8919244494"
-						 data-ad-format="auto"
-						 data-full-width-responsive="true"></ins>
-					<script>
-					(adsbygoogle = window.adsbygoogle || []).push({});
-					</script>
+			<div class="pg_social_pagesub" id="page_gallery">
+				{% if not GALLERY_NAME %}
+				<ul class="template_photos bigcolums" id="pg_social_gallery">
+					<li class="gallery colum" id="pg_social_gallery_create">
+					</li>{% for social_gallery in loops.social_gallery %}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}">
+						<div class="cover" style="background-image:url('{{ social_gallery.PHOTO_COVER }}')">
+							<img src="../ext/pgreca/pgsocial/images/transp.gif" />
+						</div>
+						<div class="gallery_name username">
+							<a href="{{ social_gallery.GALLERY_URL }}">
+								<span>{{ social_gallery.GALLERY_NAME }}</h5>
+							</a>						
+						</div>						
+						<div class="gallery_counts counts counts">
+							<div class="gallery_count_count_photos count">
+								{{ social_gallery.GALLERY_COUNT }}
+							</div>
+						</div>
+					</li>{% endfor %}
+				</ul>
+				{% endif %}
+				{% if GALLERY_NAME %}
+				<div class="panel" style="margin-bottom: 30px;">
+					<h5>
+						<a href="{{ page.PAGE_URL }}#gallery"><i class="icon fa fa-arrow-left" aria-hidden="true"></i></a> {{ GALLERY_NAME }}
+					</h5>
 				</div>
-			</div>	
-		</div>{% endif %}	
+				<ul class="template_photos bigcolums" id="pg_social_photos">
+					{% for social_photos in loops.social_photos %}<li class="photo colum" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}" style="background-image:url({{ social_photos.PHOTO_FILE }})">
+						<img src="../ext/pgreca/pgsocial/images/transp.gif" />
+					</li>{% endfor %}
+				</ul>
+				{% endif %}
+			</div>
+		</div>
 	</div>
 {% endfor %}
 {% else %}
-<div id="pg_social_cont" style="width:calc({% if not PG_SOCIAL_SIDEBAR_RIGHT %}100{% else %}80{% endif %}%);">			
-	<ul id="pages_list">
-		{% for pages in loops.pages %}
-		<li class="page_list" id="page_list_{{ pages.PAGE_ID }}">
-			<a class="page_list_head" style="background-image: url({{ pages.PAGE_AVATAR }});" href="{{ pages.PAGE_URL }}"></a>
-			<a class="page_list_username" href="{{ pages.PAGE_URL }}">{{ pages.PAGE_USERNAME }}</a>
-			<span class="page_list_likesCount">{{ lang('LIKE_TO') }} {{ pages.PAGE_COUNT_FOLLOWER }}</span><a class="page_list_buttonLike" data-page="{{ pages.PAGE_ID }}"><span class="{{ pages.PAGE_LIKE_CHECK }}">{{ pages.PAGE_LIKE }}</span></a>
-		</li>
-		{% endfor %}
+<div id="pg_social_cont" style="width:calc({% if not PG_SOCIAL_SIDEBAR_RIGHT %}100{% else %}78{% endif %}%);">			
+	<ul id="pages_list" class="bigcolums">
+		{% for pages in loops.pages %}<li class="page_list colum" id="page_list_{{ pages.PAGE_ID }}">
+			<div class="cover big_cover" style="background-image:url('{{ pages.PAGE_COVER }}')">
+				<a class="aavatar" href="{{pages.PAGE_URL }}">
+					{{ pages.PAGE_AVATAR }}
+				</a>
+			</div>
+			<div class="username">
+				<a href="{{ pages.PAGE_URL }}">
+					<span>{{ pages.PAGE_USERNAME }}</span>
+				</a>
+			</div>
+			<div class="counts">
+				<div class="like_count count">
+					<b>{{ pages.PAGE_COUNT_FOLLOWER }}</b>
+					{{ lang('LIKE', 1) }}
+				</div>
+			</div>
+			<div class="action">
+				<a class="page_list_buttonLike {{ pages.PAGE_LIKE_CHECK }}" data-page="{{ pages.PAGE_ID }}"><i class="fa fa-star" aria-hidden="true"></i><span>{{ pages.PAGE_LIKE }}</span></a>
+			</div>
+		</li>{% endfor %}
 	</ul>
 </div><div id="pg_social_sider">
 	{% if PAGE_CREATE %}

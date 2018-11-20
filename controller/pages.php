@@ -101,7 +101,11 @@ class pages
 		{	
 			$page_title = $this->user->lang['PAGES'];
 	
-			$sql = "SELECT * FROM ".$this->table_prefix."pg_social_pages WHERE page_username_clean = '".$name."'";
+			$sql = "SELECT p.*, (SELECT COUNT(*) 
+							FROM ".$this->table_prefix."pg_social_pages_like as l
+							WHERE l.page_id = p.page_id) AS countlike
+			FROM ".$this->table_prefix."pg_social_pages as p
+			WHERE p.page_username_clean = '".$name."'";
 			$result = $this->db->sql_query($sql);
 			$page = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
@@ -115,23 +119,28 @@ class pages
 				if($this->social_page->user_likePages($this->user->data['user_id'], $page['page_id']) == $page['page_id']) 
 				{
 					$page_likeCheck = "like"; 
-					$page_like = $this->user->lang('LIKE', 2);
+					$page_likelang = $this->user->lang('LIKE', 2);
 				}
 				else 
 				{
 					$page_likeCheck = "dislike"; 
-					$page_like = $this->user->lang('LIKE', 1); 
+					$page_likelang = $this->user->lang('LIKE', 1); 
 				}
 					
 				$this->template->assign_block_vars('page', array(
-					'PAGE_ID'			=> $page['page_id'],
-					'PAGE_ALERT'		=> $page_alert,
-					'PAGE_ACTION'		=> $page['page_action'],
-					'PAGE_AVATAR'		=> '<img src="'.generate_board_url().'/ext/pgreca/pgsocial/images/'.($page['page_avatar'] != "" ? $page_avatar = 'upload/'.$page['page_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />',	     
-					'PAGE_COVER'		=> $this->pg_social_helper->social_cover($page['page_cover']),
-					'PAGE_USERNAME'		=> $page['page_username'],
-					'PAGE_LIKE'			=> $page_like,
-					'PAGE_LIKE_CHECK'	=> $page_likeCheck."page",					
+					'PAGE_ID'				=> $page['page_id'],
+					'PAGE_ALERT'			=> $page_alert,
+					'PAGE_ACTION'			=> $page['page_action'],
+					'PAGE_AVATAR'			=> $this->pg_social_helper->social_avatar_page($page['page_avatar']),		     
+					'PAGE_COVER'			=> $this->pg_social_helper->social_cover($page['page_cover']),
+					'PAGE_URL'				=> $this->helper->route('pages_page', array('name' => $page['page_username_clean'])),
+					'PAGE_USERNAME'			=> $page['page_username'],
+					'PAGE_ABOUT_WE'			=> $page['page_about'],
+					'PAGE_REGDATE'			=> $this->pg_social_helper->time_ago($page['page_regdate']),
+					
+					'PAGE_LIKE'				=> $page['countlike'],
+					'PAGE_LIKE_CHECK'		=> $page_likeCheck."page",	
+					'PAGE_LIKE_CHECKLANG'	=> $page_likelang,						
 				));
 				
 				$this->template->assign_vars(array(
@@ -139,8 +148,12 @@ class pages
 					
 					'STATUS_WHERE'				=> 'page',
 					'PROFILE_ID'				=> $page['page_id'],
+					'GALLERY_NAME'				=> $this->social_photo->gallery_info($this->request->variable('gall', ''))['gallery_name'],
 				));
 				$this->post_status->getStatus('page', $page['page_id'], 0, "all", "seguel", "");
+				$this->social_photo->getPhotos(1, "last", $page['page_id']);
+				$this->social_photo->getGallery($page['page_id'], "page");
+				if($this->request->variable('gall', '')) $this->social_photo->getPhotos(1, "gall", $page['page_id'], $this->request->variable('gall', ''));				
 			}
 			else
 			{				
@@ -158,7 +171,6 @@ class pages
 				while($pages = $this->db->sql_fetchrow($result))
 				{
 					if($page['page_avatar'] != "") $page_avatar = 'upload/'.$page['page_avatar']; else $page_avatar = 'page_no_avatar.jpg';
-					if($pages['countlike'] > 1 || $pages['countlike'] == 0) $people = 'persone'; else $people = 'persona'; 
 					if($this->social_page->user_likePages($this->user->data['user_id'], $pages['page_id']) == $pages['page_id']) $page_likeCheck = "like"; else $page_likeCheck = "dislike";
 					if($this->social_page->user_likePages($this->user->data['user_id'], $pages['page_id']) == $pages['page_id']) 
 					{
@@ -172,10 +184,12 @@ class pages
 					}
 					$this->template->assign_block_vars('pages', array(
 						'PAGE_ID'				=> $pages['page_id'],
-						'PAGE_AVATAR'			=> generate_board_url().'/ext/pgreca/pgsocial/images/'.$page_avatar,	     
-						'PAGE_COUNT_FOLLOWER'	=> $pages['countlike'].' '.$people,
+						'PAGE_AVATAR'			=> $this->pg_social_helper->social_avatar_page($pages['page_avatar']),	     
+						'PAGE_COVER'			=> $this->pg_social_helper->social_cover($pages['page_cover']),
+						'PAGE_COUNT_FOLLOWER'	=> $pages['countlike'],
 						'PAGE_USERNAME'			=> $pages['page_username'],
 						'PAGE_URL'				=> $this->helper->route('pages_page', array('name' => $pages['page_username_clean'])),
+						'PAGE_REGDATE'			=> $page['page_regdate'],
 						'PAGE_LIKE'				=> $page_like,
 						'PAGE_LIKE_CHECK'		=> $page_likeCheck."page",
 					));	
@@ -185,7 +199,7 @@ class pages
 					'PAGES'									=> true,
 					'PAGE_CREATE'							=> $this->auth->acl_get('u_page_create') ? true : false,
 					'PAGE_FORM'								=> append_sid($this->helper->route('pages_page'), 'mode=page_new'),
-				));				
+				));			
 			}
 			return $this->helper->render('pg_social_page.html', $page_title);
 		}

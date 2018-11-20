@@ -151,6 +151,20 @@ class helper
 		return $cover;		
 	}
 	
+	public function social_avatar_page($avatar)
+	{
+		if($avatar)
+		{
+			$avatar = 'upload/'.$avatar;
+		}
+		else
+		{
+			$avatar = 'page_no_avatar.jpg';
+		}
+		$url = generate_board_url().'/ext/pgreca/pgsocial/images/'.$avatar;
+		$avatar = '<img class="avatar" src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url('.$url.')" />';
+		return $avatar;
+	}
 	/* AVATAR THUMB ON SOCIAL */
 	public function social_avatar_thumb($avatar, $avatar_type, $avatar_width, $avatar_height)
 	{

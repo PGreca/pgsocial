@@ -269,6 +269,14 @@ class listener implements EventSubscriberInterface
 				'PROFILE_USERNAME'			=>$member['username'],
 				'PROFILE_COLOUR'			=> "#".$member['user_colour'],
 				'PROFILE_QUOTE'				=> $member['user_quote'],
+				'PROFILE_ABOUT_ME'			=> $member['user_about'],
+				'PROFILE_STATUS_LIFE'		=> $member['user_status_life'],
+				'PROFILE_HOBBIES'			=> $member['user_hobbies'],
+				'PROFILE_FAVORITE_TVSERIES'	=> $member['user_favorite_tvseries'],
+				'PROFILE_FAVORITE_MOVIES'	=> $member['user_favorite_movies'],
+				'PROFILE_FAVORITE_GAMES'	=> $member['user_favorite_games'],
+				'PROFILE_FAVORITE_MUSICS'	=> $member['user_favorite_musics'],
+				'PROFILE_FAVORITE_BOOKS'	=> $member['user_favorite_books'],				
 				'PROFILE_GENDER'			=> $this->user->lang($profile_gender),
 				'PROFILE_COUNT_FRIENDS'		=> $this->social_zebra->countFriends($user_id),
 				
@@ -331,30 +339,60 @@ class listener implements EventSubscriberInterface
 	{
 		if(DEFINED('IN_ADMIN'))
 		{
-			$user_quote = $event['user_row']['user_quote'];
 			$user_gender = $event['user_row']['user_gender'];
+			$user_quote = $event['user_row']['user_quote'];
+			$user_about = $event['user_row']['user_about'];
+			$user_status_life = $event['user_row']['user_status_life'];
+			$user_hobbies = $event['user_row']['user_hobbies'];
+			$user_favorite_tvseries = $event['user_row']['user_favorite_tvseries'];
+			$user_favorite_movies = $event['user_row']['user_favorite_movies'];
+			$user_favorite_games = $event['user_row']['user_favorite_games'];
+			$user_favorite_musics = $event['user_row']['user_favorite_musics'];
+			$user_favorite_books = $event['user_row']['user_favorite_books'];
 		}
 		else
 		{
-			$user_quote = $this->user->data['user_quote'];
 			$user_gender = $this->user->data['user_gender'];
+			$user_quote = $this->user->data['user_quote'];
+			$user_about = $this->user->data['user_about'];
+			$user_status_life = $this->user->data['user_status_life'];
+			$user_hobbies = $this->user->data['user_hobbies'];
+			$user_favorite_tvseries = $this->user->data['user_favorite_tvseries'];
+			$user_favorite_movies = $this->user->data['user_favorite_movies'];
+			$user_favorite_games = $this->user->data['user_favorite_games'];
+			$user_favorite_musics = $this->user->data['user_favorite_musics'];
+			$user_favorite_books = $this->user->data['user_favorite_books'];
 		}
 		
 		// Request the user option vars and add them to the data array
 		$event['data'] = array_merge($event['data'], array(
-			'user_quote'	=> $this->request->variable('user_quote', $user_quote),
-			'user_gender'	=> $this->request->variable('user_gender', $user_gender),
+			'user_gender'					=> $this->request->variable('user_gender', $user_gender),
+			'user_quote'					=> $this->request->variable('user_quote', $user_quote),
+			'user_about'					=> $this->request->variable('user_about', $user_about),
+			'user_status_life'				=> $this->request->variable('user_status_life', $user_status_life),
+			'user_hobbies'					=> $this->request->variable('user_hobbies', $user_hobbies),
+			'user_favorite_tvseries'		=> $this->request->variable('user_favorite_tvseries', $user_favorite_tvseries),
+			'user_favorite_movies'			=> $this->request->variable('user_favorite_movies', $user_favorite_movies),
+			'user_favorite_games'			=> $this->request->variable('user_favorite_games', $user_favorite_games),
+			'user_favorite_musics'			=> $this->request->variable('user_favorite_musics', $user_favorite_musics),
+			'user_favorite_books	'		=> $this->request->variable('user_favorite_books', $user_favorite_books),
 		));
 
 		$this->template->assign_vars(array(
-			'QUOTE'				=> $user_quote,
-			'PROFILE_GENDER'	=> $user_gender,
+			'PROFILE_GENDER'			=> $user_gender,
+			'QUOTE'						=> $user_quote,
+			'PROFILE_ABOUT'				=> $user_about,
+			'PROFILE_STATUS_LIFE'		=> $user_status_life,
+			'PROFILE_HOBBIES'			=> $user_hobbies,
+			'PROFILE_FAVORITE_TVSERIES'	=> $user_favorite_tvseries,
+			'PROFILE_FAVORITE_MOVIES'	=> $user_favorite_movies,
+			'PROFILE_FAVORITE_GAMES'	=> $user_favorite_games,
+			'PROFILE_FAVORITE_MUSICS'	=> $user_favorite_musics,
+			'PROFILE_FAVORITE_BOOKS'	=> $user_favorite_books,
 		));
 	}
 	
 	/**
-	* Validate users changes to their gender
-	*
 	* @param object $event The event object
 	* @return null
 	* @access public
@@ -363,9 +401,20 @@ class listener implements EventSubscriberInterface
 	{
 		$array = $event['error'];
 		//ensure gender is validated
+		if (!function_exists('validate_data'))
+		{
+			include($this->root_path . 'includes/functions_user.' . $this->php_ext);
+		}
 		$validate_array = array(
-			'user_quote'	=> array('string', true, 0, 255),
-			'user_gender'	=> array('num', true, 0, 99),
+			'user_gender'				=> array('num', true, 1, 2),
+			'user_quote'				=> array('string', true, 0, 255),
+			'user_about'				=> array('string', true, 0, 255),
+			'user_status_life'			=> array('num', true, 1, 2),
+			'user_hobbies'				=> array('string', true, 0, 350),
+			'user_favorite_tvseries'	=> array('string', true, 0, 350),
+			'user_favorite_movies'		=> array('string', true, 0, 350),
+			'user_favorite_games'		=> array('string', true, 0, 350),
+			'user_favorite_musics'		=> array('string', true, 0, 350),	
 		);
 		$error = validate_data($event['data'], $validate_array);
 		$event['error'] = array_merge($array, $error);
@@ -381,8 +430,15 @@ class listener implements EventSubscriberInterface
 	public function user_profile_sql($event)
 	{
 		$event['sql_ary'] = array_merge($event['sql_ary'], array(
-			'user_quote'	=> $event['data']['user_quote'],
-			'user_gender'	=> $event['data']['user_gender'],
+			'user_gender'				=> $event['data']['user_gender'],
+			'user_quote'				=> $event['data']['user_quote'],
+			'user_about'				=> $event['data']['user_about'],
+			'user_status_life'			=> $event['data']['user_status_life'],
+			'user_hobbies'				=> $event['data']['user_hobbies'],
+			'user_favorite_tvseries'	=> $event['data']['user_favorite_tvseries'],
+			'user_favorite_movies'		=> $event['data']['user_favorite_movies'],
+			'user_favorite_games'		=> $event['data']['user_favorite_games'],
+			'user_favorite_musics'		=> $event['data']['user_favorite_musics'],
 		));
 	}
 	

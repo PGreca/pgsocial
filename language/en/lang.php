@@ -17,9 +17,12 @@ if(empty($lang) || !is_array($lang))
 	$lang = array();
 }
 $lang = array_merge($lang, array(	
-	'ABOUT_HOUR'						=> '1 hour',
-	'ABOUT_HOURS'						=> 'hours',
-	'ABOUT_MONTH'						=> '1 month',
+	'ABOUT_HOUR'						=> array(
+		1				=> 'hour',
+		2				=> 'hours',
+	),
+	'ABOUT_ME'							=> 'About me',
+	'ABOUT_MONTH'						=> 'month',
 	'ABOUT_MONTHS'						=> 'months',
 	'ACTIVITY'							=> 'Activity',
 	'ACTIVITY_PAGE'						=> 'Page Activity',
@@ -36,6 +39,7 @@ $lang = array_merge($lang, array(
 		2				=> 'Comments',
 	),
 	'COMMENT_THIS_ACTIVITY'				=> 'Comment this post!',
+	'CREATED'							=> 'Created on',
 	'PG_SOCIAL_COVER'				=> 'Cover photo',
 	'DAY'								=> array(
 		1	=> 'day',
@@ -44,10 +48,37 @@ $lang = array_merge($lang, array(
 	'DO_YOU_WANT_SHARE'					=> 'Do you want share this activity?',
 	'EDIT'								=> 'Edit',
 	'EDIT_PROFILE'						=> 'Edit profile',
+	'FAVORITE_BOOK'						=> array(
+		1				=> 'Favorite book',
+		2				=> 'Favorite books',
+	),
+	'FAVORITE_GAME'						=> array(
+		1				=> 'Favorite videogame',
+		2				=> 'Favorite videogames',
+	),
+	'FAVORITE_MOVIE'					=> array(
+		1				=> 'Favorite movie',
+		2				=> 'Favorite movies',
+	),
+	'FAVORITE_MUSIC'					=> array(
+		1				=> 'Favorite Music/Song/Singer/Band',
+		2				=> 'Favorite Musics/Songs/Singers/Bands',
+	),
+	
+	'FAVORITE_TVSHOW'					=> array(
+		1				=> 'Favorite TV Show',
+		2				=> 'Favorite TV Shows',
+	),
+
+	'FRIEND'							=> array(
+		1				=> 'Amico',
+		2				=> 'Amici',
+	),	
 	'FRIEND'							=> array(
 		1				=> 'Friend',
 		2				=> 'Friends',
 	),
+	'FRIENDS_SUGGESTION'				=> 'Friends suggestion',
 	'GALLER'							=> 'Gallery',
 	'GENDER'							=> 'Gender',
 	'GENDER_FEMALE'						=> 'Female',
@@ -63,6 +94,11 @@ $lang = array_merge($lang, array(
 	'HAS_WRITE_IN_YOUR'					=> '%s has written on your wall',
 	'HAS_WRITED_POST_ON'				=> 'has written a post on %s',
 	'HAS_WRITED_POST_ON_CANCEL'			=> 'has witten a post on a topic',
+	'HOBBY'								=> array(
+		1				=> 'Hobby',
+		2				=> 'Hobbies',
+	),
+	'HOBBIES_INTERESTS'					=> 'Hobbies and Interests',
 	'INFO'								=> 'Info',
 	'LAST_PHOTO'						=> array(
 		1				=> 'Last photo',
@@ -84,11 +120,12 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_SOCIAL_TAG'		=> 'tagged in an activity',
 	'ONLY_YOU'							=> 'Only you',
 	'OPTIONS'							=> 'Options',
+	'OTHER_SOCIALNETWORK'				=> 'Other Social Networks',
 	'PAGE_CREATE'						=> 'Create page',
 	'PAGE_INSERT_NAME'					=> 'Insert the name of the page',
 	'PAGE_USERNAME'						=> 'Page name',
 	'PAGES'								=> 'Pages',
-	'PEOPLE_MAY_KNOW'					=> 'People you may know', 
+	'PERSONAL_INFO'						=> 'Personal Info',
 	'PG_SOCIAL_COMMENT_NEW_LOG'			=> '<strong>Has commented an activity</strong><br />» %s',
 	'PG_SOCIAL_COMMENT_REMOVE_LOG'		=> '<strong>Has deleted a his comment from an activity</strong>',
 	'PG_SOCIAL_FRIENDS'					=> 'Friends',
@@ -117,6 +154,13 @@ $lang = array_merge($lang, array(
 	'PUBLIC'							=> 'Post',
 	'QUOTE'								=> 'Quote',
 	'RECENT_DISCUSSIONS'				=> 'Recent discussions',
+	'SOCIAL_STATU'						=> 'Status',
+	'SOCIAL_STATUS_UNKNOW'				=> 'Unknow',
+	'SOCIAL_STATUS_SINGLE'				=> 'Single',
+	'SOCIAL_STATUS_ENGAGED'				=> 'Engaged',
+	'SOCIAL_STATUS_MARRIED'				=> 'Married',
+	'SOCIAL_STATUS_COMPLICATED'			=> 'It\'s complicated',
+	'SOCIAL_STATUS_RELATIONSHIP'		=> 'In an open relationship',
 	'SECONDS'							=> 'seconds',
 	'SHARE'								=> 'Share',
 	'STATUS'							=> 'status',

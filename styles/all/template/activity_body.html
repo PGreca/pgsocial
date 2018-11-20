@@ -27,32 +27,28 @@
 	</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
 		{% if PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM && loops.profileFriends %}
 		<div class="panel" id="profile_FriendsRandom">
-			<h3><i class="icon fa fa-users fa-fw" aria-hidden="true"></i>{{ lang('PEOPLE_MAY_KNOW') }}</h3>
-			<ul>
+			<h3>{{ lang('FRIENDS_SUGGESTION') }}</h3>
+			<ul id="friends_suggestions">
 				{% for profileFriends in loops.profileFriends %}
 				<li class="friend" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
-					<a href="{{ profileFriends.PROFILE_URL }}" style="color:{{ profileFriends.PROFILE_COLOUR }}">
-						{{ profileFriends.AVATAR }}
-						<div class="friend_username">
+					<a href="{{ profileFriends.PROFILE_URL }}" class="avatar" style="color:{{ profileFriends.PROFILE_COLOUR }}">
+						{{ profileFriends.AVATAR }}<div class="friend_username">
 							<span>{{ profileFriends.USERNAME }}</span>
-							{% if profileFriends.PROFILE_FRIEND_ACTION %}
-							<div class="friend_action">
-								{% if profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' %}
-									{{ lang('PG_SOCIAL_FRIENDS') }}
-								{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' %}
-								<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=addFriend" id="profile_friend_add" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ADD') }}</a>
-								{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' %}
-								<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=undoFriend" id="profile_friend_undo" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_CANCEL_REQ') }}</a>
-								{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ'	%}
-								<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=acceptFriend" id="profile_friend_accept" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ACCEPT_REQ') }}</a>	
-								<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=declineFriend" id="profile_friend_declide" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_DECLINE_REQ') }}</a>
-								{% else %}
-								{{ PROFILE_FRIEND_ACTION }}			
-							{% endif %}
-							</div>
-							{% endif %}
-						</div>		
-					</a>
+						</div>
+					</a>{% if profileFriends.PROFILE_FRIEND_ACTION %}<div class="friend_action">
+						{% if profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' %}
+						{{ lang('PG_SOCIAL_FRIENDS') }}
+						{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' %}
+						<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=addFriend" id="profile_friend_add" data-ajax="requestFriend" data-refresh="true"><i class="fa fa-plus" aria-hidden="true"></i><span>{{ lang('PG_SOCIAL_FRIENDS_ADD') }}</span></a>
+						{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' %}
+						<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=undoFriend" id="profile_friend_undo" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_CANCEL_REQ') }}</a>
+						{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ'	%}
+						<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=acceptFriend" id="profile_friend_accept" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ACCEPT_REQ') }}</a>	
+						<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=declineFriend" id="profile_friend_declide" data-ajax="requestFriend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_DECLINE_REQ') }}</a>
+						{% else %}
+						{{ PROFILE_FRIEND_ACTION }}			
+						{% endif %}
+					</div>{% endif %}
 				</li>
 				{% endfor %}
 			</ul>

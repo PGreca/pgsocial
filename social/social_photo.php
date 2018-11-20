@@ -82,19 +82,19 @@ class social_photo
 				FROM ".$this->table_prefix."pg_social_photos as cov 
 				WHERE cov.user_id = ph.user_id
 					AND ph.gallery_id = cov.gallery_id 
-					AND ph.photo_where = '".$where."' 
-				ORDER BY photo_time DESC 
+					AND cov.photo_where = '".$where."' 
+				ORDER BY cov.photo_time DESC 
 				LIMIT 0, 1) as gallery_cover, 
 				(SELECT COUNT(*)
 				FROM ".$this->table_prefix."pg_social_photos as contt
 				WHERE contt.user_id = ph.user_id
 					AND ph.gallery_id = contt.gallery_id
-					AND ph.photo_where = '".$where."'
+					AND contt.photo_where = '".$where."'
 				) as count 
 			FROM ".$this->table_prefix."pg_social_photos as ph 
 			WHERE ph.user_id = '".$wall."' 
 				AND ph.photo_where = '".$where."' 
-			GROUP BY gallery_id";
+			GROUP BY ph.gallery_id, ph.photo_where";
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
 		{	
@@ -110,14 +110,23 @@ class social_photo
 					$row['gallery_name'] = $this->user->lang('PG_SOCIAL_COVER');
 				break;				
 			}
+			
+			if($row['photo_where'] == 0)
+			{
+				$gallery_url = get_username_string('profile', $user['user_id'], $user['username'], $user['user_colour'])."&gall=".$row['gallery_id'];
+			}
+			else
+			{
+				$gallery_url = '?gall='.$row['gallery_id'];
+			}
 			$count_g = $this->user->lang('PHOTO', 1);
 			if($row['count'] == 0 || $row['count'] > 1) $count_g = $this->user->lang('PHOTO', 2);
 			$this->template->assign_block_vars('social_gallery', array(
 				'GALLERY_ID'		=> $row['gallery_id'],
-				'GALLERY_URL'		=> get_username_string('profile', $user['user_id'], $user['username'], $user['user_colour'])."&gall=".$row['gallery_id'],
+				'GALLERY_URL'		=> $gallery_url,
 				'GALLERY_NAME'		=> $row['gallery_name'],
-				'GALLERY_COUNT'		=> $row['count']." ".$count_g,
-				'PHOTO_COVER'		=> $this->pg_social_path."upload/".$row['gallery_cover'],
+				'GALLERY_COUNT'		=> "<b>".$row['count']."</b> ".$count_g,
+				'PHOTO_COVER'		=> generate_board_url()."/ext/pgreca/pgsocial/images/upload/".$row['gallery_cover'],
 				'PHOTO_FILE'		=> $row['photo_file'],
 			));
 		}
@@ -173,11 +182,10 @@ class social_photo
 		while($row = $this->db->sql_fetchrow($result))
 		{
 			$this->template->assign_block_vars($block, array(
-				"SQL"			=> $sql,
 				"PHOTO_ID"		=> $row['photo_id'],
-				"PHOTO_FILE"	=> $this->pg_social_path."upload/".$row['photo_file'],
+				"PHOTO_FILE"	=> generate_board_url()."/ext/pgreca/pgsocial/images/upload/".$row['photo_file'],
 			));
-		}		
+		}
 	}
 	
 	/**
