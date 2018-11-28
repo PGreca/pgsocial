@@ -1,9 +1,10 @@
 <?php
+
 /**
  *
  * PGreca Social extension for phpBB.
  *
- * @copyright (c) 2015 pgreca <http://www.livemembersonly.com>
+ * @copyright (c) 2018 pgreca <https:/pgreca.it>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -39,6 +40,7 @@ $lang = array_merge($lang, array(
 		2				=> 'Commenti',
 	),
 	'COMMENT_THIS_ACTIVITY'				=> 'Commenta questo stato!',
+	'CREATE'							=> 'Crea',
 	'CREATED'							=> 'Creata il',
 	'PG_SOCIAL_COVER'					=> 'Immagine di copertina',
 	'DAY'								=> array(
@@ -69,7 +71,6 @@ $lang = array_merge($lang, array(
 		1				=> 'Serie tv preferita',
 		2				=> 'Serie tv preferite',
 	),
-
 	'FRIEND'							=> array(
 		1				=> 'Amico',
 		2				=> 'Amici',
@@ -88,6 +89,7 @@ $lang = array_merge($lang, array(
 	'HAS_TAGGED_YOU'					=> '%s ti ha taggato in uno stato',
 	'HAS_WRITE_IN'						=> ' ha scritto sulla bacheca di',
 	'HAS_WRITE_IN_YOUR'					=> '%s ha scritto sulla tua bacheca',
+	'HAS_WRITED_ARTICLE'				=> 'ha scritto un articolo',
 	'HAS_WRITED_POST_ON'				=> 'ha scritto un post in %s',
 	'HAS_WRITED_POST_ON_CANCEL'			=> 'ha scritto un post in una discussione',
 	'HOBBY'								=> array(
@@ -95,6 +97,10 @@ $lang = array_merge($lang, array(
 		2				=> 'Hobbies',
 	),
 	'HOBBIES_INTERESTS'					=> 'Hobbies e Interessi',
+	'HOUR'								=> array(
+		1				=> 'ora',
+		2				=> 'ore',
+	),
 	'INFO'								=> 'Informazioni',
 	'LAST_PHOTO'						=> array(
 		1				=> 'Ultima foto',
@@ -105,9 +111,12 @@ $lang = array_merge($lang, array(
 		1				=> 'Mi Piace',
 		2				=> 'Ti piace già',
 	),
+	//'LIKE_ACTIVE'  						=> 'Ti piace già',
 	'LIKE_TO'							=> 'Piace a',
-	'MINUTES'							=> 'minuti',
-	
+	'MINUTE'							=> array(
+		1				=> 'minuto',
+		2				=> 'minuti',
+	),
 	'NOTIFICATION_PG_SOCIAL'			=> 'Notifiche social',
 	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'Qualcuno scrive uno stato nella tua bacheca',
 	'NOTIFICATION_TYPE_SOCIAL_COMMENTS'	=> 'Qualcuno scrive un commento in un tuo stato',
@@ -117,7 +126,7 @@ $lang = array_merge($lang, array(
 	'OPTIONS'							=> 'Opzioni',
 	'OTHER_SOCIALNETWORK'				=> 'Altri Social Network',
 	'PAGE_CREATE'						=> 'Crea pagina',
-	'PAGE_INSERT_NAME'					=> 'Inserisci il nome della pagina',
+	'PAGE_INSERT_NAME'					=> 'Nome della nuova pagina',
 	'PAGE_USERNAME'						=> 'Nome pagina',
 	'PAGES'								=> 'Pagine',
 	'PERSONAL_INFO'						=> 'Info Personali',
@@ -164,6 +173,8 @@ $lang = array_merge($lang, array(
 	'WALL_TIME_AGO'						=> '%1$u %2$s fa',
 	'WALL_TIME_FROM_NOW'				=> '%1$u %2$s fa',
 	'WALL_TIME_PERIODS'					=> array(
+		1	 		=> 'secondi',
+		2	 		=> 'minuto',
 		'SECOND'	 => 'secondo',
 		'SECONDS'	 => 'secondi',
 		'MINUTE'	 => 'minuto',

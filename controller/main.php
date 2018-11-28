@@ -114,7 +114,7 @@ class main
 					return $this->post_status->getStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('lastp', ''), $where, $this->request->variable('order', ''), true);
 				break;
 				case 'addStatus':
-					return $this->post_status->addStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', ''), $this->request->variable('privacy', ''), 0, '');
+					return $this->post_status->addStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', ''), $this->request->variable('privacy', ''), 0, '', true);
 				break;
 				case 'deleteStatus':
 					return $this->post_status->deleteStatus($this->request->variable('post_status', ''), $name);
@@ -306,7 +306,7 @@ class main
 	*/
 	public function handle_status($id)
 	{
-		$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_colour
+		$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_width, u.user_avatar_height, u.user_avatar_type, u.user_colour
 		FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u	
 		WHERE post_ID = '".$id."' AND (w.user_id = u.user_id) AND u.user_type != '2'";	
 		$result = $this->db->sql_query($sql);

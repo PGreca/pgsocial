@@ -188,6 +188,18 @@ class forum
 					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')',
 			);
 			
+			/**
+			* Event to modify the SQL query to get birthdays data
+			*
+			* @event core.index_modify_birthdays_sql
+			* @var	array	now			The assoc array with the 'now' local timestamp data
+			* @var	array	sql_ary		The SQL array to get the birthdays data
+			* @var	object	time		The user related Datetime object
+			* @since 3.1.7-RC1
+			*/
+			$vars = array('now', 'sql_ary', 'time');
+			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_sql', compact($vars)));
+			
 			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 			$result = $this->db->sql_query($sql);
 			$rows = $this->db->sql_fetchrowset($result);
@@ -207,8 +219,17 @@ class forum
 				// For 3.0 compatibility
 				$birthday_list[] = $birthday_username . (($birthday_age) ? " ({$birthday_age})" : '');
 			}
-
 			
+			/**
+			* Event to modify the birthdays list
+			*
+			* @event core.index_modify_birthdays_list
+			* @var	array	birthdays		Array with the users birthdays data
+			* @var	array	rows			Array with the birthdays SQL query result
+			* @since 3.1.7-RC1
+			*/
+			$vars = array('birthdays', 'rows');
+			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_list', compact($vars)));
 
 			$this->template->assign_block_vars_array('birthdays', $birthdays);
 		}
@@ -243,6 +264,24 @@ class forum
 			'FORUM_NAME'	=> $this->user->lang('FORUM'),
 			'U_VIEW_FORUM'	=> $this->helper->route('forum_page'),
 		));
-		return $this->helper->render('index_body.html', $page_title);
+		
+		/**
+		* You can use this event to modify the page title and load data for the index
+		*
+		* @event core.index_modify_page_title
+		* @var	string	page_title		Title of the index page
+		* @since 3.1.0-a1
+		*/
+		$vars = array('page_title');
+		extract($this->dispatcher->trigger_event('core.index_modify_page_title', compact($vars)));
+
+		// Output page
+		page_header($page_title, true);
+		$this->post_status->getStatus('all', $this->user->data['user_id'], 0, "all", "seguel", "");
+		$this->template->set_filenames(array(
+			'body' => 'index_body.html')
+		);
+		
+		page_footer();
 	}
 }

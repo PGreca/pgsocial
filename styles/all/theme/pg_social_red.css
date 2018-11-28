@@ -42,14 +42,6 @@
 	background-color: #AA0000;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments {
-	background-color: #CADCEB;
-}
-
-#pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment {
-	background-color: #770000;
-}
-
 #pg_social #pg_social_sidel blockquote#profile_quote a#profile_changeQuote {
 	color: #AA0000;
 }

@@ -57,25 +57,25 @@ class notifyhelper
 		switch($type)
 		{
 			case 'add_status':
-				$phpbb_notifications->add_notifications('notification.type.social_status', $notification_data);
+				$phpbb_notifications->add_notifications('pgreca.pgsocial.notification.type.social_status', $notification_data);
 			break;
 			case 'remove_status':
-				$phpbb_notifications->delete_notifications('notification.type.social_status', $notification_data);
+				$phpbb_notifications->delete_notifications('pgreca.pgsocial.notification.type.social_status', $notification_data);
 			break;
 			case 'add_tag':
-				$phpbb_notifications->add_notifications('notification.type.social_tag', $notification_data);					
+				$phpbb_notifications->add_notifications('pgreca.pgsocial.notification.type.social_tag', $notification_data);					
 			break;
 			case 'add_comment':
-				$phpbb_notifications->add_notifications('notification.type.social_comments', $notification_data);
+				$phpbb_notifications->add_notifications('pgreca.pgsocial.notification.type.social_comments', $notification_data);
 			break;
 			case 'remove_cmt':
-				$phpbb_notifications->delete_notifications('notification.type.social_comments', $notification_data);
+				$phpbb_notifications->delete_notifications('pgreca.pgsocial.notification.type.social_comments', $notification_data);
 			break;				
 			case 'add_like':
-				$phpbb_notifications->add_notifications('notification.type.social_likes', $notification_data);
+				$phpbb_notifications->add_notifications('pgreca.pgsocial.notification.type.social_likes', $notification_data);
 			break;
 			case 'remove_like':
-				$phpbb_notifications->delete_notifications('notification.type.social_likes', $notification_data);
+				$phpbb_notifications->delete_notifications('pgreca.pgsocial.notification.type.social_likes', $notification_data);
 			break;
 		}
 		

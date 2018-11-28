@@ -66,7 +66,7 @@ class social_zebra
 			//return $this->last_register(); exit();
 			return $this->noFriends();
 		}
-		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_pg_social_cover, u.user_colour
+		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_pg_social_cover, u.user_colour, u.user_about
 		FROM ".ZEBRA_TABLE." AS z, ".USERS_TABLE." AS u
 		LEFT JOIN ".BANLIST_TABLE." b ON (u.user_id = b.ban_userid)
 		WHERE (b.ban_id IS NULL	OR b.ban_exclude = 1)
@@ -87,6 +87,7 @@ class social_zebra
 				'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
 				'COVER'						=> $this->pg_social_helper->social_cover($row['user_pg_social_cover']),
 				'PROFILE_FRIEND_ACTION'		=> $this->friendStatus($row['user_id'])['status'],
+				'PROFILE_ABOUT'				=> $row['user_about'],
 				'COUNT_FRIENDS'				=> $this->countFriends($row['user_id']),
 				'COUNT_PHOTOS'				=> $this->pg_social_helper->countPhotos($row['user_id']),
 			));

@@ -60,8 +60,8 @@
 					<div class="panel" id="pg_social_profile_lastphotos">
 						<h3>{{ lang('LAST_PHOTO', 2) }}</h3>
 						<dl class="last_photos">
-							<ul class="template_photos bigcolums" id="last_photos">
-								{% for last_photos in loops.last_photos %}<li class="photo" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="../ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
+							<ul class="template_photos bigcolums colums" id="last_photos">
+								{% for last_photos in loops.last_photos %}<li class="photo colum" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="../ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
 							</ul>
 						</dl>
 					</div>
@@ -70,9 +70,8 @@
 			</div>
 			<div class="pg_social_pagesub" id="page_gallery">
 				{% if not GALLERY_NAME %}
-				<ul class="template_photos bigcolums" id="pg_social_gallery">
-					<li class="gallery colum" id="pg_social_gallery_create">
-					</li>{% for social_gallery in loops.social_gallery %}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}">
+				<ul class="template_photos bigcolums colums" id="pg_social_gallery">
+					{% for social_gallery in loops.social_gallery %}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}">
 						<div class="cover" style="background-image:url('{{ social_gallery.PHOTO_COVER }}')">
 							<img src="../ext/pgreca/pgsocial/images/transp.gif" />
 						</div>
@@ -95,7 +94,7 @@
 						<a href="{{ page.PAGE_URL }}#gallery"><i class="icon fa fa-arrow-left" aria-hidden="true"></i></a> {{ GALLERY_NAME }}
 					</h5>
 				</div>
-				<ul class="template_photos bigcolums" id="pg_social_photos">
+				<ul class="template_photos bigcolums colums" id="pg_social_photos">
 					{% for social_photos in loops.social_photos %}<li class="photo colum" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}" style="background-image:url({{ social_photos.PHOTO_FILE }})">
 						<img src="../ext/pgreca/pgsocial/images/transp.gif" />
 					</li>{% endfor %}
@@ -106,8 +105,11 @@
 	</div>
 {% endfor %}
 {% else %}
-<div id="pg_social_cont" style="width:calc({% if not PG_SOCIAL_SIDEBAR_RIGHT %}100{% else %}78{% endif %}%);">			
-	<ul id="pages_list" class="bigcolums">
+<div id="pg_social_cont">		
+{% if PAGE_CREATE %}
+<a id="page_new_button">{{ lang('PAGE_CREATE') }}</a>
+{% endif %}	
+	<ul id="pages_list" class="colums">
 		{% for pages in loops.pages %}<li class="page_list colum" id="page_list_{{ pages.PAGE_ID }}">
 			<div class="cover big_cover" style="background-image:url('{{ pages.PAGE_COVER }}')">
 				<a class="aavatar" href="{{pages.PAGE_URL }}">
@@ -130,18 +132,18 @@
 			</div>
 		</li>{% endfor %}
 	</ul>
-</div><div id="pg_social_sider">
-	{% if PAGE_CREATE %}
-	<div class="panel">
-		<h3>{{ lang('PAGE_CREATE') }}</h3>
-		<form id="page_new_form" method="post" action="{{ PAGE_FORM }}">
-			<label for="page_new_name">
-				<input type="text" name="page_new_name" placeholder="{{ lang('PAGE_INSERT_NAME') }}" />
-			</label>
-			<input type="submit" value="{{ lang('CREATE') }}" name="page_new_submit" />
-		</form>
-	</div>
-	{% endif %}
+</div>
+{% endif %}
+
+{% if PAGE_CREATE %}
+<div class="panel" id="page_create">
+	<h3>{{ lang('PAGE_CREATE') }}</h3>
+	<form id="page_new_form" method="post" action="{{ PAGE_FORM }}">
+		<label for="page_new_name">
+			<input type="text" name="page_new_name" placeholder="{{ lang('PAGE_INSERT_NAME') }}" />
+		</label>
+		<input type="submit" value="{{ lang('CREATE') }}" name="page_new_submit" />
+	</form>
 </div>
 {% endif %}
 </div>

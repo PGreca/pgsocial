@@ -78,12 +78,13 @@ class listener implements EventSubscriberInterface
 	 * @param string		$php_ext
 	 * @param $social_helper $social_helper
 	 * @param $social_photo $social_photo	
-	 * @param $social_zebra $social_zebra	  
+	 * @param $social_zebra $social_zebra	
+	 * @param $social_page $social_page	  
 	 * @param string		$table_prefix
 	 */
 	
 	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request,
-	helper $helper, db $config, $root_path, $php_ext, $social_helper, $post_status, $social_photo, $social_zebra, $table_prefix, $phpbb_container)
+	helper $helper, db $config, $root_path, $php_ext, $social_helper, $post_status, $social_photo, $social_zebra, $social_page, $table_prefix, $phpbb_container)
 	{
 		$this->template				= $template;
 		$this->user					= $user;
@@ -98,6 +99,7 @@ class listener implements EventSubscriberInterface
 		$this->post_status			= $post_status;
 		$this->social_photo			= $social_photo;
 		$this->social_zebra			= $social_zebra;
+		$this->social_page			= $social_page;
         $this->table_prefix 		= $table_prefix;	
 		$this->phpbb_container 		= $phpbb_container;
 		
@@ -245,9 +247,10 @@ class listener implements EventSubscriberInterface
 		{
 			$member = $event['member'];
 			$user_id = $member['user_id'];
-					
+			$member['status_action'] = 0;
 			if($user_id == $this->user->data['user_id']) $member['user_action'] = true; else $member['user_action'] = false;
 			if($member['user_gender'] == 0) $profile_gender = ""; else $profile_gender = $this->pgsocial_helper->social_gender($member['user_gender']);
+			if($member['user_status_life'] == 0) $profile_status_life = ""; else $profile_status_life = $this->pgsocial_helper->social_status_life($member['user_status_life']);
 			$friends = $this->social_zebra->friendStatus($user_id);
 			if($friends['status'] == "PG_SOCIAL_FRIENDS" || $user_id == $this->user->data['user_id']) $member['status_action'] = 1;	 		
 					
@@ -266,11 +269,11 @@ class listener implements EventSubscriberInterface
 				'PROFILE_COVER_POSITION'	=> $member['user_pg_social_cover_position'],
 				'PROFILE_AVATAR_THUMB'		=> $this->pgsocial_helper->social_avatar_thumb($member['user_avatar'], $member['user_avatar_type'], $member['user_avatar_width'], $member['user_avatar_height']),	       
 				'PROFILE_AVATAR_UPDATE'     => append_sid($this->root_path."ucp.".$this->php_ext, 'i=profile&mode=avatar'),
-				'PROFILE_USERNAME'			=>$member['username'],
+				'PROFILE_USERNAME'			=> $member['username'],
 				'PROFILE_COLOUR'			=> "#".$member['user_colour'],
 				'PROFILE_QUOTE'				=> $member['user_quote'],
 				'PROFILE_ABOUT_ME'			=> $member['user_about'],
-				'PROFILE_STATUS_LIFE'		=> $member['user_status_life'],
+				'PROFILE_STATUS_LIFE'		=> $this->user->lang($profile_status_life),
 				'PROFILE_HOBBIES'			=> $member['user_hobbies'],
 				'PROFILE_FAVORITE_TVSERIES'	=> $member['user_favorite_tvseries'],
 				'PROFILE_FAVORITE_MOVIES'	=> $member['user_favorite_movies'],
@@ -297,11 +300,13 @@ class listener implements EventSubscriberInterface
 	public function load($event)
 	{
 		$this->template->assign_vars(array(				
-			'PROFILE'					=> $this->user->data['user_id'],			
-			'PG_SOCIAL_CHAT'			=> $this->config['pg_social_chat_enabled'] ? true : false,	
-			'PG_SOCIAL_INDEX_REPLACE'	=> $this->config['pg_social_index_replace'] ? true : false,
-			'PG_SOCIAL_INDEX_ACTIVITY'	=> $this->config['pg_social_index_activity'] ? true : false,
+			'PROFILE'							=> $this->user->data['user_id'],			
+			'PG_SOCIAL_CHAT'					=> $this->config['pg_social_chat_enabled'] ? true : false,	
+			'PG_SOCIAL_INDEX_REPLACE'			=> $this->config['pg_social_index_replace'] ? true : false,
+			'PG_SOCIAL_INDEX_ACTIVITY'			=> $this->config['pg_social_index_activity'] ? true : false,
+			'PG_SOCIAL_PAGE_NOTIFIY_MANAGER'	=> ($this->social_page->approPages() > 0 && ($this->auth->acl_gets('m_page_manage') || $this->auth->acl_gets('a_page_manage'))) ? true : false,
 		));	
+		
 		
 		if($this->is_startpage) $this->template->destroy_block_vars('navlinks');
 	}

@@ -99,8 +99,8 @@
 					<div class="panel" id="pg_social_profile_lastphotos">
 						<h3>{{ lang('LAST_PHOTO', 2) }}</h3>
 						<dl class="last_photos">
-							<ul class="template_photos bigcolums" id="last_photos">
-								{% for last_photos in loops.last_photos %}{{ last_photos.SQL }}<li class="photo" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="../ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
+							<ul class="template_photos bigcolums colums" id="last_photos">
+								{% for last_photos in loops.last_photos %}<li class="colum" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="../ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
 							</ul>
 						</dl>
 					</div>
@@ -108,7 +108,7 @@
 				</div>{% endif %}
 			</div>
 			<div class="pg_social_pagesub" id="page_friends">
-				<ul id="pg_social_friends" class="bigcolums">
+				<ul id="pg_social_friends" class="colums">
 					{% for profileFriends in loops.profileFriends %}
 					<li class="friend colum" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
 						<div class="cover big_cover" style="background-image:url({{ profileFriends.COVER }});">
@@ -121,33 +121,48 @@
 								<span>{{ profileFriends.USERNAME }}</span>
 							</a>
 						</div>
-						<div class="friend_counts counts">
-							<div class="friend_count friend_count_friends count">
-								<b>{{ profileFriends.COUNT_FRIENDS }}</b>
-								{{ lang('FRIEND', 2) }}
-							</div><div class="friend_count friend_count_photos count">
-								<b>{{ profileFriends.COUNT_PHOTOS }}</b>
-								{{ lang('PHOTO', 2) }}							
+						<div class="cards">
+							<div class="card active" data-card="1">
+								<div class="friend_counts counts">
+									<div class="friend_count friend_count_friends count">
+										<b>{{ profileFriends.COUNT_FRIENDS }}</b>
+										{{ lang('FRIEND', 2) }}
+									</div><div class="friend_count friend_count_photos count">
+										<b>{{ profileFriends.COUNT_PHOTOS }}</b>
+										{{ lang('PHOTO', 2) }}							
+									</div>
+								</div>
+								{% if profileFriends.PROFILE_FRIEND_ACTION %}
+								<div class="friend_action action">
+									{% if profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' %}
+									<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=cancelFriend" id="profile_friend_cancel" data-ajax="requestFriend" data-refresh="true"><i class="fa fa-minus" aria-hidden="true"></i><span>{{ lang('PG_SOCIAL_FRIENDS_REMOVE') }}</span></a>
+									{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' %}
+									<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=addFriend" id="profile_friend_add" data-ajax="requestFriend" data-refresh="true"><i class="fa fa-plus" aria-hidden="true"></i><span>{{ lang('PG_SOCIAL_FRIENDS_ADD') }}</span></a>
+									{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' %}
+									<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=undoFriend" id="profile_friend_undo" data-ajax="requestFriend" data-refresh="true"><i class="fa fa-minus" aria-hidden="true"></i><span>{{ lang('PG_SOCIAL_FRIENDS_CANCEL_REQ') }}</span></a>
+									{% endif %}
+								</div>
+								{% endif %}
 							</div>
-						</div>
-						{% if profileFriends.PROFILE_FRIEND_ACTION %}
-						<div class="friend_action action">
-							{% if profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' %}
-							<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=cancelFriend" id="profile_friend_cancel" data-ajax="requestFriend" data-refresh="true"><i class="fa fa-minus" aria-hidden="true"></i><span>{{ lang('PG_SOCIAL_FRIENDS_REMOVE') }}</span></a>
-							{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' %}
-							<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=addFriend" id="profile_friend_add" data-ajax="requestFriend" data-refresh="true"><i class="fa fa-plus" aria-hidden="true"></i><span>{{ lang('PG_SOCIAL_FRIENDS_ADD') }}</span></a>
-							{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' %}
-							<a href="{{ SOCIAL_PROFILE_PATH }}?mode=requestFriend&profile_id={{ profileFriends.PROFILE_ID }}&request=undoFriend" id="profile_friend_undo" data-ajax="requestFriend" data-refresh="true"><i class="fa fa-minus" aria-hidden="true"></i><span>{{ lang('PG_SOCIAL_FRIENDS_CANCEL_REQ') }}</span></a>
+							{% if profileFriends.PROFILE_ABOUT %}
+							<div class="card" data-card="2">
+								<div class="card_about">
+									{{ profileFriends.PROFILE_ABOUT }}
+								</div>
+							</div>
 							{% endif %}
+							{% if profileFriends.PROFILE_ABOUT %}<ul class="bubbles">
+								<li class="bubble active" data-bubble="1"></li>
+								<li class="bubble" data-bubble="2"></li>
+							</ul>{% endif %}
 						</div>
-						{% endif %}
 					</li>
 					{% endfor %}
 				</ul>
 			</div>
 			<div class="pg_social_pagesub" id="page_gallery">
 				{% if not GALLERY_NAME %}
-				<ul class="template_photos bigcolums" id="pg_social_gallery">
+				<ul class="template_photos colums" id="pg_social_gallery">
 					<!--<li class="gallery colum" id="pg_social_gallery_create">
 					</li>-->{% for social_gallery in loops.social_gallery %} {{ social_gallery.SQL }}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}">
 						<div class="cover" style="background-image:url('{{ social_gallery.PHOTO_COVER }}')">
@@ -172,7 +187,7 @@
 						<a href="{{ U_VIEW_PROFILE }}#gallery"><i class="icon fa fa-arrow-left" aria-hidden="true"></i></a> {{ GALLERY_NAME }}
 					</h5>
 				</div>
-				<ul class="template_photos bigcolums" id="pg_social_photos">
+				<ul class="template_photos colums" id="pg_social_photos">
 					{% for social_photos in loops.social_photos %}<li class="photo colum" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}" style="background-image:url({{ social_photos.PHOTO_FILE }})">
 						<img src="../ext/pgreca/pgsocial/images/transp.gif" />
 					</li>{% endfor %}
@@ -189,7 +204,8 @@
 								{% if AGE %}<dt>{{ lang('AGE') }}{{ lang('COLON') }}</dt><dd>{{ AGE }}</dd>{% endif %}
 								{% if JOINED %}<dt>{{ lang('JOINED') }}{{ lang('COLON') }}</dt><dd>{{ JOINED }}</dd>{% endif %}
 								{% if LAST_ACTIVE %}<dt>{{ lang('LAST_ACTIVE') }}{{ lang('COLON') }}</dt><dd>{{ LAST_ACTIVE }}</dd>{% endif %}
-								{% if PROFILE_GENDER %}<dt>{{ lang('GENDER') }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_GENDER }}</dd>{% endif %}		
+								{% if PROFILE_GENDER %}<dt>{{ lang('GENDER') }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_GENDER }}</dd>{% endif %}	
+								{% if PROFILE_STATUS_LIFE %}<dt>{{ lang('SOCIAL_STATU') }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_STATUS_LIFE }}</dd>{% endif %}		
 							</dl>
 						</div>
 						{% EVENT memberlist_view_contact_before %}

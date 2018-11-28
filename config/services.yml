@@ -92,7 +92,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
             - '%core.table_prefix%'
-    notification.type.social_status:
+    pgreca.pgsocial.notification.type.social_status:
         class: pgreca\pgsocial\notification\social_status
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
@@ -110,7 +110,7 @@ services:
             - '%tables.user_notifications%'
         tags:
             - { name: notification.type }       
-    notification.type.social_comments:
+    pgreca.pgsocial.notification.type.social_comments:
         class: pgreca\pgsocial\notification\social_comments
         scope: prototype # scope MUST be prototype for this to work!
         arguments:           
@@ -128,7 +128,7 @@ services:
             - '%tables.user_notifications%'
         tags:
             - { name: notification.type }
-    notification.type.social_likes:
+    pgreca.pgsocial.notification.type.social_likes:
         class: pgreca\pgsocial\notification\social_likes
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
@@ -146,7 +146,7 @@ services:
             - '%tables.user_notifications%'
         tags:
             - { name: notification.type }
-    notification.type.social_tag:
+    pgreca.pgsocial.notification.type.social_tag:
         class: pgreca\pgsocial\notification\social_tag
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
@@ -164,7 +164,7 @@ services:
             - '%tables.user_notifications%'
         tags:
             - { name: notification.type }   
-    notification.type.social_zebra:
+    pgreca.pgsocial.notification.type.social_zebra:
         class: pgreca\pgsocial\notification\social_zebra
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
@@ -282,6 +282,7 @@ services:
             - '@pgreca.pgsocial.social.post_status'
             - '@pgreca.pgsocial.social.social_photo'
             - '@pgreca.pgsocial.social.social_zebra'
+            - '@pgreca.pgsocial.social.social_page'
             - '%core.table_prefix%'
             - '@service_container'
         tags:

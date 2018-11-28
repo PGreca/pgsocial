@@ -66,7 +66,7 @@ class social_likes extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'notification.type.social_likes';
+		return 'pgreca.pgsocial.notification.type.social_likes';
 	}
 	
 	/**

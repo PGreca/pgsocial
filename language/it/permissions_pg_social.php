@@ -4,7 +4,7 @@
  *
  * PGreca Social extension for phpBB.
  *
- * @copyright (c) 2015 pgreca <http://www.livemembersonly.com>
+ * @copyright (c) 2018 pgreca <https:/pgreca.it>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */

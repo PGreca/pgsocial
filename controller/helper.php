@@ -90,7 +90,6 @@ class helper
 		{
 			$to = time();
 		}
-
 		if($to > $from)
 		{
 			$difference = $to - $from;
@@ -105,15 +104,13 @@ class helper
 		{
 			$difference /= $lengths[$j];
 		}
-
 		$difference = round($difference);
 		$period = $periods[$j];
 		if($difference != 1)
 		{
 			$period .= "S";
 		}
-
-		if(($to - $from) > 3600)
+		if(($to - $from) > ((3600 - 1) / 60))
 		{
 			return sprintf($this->user->lang[$tense], $difference, $this->user->lang['WALL_TIME_PERIODS'][$period]);
 		}
@@ -199,6 +196,33 @@ class helper
 			break;
 			default: 
 				$return = "GENDER_UNKNOWN";
+			break;
+		}
+		return $return;
+	}
+	
+	public function social_status_life($status)
+	{
+		switch($status)
+		{
+			case 1:
+				$return = "SOCIAL_STATUS_SINGLE";
+			break;
+			case 2:
+				$return = "SOCIAL_STATUS_ENGAGED";
+			break;
+			case 3:
+				$return = "SOCIAL_STATUS_MARRIED";
+			break;
+			case 4:
+				$return = "SOCIAL_STATUS_COMPLICATED";
+			break;
+			case 5:
+				$return = "SOCIAL_STATUS_RELATIONSHIP";
+			break;
+			case 0:
+			default: 
+				$return = "SOCIAL_STATUS_UNKNOW";
 			break;
 		}
 		return $return;

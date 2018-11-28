@@ -91,14 +91,28 @@ class social_page
 	*/
 	public function user_likePages($user, $page = false)
 	{		
-		if(isset($page)) $where = " AND page_id = '".$page."'"; else $array = array();
+		if(isset($page)) 
+		{
+			$where = " AND page_id = '".$page."'"; 
+		}
+		else 
+		{
+			$array = array();
+		}
 		$sql = "SELECT page_id FROM ".$this->table_prefix."pg_social_pages_like WHERE user_id = '".$user."'".$where;
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
 		{	
-			if(isset($page) && $row['page_id'] != "") $array = $row['page_id']; else $array[] = $row['page_id'];
+			if(isset($page) && $row['page_id'] != "") 
+			{
+				$array = $row['page_id']; 
+			}
+			else 
+			{
+				$array[] = $row['page_id'];
+			}
 		}
-		if($array == "") $array = 0;
+		if(!isset($array)) $array = 0;
 		return $array;
 	}
 	
@@ -131,5 +145,14 @@ class social_page
 			"ACTION"	=> $action,
 		));
 		return $this->helper->render('activity_status_action.html', "");
+	}
+	
+	public function approPages()
+	{
+		$sql = "SELECT COUNT(page_id) AS count
+		FROM ".$this->table_prefix."pg_social_pages WHERE page_status = '0'";
+		$result = $this->db->sql_query($sql);
+		$count = $this->db->sql_fetchrow($result);
+		return $count['count'];
 	}
 }

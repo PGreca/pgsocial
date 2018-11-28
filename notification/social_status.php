@@ -10,11 +10,12 @@
 
 namespace pgreca\pgsocial\notification;
 
+use phpbb\notification\type\base;
 /**
 *
 * @package notifications
 */
-class social_status extends \phpbb\notification\type\base
+class social_status extends base
 {
 	
 	/* @var \phpbb\controller\helper */
@@ -66,7 +67,7 @@ class social_status extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'notification.type.social_status';
+		return 'pgreca.pgsocial.notification.type.social_status';
 	}
 	
 	/**

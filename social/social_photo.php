@@ -76,25 +76,25 @@ class social_photo
 		$user = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);			
 		
-		$limit = 6;
-		$sql = "SELECT *, 
-				(SELECT photo_file 
-				FROM ".$this->table_prefix."pg_social_photos as cov 
-				WHERE cov.user_id = ph.user_id
-					AND ph.gallery_id = cov.gallery_id 
-					AND cov.photo_where = '".$where."' 
-				ORDER BY cov.photo_time DESC 
-				LIMIT 0, 1) as gallery_cover, 
-				(SELECT COUNT(*)
-				FROM ".$this->table_prefix."pg_social_photos as contt
-				WHERE contt.user_id = ph.user_id
-					AND ph.gallery_id = contt.gallery_id
-					AND contt.photo_where = '".$where."'
-				) as count 
-			FROM ".$this->table_prefix."pg_social_photos as ph 
-			WHERE ph.user_id = '".$wall."' 
-				AND ph.photo_where = '".$where."' 
-			GROUP BY ph.gallery_id, ph.photo_where";
+		$sql = "SELECT ph.gallery_id, (
+						SELECT photo_file
+						FROM ".$this->table_prefix."pg_social_photos AS cov
+						WHERE cov.user_id = ph.user_id
+						AND ph.gallery_id = cov.gallery_id
+						AND cov.photo_where =  '".$where."'
+						ORDER BY cov.photo_time DESC 
+						LIMIT 0, 1
+				) AS gallery_cover, (
+						SELECT COUNT(*) 
+						FROM ".$this->table_prefix."pg_social_photos AS contt
+						WHERE contt.user_id = ph.user_id
+						AND ph.gallery_id = contt.gallery_id
+						AND contt.photo_where = '".$where."'
+				) AS count_photo
+				FROM ".$this->table_prefix."pg_social_photos AS ph
+				WHERE ph.user_id = '".$wall."' 
+					AND ph.photo_where =  '".$where."' 
+				GROUP BY gallery_id, gallery_cover, count_photo";
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
 		{	
@@ -111,7 +111,7 @@ class social_photo
 				break;				
 			}
 			
-			if($row['photo_where'] == 0)
+			if($where == 0)
 			{
 				$gallery_url = get_username_string('profile', $user['user_id'], $user['username'], $user['user_colour'])."&gall=".$row['gallery_id'];
 			}
@@ -120,14 +120,13 @@ class social_photo
 				$gallery_url = '?gall='.$row['gallery_id'];
 			}
 			$count_g = $this->user->lang('PHOTO', 1);
-			if($row['count'] == 0 || $row['count'] > 1) $count_g = $this->user->lang('PHOTO', 2);
+			if($row['count_photo'] == 0 || $row['count_photo'] > 1) $count_g = $this->user->lang('PHOTO', 2);
 			$this->template->assign_block_vars('social_gallery', array(
 				'GALLERY_ID'		=> $row['gallery_id'],
 				'GALLERY_URL'		=> $gallery_url,
 				'GALLERY_NAME'		=> $row['gallery_name'],
-				'GALLERY_COUNT'		=> "<b>".$row['count']."</b> ".$count_g,
+				'GALLERY_COUNT'		=> "<b>".$row['count_photo']."</b> ".$count_g,
 				'PHOTO_COVER'		=> generate_board_url()."/ext/pgreca/pgsocial/images/upload/".$row['gallery_cover'],
-				'PHOTO_FILE'		=> $row['photo_file'],
 			));
 		}
 		$this->db->sql_freeresult($result);		
@@ -247,7 +246,7 @@ class social_photo
 				'AUTHOR_PROFILE'			=> get_username_string('profile', $user['user_id'], $user['username'], $user['user_colour']),
 				'AUTHOR_USERNAME'			=> $user['username'],
 				'AUTHOR_COLOUR'				=> '#'.$user['user_colour'],
-				'AUTHOR_AVATAR'				=> ($row['photo_where'] == 0 ? $this->pg_social_helper->social_avatar_thumb($user['user_avatar'], $user['user_avatar_type'], $this->user->data['user_avatar_width'], $this->user->data['user_avatar_height']) : '<img src="'.generate_board_url().'/ext/pgreca/pgsocial/images/'.($page['page_avatar'] != "" ? $page_avatar = 'upload/'.$page['page_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />'),
+				'AUTHOR_AVATAR'				=> ($row['photo_where'] == 0 ? $this->pg_social_helper->social_avatar_thumb($user['user_avatar'], $user['user_avatar_type'], $this->user->data['user_avatar_width'], $this->user->data['user_avatar_height']) : '<img src="'.generate_board_url().'/ext/pgreca/pgsocial/images/'.($user['user_avatar'] != "" ? $page_avatar = 'upload/'.$user['user_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />'),
 				'GALLERY_URL'				=> $gallery_url,
 				'PHOTO_ALBUM'				=> $this->gallery_info($row['gallery_id'])['gallery_name'],
 				'PHOTO_DESC'				=> $desc,

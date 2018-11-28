@@ -38,10 +38,6 @@
 	background-color: #23b6b6;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments {
-	background-color: #a9efef;
-}
-
 #pg_social #pg_social_sidel blockquote#profile_quote a#profile_changeQuote {
 	color: #23b6b6;
 }
@@ -52,10 +48,6 @@
 
 #pg_social #pg_social_sider .panel h3 {
 	color: #23b6b6;
-}
-
-#pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment {
-	background-color: #a9efef;
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_social div.pg_social_photo_likshare {

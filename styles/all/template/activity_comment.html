@@ -7,10 +7,4 @@
 	</div>
 	<div class="post_comment_time" title="{{ post_comment.COMMENT_TIME }}"></div>
 </li>
-{% else %}
-<li class="post_comment no_comment">
-	<div class="post_comment_message">
-		{{ lang('COMMENT', 0) }}
-	</div>
-</li>
 {% endfor %}

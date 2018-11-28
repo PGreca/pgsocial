@@ -1,9 +1,10 @@
 <?php
+
 /**
  *
  * PGreca Social extension for phpBB.
  *
- * @copyright (c) 2015 pgreca <http://www.livemembersonly.com>
+ * @copyright (c) 2018 pgreca <https:/pgreca.it>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -39,6 +40,7 @@ $lang = array_merge($lang, array(
 		2				=> 'Comments',
 	),
 	'COMMENT_THIS_ACTIVITY'				=> 'Comment this post!',
+	'CREATE'							=> 'Create',
 	'CREATED'							=> 'Created on',
 	'PG_SOCIAL_COVER'				=> 'Cover photo',
 	'DAY'								=> array(
@@ -69,11 +71,6 @@ $lang = array_merge($lang, array(
 		1				=> 'Favorite TV Show',
 		2				=> 'Favorite TV Shows',
 	),
-
-	'FRIEND'							=> array(
-		1				=> 'Amico',
-		2				=> 'Amici',
-	),	
 	'FRIEND'							=> array(
 		1				=> 'Friend',
 		2				=> 'Friends',
@@ -92,6 +89,7 @@ $lang = array_merge($lang, array(
 	'HAS_TAGGED_YOU'					=> '%s tagged you in an activity',
 	'HAS_WRITE_IN'						=> 'has written on the wall of',
 	'HAS_WRITE_IN_YOUR'					=> '%s has written on your wall',
+	'HAS_WRITED_ARTICLE'				=> 'has written an article',
 	'HAS_WRITED_POST_ON'				=> 'has written a post on %s',
 	'HAS_WRITED_POST_ON_CANCEL'			=> 'has witten a post on a topic',
 	'HOBBY'								=> array(
@@ -99,6 +97,10 @@ $lang = array_merge($lang, array(
 		2				=> 'Hobbies',
 	),
 	'HOBBIES_INTERESTS'					=> 'Hobbies and Interests',
+	'HOUR'								=> array(
+		1				=> 'hour',
+		2				=> 'hours',
+	),
 	'INFO'								=> 'Info',
 	'LAST_PHOTO'						=> array(
 		1				=> 'Last photo',
@@ -109,10 +111,12 @@ $lang = array_merge($lang, array(
 		1				=> 'Like',
 		2				=> 'Likes',
 	),
-	'LIKE_ACTIVE'  						=> 'You like it',
+	//'LIKE_ACTIVE'  						=> 'You like it',
 	'LIKE_TO'							=> 'Like to',
-	'MINUTES'							=> 'minutes',
-	
+	'MINUTE'							=> array(
+		1				=> 'minute',
+		2				=> 'minutes',
+	),	
 	'NOTIFICATION_PG_SOCIAL'			=> 'Social notifications',
 	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'is writing something on the wall',
 	'NOTIFICATION_TYPE_SOCIAL_COMMENTS'	=> 'is commenting your post',
@@ -122,7 +126,7 @@ $lang = array_merge($lang, array(
 	'OPTIONS'							=> 'Options',
 	'OTHER_SOCIALNETWORK'				=> 'Other Social Networks',
 	'PAGE_CREATE'						=> 'Create page',
-	'PAGE_INSERT_NAME'					=> 'Insert the name of the page',
+	'PAGE_INSERT_NAME'					=> 'Name of the new page',
 	'PAGE_USERNAME'						=> 'Page name',
 	'PAGES'								=> 'Pages',
 	'PERSONAL_INFO'						=> 'Personal Info',
@@ -169,6 +173,8 @@ $lang = array_merge($lang, array(
 	'WALL_TIME_AGO'						=> '%1$u %2$s ago',
 	'WALL_TIME_FROM_NOW'			  => '%1$u %2$s ago',
 	'WALL_TIME_PERIODS'				  => array(
+		1	 		=> 'seconds',
+		2	 		=> 'minute',
 		'SECOND'	 => 'second',
 		'SECONDS'	 => 'seconds',
 		'MINUTE'	 => 'minute',

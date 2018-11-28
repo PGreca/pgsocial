@@ -40,7 +40,7 @@
 			{% INCLUDE 'activity_comment.html' %}
 		</ul>
 		<form method="post" class="pg_social_photo_comment_form">
-			{CURRENT_USER_AVATAR}<input type="text" required name="pg_social_photo_comment_text" class="pg_social_photo_comment_text" placeholder="{{ lang('COMMENT_THIS_ACTIVITY') }}" />
+			{{ CURRENT_USER_AVATAR }}<input type="text" required name="pg_social_photo_comment_text" class="pg_social_photo_comment_text" placeholder="{{ lang('COMMENT_THIS_ACTIVITY') }}" />
 			{{ S_HIDDEN_FIELDS }}
 			{{ S_FORM_TOKEN }}
 		</form>

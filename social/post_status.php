@@ -147,6 +147,9 @@ class post_status
 		$user_id = (int) $this->user->data['user_id'];
 		$share = $row['post_ID'];
 		$msg = '';
+		$msg_align = '';
+		$wall['user_id'] = $wall['username'] = $wall['user_colour'] = '';
+		$wall_action = '';
 		$allow_bbcode = $this->config['pg_social_bbcode'];
 		$allow_urls = $this->config['pg_social_url'];
 		$allow_smilies = $this->config['pg_social_smilies'];
@@ -155,7 +158,7 @@ class post_status
 		switch($row['post_where'])
 		{
 			case 1:
-				$sqlpage = "SELECT * FROM ".$this->table_prefix."pg_social_pages WHERE page_id = '".$row['wall_id']."'";
+				$sqlpage = "SELECT *, '' as user_colour FROM ".$this->table_prefix."pg_social_pages WHERE page_id = '".$row['wall_id']."'";
 				$resultpage = $this->db->sql_query($sqlpage);
 				$page = $this->db->sql_fetchrow($resultpage);
 				$status_title = $page['page_username'];
@@ -193,8 +196,6 @@ class post_status
 				{
 					$wall['user_id'] = '';
 					$wall['username'] = '';
-					$wall['user_colour'] = '';
-					$wall_action = '';
 				}
 				switch($row['post_type'])
 				{						
@@ -219,13 +220,21 @@ class post_status
 					$msg = $photo['msg'];
 					$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
 				break;
-				case 2:
-					$author_action = $this->user->lang("HAS_UPLOADED_COVER");
-					$photo = $this->photo($row['post_extra']);
-					$msg = $photo['msg'];
-					$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
-				break;
-			case '3':
+			case 2:
+				$author_action = $this->user->lang("HAS_UPLOADED_COVER");
+				$photo = $this->photo($row['post_extra']);
+				$msg = $photo['msg'];
+				$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
+			break;
+			case 5:
+				$sql_article = "SELECT * FROM ".$this->table_prefix."pgblog_articles WHERE article_id = '".$row['post_extra']."'";
+				$result_art = $this->db->sql_query($sql_article);
+				$article = $this->db->sql_fetchrow($result_art);
+				$author_action = $this->user->lang("HAS_WRITED_ARTICLE");
+				$author_action .= ' <a href="'.$this->helper->route('blog').'/'.$article['article_permalink'].'">'.$article['article_title'].'</a>';
+			break;
+			
+			case 3:
 			default:
 				if($row['post_parent'] != 0)
 				{
@@ -340,7 +349,8 @@ class post_status
 			"WALL_COLOUR"				=> "#".$wall['user_colour'],
 			"POST_TYPE"					=> $row['post_type'],
 			"POST_URL"					=> $this->helper->route("status_page", array("id" => $row['post_ID'])),
-			"POST_DATE"					=> date('c', $row['time']),
+			//"POST_DATE"					=> date('c', $row['time']),
+			"POST_DATE"					=> $row['time'],
 			"POST_DATE_AGO"				=> $this->pg_social_helper->time_ago($row['time']),
 			"MESSAGE"					=> htmlspecialchars_decode($msg),
 			"MESSAGE_ALIGN"				=> $msg_align,
@@ -354,6 +364,7 @@ class post_status
 		
 		if($template == "half")
 		{
+			$this->getComments($row['post_ID'], $type, false);
 			return $this->helper->render('status.html', 'Stai vedendo uno stato di'. $status_username);
 		}
 	}
@@ -361,7 +372,7 @@ class post_status
 	/**
 	 * Add new activity on wall
 	*/
-	public function addStatus($post_where, $wall_id, $text, $privacy, $type = 0, $extra = NULL)
+	public function addStatus($post_where, $wall_id, $text, $privacy, $type = 0, $extra = NULL, $template = true)
 	{
 		switch($post_where)
 		{
@@ -415,12 +426,11 @@ class post_status
 			$this->social_tag->addTag($row['post_ID'], $text);
 			$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, "STATUS_NEW", "<a href='".$this->helper->route("status_page", array("id" => $row['post_ID']))."'>#".$row['post_ID']."</a>");
 		
+			$this->template->assign_vars(array(
+				"ACTION"	=> $sql.'',
+			));
+			if($type != 4 && $template) return $this->helper->render('activity_status_action.html', $this->user->lang['ACTIVITY']);	
 		}
-		
-		$this->template->assign_vars(array(
-			"ACTION"	=> $sql.'',
-		));
-		if($type != 4) return $this->helper->render('activity_status_action.html', $this->user->lang['ACTIVITY']);	
 	}
 	
 	/**
@@ -538,7 +548,7 @@ class post_status
 			$allow_smilies = false; //$this->config['pg_social_smilies'];
 			$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
 			
-			$sql_use = "SELECT user_id, username, username_clean, user_colour, user_avatar, user_avatar_type FROM ".USERS_TABLE."
+			$sql_use = "SELECT user_id, username, username_clean, user_colour, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height FROM ".USERS_TABLE."
 			WHERE user_id = '".$row['user_id']."'";
 			$resulta = $this->db->sql_query($sql_use);
 			$wall = $this->db->sql_fetchrow($resulta);
@@ -549,7 +559,7 @@ class post_status
 				"AUTHOR_PROFILE"			=> get_username_string('profile', $wall['user_id'], $wall['username'], $wall['user_colour']),	
 				"AUTHOR_ID"					=> $wall['user_id'],
 				"AUTHOR_USERNAME"			=> $wall['username'],
-				"AUTHOR_AVATAR"				=> $this->pg_social_helper->social_avatar_thumb($wall['user_avatar'], $wall['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
+				"AUTHOR_AVATAR"				=> $this->pg_social_helper->social_avatar_thumb($wall['user_avatar'], $wall['user_avatar_type'], $wall['user_avatar_width'], $wall['user_avatar_height']),
 				"AUTHOR_COLOUR"				=> "#".$wall['user_colour'],
 				'COMMENT_TEXT'				=> generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags),			
 				'COMMENT_TIME'				=> date('c', $row['time']),
