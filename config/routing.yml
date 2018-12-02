@@ -11,5 +11,5 @@ status_page:
     defaults: { _controller: pgreca.pgsocial.controller:handle_status:index, id:0 }
     
 pages_page:
-    path: /page/{name}
-    defaults: { _controller: pgreca.pgsocial.pages:handlepage:index, name:0 }
+    path: /page
+    defaults: { _controller: pgreca.pgsocial.pages:handlepage }

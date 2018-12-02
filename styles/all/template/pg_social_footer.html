@@ -7,29 +7,34 @@
 	{% if (PROFILE_ID || PROFILE) && ACTIVITY_PAGE %}
 	setInterval(function() {
 		timeago_new();
-	}, 600);
+		if($("#pg_social_containerL").length > 0) {
+			$("ul#posts_status").css("height", $("#pg_social_containerL").height());
+			$("#pg_social_containerR").css("height", $("#pg_social_containerL").height());
+		}
+	}, 990);
 {% if S_USER_LOGGED_IN %}
 	if($("#posts_status").html() == "") pgwall_getStatus('seguel', where);
 	var pgsocial = setInterval(function() {
 		pgwall_getStatus('seguel', where);
+		
 	}, 2000);
 	{% if PG_SOCIAL_PROFILE %}
 	if($("#viewprofile").length) {
 		$("#viewprofile, h2.memberlist-title").hide().remove();
 	}
 	{% endif %}
-	if($(".forumlist").length) $("ul#posts_status").css("height", $(".forumlist").height());
 	$("#wall_post").submit(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		if($('#wall_post_img').length && $('#wall_post_img').val() != "" && $("#wall_post").hasClass("openform")) {
-			$("#wall_post").removeClass("openform");
-			uploadPhoto($('#wall_post_text').html(), $('#wall_post_img')[0].files[0], "wall", where);
-		} else {
-			$("#wall_post").removeClass("openform");
-			pgwall_addStatus($('#wall_post_text').html(), $('#wall_post_privacy option:selected').val());
+		if($("#wall_post").hasClass("openform")) {
+			if($('#wall_post_img').length && $('#wall_post_img').val() != "") {
+				$("#wall_post").removeClass("openform");
+				uploadPhoto($('#wall_post_text').html(), $('#wall_post_img')[0].files[0], "wall", where);
+			} else {
+				$("#wall_post").removeClass("openform");
+				pgwall_addStatus($('#wall_post_text').html(), $('#wall_post_privacy option:selected').val());
+			}
 		}
-		
 	});
 	
 	$(document).on('click', "#posts_status .post_status .post_status_footer .post_status_like a", function() {

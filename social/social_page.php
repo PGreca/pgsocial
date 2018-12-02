@@ -74,6 +74,7 @@ class social_page
 			'page_avatar'			=> '',
 			'page_cover'			=> '',
 			'page_cover_position'	=> '',
+			'page_about'			=> '',
 		);
 		$sql = "INSERT INTO ".$this->table_prefix.'pg_social_pages'.$this->db->sql_build_array('INSERT', $sql_arr);
 		if($this->db->sql_query($sql))

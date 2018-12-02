@@ -138,6 +138,7 @@ $lang = array_merge($lang, array(
 	'PG_SOCIAL_FRIENDS_CANCEL_REQ'		=> 'Cancella richiesta d\' amicizia',
 	'PG_SOCIAL_FRIENDS_DECLINE_REQ'		=> 'Rifiuta richiesta d\' amicizia',
 	'PG_SOCIAL_FRIENDS_REMOVE'			=> 'Rimuovi dagli amici',
+	'PG_SOCIAL_STATUS_DELETE'			=> 'Cancella stato',
 	'PG_SOCIAL_DISLIKE_NEW_LOG'			=> '<strong>Non piace più uno stato</strong><br />» %s',
 	'PG_SOCIAL_LIKE_NEW_LOG'			=> '<strong>Piace uno stato</strong><br />» %s',
 	'PG_SOCIAL_STATUS_NEW_LOG'			=> '<strong>Ha pubblicato uno stato</strong><br />» %s',

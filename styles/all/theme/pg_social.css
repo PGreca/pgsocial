@@ -22,6 +22,7 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social_container #pg_social_containerR {
 	display: inline-block;
 	width: calc(30% - 10px);	
+	height: 0px;
 	padding-left: 10px;
 	vertical-align: top;
 }
@@ -65,10 +66,6 @@ body.section-memberlist .action-bar.actions-jump {
 	text-decoration: none;
 }
 
-#pg_social a {
-	color: #515267;
-}
-
 #pg_social b {
 	color: #000;
 }
@@ -99,17 +96,18 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social .panel h3 {
 	position: relative;
 	display: inline-block;
-	width: calc(100% - 40px + 20px);
+	background-color: #fff;
+	width: calc(100% - 30px + 20px);
     margin: -10px -10px 15px;
-	padding: 20px;
+	padding: 15px;
 	border-bottom: 1px solid #cfcfcf;
 	font-size: 1.8em;
 	text-transform: inherit;
-	color: #545267;
+	color: #515365;
 }
 
 #pg_social .panel h5 {
-    padding: 20px;
+    padding: 15px;
 	letter-spacing: 1.3px;
     font-size: 3em;
     font-weight: bold;
@@ -255,11 +253,15 @@ body.section-memberlist .action-bar.actions-jump {
 	
 #pg_social #pg_social_main h2.memberlist-username {
 	position: absolute;
-	z-index: 40;
+	z-index: 2;
+	height: calc(58px - 10px - 2px);
+	line-height: calc(58px - 10px - 2px);
 	margin: 0px 0px 0px calc(15% + 40px + 2px);
 	padding: 5px 0px;
 	font-size: 3em;
 	font-weight: bold;
+	
+	
 }
 
 #pg_social #pg_social_main h2.memberlist-username i.icon {
@@ -270,14 +272,17 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social #pg_social_main ul#pg_social_menu {
 	position: relative;
-	background-color: rgba(255, 255, 255, 0.9);
-	width: calc(100% - 1px);
+	background-color: #fff;
+	width: calc(100% - 2px);
 	margin: 0px 0px 25px;
-	border: 0.5px solid #e5ecf6;
+    border: 1px solid #e6ecf5;
 	border-top: 0px;
 	border-radius: 0px 0px 5px 5px;
 	text-align: right;
 	font-size: 1.3em;
+	
+	   
+    margin-bottom: 15px;
 }
 
 #pg_social #pg_social_main ul#pg_social_menu li {
@@ -488,7 +493,7 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont a#page_new_button {
     background: #105289;
     margin: 10px 0px;
-	padding: 20px;
+	padding: 15px;
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
@@ -726,29 +731,50 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social form#wall_post {
-	position: relative;
-	background-color: rgba(0, 0, 0, 0.5);
-	margin-bottom: 10px;
-	padding: 10px;
-	border-radius: 5px;
+	position: relative;	
+	background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #e6ecf5;
+    margin-bottom: 15px;
+	
 }
 
 #pg_social form#wall_post > * {
 	border: 0px;
 }
 
-#pg_social form#wall_post .wall_post_area {
+#pg_social form#wall_post ul#wall_post_header {
+	display: inline-block;
+	background-color: #fafbfd;
+	width: 100%;
+	border-bottom: 1px solid #e6ecf5;
+	border-radius: 5px 5px 0px 0px;
+}
+
+#pg_social form#wall_post ul#wall_post_header li {
+	display: inline-block;
 	background-color: #fff;
-	width: calc(100% - 20px);
-	padding: 10px;
-	border-radius: 5px;
+	margin-bottom: -1px;
+	border-right: 1px solid #e6ecf5;
+	padding: 20px;
+	cursor: pointer;
+	text-transform: uppercase;
+}
+
+#pg_social form#wall_post ul#wall_post_header li:first-child {
+	border-radius: 5px 0px 0px 0px;
+}
+
+#pg_social form#wall_post .wall_post_area {
+	
 }
 
 #pg_social form#wall_post #wall_post_text {
 	display: inline-block;
-	vertical-align: top;
-	width: 100%;
-	min-height: 40px;
+	width: calc(100% - 50px);
+	height: 100px;
+	margin: 10px 0px;
+	padding: 30px 25px;
 	overflow-y: auto;
 	resize: none;
 	font-size: 1.1em;
@@ -760,8 +786,9 @@ body.section-memberlist .action-bar.actions-jump {
 	content: attr(placeholder);
 }
 
-#pg_social form#wall_post.active #wall_post_text {
-	height: 50px;
+#pg_social form#wall_post #wall_post_footer {
+	padding: 10px 15px;
+    border-top: 1px solid #e6ecf5;
 }
 
 #pg_social form#wall_post #wall_post_text span.people_tagged {
@@ -773,12 +800,11 @@ body.section-memberlist .action-bar.actions-jump {
 	position: relative;
     display: inline-block;
 	height: 34px;
-	vertical-align: top;
+	vertical-align: middle;
     margin: 0px 0px 0px 5px;
     padding: 0px;
     border-radius: 5px;
     cursor: pointer;
-    color: #fff;
 	overflow: hidden;
 }
 
@@ -791,8 +817,6 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social form#wall_post select:focus,
 #pg_social form#wall_post label#pg_social_wall_post_img:hover,
 #pg_social form#wall_post input[type="submit"]:focus {
-	opacity: 1;
-	color: rgba(255, 255, 255, 0.8);
 }
 
 #pg_social form#wall_post label#pg_social_wall_post_img input[type="file"] {
@@ -813,7 +837,6 @@ body.section-memberlist .action-bar.actions-jump {
 	display: inline-block;
 	vertical-align: top;
 	width: 50%;
-	margin-top: 15px;
 	text-align: right;
 }
 
@@ -829,9 +852,15 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social form#wall_post input[type="file"],
 #pg_social form#wall_post select,
 #pg_social form#wall_post input[type="submit"] {
+	height: 34px;
 	padding: 10px;
 	border-radius: 5px;	
 	margin-left: 10px;
+}
+
+#pg_social form#wall_post select {
+	background-color: #fff;
+	border: 1px solid #e6ecf5;
 }
 
 #pg_social form#wall_post select option {
@@ -840,11 +869,13 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social form#wall_post input[type="submit"] {
-	padding: 11px 10px;
+	background-color: #ff5e3a;
+	padding: 11px 15px;
+	color: #fff;
 }
 
 #pg_social form#wall_post input[type="submit"]:hover {
-	background-color: rgba(0, 0, 0, 0.9);
+	background-color:#ff763a;
 	color: #fff;
 }
 
@@ -949,7 +980,7 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul#profile_head_content li {
 	display: none;
 	list-style: none;
-	padding: 20px;
+	padding: 15px;
 }
 
 #pg_social #pg_social_cont ul#profile_head_content li h3 {
@@ -972,6 +1003,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status {
+	display: inline-block;
 	background-color: #fff;
 	width: calc(100% - 2px);
 	margin: 0px 0px 20px;
@@ -980,14 +1012,9 @@ body.section-memberlist .action-bar.actions-jump {
 	animation: animateElement linear 1s;
 	animation-iteration-count: 1;
 }
-/*
-#pg_social #pg_social_cont li.post_status_copy {
-	display: none;
-	opacity: 0;
-}
-*/
+
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head {
-	padding: 20px;
+	padding: 15px;
 	border-radius: 5px 5px 0px 0px;
 }
 
@@ -999,6 +1026,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author > a {
 	display: inline-block;
+	color: #888da8;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author_avatar img {
@@ -1014,8 +1042,8 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author {
 	display: inline-block;
 	vertical-align: top;
-	width: calc(75% - 60px);
-	margin: 0px 0px 0px;
+	width: calc(100% - 60px - 20px);
+	margin: 0px 10px 0px 0px;
 	padding: 5px 0px 0px;
 }
 
@@ -1045,33 +1073,46 @@ body.section-memberlist .action-bar.actions-jump {
 	line-height: 1em;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action {
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton {
+	position: relative;
 	display: inline-block;
+	width: 20px;
+	height: 20px;
 	vertical-align: top;
-	width: calc(25% - 5px);
-	margin: 0px 0px 0px 5px;
-	padding: 5px 5px 0px 0px;
-	text-align: right;
-}
-
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action > div {
-	display: none;
-	background-color: rgba(0, 0, 0, 0.07);
-	margin-left: 5px;
-	padding: 5px;
-	border-radius: 5px;
+	font-size: 2em;
 	cursor: pointer;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton i.fa {
+	vertical-align: top;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton .post_status_action {
+	display: none;
+	top: 100%;
+	left: auto;
+	background-color: #fff;
+	vertical-align: top;
+	padding: 5px 10px;
+	box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
 	vertical-align: middle;
-	text-align: center;
+	font-size: 0.5em;
+	cursor: initial;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head:hover .post_status_action > div {
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton:hover .post_status_action {
 	display: inline-block;
+	text-align: left;
+	color: #515365;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action > div:hover {
-	background-color: rgba(0, 0, 0, 0.7);
-	color: #fff;
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton .post_status_action > div {
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton .post_status_action > div:hover {
+	color: #ff5e3a;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content {
@@ -1092,6 +1133,25 @@ body.section-memberlist .action-bar.actions-jump {
 	border-radius: 5px;
 }
 */
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content .pgblog_article_thumbnail {
+	background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+	max-height: 250px;
+	margin: 0px -20px 25px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content .pgblog_article_thumbnail img {
+	width: 100%;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content a.pgblog_article_thumbinfo_title {
+	margin-bottom: 15px;
+    font-size: 2.2em;
+	font-weight: normal;
+}
+
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content .post_parent_info {
 	background-color: rgba(0, 0, 0, 0.08);
 	margin: 0px 0px 0px;
@@ -1125,6 +1185,8 @@ body.section-memberlist .action-bar.actions-jump {
 	max-width: 70%;
     min-width: 40%;
 	max-height: 750px;
+	border-radius: 5px;
+    overflow: hidden;
 	cursor: pointer;
 }
 
@@ -1344,8 +1406,8 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment {
 	display: inline-block;
 	background-color: #fff;
-	width: calc(100% - 40px);
-	padding: 20px;
+	width: calc(100% - 30px);
+	padding: 15px;
 	border-radius: 0px 0px 5px 5px;
 }
 
@@ -1537,7 +1599,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_sider ul#friends_suggestions li.friend {
-	padding: 20px;
+	padding: 15px;
 	border-bottom: 1px solid #cfcfcf;
 }
 
@@ -1565,12 +1627,12 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social #pg_social_sider ul#friends_suggestions li.friend .friend_action {
 	display: inline-block;
-	width: 50px;
-	height: 50px;
-	line-height: 50px;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
 	vertical-align: middle;
 	background-color: #39a9ff;
-	border-radius: 5px;
+	border-radius: 100%;
 	text-align: center;
 }
 
@@ -1660,9 +1722,9 @@ body.section-memberlist .action-bar.actions-jump {
 } 
 
 #pg_social #page_create form#page_new_form input[type="text"] {
-	width: calc(100% - 4% - 40px - 2px);
+	width: calc(100% - 4% - 30px - 2px);
 	margin: 5px 2%;
-	padding: 20px;
+	padding: 15px;
 	border: 1px solid #e5ecf6;
 	border-radius: 5px;
 }
@@ -1672,7 +1734,7 @@ body.section-memberlist .action-bar.actions-jump {
 	background-color: #fe5e3a;
 	width: calc(100% - 10%);
 	margin: 30px 5% 5px;
-	padding: 20px;
+	padding: 15px;
 	border-radius: 5px;
 	text-transform: uppercase;
 	font-weight: bold;
@@ -2159,15 +2221,7 @@ a.profile_signature_status {
 	#pg_social form#wall_post input[type="submit"] {
 		margin-top: 10px;
 	}
-	
-	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head {
-		padding: 5px 0px 0px;
-	}
-	
-	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author {
-		width: calc(70% - 60px - 10px - 6px);
-	}
-	
+		
 	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action {
 		width: calc(30% - 4px);
 		padding: 0px;

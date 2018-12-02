@@ -18,10 +18,6 @@
 	background-color: #2a6496;	
 }
 
-#pg_social form#wall_post {
-	background-color: #105289;
-}
-
 #pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people:hover {
 	background-color: rgba(43, 101, 151, 0.85);
 }
@@ -46,10 +42,6 @@
 }
 
 #pg_social #pg_social_sidel ul#profile_menu li a {
-	color: #105289;
-}
-
-#pg_social #pg_social_sider .panel h3 {
 	color: #105289;
 }
 

@@ -62,10 +62,10 @@ class social_tag
 			if($this->social_zebra->friendStatus($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS')
 			{
 				$this->template->assign_block_vars('tag_system_search', array(
-					'USER_ID'		=> $row['user_id'],
-					'USERNAME'		=> $row['username'],
+					'USER_ID'			=> $row['user_id'],
+					'USERNAME'			=> $row['username'],
 					'USERNAME_CLEAN'	=> $row['username_clean'],
-					'AVATAR'		=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
+					'AVATAR'			=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
 					
 				));
 			}

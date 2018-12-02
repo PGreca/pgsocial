@@ -2,7 +2,6 @@ services:
     pgreca.pgsocial.forum:
         class: pgreca\pgsocial\controller\forum
         arguments:
-            - '@files.factory'
             - '@auth'
             - '@config'
             - '@dbal.conn'
@@ -26,7 +25,6 @@ services:
     pgreca.pgsocial.controller:
         class: pgreca\pgsocial\controller\main
         arguments:
-            - '@files.factory'
             - '@auth'
             - '@config'
             - '@dbal.conn'
@@ -77,6 +75,7 @@ services:
             - '@dbal.conn'
             - '@log'
             - '@service_container'
+            - '@dispatcher'
             - '%core.root_path%'
             - '%core.php_ext%'
             - '%core.table_prefix%'

@@ -12,9 +12,6 @@ namespace pgreca\pgsocial\controller;
 
 class main
 {
-	/** @var \phpbb\files\factory */
-	protected $files_factory;
-	
 	/* @var \phpbb\auth\auth */
 	protected $auth;
 	
@@ -60,9 +57,8 @@ class main
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
 	*/
-	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix)
+	public function __construct($auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix)
 	{
-		$this->files_factory		= $files_factory;
 		$this->auth					= $auth;
 		$this->config				= $config;
 		$this->db					= $db;
@@ -111,7 +107,7 @@ class main
 			switch($mode)
 			{
 				case 'getStatus':	
-					return $this->post_status->getStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('lastp', ''), $where, $this->request->variable('order', ''), true);
+					return $this->post_status->getStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('lastp', ''), $where, '', $this->request->variable('order', ''), true);
 				break;
 				case 'addStatus':
 					return $this->post_status->addStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', ''), $this->request->variable('privacy', ''), 0, '', true);
@@ -287,7 +283,7 @@ class main
 					'PAGES_URL'								=> $this->helper->route("pages_page"),
 				));	
 			
-				$this->post_status->getStatus('all', $this->user->data['user_id'], 0, "all", "seguel", "");
+				$this->post_status->getStatus('all', $this->user->data['user_id'], 0, "all", 0, "seguel", "");
 				$this->social_zebra->getFriends($profile_id, $where, "no");
 				$this->template->assign_block_vars('navlinks', array(
 					'FORUM_NAME'	=> $this->user->lang('ACTIVITY'),
@@ -328,7 +324,7 @@ class main
 				$this->template->assign_vars(array(
 					'PROFILE_ID'	=> $row['wall_id'],
 				));
-				return $this->post_status->status('', $row['wall_id'], $row['post_type'], 'half', $row);	
+				return $this->post_status->status('', $row['wall_id'], $row['post_type'], 'half', $row, $row['post_type']);	
 			}
 		}
 		else

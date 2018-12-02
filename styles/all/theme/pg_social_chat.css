@@ -35,6 +35,7 @@
 	margin-right: 10px;
 	border-bottom: 0px;
 	border-radius: 4px 4px 0px 0px;
+	z-index: 3;
 }
 
 #pg_social_chat .pg_social_chat.opened {
@@ -229,6 +230,10 @@
 
 #pg_social_chat .pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text a {
 	color: #cfcfcf;
+}
+
+#pg_social_chat .pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_text img {
+	vertical-align: middle;
 }
 
 #pg_social_chat .pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text:hover a {

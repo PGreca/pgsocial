@@ -12,8 +12,6 @@ namespace pgreca\pgsocial\controller;
 
 class forum
 {
-	/** @var \phpbb\files\factory */
-	protected $files_factory;
 	
 	/* @var \phpbb\auth\auth */
 	protected $auth;
@@ -68,9 +66,8 @@ class forum
 	* @param \phpbb\group\helper     $group_helper 
 	* @param \phpbb\event\dispatcher $dispatcher
 	*/
-	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $group_helper, $dispatcher, $root_path, $php_ext, $table_prefix)
+	public function __construct($auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $group_helper, $dispatcher, $root_path, $php_ext, $table_prefix)
 	{
-		$this->files_factory		= $files_factory;
 		$this->auth					= $auth;
 		$this->config				= $config;
 		$this->db					= $db;
@@ -198,7 +195,7 @@ class forum
 			* @since 3.1.7-RC1
 			*/
 			$vars = array('now', 'sql_ary', 'time');
-			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_sql', compact($vars)));
+			extract($this->dispatcher->trigger_event('pgreca.pgsocial.core.index_modify_birthdays_sql', compact($vars)));
 			
 			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 			$result = $this->db->sql_query($sql);
@@ -229,7 +226,7 @@ class forum
 			* @since 3.1.7-RC1
 			*/
 			$vars = array('birthdays', 'rows');
-			extract($this->dispatcher->trigger_event('core.index_modify_birthdays_list', compact($vars)));
+			extract($this->dispatcher->trigger_event('pgreca.pgsocial.core.index_modify_birthdays_list', compact($vars)));
 
 			$this->template->assign_block_vars_array('birthdays', $birthdays);
 		}
@@ -273,11 +270,11 @@ class forum
 		* @since 3.1.0-a1
 		*/
 		$vars = array('page_title');
-		extract($this->dispatcher->trigger_event('core.index_modify_page_title', compact($vars)));
+		extract($this->dispatcher->trigger_event('pgreca.pgsocial.core.index_modify_page_title', compact($vars)));
 
 		// Output page
 		page_header($page_title, true);
-		$this->post_status->getStatus('all', $this->user->data['user_id'], 0, "all", "seguel", "");
+		$this->post_status->getStatus('all', $this->user->data['user_id'], 0, "all", "", "seguel", "");
 		$this->template->set_filenames(array(
 			'body' => 'index_body.html')
 		);

@@ -176,6 +176,8 @@ class listener implements EventSubscriberInterface
 		$event['permissions'] = $permissions;
 	}
 		
+		
+		
 	/**
 	 * Remove forumlist from index and replace with Social
 	 */
@@ -234,7 +236,7 @@ class listener implements EventSubscriberInterface
 		if($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0)
 		{
 			$event['location'] = $this->user->lang('FORUM_INDEX');
-			$event['location_url'] = $this->phpbb_container->get('controller.helper')->route('forum_page');
+			$event['location_url'] = $this->route('forum_page');
 		}
 	}
 	
@@ -288,8 +290,7 @@ class listener implements EventSubscriberInterface
 				'SOCIAL_PROFILE_PATH'		=> $this->helper->route('profile_page'),
 				'STATUS_WHERE'				=> 'profile',
 			));
-			
-			$this->post_status->getStatus("profile", $user_id, 0, "profile", "seguel", "");
+			$this->post_status->getStatus("profile", $user_id, 0, "profile", 0, "seguel", "");
 			$this->social_photo->getPhotos(0, "last", $user_id);
 			$this->social_zebra->getFriends($user_id, "profile", "yes");
 			$this->social_photo->getGallery($user_id, "profile");
@@ -306,9 +307,11 @@ class listener implements EventSubscriberInterface
 			'PG_SOCIAL_INDEX_ACTIVITY'			=> $this->config['pg_social_index_activity'] ? true : false,
 			'PG_SOCIAL_PAGE_NOTIFIY_MANAGER'	=> ($this->social_page->approPages() > 0 && ($this->auth->acl_gets('m_page_manage') || $this->auth->acl_gets('a_page_manage'))) ? true : false,
 		));	
-		
-		
 		if($this->is_startpage) $this->template->destroy_block_vars('navlinks');
+		if($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->config['pg_social_index_replace'] && $this->user->data['user_id'] != ANONYMOUS && $this->config['pg_social_index_activity'])
+		{
+			$this->post_status->getStatus('all', $this->user->data['user_id'], 0, "all", 0, "seguel", "");
+		}
 	}
 	
 	public function add_page_links($event)

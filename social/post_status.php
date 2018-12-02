@@ -64,7 +64,7 @@ class post_status
 	/**
 	 * The wall
 	*/
-	public function getStatus($post_where, $wall_id, $lastp, $type, $order, $template)
+	public function getStatus($post_where, $wall_id, $lastp, $type, $select, $order, $template)
 	{
 		switch($post_where)
 		{
@@ -83,12 +83,16 @@ class post_status
 				$where .= "(w.user_id = u.user_id) AND (u.user_type != '2') AND ";
 			break;
 		}
-		
-		
+		if($select != 0 && $type == 'profile') {
+			$where .= 'post_type = "'.$select.'" AND ';
+		} elseif($type != 'all') {
+			$where .= 'post_type IN ("0", "1", "2", "3", "4") AND ';
+		}
+				
 		switch($lastp)
 		{
 			case 0:
-				$limit = 10; 
+				$limit = 5; 
 				$orderby = "DESC"; 
 			break;
 			default:
@@ -118,14 +122,14 @@ class post_status
 		{	
 			if(($post_where == 'page'|| $row['post_where'] == 1 && $this->social_page->user_likePages($this->user->data['user_id'], $row['wall_id']) == $row['wall_id']) || ($row['post_where'] == 0 && ($row['wall_id'] == $this->user->data['user_id']) || ($row['post_privacy'] == 0 && $row['wall_id'] == $this->user->data['user_id']) || ($row['post_privacy'] == 1 && $this->social_zebra->friendStatus($row['wall_id'])['status'] == 'PG_SOCIAL_FRIENDS') || $row['post_privacy'] == 2))
 			{
-				$this->status($post_where, $wall_id, $type, $template, $row);
+				$this->status($post_where, $wall_id, $type, $template, $row, $select);
 			}
 			else
 			{
 				if($order == "prequel")
 				{
 					$lastp = $lastp - 2;
-					$this->getStatus($post_where, $wall_id, $lastp, $type, $order, $template);
+					$this->getStatus($post_where, $wall_id, $lastp, $type, $select, $order, $template);
 				}
 			}
 		}
@@ -139,8 +143,10 @@ class post_status
 	/**
 	 * Information or Output of the Activity
 	*/
-	public function status($post_where, $wall_id, $type, $template, $row)
+	public function status($post_where, $wall_id, $type, $template, $row, $select = 0)
 	{
+		$block_vars = '';
+		if($select == 0) $block_vars = 'post_status';
 		$rele = true;
 		$author_action = '';
 		$action = false;
@@ -174,7 +180,8 @@ class post_status
 				$status_avatar .= ')" />';
 				$status_username = $page['page_username'];
 				$status_aut_id = $page['page_id'];
-				$status_profile = $this->helper->route('pages_page', array('name' => $page['page_username_clean']));
+				$status_profile = append_sid($this->helper->route('pages_page'), 'u='.$page['page_username_clean']);
+				
 				$status_color = '';
 			break;
 			case 0:
@@ -201,41 +208,21 @@ class post_status
 				{						
 					case 4:
 						$posts = explode("#p", $row['post_extra']);
-						$sql_post = "SELECT * FROM ".TOPICS_TABLE." WHERE topic_id = '".$posts[0]."'";
+						$sql_post = "SELECT topic_id, topic_title FROM ".TOPICS_TABLE." WHERE topic_id = '".$posts[0]."'";
 						$res = $this->db->sql_query($sql_post);
 						$post = $this->db->sql_fetchrow($res);
 						
-						if(!$post['topic_id']) $author_action = $this->user->lang("HAS_WRITED_POST_ON_CANCEL"); else $author_action = $this->user->lang("HAS_WRITED_POST_ON", '<a href="'.append_sid(generate_board_url()).'/viewtopic.php?t='.$post['topic_id'].'#p'.$posts[1].'">'.$post['topic_title'].'</a>');
-						$msg = '';
-						$msg_align = '';						
+						if(!$post['topic_id']) $author_action = $this->user->lang("HAS_WRITED_POST_ON_CANCEL"); else $author_action = $this->user->lang("HAS_WRITED_POST_ON", '<a href="'.append_sid(generate_board_url()).'/viewtopic.php?t='.$post['topic_id'].'#p'.$posts[1].'">'.$post['topic_title'].'</a>');				
 					break;						
 				}	
 			break;
 		}
+		$msg .= $this->social_tag->showTag($msg);	
+		$msg .= $this->pg_social_helper->noextra(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags));
+		$msg .= $this->pg_social_helper->extraText($row['message']);
 		switch($row['post_type'])
-		{
-			case 1:
-					$author_action = $this->user->lang("HAS_UPLOADED_AVATAR");
-					$photo = $this->photo($row['post_extra']);
-					$msg = $photo['msg'];
-					$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
-				break;
-			case 2:
-				$author_action = $this->user->lang("HAS_UPLOADED_COVER");
-				$photo = $this->photo($row['post_extra']);
-				$msg = $photo['msg'];
-				$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
-			break;
-			case 5:
-				$sql_article = "SELECT * FROM ".$this->table_prefix."pgblog_articles WHERE article_id = '".$row['post_extra']."'";
-				$result_art = $this->db->sql_query($sql_article);
-				$article = $this->db->sql_fetchrow($result_art);
-				$author_action = $this->user->lang("HAS_WRITED_ARTICLE");
-				$author_action .= ' <a href="'.$this->helper->route('blog').'/'.$article['article_permalink'].'">'.$article['article_title'].'</a>';
-			break;
-			
-			case 3:
-			default:
+		{			
+			case 0:
 				if($row['post_parent'] != 0)
 				{
 					$share = $row['post_parent'];
@@ -262,27 +249,53 @@ class post_status
 					{
 						$sauthor_action = '';
 						$author_action = $this->user->lang("HAS_SHARED_STATUS", '<a href="'.append_sid($this->helper->route("status_page", array("id" => $parent['post_ID']))).'">'.$this->user->lang('STATUS').'</a>');
-						$msg = $this->pg_social_helper->noextra(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags));
-						$msg .= $this->pg_social_helper->extraText($row['message']);
-						$msg .= '<div class="post_parent_cont">';
-						$msg .= '<div class="post_parent_info">';
-						$msg .= '<div class="post_parent_author"><a href="'.$parent['url'].'">'.$parent['username'].'</a>'.$sauthor_action.'</div>';
-						$msg .= '<div class="post_parent_date">'.$this->pg_social_helper->time_ago($parent['time']).'</div>';
-						$msg .= '<div class="post_parent_cont">'.$this->pg_social_helper->noextra(generate_text_for_display($parent['message'], $parent['bbcode_uid'], $parent['bbcode_bitfield'], $flags)).'</div>';
-						$msg .= $this->pg_social_helper->extraText($parent['message']);
-							
-						$msg .= '</div>';
-						$msg .= '</div>';
+						
 						if($parent['post_extra'] != "")
 						{
+							$submsg = '';
 							switch($parent['post_type'])
-							{						
+							{			
+								case 5:
+									$sauthor_action .= " ".$this->user->lang("HAS_WRITED_ARTICLE");
+								break;
 								case 4:
 									$posts = explode("#p", $parent['post_extra']);
 									$sql_post = "SELECT * FROM ".TOPICS_TABLE." WHERE topic_id = '".$posts[0]."'";
 									$res = $this->db->sql_query($sql_post);
 									$post = $this->db->sql_fetchrow($res);
 									if(!$post['topic_id']) $sauthor_action = " ".$this->user->lang("HAS_WRITED_POST_ON_CANCEL"); else $sauthor_action = " ".$this->user->lang("HAS_WRITED_POST_ON", '<a href="'.append_sid(generate_board_url()).'/viewtopic.php?t='.$post['topic_id'].'#p'.$posts[1].'">'.$post['topic_title'].'</a>');
+									
+									$msg_align = '';						
+								break;	
+								default :
+									$photo = $this->photo($parent['post_extra']);
+									//$msg .= $photo['msg'];
+									$submsg .= '<div class="status_photos">'.$photo['img'].'</div>';	
+									$sauthor_action = ' ha condiviso una foto';
+								break;
+							}	
+						}
+						$msg .= '<div class="post_parent_cont">';
+						$msg .= '<div class="post_parent_info">';
+						$msg .= '<div class="post_parent_author"><a href="'.$parent['url'].'">'.$parent['username'].'</a>'.$sauthor_action.'</div>';
+						$msg .= '<div class="post_parent_date">'.$this->pg_social_helper->time_ago($parent['time']).'</div>';
+						$msg .= '<div class="post_parent_cont">'.$this->pg_social_helper->noextra(generate_text_for_display($parent['message'], $parent['bbcode_uid'], $parent['bbcode_bitfield'], $flags)).'</div>';
+						$msg .= $this->pg_social_helper->extraText($parent['message']);
+						$msg .= '</div>';
+						$msg .= '</div>';
+						if($parent['post_extra'] != "")
+						{
+							switch($parent['post_type'])
+							{			
+								case 5:
+									$sauthor_action = '';
+								break;
+								case 4:
+									$posts = explode("#p", $parent['post_extra']);
+									$sql_post = "SELECT * FROM ".TOPICS_TABLE." WHERE topic_id = '".$posts[0]."'";
+									$res = $this->db->sql_query($sql_post);
+									$post = $this->db->sql_fetchrow($res);
+									if(!$post['topic_id']) $sauthor_action .= " ".$this->user->lang("HAS_WRITED_POST_ON_CANCEL"); else $sauthor_action .= " ".$this->user->lang("HAS_WRITED_POST_ON", '<a href="'.append_sid(generate_board_url()).'/viewtopic.php?t='.$post['topic_id'].'#p'.$posts[1].'">'.$post['topic_title'].'</a>');
 									
 									$msg_align = '';						
 								break;	
@@ -296,23 +309,35 @@ class post_status
 						}
 					}
 				}
-				else
+			break;
+			case 1:
+					$author_action = $this->user->lang("HAS_UPLOADED_AVATAR");
+					$photo = $this->photo($row['post_extra']);
+					$msg .= $photo['msg'];
+					$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
+				break;
+			case 2:
+				$author_action = $this->user->lang("HAS_UPLOADED_COVER");
+				$photo = $this->photo($row['post_extra']);
+				$msg = $photo['msg'];
+				$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
+			break;	
+			case 3:
+				if($row['post_extra'] != "")
 				{
-					$msg = $this->pg_social_helper->noextra(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags));
-					$msg = $this->social_tag->showTag($msg);	
-					if($row['post_extra'] != "" && $row['post_type'] != 4)
-					{
-						$photo = $this->photo($row['post_extra']);
-						$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
-					}
-					else
-					{
-						$msg .= $this->pg_social_helper->extraText($row['message']);
-					}		
-				}							
-				$msg_align = '';
-			break;					
+					$author_action .= ' ha pubblicato una foto';
+					$photo = $this->photo($row['post_extra']);
+					$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
+				}
+			break;	
+			default:
+				$activity = $this->pg_social_helper->pgStatus_type($row['post_type'], $row['post_extra'], $msg, $author_action, $type, $block_vars);
+				$block_vars = $activity['block_vars'];
+				$msg .= $activity['msg'];
+			break;
 		}
+		
+		
 		$comment = "<span>".$this->pg_social_helper->countAction("comments", $row['post_ID'])."</span> ";
 		if($this->pg_social_helper->countAction("comments", $row['post_ID']) == 0 || $this->pg_social_helper->countAction("comments", $row['post_ID']) > 1)
 		{
@@ -334,7 +359,7 @@ class post_status
 		}	
 		
 		if($row['wall_id'] == $user_id || $user_id == $row['user_id']) $action = true;
-		$this->template->assign_block_vars('post_status', array(
+		$this->template->assign_block_vars($block_vars, array(
 			"POST_STATUS_ID"            => $row['post_ID'],
 			"AUTHOR_ACTION"				=> $author_action,
 			"AUTHOR_PROFILE"			=> $status_profile,
@@ -387,7 +412,7 @@ class post_status
 		$allow_bbcode = $this->config['pg_social_bbcode'];
 		$allow_urls = $this->config['pg_social_url'];
 		$allow_smilies = $this->config['pg_social_smilies'];
-		$text = urldecode($text);
+		$text = str_replace("<br>", "\n", urldecode($text));
 		$time = time();
 		if(!$extra) $extra = "";
 		generate_text_for_storage($text, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);

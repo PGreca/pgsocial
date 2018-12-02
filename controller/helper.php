@@ -30,6 +30,9 @@ class helper
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 	
+	/** @var \phpbb\eent\dispatcher */
+	protected $dispatcher;
+	
 	/* @var string phpBB root path */
 	protected $root_path;	
 	
@@ -48,7 +51,7 @@ class helper
 	* @param \phpbb\log\log              $log
 	*/
 	
-	public function __construct($auth, $user, $helper, $notifyhelper, $config, $db, $log, $phpbb_container, $root_path, $php_ext, $table_prefix)
+	public function __construct($auth, $user, $helper, $notifyhelper, $config, $db, $log, $phpbb_container, $dispatcher, $root_path, $php_ext, $table_prefix)
 	{
 		$this->auth = $auth;
 	    $this->user = $user;
@@ -58,6 +61,7 @@ class helper
 		$this->db = $db;
 		$this->log = $log;
 		$this->phpbb_container = $phpbb_container;
+		$this->dispatcher			= $dispatcher;
 	    $this->root_path = $root_path;	
 		$this->php_ext = $php_ext;
         $this->table_prefix = $table_prefix;
@@ -405,10 +409,20 @@ class helper
 		}
 	}
 	
-	public function noextra($text) {
-		$cont = preg_replace('#<a.*?>.*?</a>#i', '', $text);
-		return $cont;
-				
+	public function noextra($text,  $tags = '')
+	{
+		preg_match_all('/<(.+?)[\s]*\/?[\s]*>/si', trim($tags), $tags); 
+		$tags = array_unique($tags[1]); 
+
+		if(is_array($tags) AND count($tags) > 0)
+		{ 
+			return preg_replace('@<(?!(?:'. implode('|', $tags) .')\b)(\w+)\b.*?>.*?</\1>@si', '', $text); 
+		} 
+		else
+		{ 
+			return preg_replace('@<(\w+)\b.*?>.*?</\1>@si', '', $text); 
+		} 
+		return $text;
 	}
 	
 	/* ADD LOG OF USER */
@@ -417,5 +431,29 @@ class helper
 		$this->log->add('user', $user, $ip, 'PG_SOCIAL_'.$action.'_LOG', time(), array($id));
 	}
 
+	public function pgblog_statusArticle($article)
+	{
+		if($this->phpbb_container->get('pgreca.pgblog.controller')) {
+			$this->pgblog = $this->phpbb_container->get('pgreca.pgblog.controller');
+			return $this->pgblog->pgblog_article($article); 
+		}
+	}
+	
+	public function pgStatus_type($type, $extra, $msg, $author_action, $wshow, $block_vars)
+	{
+		$array = array();
+		$vars = array('type', 'extra', 'msg', 'author_action', 'wshow', 'block_vars');
+		extract($this->dispatcher->trigger_event('pgreca.pgsocial.statusType', compact($vars)));
+		$temp = array(
+			"type"				=> $type,
+			"extra"				=> $extra,
+			"msg"				=> $msg,
+			"author_action"		=> $author_action,
+			"wshow"				=> $wshow,
+			"block_vars"		=> $block_vars
+		);
+		$array = $temp;
+		return $array;
+	}
 }
 ?>

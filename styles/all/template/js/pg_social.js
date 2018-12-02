@@ -35,7 +35,7 @@
 		//DELETE STATUS
 		$(document).on('click', "#posts_status .post_status .post_status_head .post_status_remove", function() {
 			if(confirm(useLang['ARE_YOU_SURE'])) {
-				var post_status = $(this).parent().parent().parent().attr('data-lastp');
+				var post_status = $(this).parent().parent().parent().parent().attr('data-lastp');
 				pgwall_removeStatus(post_status);
 			}
 		});

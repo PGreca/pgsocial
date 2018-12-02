@@ -82,12 +82,11 @@ class pages
 	}
 	
 	/**
-	* Profile controller for route /page/{name}
+	* Profile controller for route /page
 	*
-	* @param string		$name
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function handlepage($name)
+	public function handlepage()
 	{
 		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
 		{
@@ -102,20 +101,21 @@ class pages
 			$page_title = $this->user->lang['PAGES'];
 	
 			$sql = "SELECT p.*, (SELECT COUNT(*) 
-							FROM ".$this->table_prefix."pg_social_pages_like as l
-							WHERE l.page_id = p.page_id) AS countlike
+					FROM ".$this->table_prefix."pg_social_pages_like as l
+					WHERE l.page_id = p.page_id) AS countlike
 			FROM ".$this->table_prefix."pg_social_pages as p
-			WHERE p.page_username_clean = '".$name."'";
+			WHERE p.page_username_clean = '".$this->request->variable('u', '')."'";
 			$result = $this->db->sql_query($sql);
 			$page = $this->db->sql_fetchrow($result);
+			$page_alert = false;
 			$this->db->sql_freeresult($result);
 			if($page && ($page['page_status'] == 1 || $page['page_founder'] == $this->user->data['user_id'] || $this->auth->acl_get('a_page_manage')))
 			{	
 				$page_title = $page['page_username'];
-				if($page['page_status'] == 0) $page_alert = true; else $page_alert = false;
+				if($page['page_status'] == 0) $page_alert = true;
 				
 				if($page['page_status'] == 1) $page['page_act'] = true; else $page['page_act'] = false;
-				if($page['page_founder'] == $this->user->data['user_id'] && $page['page_status'] == 1) $page['page_action'] = true;
+				if($page['page_founder'] == $this->user->data['user_id'] && $page['page_status'] == 1) $page['page_action'] = true; else $page['page_action'] = false;
 				if($this->social_page->user_likePages($this->user->data['user_id'], $page['page_id']) == $page['page_id']) 
 				{
 					$page_likeCheck = "like"; 
@@ -133,7 +133,7 @@ class pages
 					'PAGE_ACTION'			=> $page['page_action'],
 					'PAGE_AVATAR'			=> $this->pg_social_helper->social_avatar_page($page['page_avatar']),		     
 					'PAGE_COVER'			=> $this->pg_social_helper->social_cover($page['page_cover']),
-					'PAGE_URL'				=> $this->helper->route('pages_page', array('name' => $page['page_username_clean'])),
+					'PAGE_URL'				=> append_sid($this->helper->route('pages_page'), 'u='.$page['page_username_clean']),
 					'PAGE_USERNAME'			=> $page['page_username'],
 					'PAGE_ABOUT_WE'			=> $page['page_about'],
 					'PAGE_REGDATE'			=> $this->pg_social_helper->time_ago($page['page_regdate']),
@@ -150,7 +150,7 @@ class pages
 					'PROFILE_ID'				=> $page['page_id'],
 					'GALLERY_NAME'				=> $this->social_photo->gallery_info($this->request->variable('gall', ''))['gallery_name'],
 				));
-				$this->post_status->getStatus('page', $page['page_id'], 0, "all", "seguel", "");
+				$this->post_status->getStatus('page', $page['page_id'], 0, "all", "", "seguel", "");
 				$this->social_photo->getPhotos(1, "last", $page['page_id']);
 				$this->social_photo->getGallery($page['page_id'], "page");
 				if($this->request->variable('gall', '')) $this->social_photo->getPhotos(1, "gall", $page['page_id'], $this->request->variable('gall', ''));				
@@ -166,7 +166,7 @@ class pages
 					break;
 				}
 				
-				$sql = "SELECT *, (SELECT COUNT(*) FROM ".$this->table_prefix."pg_social_pages_like WHERE ".$this->table_prefix."pg_social_pages.page_id = ".$this->table_prefix."pg_social_pages_like.page_id) AS countlike FROM ".$this->table_prefix."pg_social_pages WHERE page_status = '1'";
+				$sql = "SELECT *, (SELECT COUNT(*) FROM ".$this->table_prefix."pg_social_pages_like WHERE ".$this->table_prefix."pg_social_pages.page_id = ".$this->table_prefix."pg_social_pages_like.page_id) AS countlike FROM ".$this->table_prefix."pg_social_pages WHERE page_status = '1' ORDER BY RAND()";
 				$result = $this->db->sql_query($sql);
 				while($pages = $this->db->sql_fetchrow($result))
 				{
@@ -188,7 +188,7 @@ class pages
 						'PAGE_COVER'			=> $this->pg_social_helper->social_cover($pages['page_cover']),
 						'PAGE_COUNT_FOLLOWER'	=> $pages['countlike'],
 						'PAGE_USERNAME'			=> $pages['page_username'],
-						'PAGE_URL'				=> $this->helper->route('pages_page', array('name' => $pages['page_username_clean'])),
+						'PAGE_URL'				=> append_sid($this->helper->route('pages_page'), 'u='.$pages['page_username_clean']),
 						'PAGE_REGDATE'			=> $page['page_regdate'],
 						'PAGE_LIKE'				=> $page_like,
 						'PAGE_LIKE_CHECK'		=> $page_likeCheck."page",
