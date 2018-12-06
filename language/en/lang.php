@@ -128,6 +128,7 @@ $lang = array_merge($lang, array(
 	'PAGE_CREATE'						=> 'Create page',
 	'PAGE_INSERT_NAME'					=> 'Name of the new page',
 	'PAGE_USERNAME'						=> 'Page name',
+	'PAGE_MAY_LIKE'						=> 'Page you may like',
 	'PAGES'								=> 'Pages',
 	'PERSONAL_INFO'						=> 'Personal Info',
 	'PG_SOCIAL_COMMENT_NEW_LOG'			=> '<strong>Has commented an activity</strong><br />» %s',

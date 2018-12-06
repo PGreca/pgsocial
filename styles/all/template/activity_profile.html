@@ -93,7 +93,7 @@
 				<ul id="posts_status">
 					{% INCLUDE 'activity_status.html' %}					
 				</ul>
-				<div id="load_more"><i class="icon fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
+				<div id="load_more"></div>
 				</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
 					{% if loops.last_photos %}
 					<div class="panel" id="pg_social_profile_lastphotos">
@@ -232,8 +232,12 @@
 							<dl>
 								{% if PROFILE_HOBBIES %}<dt>{{ lang('HOBBY', 2) }}{{ lang('COLON') }}</dt>
 								<dd>{{ PROFILE_HOBBIES }}</dd>{% endif %}
+							</dl>
+							<dl>
 								{% if PROFILE_FAVORITE_TVSERIES %}<dt>{{ lang('FAVORITE_TVSHOW', 2) }}{{ lang('COLON') }}</dt>
 								<dd>{{ PROFILE_FAVORITE_TVSERIES }}</dd>{% endif %}							
+							</dl>
+							<dl>
 								{% if PROFILE_FAVORITE_MOVIES %}<dt>{{ lang('FAVORITE_MOVIE', 2) }}{{ lang('COLON') }}</dt>
 								<dd>{{ PROFILE_FAVORITE_MOVIES }}</dd>{% endif %}		
 							</dl>

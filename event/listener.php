@@ -175,9 +175,7 @@ class listener implements EventSubscriberInterface
 		$event['categories'] = $categories;
 		$event['permissions'] = $permissions;
 	}
-		
-		
-		
+	
 	/**
 	 * Remove forumlist from index and replace with Social
 	 */

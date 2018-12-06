@@ -23,7 +23,6 @@
 		<div class="profile_avatar">{{ page.PAGE_AVATAR }}</div>			
 		<h2 class="memberlist-username">{{ page.PAGE_USERNAME }}</h2>
 		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('ACTIVITY') }}</a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa fa-camera fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('GALLER') }}</a></li><!--<li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i> {{ lang('LIKES') }} <span>({{ page.PAGE_COUNT_FOLLOWER }})</span></a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i> {{ lang('INFO') }}</a></li>--></ul>
-		
 		<div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80%);"{% endif %}>
 			<div class="pg_social_pagesub" id="page_activity">
 				<div id="pg_social_sidel">

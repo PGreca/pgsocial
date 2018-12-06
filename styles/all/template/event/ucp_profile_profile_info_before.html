@@ -10,7 +10,7 @@
 <dl>
 	<dt><label for="user_status_life">{{ lang('SOCIAL_STATU') }}{{ lang('COLON') }}</label></dt>
 	<dd>
-		<select name="user_status_life" id="user_status_life">
+		<select name="user_status_life" class="inputbox" id="user_status_life">
 			<option {% if PROFILE_STATUS_LIFE == 0 %}selected="selected"{% endif %} value="0">{{ lang('SOCIAL_STATUS_UNKNOW') }}</option>
 			<option {% if PROFILE_STATUS_LIFE == 1 %}selected="selected"{% endif %} value="1">{{ lang('SOCIAL_STATUS_SINGLE') }}</option>
 			<option {% if PROFILE_STATUS_LIFE == 2 %}selected="selected"{% endif %} value="2">{{ lang('SOCIAL_STATUS_ENGAGED') }}</option>

@@ -16,26 +16,41 @@
 				</li>
 			</ul>
 		</div>
+		{% if loops.pagesMaylike %}
+		<div class="panel">
+			<h3>{{ lang('PAGE_MAY_LIKE') }}</h3>
+			<ul id="pages_mayLike" class="sidelist">
+				{% for pagesMaylike in loops.pagesMaylike %}<li class="listElement" id="page_{{ pagesMaylike.PAGE_ID }}" data-page="{{ pagesMaylike.PAGE_ID }}">
+					<a href="{{ pagesMaylike.PROFILE_URL }}" class="avatar">
+						{{ pagesMaylike.AVATAR }}<div class="listUsername">
+							<span>{{ pagesMaylike.USERNAME }}</span>
+						</div>
+					</a>{% if pagesMaylike.PAGE_ACTION %}<div class="listElementaction">
+					</div>{% endif %}					
+				</li>{% endfor %}
+			</ul>
+		</div>
+		{% endif %}
 	</div><div id="pg_social_sidec">
 		<div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80% - 20px);"{% endif %}>
 			{% INCLUDE 'activity_form.html' %}
 			<ul id="posts_status">
 				{% INCLUDE 'activity_status.html' %}					
 			</ul>
-			<div id="load_more"><i class="icon fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>
+			<div id="load_more"></div>
 		</div>
 	</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
 		{% if PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM && loops.profileFriends %}
 		<div class="panel" id="profile_FriendsRandom">
 			<h3>{{ lang('FRIENDS_SUGGESTION') }}</h3>
-			<ul id="friends_suggestions">
+			<ul id="friends_suggestions" class="sidelist">
 				{% for profileFriends in loops.profileFriends %}
-				<li class="friend" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
+				<li class="friend listElement" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
 					<a href="{{ profileFriends.PROFILE_URL }}" class="avatar" style="color:{{ profileFriends.PROFILE_COLOUR }}">
-						{{ profileFriends.AVATAR }}<div class="friend_username">
+						{{ profileFriends.AVATAR }}<div class="listUsername">
 							<span>{{ profileFriends.USERNAME }}</span>
 						</div>
-					</a>{% if profileFriends.PROFILE_FRIEND_ACTION %}<div class="friend_action">
+					</a>{% if profileFriends.PROFILE_FRIEND_ACTION %}<div class="listElementaction">
 						{% if profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' %}
 						{{ lang('PG_SOCIAL_FRIENDS') }}
 						{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' %}

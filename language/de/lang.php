@@ -127,6 +127,7 @@ $lang = array_merge($lang, array(
 	'OTHER_SOCIALNETWORK'				=> 'Andere soziale Netzwerke',
 	'PAGE_CREATE'						=> 'erstelle Seite',
 	'PAGE_INSERT_NAME'					=> 'Geben Sie den Namen der Seite ein',
+	//'PAGE_MAY_LIKE'						=> '',
 	'PAGE_USERNAME'						=> 'Name der Seite',
 	'PAGES'								=> 'Seiten',
 	'PERSONAL_INFO'						=> 'Persönliche Infos',

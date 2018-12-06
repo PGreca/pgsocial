@@ -64,13 +64,14 @@ class social_page
 	*/
 	public function pageCreate($page_name, $page_category = 0)
 	{
+		$permalink = preg_replace("/[^a-zA-Z]/", "", strtolower(str_replace(' ', '_', $page_name)).rand(0, 1000));
 		$sql_arr = array(
 			'page_type'				=> 0,
 			'page_status'			=> 0,
 			'page_founder'			=> $this->user->data['user_id'],
 			'page_regdate'			=> time(),
 			'page_username'			=> $page_name,
-			'page_username_clean'	=> strtolower(str_replace(' ', '_', $page_name)),
+			'page_username_clean'	=> $permalink,
 			'page_avatar'			=> '',
 			'page_cover'			=> '',
 			'page_cover_position'	=> '',
@@ -79,7 +80,7 @@ class social_page
 		$sql = "INSERT INTO ".$this->table_prefix.'pg_social_pages'.$this->db->sql_build_array('INSERT', $sql_arr);
 		if($this->db->sql_query($sql))
 		{
-			redirect($this->helper->route('pages_page', array("name" => strtolower(str_replace(' ', '_', $page_name)))));
+			redirect($this->helper->route('pages_page', array("name" => $permalink)));
 		}
 		$this->template->assign_vars(array(
 			"ACTION"	=> $sql,
@@ -146,6 +147,23 @@ class social_page
 			"ACTION"	=> $action,
 		));
 		return $this->helper->render('activity_status_action.html', "");
+	}
+	
+	public function pageLikeif($user, $template, $if = false)
+	{
+		$sql = "SELECT p.* FROM ".$this->table_prefix."pg_social_pages p
+		LEFT JOIN ".$this->table_prefix."pg_social_pages_like l ON p.page_id = l.page_id WHERE l.page_id IS NULL and p.page_status = '1'";
+		$result = $this->db->sql_query($sql);
+		while($row = $this->db->sql_fetchrow($result))
+		{
+			$this->template->assign_block_vars($template, array(
+				"PAGE_ID"		=> $row['page_id'],
+				"AVATAR"		=> $this->pg_social_helper->social_avatar_page($row['page_avatar']),
+				"PROFILE_URL"	=> append_sid($this->helper->route('pages_page'), 'u='.$row['page_username_clean']),
+				"USERNAME"		=> $row['page_username'],
+			
+			));
+		}		
 	}
 	
 	public function approPages()

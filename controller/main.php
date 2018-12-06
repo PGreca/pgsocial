@@ -284,6 +284,7 @@ class main
 				));	
 			
 				$this->post_status->getStatus('all', $this->user->data['user_id'], 0, "all", 0, "seguel", "");
+				$this->social_page->pageLikeif($this->user->data['user_id'], "pagesMaylike", false);
 				$this->social_zebra->getFriends($profile_id, $where, "no");
 				$this->template->assign_block_vars('navlinks', array(
 					'FORUM_NAME'	=> $this->user->lang('ACTIVITY'),
