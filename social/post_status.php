@@ -390,7 +390,7 @@ class post_status
 		if($template == "half")
 		{
 			$this->getComments($row['post_ID'], $type, false);
-			return $this->helper->render('status.html', 'Stai vedendo uno stato di'. $status_username);
+			return $this->helper->render('status.html', $this->user->lang('YOU_SEE_ACTIVITY', $status_username));
 		}
 	}
 	

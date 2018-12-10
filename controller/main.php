@@ -302,35 +302,34 @@ class main
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
 	public function handle_status($id)
-	{
-		$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_width, u.user_avatar_height, u.user_avatar_type, u.user_colour
-		FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u	
-		WHERE post_ID = '".$id."' AND (w.user_id = u.user_id) AND u.user_type != '2'";	
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);		
-		
-		if($row['post_ID'])
+	{		
+		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
 		{
-			if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
+			if($this->user->data['user_id'] != ANONYMOUS)
 			{
-				if($this->user->data['user_id'] != ANONYMOUS)
-				{
-					trigger_error('NO_VIEW_USERS');
-				}
-				login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
+				trigger_error('NO_VIEW_USERS');
 			}
-			else
-			{	
+			login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
+		}
+		else
+		{	
+			$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_width, u.user_avatar_height, u.user_avatar_type, u.user_colour
+			FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u	
+			WHERE post_ID = '".$id."' AND (w.user_id = u.user_id) AND u.user_type != '2'";	
+			$result = $this->db->sql_query($sql);
+			$row = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);		
+			if($row['post_ID'])
+			{
 				$this->template->assign_vars(array(
 					'PROFILE_ID'	=> $row['wall_id'],
 				));
-				return $this->post_status->status('', $row['wall_id'], $row['post_type'], 'half', $row, $row['post_type']);	
+				return $this->post_status->status(0, $row['wall_id'], $row['post_type'], 'half', $row, 0);		
 			}
-		}
-		else
-		{
-			redirect($this->helper->route('profile_page'));
+			else
+			{
+				redirect($this->helper->route('profile_page'));
+			}
 		}
 	}
 }

@@ -234,7 +234,7 @@ class listener implements EventSubscriberInterface
 		if($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0)
 		{
 			$event['location'] = $this->user->lang('FORUM_INDEX');
-			$event['location_url'] = $this->route('forum_page');
+			$event['location_url'] = $this->helper->route('forum_page');
 		}
 	}
 	
@@ -467,7 +467,10 @@ class listener implements EventSubscriberInterface
 	*/
 	public function user_status_post($event)
 	{
-		$info = $event['data'];
-		$this->post_status->addStatus('post', $this->user->data['user_id'], '', 2, 4, $info['topic_id']."#p".$info['post_id']); 
+		if($event['mode'] == 'post')
+		{
+			$info = $event['data'];
+			$this->post_status->addStatus('post', $this->user->data['user_id'], '', 2, 4, $info['topic_id']."#p".$info['post_id']); 
+		}
 	}		
 }

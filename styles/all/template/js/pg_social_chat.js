@@ -9,7 +9,7 @@
 			for(var i=0; i< arr.length; i++) {
 				if(arr[i] != "") {
 					if(arr[i] == "0") {
-						$("#pg_social_chat_people").addClass("opened");
+						$("#pg_social_chat_people").parent().addClass("opened");
 						getchatPeople();
 					} else if(arr[i] != 'undefined') {
 						chat_new(arr[i]);
@@ -18,7 +18,7 @@
 			}
 		}
 		setInterval(messageCheck, 900);
-		if($("#pg_social_chat_people").hasClass("opened")) {
+		if($("#pg_social_chat_people").parent().hasClass("opened")) {
 			getchatPeople();
 		}	
 	});	
@@ -36,14 +36,14 @@
 	});
 	
 	$(document).on('click', '#pg_social_chat #pg_social_chat_box #pg_social_chat_people_buttons #pg_social_chat_people_button_openclose', function() {
-		if($("#pg_social_chat_people").hasClass("opened")) {
-			$("#pg_social_chat_people").removeClass("opened");
+		if($("#pg_social_chat_people").parent().hasClass("opened")) {
+			$("#pg_social_chat_people").parent().removeClass("opened");
 			$("ul#pg_social_chat_people_online").html("");		
 			$("#pg_social_chat_people_search").val("");	
 			var newcokie = jQuery.cookie('pg_social_chat').replace("0,", "").replace(",0", "").replace("0", "");
 			$.cookie('pg_social_chat', newcokie);
 		} else {
-			$("#pg_social_chat_people").addClass("opened");
+			$("#pg_social_chat_people").parent().addClass("opened");
 			getchatPeople();
 			if(jQuery.cookie('pg_social_chat') == undefined) newW = '0'; else newW = jQuery.cookie('pg_social_chat')+',0';
 			$.cookie('pg_social_chat', newW);
@@ -125,11 +125,11 @@
 			cache: false,
 			async: true, 
 			success: function(data) {	
-				$("#pg_social_chat_people").addClass("opened");
+				$("#pg_social_chat_people").parent().addClass("opened");
 				if(data) {
 					$("#pg_social_chat #pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online").html(data);
 				} else {
-					$("#pg_social_chat_people").removeClass("opened");
+					$("#pg_social_chat_people").parent().removeClass("opened");
 				}
 			}
 		});		

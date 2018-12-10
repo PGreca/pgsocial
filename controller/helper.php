@@ -443,7 +443,7 @@ class helper
 	{
 		$array = array();
 		$vars = array('type', 'extra', 'msg', 'author_action', 'wshow', 'block_vars');
-		extract($this->dispatcher->trigger_event('pgreca.pgsocial.statusType', compact($vars)));
+		extract($this->dispatcher->trigger_event('pgreca.pgsocial.statustype', compact($vars)));
 		$temp = array(
 			"type"				=> $type,
 			"extra"				=> $extra,

@@ -23,6 +23,7 @@ body.section-memberlist .action-bar.actions-jump {
 	display: inline-block;
 	width: calc(30% - 10px);	
 	height: 0px;
+	margin-bottom: 15px;
 	padding-left: 10px;
 	vertical-align: top;
 }
@@ -78,20 +79,21 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social img.avatar {
+	background-image: url(..ext/pgreca/pgsocial/images/page_no_avatar.jpg);
+	background-color: #fff;
 	background-position: center;
 	background-size: cover;
 	border-radius: inherit;
-	
 }
 
 #pg_social .panel {
-	/*background-color: rgba(0, 0, 0, 0.08);*/
 	background-color: #fff;
-	width: calc(100% - 20px - 2px);
+	width: calc(100% - 20px);
 	margin: 0px 0px 10px;
 	padding: 10px;
+	border: 0px;
 	border-radius: 5px;
-	border: 1px solid #e5ecf6;
+	box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.05);
 	color: #898da8;
 }
 
@@ -733,7 +735,7 @@ body.section-memberlist .action-bar.actions-jump {
 	position: relative;	
 	background-color: #fff;
     border-radius: 5px;
-    border: 1px solid #e6ecf5;
+	box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.05);
     margin-bottom: 15px;
 }
 
@@ -1006,10 +1008,10 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul#posts_status li.post_status {
 	display: inline-block;
 	background-color: #fff;
-	width: calc(100% - 2px);
+	width: calc(100%);
 	margin: 0px 0px 20px;
 	border-radius: 5px;
-	border: 1px solid #e5ecf6;
+	box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.05);
 	animation: animateElement linear 1s;
 	animation-iteration-count: 1;
 }
@@ -2153,12 +2155,12 @@ a.profile_signature_status {
 
 .pg_social_alert {
 	background-color: #fff;
-	width: calc(100% - 20px - 2px);
+	width: calc(100% - 20px);
 	margin-bottom: 20px;
 	padding: 10px;
-	border: 1px solid #cfcfcf;
 	text-align: center;
 	border-radius: 5px;
+	box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.05);
 	font-size: 1.5em;
 	font-weight: bold;
 	text-transform: uppercase;

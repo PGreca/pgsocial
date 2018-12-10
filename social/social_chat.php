@@ -170,12 +170,14 @@ class social_chat
 		}
 		
 		
-		$sql = "SELECT * FROM ".$this->table_prefix."pg_social_chat 
-		WHERE (chat_id ".$order_vers." '".$lastmessage."') 
-			AND ((user_id = '".$person."' AND chat_member = '".$this->user->data['user_id']."') 
-			OR (user_id = '".$this->user->data['user_id']."' AND chat_member = '".$person."')) 
-			AND chat_status  = '1'
-		ORDER BY chat_time ".$orderby;
+		$sql = "SELECT chat.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height 
+		FROM ".$this->table_prefix."pg_social_chat as chat, ".USERS_TABLE." as u
+		WHERE (chat.user_id = u.user_id) AND
+		(chat.chat_id ".$order_vers." '".$lastmessage."') 
+			AND ((chat.user_id = '".$person."' AND chat.chat_member = '".$this->user->data['user_id']."') 
+			OR (chat.user_id = '".$this->user->data['user_id']."' AND chat.chat_member = '".$person."')) 
+			AND chat.chat_status  = '1'
+		ORDER BY chat.chat_time ".$orderby;
 		$result = $this->db->sql_query_limit($sql, $limit);
 		while($row = $this->db->sql_fetchrow($result))
 		{			
@@ -193,6 +195,7 @@ class social_chat
 			$this->template->assign_block_vars('pg_social_chat_message', array(
 				'MESSAGE_ID'	=> $row['chat_id'],
 				'IFRIGHT'		=> $ifright,
+				'AVATAR'		=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
 				'MESSAGE'		=> $msg,
 				"TIME"			=> date('c', $row['chat_time']),
 				"TIME_AGO"		=> $this->pg_social_helper->time_ago($row['chat_time']),

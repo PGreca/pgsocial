@@ -62,10 +62,6 @@
 }
 
 /*CHAT*/
-#pg_social_chat .pg_social_chat .pg_social_chat_head {
-	background-color: #105289 !important;
-}
-
 #pg_social_chat .pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text {
 	background-color: #2a6496 !important;
 }

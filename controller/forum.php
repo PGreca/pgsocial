@@ -188,7 +188,7 @@ class forum
 			/**
 			* Event to modify the SQL query to get birthdays data
 			*
-			* @event core.index_modify_birthdays_sql
+			* @event pgreca.pgsocial.core.index_modify_birthdays_sql
 			* @var	array	now			The assoc array with the 'now' local timestamp data
 			* @var	array	sql_ary		The SQL array to get the birthdays data
 			* @var	object	time		The user related Datetime object
@@ -220,7 +220,7 @@ class forum
 			/**
 			* Event to modify the birthdays list
 			*
-			* @event core.index_modify_birthdays_list
+			* @event pgreca.pgsocial.core.index_modify_birthdays_list
 			* @var	array	birthdays		Array with the users birthdays data
 			* @var	array	rows			Array with the birthdays SQL query result
 			* @since 3.1.7-RC1

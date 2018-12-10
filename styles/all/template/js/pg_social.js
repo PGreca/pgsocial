@@ -114,14 +114,19 @@
 		 
 	//UPLOAD PROFILE
 	$(document).on('click', "#profile_upload input#profile_upload_submit", function(e) {
+		var whatchange = $(this).attr('data-change');
 		e.preventDefault();
 		e.stopPropagation();
-		var upload_type = $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input").attr("data-type");
-		uploadPhoto("", $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input")[0].files[0], upload_type, where, $("img#coverdrag").position().top);
+		if(whatchange == 'cover') {
+			uploadPhoto("", $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input")[0].files[0], $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input").attr("data-type"), where, $("img#coverdrag").position().top);
+		} else if(whatchange == 'avatar') {
+			uploadPhoto("", $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_avatar input")[0].files[0], $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_avatar input").attr("data-type"), where, 0);
+		}
 	});
 	
 	//CHANGE COVER
 	$(document).on('change', "#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input", function(e) {
+		$("#profile_upload input#profile_upload_submit").attr("data-change", "cover");
 		$("#pg_social_header img#coverdrag").remove();
 		$("#pg_social #pg_social_main .profile_avatar").css("z-index", "80");
 		$("#profile_upload_submit, .darkenwrapper").show();
@@ -145,6 +150,17 @@
 				$('#pg_social_header img#coverdrag').val(ui.position.top);
 			}
 		});
+	});
+	
+	//CHANGE AVATAR
+	$(document).on('change', "#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_avatar input", function(e) {
+		$("#profile_upload input#profile_upload_submit").attr("data-change", "avatar");
+		$("#pg_social_header img#coverdrag").remove();
+		$("#pg_social .profile_avatar").css("z-index", "80");
+		$("#profile_upload_submit, .darkenwrapper").show();
+		$("#pg_social_header").addClass("canMove")
+		console.log(URL.createObjectURL(e.target.files[0]));
+		$("#pg_social .profile_avatar img").css("background-image", "url("+URL.createObjectURL(e.target.files[0])+")");
 	});
 	
 	//POPUP PHOTO
@@ -390,7 +406,7 @@ function uploadPhoto(msg, photo, type, where, itop) {
 		contentType: false,
 		processData: false, 
 		success: function(data) {	
-			if(type == 'cover') location.reload();
+			if(type == 'cover' || type == 'avatar') location.reload();
 			$('#wall_post_text').html("");
 			$("#wall_post_img").val("");
 			$("#wall_post_thumb").removeAttr("style");
@@ -451,6 +467,7 @@ function closePopup(as) {
 	$("#page_create").hide();
 	if(as) $("#darken").parent().hide(); $("body").css("overflow", "");
 	if(!$('#pg_social #pg_social_header.canMove').length) $("#darken").parent().hide();
+	$("#pg_social_header").removeClass("canMove")
 }
 
 /* TAG SYSTEM */

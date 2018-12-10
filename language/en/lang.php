@@ -102,6 +102,7 @@ $lang = array_merge($lang, array(
 		2				=> 'hours',
 	),
 	'INFO'								=> 'Info',
+	'YOU_SEE_ACTIVITY'					=> 'You are looking an activity of %s',
 	'LAST_PHOTO'						=> array(
 		1				=> 'Last photo',
 		2				=> 'Last photos',
@@ -144,7 +145,10 @@ $lang = array_merge($lang, array(
 	'PG_SOCIAL_LIKE_NEW_LOG'			=> '<strong>Likes an activity</strong><br />» %s',
 	'PG_SOCIAL_STATUS_NEW_LOG'			=> '<strong>Has published an activity</strong><br />» %s',
 	'PG_SOCIAL_STATUS_SHARE_LOG'		=> '<strong>Has shared an activity</strong><br />» %s',
-	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>Has deleted an activity</strong>',
+	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>Has deleted an activity</strong>',	
+	'PG_SOCIAL_WRITE_A_MESSAGE'					=> 'Write a message',
+	'PG_SOCIAL_WRITE_SOMETHING'					=> 'Write something',
+	'PG_SOCIAL_VERSION'							=> 'Version',
 	'PHOTO_DELETE'						=> 'Delete this photo',
 	'PHOTO'								=> array(
 		1				=> 'Photo',
@@ -194,7 +198,4 @@ $lang = array_merge($lang, array(
 		'DECADE'	 => 'decade',
 		'DECADES'	 => 'decades',
 	),
-	'PG_SOCIAL_WRITE_A_MESSAGE'					=> 'Write a message',
-	'PG_SOCIAL_WRITE_SOMETHING'					=> 'Write something',
-	'PG_SOCIAL_VERSION'							=> 'Version',
 ));
