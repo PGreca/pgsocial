@@ -245,7 +245,7 @@ class social_photo
 			($row['username'] && $row['user_colour']) ? $gallery_url = get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour'])."&gall=".$row['gallery_id'] : $gallery_url = '';
 			$this->template->assign_block_vars('social_photo', array(
 				'PHOTO_ID'					=> $row['photo_id'],
-				'PHOTO_FILE'				=> generate_board_url().$this->pg_social_path."upload/".$row['photo_file'],
+				'PHOTO_FILE'				=> generate_board_url()."/ext/pgreca/pgsocial/images/upload/".$row['photo_file'],
 				'PHOTO_TIME'				=> $this->pg_social_helper->time_ago($row['photo_time']),
 				'PHOTO_ACTION'				=> $photo_action,
 				'AUTHOR_PROFILE'			=> get_username_string('profile', $user['user_id'], $user['username'], $user['user_colour']),

@@ -1599,14 +1599,25 @@ body.section-memberlist .action-bar.actions-jump {
 	border-bottom: 0px;
 }
 
-#pg_social ul.sidelist li.listElement a.avatar {
+#pg_social ul.sidelist li.listElement .elementLeft {
 	display: inline-block;
 	width: calc(100% - 50px);
+	vertical-align: middle;
+}
+
+#pg_social ul.sidelist li.listElement a.avatar {
+	float: left;
+	display: inline-block;
+	margin-right: 5px;
 }
 
 #pg_social ul.sidelist li.listElement a.avatar img.avatar {
 	width: 45px;
 	border-radius: 100%;
+}
+
+#pg_social ul.sidelist li.listElement.listFeed a.avatar img.avatar {
+	width: 30px;
 }
 
 #pg_social ul.sidelist li.listElement .listUsername {
@@ -1616,9 +1627,20 @@ body.section-memberlist .action-bar.actions-jump {
 	vertical-align: middle;
 }
 
+#pg_social ul.sidelist li.listElement.listFeed .listUsername {
+	width: calc(100% - 30px - 10px);	
+}
+
 #pg_social ul.sidelist li.listElement .listUsername span {
 	font-size: 1.2em;
 	font-weight: bold;
+}
+
+#pg_social ul.sidelist li.listElement .activity_time {
+    display: block;
+	width: calc(100% - 35px);
+    margin: 0px 0px 0px 35px;
+	font-size: 0.8em;
 }
 
 #pg_social ul.sidelist li.listElement .listElementaction {
