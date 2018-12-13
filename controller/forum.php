@@ -66,7 +66,7 @@ class forum
 	* @param \phpbb\group\helper     $group_helper 
 	* @param \phpbb\event\dispatcher $dispatcher
 	*/
-	public function __construct($auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $group_helper, $dispatcher, $root_path, $php_ext, $table_prefix)
+	public function __construct($auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $group_helper, $dispatcher, $root_path, $php_ext)
 	{
 		$this->auth					= $auth;
 		$this->config				= $config;
@@ -86,8 +86,7 @@ class forum
 		$this->group_helper			= $group_helper;
 		$this->dispatcher			= $dispatcher;
 	    $this->root_path			= $root_path;
-		$this->php_ext				= $php_ext;	
-        $this->table_prefix 		= $table_prefix;	
+		$this->php_ext				= $php_ext;		
 	}
 	
 	/**
@@ -98,7 +97,10 @@ class forum
 	*/
 	public function handle()
 	{		
-		if($this->user->data['user_id'] == ANONYMOUS || !$this->config['pg_social_index_replace']) redirect($this->root_path);
+		if($this->user->data['user_id'] == ANONYMOUS || !$this->config['pg_social_index_replace']) 
+		{
+			redirect($this->root_path);
+		}
 		
 		// @codeCoverageIgnoreStart
 		if(!function_exists('display_forums'))
@@ -274,7 +276,7 @@ class forum
 
 		// Output page
 		page_header($page_title, true);
-		$this->post_status->getStatus('all', $this->user->data['user_id'], 0, "all", "", "seguel", "");
+		$this->post_status->get_status('all', $this->user->data['user_id'], 0, "all", "", "seguel", "");
 		$this->template->set_filenames(array(
 			'body' => 'index_body.html')
 		);

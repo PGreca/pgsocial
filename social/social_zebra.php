@@ -42,7 +42,7 @@ class social_zebra
 	* @param \phpbb\db\driver\driver_interface			$db 
 	*/
 	
-	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $config, $db, $root_path, $php_ext, $table_prefix)
+	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $config, $db, $root_path)
 	{	
 		$this->template							= $template;
 	    $this->user								= $user;
@@ -52,19 +52,17 @@ class social_zebra
 		$this->config							= $config;
 		$this->db								= $db;
 	    $this->root_path						= $root_path;	
-		$this->php_ext							= $php_ext;
-        $this->table_prefix						= $table_prefix;			
 	}	
 	
 	/**
 	 * Return the friends or no-friends
 	*/
-	public function getFriends($profile, $type = NULL, $friend = "yes")
+	public function get_friends($profile, $type = NULL, $friend = "yes")
 	{		
 		if($friend == "no")
 		{
 			//return $this->last_register(); exit();
-			return $this->noFriends();
+			return $this->no_friends();
 		}
 		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_pg_social_cover, u.user_colour, u.user_about
 		FROM ".ZEBRA_TABLE." AS z, ".USERS_TABLE." AS u
@@ -75,7 +73,14 @@ class social_zebra
 			AND u.user_type NOT IN (".USER_INACTIVE.", ".USER_IGNORE.")
 			AND z.friend = '1'
 		ORDER BY u.username_clean ASC";
-		if($type != 'profile') $result = $this->db->sql_query_limit($sql, 2); else $result = $this->db->sql_query($sql);
+		if($type != 'profile')
+		{
+			$result = $this->db->sql_query_limit($sql, 2);
+		}
+		else
+		{
+			$result = $this->db->sql_query($sql);
+		}
 		while($row = $this->db->sql_fetchrow($result))
 		{	
 			$this->template->assign_block_vars('profileFriends', array(
@@ -86,9 +91,9 @@ class social_zebra
 				'FRIEND_COLOUR'				=> "#".$row['user_colour'],
 				'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
 				'COVER'						=> $this->pg_social_helper->social_cover($row['user_pg_social_cover']),
-				'PROFILE_FRIEND_ACTION'		=> $this->friendStatus($row['user_id'])['status'],
+				'PROFILE_FRIEND_ACTION'		=> $this->friend_status($row['user_id'])['status'],
 				'PROFILE_ABOUT'				=> $row['user_about'],
-				'COUNT_FRIENDS'				=> $this->countFriends($row['user_id']),
+				'COUNT_FRIENDS'				=> $this->count_friends($row['user_id']),
 				'COUNT_PHOTOS'				=> $this->pg_social_helper->countPhotos($row['user_id']),
 			));
 		}
@@ -98,7 +103,7 @@ class social_zebra
 	/**
 	 * Zebra status
 	*/	
-	public function friendStatus($user_id)
+	public function friend_status($user_id)
 	{
 		if($user_id != $this->user->data['user_id'])
 		{
@@ -130,7 +135,7 @@ class social_zebra
 	/**
 	 * Send request friend
 	*/
-	public function requestFriend($profile, $request)
+	public function request_friend($profile, $request)
 	{
 		switch($request)
 		{
@@ -144,11 +149,17 @@ class social_zebra
 				);
 				$sql = "INSERT INTO ".ZEBRA_TABLE.$this->db->sql_build_array('INSERT', $sql_arr);
 				$this->notify->notify('add_friend', '', '', $profile, $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_FRIEND_ADD');		
-				if($this->db->sql_query($sql)) $action = "REQUEST_SEND";
+				if($this->db->sql_query($sql))
+				{
+					$action = "REQUEST_SEND";
+				}
 			break;
 			case 'undoFriend':
 				$sql = "DELETE FROM ".ZEBRA_TABLE." WHERE (zebra_id = '".$this->user->data['user_id']."' AND user_id = '".$profile."') OR (user_id = '".$this->user->data['user_id']."' AND zebra_id = '".$profile."')";
-				if($this->db->sql_query($sql)) $action = "REQUEST_DELETE";
+				if($this->db->sql_query($sql))
+				{
+					$action = "REQUEST_DELETE";
+				}
 			break;
 			case 'acceptFriend':
 				$sql = "UPDATE ".ZEBRA_TABLE." SET friend = '1', approval = '0' 
@@ -164,14 +175,20 @@ class social_zebra
 				if($this->db->sql_query($sql))
 				{
                     $this->db->sql_freeresult($result);
-					if($this->db->sql_query($sqltwo)) $action = "REQUEST_ACC";
+					if($this->db->sql_query($sqltwo))
+					{
+						$action = "REQUEST_ACC";
+					}
 				}
 			break;
 			case 'declineFriend':
 			case 'cancelFriend':
 				$sql = "DELETE FROM ".ZEBRA_TABLE." 
 				WHERE (zebra_id = '".$profile."' AND user_id = '".$this->user->data['user_id']."') OR (user_id = '".$profile."' AND zebra_id = '".$this->user->data['user_id']."')";
-				if($this->db->sql_query($sql)) $action = "FRIEND_DELETE";
+				if($this->db->sql_query($sql))
+				{
+					$action = "FRIEND_DELETE";
+				}
 			break;			
 		}
 		$this->template->assign_vars(array(
@@ -184,7 +201,7 @@ class social_zebra
 	/**
 	 * Count the friends
 	*/
-	public function countFriends($user)
+	public function count_friends($user)
 	{
 		$sql = "SELECT COUNT(friend) AS count
 		FROM ".ZEBRA_TABLE."
@@ -221,7 +238,7 @@ class social_zebra
 	/**
 	 * Return who not is your friend
 	*/
-	public function noFriends()
+	public function no_friends()
 	{
 		$user_id = (int) $this->user->data['user_id'];
 		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour, u.user_email
@@ -234,7 +251,7 @@ class social_zebra
 		$result = $this->db->sql_query_limit($sql, 3);
 		while($row = $this->db->sql_fetchrow($result))
 		{
-			if($this->friendStatus($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS_ADD')
+			if($this->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS_ADD')
 			{
 				$this->template->assign_block_vars('profileFriends', array(
 					'PROFILE_ID'				=> $row['user_id'],
@@ -244,7 +261,7 @@ class social_zebra
 					'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),				
 				
 					
-					'PROFILE_FRIEND_ACTION'		=> $this->friendStatus($row['user_id'])['status'],
+					'PROFILE_FRIEND_ACTION'		=> $this->friend_status($row['user_id'])['status'],
 				));	
 			}
 		}		

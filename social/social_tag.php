@@ -36,7 +36,7 @@ class social_tag
 	* @param \phpbb\db\driver\driver_interface	$db 		
 	*/
 	
-	public function __construct($template, $user, $helper, $pg_social_helper, $social_zebra, $notifyhelper, $config, $db, $table_prefix)
+	public function __construct($template, $user, $helper, $pg_social_helper, $social_zebra, $notifyhelper, $config, $db, $pgsocial_table_wallpost)
 	{
 		$this->template					= $template;
 		$this->user						= $user;
@@ -46,7 +46,7 @@ class social_tag
 		$this->notify 					= $notifyhelper;
 		$this->config 					= $config;
 		$this->db 						= $db;
-        $this->table_prefix 			= $table_prefix;
+		$this->pgsocial_wallpost		= $pgsocial_table_wallpost;
 	}
 	
 	/**
@@ -55,11 +55,11 @@ class social_tag
 	public function tag_system_search($who)
 	{
 		$who = str_replace("@", "", $who);
-		$sql = "SELECT user_id, username, username_clean, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height user_colour FROM ".USERS_TABLE." WHERE (username LIKE '%".$who."%' OR username_clean LIKE '%".$who."%') AND user_id != '".$this->user->data['user_id']."' AND user_type IN (".USER_NORMAL.", ".USER_FOUNDER.") ORDER BY username_clean ASC";
+		$sql = "SELECT user_id, username, username_clean, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, user_colour FROM ".USERS_TABLE." WHERE (username LIKE '%".$who."%' OR username_clean LIKE '%".$who."%') AND user_id != '".$this->user->data['user_id']."' AND user_type IN (".USER_NORMAL.", ".USER_FOUNDER.") ORDER BY username_clean ASC";
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
 		{
-			if($this->social_zebra->friendStatus($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS')
+			if($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS')
 			{
 				$this->template->assign_block_vars('tag_system_search', array(
 					'USER_ID'			=> $row['user_id'],
@@ -76,7 +76,7 @@ class social_tag
 	/**
 	 * Display who can tag
 	*/
-	public function showTag($text)
+	public function show_tag($text)
 	{
 		$reg_str = '/&lt;span data-people="(.*?)" data-people_tagged="(.*?)" class="people_tagged" contenteditable="false"&gt;(.*?)\&lt;\/span&gt;/';
 		preg_match_all($reg_str, $text, $matches);
@@ -91,7 +91,7 @@ class social_tag
 	/**
 	 * Tag activity query
 	*/
-	public function addTag($status, $text)
+	public function add_tag($status, $text)
 	{
 		$reg_str = '/<span data-people="(.*?)" data-people_tagged="(.*?)" class="people_tagged" contenteditable="false">(.*?)<\/span>/';
 		preg_match_all($reg_str, $text, $matches);
@@ -101,7 +101,7 @@ class social_tag
 			$this->notify->notify('add_tag', $status, $text, $matches[1][$i], (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_TAG_ADD');			
 			$tagged_user .= $matches[1][$i].', ';
 		}
-		$sql = "UPDATE ".$this->table_prefix."pg_social_wall_post SET tagged_user = '".$tagged_user."' WHERE post_ID = '".$status."'";
+		$sql = "UPDATE ".$this->pgsocial_wallpost." SET tagged_user = '".$tagged_user."' WHERE post_ID = '".$status."'";
 		$this->db->sql_query($sql);
 	}
 }

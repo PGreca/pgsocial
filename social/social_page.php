@@ -42,7 +42,7 @@ class social_page
 	* @param \phpbb\db\driver\driver_interface	$db 		
 	*/
 	
-	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $social_photo, $social_tag, $social_zebra, $config, $db, $root_path, $php_ext, $table_prefix)
+	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $social_photo, $social_tag, $social_zebra, $config, $db, $root_path, $pgsocial_table_pages, $pgsocial_table_pages_like)
 	{
 		$this->template					= $template;
 		$this->user						= $user;
@@ -55,14 +55,14 @@ class social_page
 		$this->config 					= $config;
 		$this->db 						= $db;	
 	    $this->root_path				= $root_path;	
-		$this->php_ext 					= $php_ext;
-        $this->table_prefix 			= $table_prefix;
+		$this->pgsocial_pages			= $pgsocial_table_pages;
+		$this->pgsocial_pages_like		= $pgsocial_table_pages_like;
 	}
 		
 	/**
 	 * Create new page
 	*/
-	public function pageCreate($page_name, $page_category = 0)
+	public function page_create($page_name, $page_category = 0)
 	{
 		$permalink = preg_replace("/[^a-zA-Z]/", "", strtolower(str_replace(' ', '_', $page_name)).rand(0, 1000));
 		$sql_arr = array(
@@ -77,7 +77,7 @@ class social_page
 			'page_cover_position'	=> '',
 			'page_about'			=> '',
 		);
-		$sql = "INSERT INTO ".$this->table_prefix.'pg_social_pages'.$this->db->sql_build_array('INSERT', $sql_arr);
+		$sql = "INSERT INTO ".$this->pgsocial_pages." ".$this->db->sql_build_array('INSERT', $sql_arr);
 		if($this->db->sql_query($sql))
 		{
 			redirect($this->helper->route('pages_page', array("name" => $permalink)));
@@ -91,8 +91,9 @@ class social_page
 	/**
 	 * Count likes pages
 	*/
-	public function user_likePages($user, $page = false)
+	public function user_like_pages($user, $page = false)
 	{		
+		$array = '';
 		if(isset($page)) 
 		{
 			$where = " AND page_id = '".$page."'"; 
@@ -101,7 +102,7 @@ class social_page
 		{
 			$array = array();
 		}
-		$sql = "SELECT page_id FROM ".$this->table_prefix."pg_social_pages_like WHERE user_id = '".$user."'".$where;
+		$sql = "SELECT page_id FROM ".$this->pgsocial_pages_like." WHERE user_id = '".$user."'".$where;
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
 		{	
@@ -114,22 +115,25 @@ class social_page
 				$array[] = $row['page_id'];
 			}
 		}
-		if(!isset($array)) $array = 0;
+		if(!$array)
+		{
+			$array = 0;
+		}
 		return $array;
 	}
 	
 	/**
 	 * Action like on page
 	*/
-	public function pagelikeAction($page)
+	public function pagelike_action($page)
 	{
-		$sql = "SELECT page_like_ID FROM ".$this->table_prefix."pg_social_pages_like WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
+		$sql = "SELECT page_like_ID FROM ".$this->pgsocial_pages_like." WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
 		$result = $this->db->sql_query($sql);
 		$like = $this->db->sql_fetchrow($result);
 		
 		if($like['page_like_ID'] != "")
 		{
-			$sql = "DELETE FROM ".$this->table_prefix."pg_social_pages_like WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
+			$sql = "DELETE FROM ".$this->pgsocial_pages_like." WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
 			$action = "dislikepage";
 		}
 		else
@@ -139,7 +143,7 @@ class social_page
 				'user_id'			=> $this->user->data['user_id'],
 				'page_like_time'	=> time(),
 			);
-			$sql = "INSERT INTO ".$this->table_prefix.'pg_social_pages_like'.$this->db->sql_build_array('INSERT', $sql_arr);
+			$sql = "INSERT INTO ".$this->pgsocial_pages_like." ".$this->db->sql_build_array('INSERT', $sql_arr);
 			$action = "likepage";
 		}		
 		$this->db->sql_query($sql);
@@ -149,10 +153,10 @@ class social_page
 		return $this->helper->render('activity_status_action.html', "");
 	}
 	
-	public function pageLikeif($user, $template, $if = false)
+	public function page_likeif($user, $template, $if = false)
 	{
-		$sql = "SELECT p.* FROM ".$this->table_prefix."pg_social_pages p
-		LEFT JOIN ".$this->table_prefix."pg_social_pages_like l ON p.page_id = l.page_id WHERE l.page_id IS NULL and p.page_status = '1'";
+		$sql = "SELECT p.* FROM ".$this->pgsocial_pages." p
+		LEFT JOIN ".$this->pgsocial_pages_like." l ON p.page_id = l.page_id WHERE l.page_id IS NULL and p.page_status = '1'";
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
 		{
@@ -166,10 +170,10 @@ class social_page
 		}		
 	}
 	
-	public function approPages()
+	public function appro_pages()
 	{
 		$sql = "SELECT COUNT(page_id) AS count
-		FROM ".$this->table_prefix."pg_social_pages WHERE page_status = '0'";
+		FROM ".$this->pgsocial_pages." WHERE page_status = '0'";
 		$result = $this->db->sql_query($sql);
 		$count = $this->db->sql_fetchrow($result);
 		return $count['count'];

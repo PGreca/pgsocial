@@ -57,7 +57,7 @@ class main
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
 	*/
-	public function __construct($auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $table_prefix)
+	public function __construct($auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $pgsocial_table_wallpost)
 	{
 		$this->auth					= $auth;
 		$this->config				= $config;
@@ -76,7 +76,7 @@ class main
 		$this->user					= $user;
 	    $this->root_path			= $root_path;
 		$this->php_ext				= $php_ext;	
-        $this->table_prefix 		= $table_prefix;	
+		$this->pgsocial_wallpost	= $pgsocial_table_wallpost;
 	}
 	
 	/**
@@ -106,69 +106,72 @@ class main
 			
 			switch($mode)
 			{
-				case 'getStatus':	
-					return $this->post_status->getStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('lastp', ''), $where, '', $this->request->variable('order', ''), true);
+				case 'get_status':	
+					return $this->post_status->get_status($this->request->variable('post_where', ''), $profile_id, $this->request->variable('lastp', ''), $where, '', $this->request->variable('order', ''), true);
 				break;
-				case 'addStatus':
-					return $this->post_status->addStatus($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', ''), $this->request->variable('privacy', ''), 0, '', true);
+				case 'add_status':
+					return $this->post_status->add_status($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', ''), $this->request->variable('privacy', ''), 0, '', true);
 				break;
-				case 'deleteStatus':
-					return $this->post_status->deleteStatus($this->request->variable('post_status', ''), $name);
+				case 'delete_status':
+					return $this->post_status->delete_status($this->request->variable('post_status', ''), $name);
 				break;
 				case 'shareStatus':
 					return $this->post_status->shareStatus($this->request->variable('status', ''));
 				break;
-				case 'likeAction':
-					return $this->post_status->likeAction($this->request->variable('post_like', ''));
+				case 'like_action':
+					return $this->post_status->like_action($this->request->variable('post_like', ''));
 				break;
-				case 'getComments':
-					return $this->post_status->getComments($this->request->variable('post_status', ''), $this->request->variable('type', ''));
+				case 'get_comments':
+					return $this->post_status->get_comments($this->request->variable('post_status', ''), $this->request->variable('type', ''));
 				break;
-				case 'addComment':
-					return $this->post_status->addComment($this->request->variable('post_status', ''), $this->request->variable('comment', ''));
+				case 'add_comment':
+					return $this->post_status->add_comment($this->request->variable('post_status', ''), $this->request->variable('comment', ''));
 				break;
-				case 'removeComment':
-					return $this->post_status->removeComment($this->request->variable('comment', ''));
+				case 'remove_comment':
+					return $this->post_status->remove_comment($this->request->variable('comment', ''));
 				break;
-				case 'getFriends':
-					if($this->request->variable('friend', '')) $friends = $this->request->variable('friend', '');
-					return $this->social_zebra->getFriends($profile_id, $where, $friends);
+				case 'get_friends':
+					if($this->request->variable('friend', '')) 
+					{
+						$friends = $this->request->variable('friend', '');
+					}
+					return $this->social_zebra->get_friends($profile_id, $where, $friends);
 				break;
-				case 'requestFriend':
-					return $this->social_zebra->requestFriend($profile_id, $this->request->variable('request', ''));
+				case 'request_friend':
+					return $this->social_zebra->request_friend($profile_id, $this->request->variable('request', ''));
 				break;
-				case 'messageCheck':
-					return $this->social_chat->messageCheck($this->request->variable('exclude', ''));
+				case 'message_check':
+					return $this->social_chat->message_check($this->request->variable('exclude', ''));
 				break;
-				case 'getchatPeople':
-					return $this->social_chat->getchatPeople($this->request->variable('person', ''));
+				case 'getchat_people':
+					return $this->social_chat->getchat_people($this->request->variable('person', ''));
 				break;
-				case 'getchatPerson':
-					return $this->social_chat->getchatPerson($this->request->variable('person', ''));
+				case 'getchat_person':
+					return $this->social_chat->getchat_person($this->request->variable('person', ''));
 				break;
-				case 'getchatMessage':
-					return $this->social_chat->getchatMessage($this->request->variable('person', ''), $this->request->variable('order', ''), $this->request->variable('lastmessage', ''));
+				case 'getchat_message':
+					return $this->social_chat->getchat_message($this->request->variable('person', ''), $this->request->variable('order', ''), $this->request->variable('lastmessage', ''));
 				break;
-				case 'messageSend':
-					return $this->social_chat->messageSend($this->request->variable('person', ''), $this->request->variable('message', ''));
+				case 'message_send':
+					return $this->social_chat->message_send($this->request->variable('person', ''), $this->request->variable('message', ''));
 				break;
-				case 'getPhoto':
-					return $this->social_photo->getPhoto($this->request->variable('photo', ''), 1);
+				case 'get_photo':
+					return $this->social_photo->get_photo($this->request->variable('photo', ''), 1);
 				break;
 				case 'addPhoto':
-					return $this->social_photo->photoUpload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', ''), $this->request->variable('type', ''), $where, $this->request->file('photo'), $this->request->variable('top', ''));
+					return $this->social_photo->photo_upload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', ''), $this->request->variable('type', ''), $where, $this->request->file('photo'), $this->request->variable('top', ''));
 				break;
-				case 'deletePhoto':
-					return $this->social_photo->deletePhoto($this->request->variable('photo', ''));
+				case 'delete_photo':
+					return $this->social_photo->delete_photo($this->request->variable('photo', ''));
 				break;
-				case 'prenextPhoto':
-					return $this->social_photo->prenextPhoto($this->request->variable('photo', ''), $this->request->variable('ord', ''), $this->request->variable('where', ''));
+				case 'prenext_photo':
+					return $this->social_photo->prenext_photo($this->request->variable('photo', ''), $this->request->variable('ord', ''), $this->request->variable('where', ''));
 				break;
 				case 'tag_system_search':
 					return $this->social_tag->tag_system_search($this->request->variable('who', ''));
 				break;
-				case 'pagelikeAction':
-					return $this->social_page->pagelikeAction($this->request->variable('page', ''));
+				case 'pagelike_action':
+					return $this->social_page->pagelike_action($this->request->variable('page', ''));
 				break;
 				default: 
 				break;
@@ -283,9 +286,9 @@ class main
 					'PAGES_URL'								=> $this->helper->route("pages_page"),
 				));	
 			
-				$this->post_status->getStatus('all', $this->user->data['user_id'], 0, "all", 0, "seguel", "");
-				$this->social_page->pageLikeif($this->user->data['user_id'], "pagesMaylike", false);
-				$this->social_zebra->getFriends($profile_id, $where, "no");
+				$this->post_status->get_status('all', $this->user->data['user_id'], 0, "all", 0, "seguel", "");
+				$this->social_page->page_likeif($this->user->data['user_id'], "pagesMaylike", false);
+				$this->social_zebra->get_friends($profile_id, $where, "no");
 				$this->template->assign_block_vars('navlinks', array(
 					'FORUM_NAME'	=> $this->user->lang('ACTIVITY'),
 					'U_VIEW_FORUM'	=> $this->helper->route('profile_page'),
@@ -314,7 +317,7 @@ class main
 		else
 		{	
 			$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_width, u.user_avatar_height, u.user_avatar_type, u.user_colour
-			FROM ".$this->table_prefix."pg_social_wall_post as w, ".USERS_TABLE." as u	
+			FROM ".$this->pgsocial_wallpost." as w, ".USERS_TABLE." as u	
 			WHERE post_ID = '".$id."' AND (w.user_id = u.user_id) AND u.user_type != '2'";	
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);

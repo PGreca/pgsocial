@@ -263,8 +263,6 @@ body.section-memberlist .action-bar.actions-jump {
 	padding: 5px 0px;
 	font-size: 3em;
 	font-weight: bold;
-	
-	
 }
 
 #pg_social #pg_social_main h2.memberlist-username i.icon {
@@ -278,14 +276,12 @@ body.section-memberlist .action-bar.actions-jump {
 	background-color: #fff;
 	width: calc(100% - 2px);
 	margin: 0px 0px 25px;
+    margin-bottom: 15px;
     border: 1px solid #e6ecf5;
 	border-top: 0px;
 	border-radius: 0px 0px 5px 5px;
 	text-align: right;
 	font-size: 1.3em;
-	
-	   
-    margin-bottom: 15px;
 }
 
 #pg_social #pg_social_main ul#pg_social_menu li {
@@ -301,7 +297,7 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social #pg_social_main ul#pg_social_menu li a {
 	position: relative;
-	display: inline-block;
+	display: block;
 	padding: 20px 15px;
 	color: #898da8;
 }
@@ -2236,10 +2232,6 @@ a.profile_signature_status {
 		order: 3;
 	}
 		
-	#pg_social form#wall_post input[type="submit"] {
-		margin-top: 10px;
-	}
-		
 	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action {
 		width: calc(30% - 4px);
 		padding: 0px;
@@ -2315,7 +2307,7 @@ a.profile_signature_status {
 	}
 	
 	#pg_social #pg_social_main ul#pg_social_menu li {
-		width: calc(100% / 4);
+		width: calc(100% / 5);
 		text-align: center;
 		white-space: nowrap;
 	}
@@ -2337,15 +2329,6 @@ a.profile_signature_status {
 	#pg_social #pg_social_main ul#pg_social_menu li a i.icon {
 		width: 100%;
 		margin-bottom: 5px;
-	}
-	
-	#pg_social form#wall_post .wall_post_option {
-		width: 100%;
-		text-align: center;
-	}
-	
-	#pg_social form#wall_post label#pg_social_wall_post_img {
-		margin: 0px;
 	}
 	
 	#pg_social #pg_social_cont ul#posts_status li.post_status {

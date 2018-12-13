@@ -10,16 +10,16 @@
 				if(arr[i] != "") {
 					if(arr[i] == "0") {
 						$("#pg_social_chat_people").parent().addClass("opened");
-						getchatPeople();
+						getchat_people();
 					} else if(arr[i] != 'undefined') {
 						chat_new(arr[i]);
 					}
 				}
 			}
 		}
-		setInterval(messageCheck, 900);
+		setInterval(message_check, 900);
 		if($("#pg_social_chat_people").parent().hasClass("opened")) {
-			getchatPeople();
+			getchat_people();
 		}	
 	});	
 	
@@ -32,7 +32,7 @@
 	
 	
 	$(document).on('keyup', '#pg_social_chat_people_search', function(e) {
-		getchatPeople($(this).val());
+		getchat_people($(this).val());
 	});
 	
 	$(document).on('click', '#pg_social_chat #pg_social_chat_box #pg_social_chat_people_buttons #pg_social_chat_people_button_openclose', function() {
@@ -44,7 +44,7 @@
 			$.cookie('pg_social_chat', newcokie);
 		} else {
 			$("#pg_social_chat_people").parent().addClass("opened");
-			getchatPeople();
+			getchat_people();
 			if(jQuery.cookie('pg_social_chat') == undefined) newW = '0'; else newW = jQuery.cookie('pg_social_chat')+',0';
 			$.cookie('pg_social_chat', newW);
 		}
@@ -55,7 +55,7 @@
 			closeChat($(this).attr("data-people"));	
 		} else {
 			$("#pg_social_chat_people_search").val("");
-			getchatPeople();
+			getchat_people();
 			chat_new($(this).attr("data-people")); 
 			$.cookie('pg_social_chat', jQuery.cookie('pg_social_chat')+","+$(this).attr("data-people"));
 		}
@@ -92,10 +92,10 @@
 	$(document).on('submit', '.pg_social_chat_form', function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		chat_messageSend($(this).find(".pg_social_chat_messsage_new").val(), $(this).parent().attr("data-people"));
+		chat_message_send($(this).find(".pg_social_chat_messsage_new").val(), $(this).parent().attr("data-people"));
 	});
 	
-	function messageCheck() {		 
+	function message_check() {		 
 		var chats = $(".pg_social_chat[data-people]");
 		var chat = "";
 		chats.each(function(index) {
@@ -107,7 +107,7 @@
 		$.ajax({
 			method: "POST",
 			url: root,
-			data: "mode=messageCheck&exclude="+chat,
+			data: "mode=message_check&exclude="+chat,
 			cache: false, 
 			async: true,
 			success: function(data) {
@@ -116,12 +116,12 @@
 		});
 	}		
 	
-	function getchatPeople(person = null) {
+	function getchat_people(person = null) {
 		if(person) person = "&person="+person; else person = '';
 		$.ajax({
 			method: "POST",
 			url: root, 
-			data: "mode=getchatPeople"+person,
+			data: "mode=getchat_people"+person,
 			cache: false,
 			async: true, 
 			success: function(data) {	
@@ -139,7 +139,7 @@
 		$.ajax({
 			method: "POST",
 			url: root, 
-			data: "mode=getchatPerson&person="+person,
+			data: "mode=getchat_person&person="+person,
 			cache: false,
 			async: true, 
 			success: function(data) {	
@@ -160,7 +160,7 @@
 			$.ajax({
 				method: "POST",
 				url: root,
-				data: "mode=getchatMessage&person="+person+"&lastmessage="+lastmessage+"&order="+order,
+				data: "mode=getchat_message&person="+person+"&lastmessage="+lastmessage+"&order="+order,
 				cache: false,
 				async: true,
 				success: function(data) {
@@ -175,10 +175,10 @@
 		}
 	}
 	
-	function chat_messageSend(message, person) {
+	function chat_message_send(message, person) {
 		if($.trim(message) != "") {
 			var fdata = new FormData()
-			fdata.append("mode", "messageSend");
+			fdata.append("mode", "message_send");
 			fdata.append("person", person);
 			fdata.append("message",  encodeURIComponent($.trim(message)));
 			$.ajax({

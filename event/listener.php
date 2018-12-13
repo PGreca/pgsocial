@@ -56,9 +56,6 @@ class listener implements EventSubscriberInterface
 	/** @var core.php_ext */
 	protected $php_ext;
 
-	/** @var string $table_prefix */
-	protected $table_prefix;
-	
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 
@@ -79,12 +76,11 @@ class listener implements EventSubscriberInterface
 	 * @param $social_helper $social_helper
 	 * @param $social_photo $social_photo	
 	 * @param $social_zebra $social_zebra	
-	 * @param $social_page $social_page	  
-	 * @param string		$table_prefix
+	 * @param $social_page $social_page	 
 	 */
 	
 	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request,
-	helper $helper, db $config, $root_path, $php_ext, $social_helper, $post_status, $social_photo, $social_zebra, $social_page, $table_prefix, $phpbb_container)
+	helper $helper, db $config, $root_path, $php_ext, $social_helper, $post_status, $social_photo, $social_zebra, $social_page, $phpbb_container)
 	{
 		$this->template				= $template;
 		$this->user					= $user;
@@ -100,7 +96,6 @@ class listener implements EventSubscriberInterface
 		$this->social_photo			= $social_photo;
 		$this->social_zebra			= $social_zebra;
 		$this->social_page			= $social_page;
-        $this->table_prefix 		= $table_prefix;	
 		$this->phpbb_container 		= $phpbb_container;
 		
 		$this->is_phpbb31	= phpbb_version_compare($config['version'], '3.1.0@dev', '>=') && phpbb_version_compare($config['version'], '3.2.0@dev', '<');
@@ -248,12 +243,35 @@ class listener implements EventSubscriberInterface
 			$member = $event['member'];
 			$user_id = $member['user_id'];
 			$member['status_action'] = 0;
-			if($user_id == $this->user->data['user_id']) $member['user_action'] = true; else $member['user_action'] = false;
-			if($member['user_gender'] == 0) $profile_gender = ""; else $profile_gender = $this->pgsocial_helper->social_gender($member['user_gender']);
-			if($member['user_status_life'] == 0) $profile_status_life = ""; else $profile_status_life = $this->pgsocial_helper->social_status_life($member['user_status_life']);
-			$friends = $this->social_zebra->friendStatus($user_id);
-			if($friends['status'] == "PG_SOCIAL_FRIENDS" || $user_id == $this->user->data['user_id']) $member['status_action'] = 1;	 		
-					
+			if($user_id == $this->user->data['user_id'])
+			{
+				$member['user_action'] = true;
+			}
+			else
+			{
+				$member['user_action'] = false;
+			}
+			if($member['user_gender'] == 0)
+			{
+				$profile_gender = "";
+			}
+			else
+			{
+				$profile_gender = $this->pgsocial_helper->social_gender($member['user_gender']);
+			}
+			if($member['user_status_life'] == 0)
+			{
+				$profile_status_life = ""; 
+			}
+			else 
+			{
+				$profile_status_life = $this->pgsocial_helper->social_status_life($member['user_status_life']);
+			}
+			$friends = $this->social_zebra->friend_status($user_id);
+			if($friends['status'] == "PG_SOCIAL_FRIENDS" || $user_id == $this->user->data['user_id'])
+			{
+				$member['status_action'] = 1;	 		
+			}
 			$this->template->assign_vars(array(
 				'PG_SOCIAL_SIDEBAR_RIGHT'	=> $this->config['pg_social_sidebarRight'],		
 				'PG_SOCIAL_PROFILE'			=> $this->config['pg_social_profile'],
@@ -281,18 +299,21 @@ class listener implements EventSubscriberInterface
 				'PROFILE_FAVORITE_MUSICS'	=> $member['user_favorite_musics'],
 				'PROFILE_FAVORITE_BOOKS'	=> $member['user_favorite_books'],				
 				'PROFILE_GENDER'			=> $this->user->lang($profile_gender),
-				'PROFILE_COUNT_FRIENDS'		=> $this->social_zebra->countFriends($user_id),
+				'PROFILE_COUNT_FRIENDS'		=> $this->social_zebra->count_friends($user_id),
 				
 				'GALLERY_NAME'				=> $this->social_photo->gallery_info($this->request->variable('gall', ''))['gallery_name'],
 				
 				'SOCIAL_PROFILE_PATH'		=> $this->helper->route('profile_page'),
 				'STATUS_WHERE'				=> 'profile',
 			));
-			$this->post_status->getStatus("profile", $user_id, 0, "profile", 0, "seguel", "");
-			$this->social_photo->getPhotos(0, "last", $user_id);
-			$this->social_zebra->getFriends($user_id, "profile", "yes");
-			$this->social_photo->getGallery($user_id, "profile");
-			if($this->request->variable('gall', '')) $this->social_photo->getPhotos(0, "gall", $user_id, $this->request->variable('gall', ''));
+			$this->post_status->get_status("profile", $user_id, 0, "profile", 0, "seguel", "");
+			$this->social_photo->get_photos(0, "last", $user_id);
+			$this->social_zebra->get_friends($user_id, "profile", "yes");
+			$this->social_photo->get_gallery($user_id, "profile");
+			if($this->request->variable('gall', ''))
+			{
+				$this->social_photo->get_photos(0, "gall", $user_id, $this->request->variable('gall', ''));
+			}
 		}	
 	}
 		
@@ -303,20 +324,24 @@ class listener implements EventSubscriberInterface
 			'PG_SOCIAL_CHAT'					=> $this->config['pg_social_chat_enabled'] ? true : false,	
 			'PG_SOCIAL_INDEX_REPLACE'			=> $this->config['pg_social_index_replace'] ? true : false,
 			'PG_SOCIAL_INDEX_ACTIVITY'			=> $this->config['pg_social_index_activity'] ? true : false,
-			'PG_SOCIAL_PAGE_NOTIFIY_MANAGER'	=> ($this->social_page->approPages() > 0 && ($this->auth->acl_gets('m_page_manage') || $this->auth->acl_gets('a_page_manage'))) ? true : false,
+			'PG_SOCIAL_PAGE_NOTIFIY_MANAGER'	=> ($this->social_page->appro_pages() > 0 && ($this->auth->acl_gets('m_page_manage') || $this->auth->acl_gets('a_page_manage'))) ? true : false,
 		));	
-		if($this->is_startpage) $this->template->destroy_block_vars('navlinks');
+		if($this->is_startpage) {
+			$this->template->destroy_block_vars('navlinks');
+		}
 		if($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->config['pg_social_index_replace'] && $this->user->data['user_id'] != ANONYMOUS && $this->config['pg_social_index_activity'])
 		{
-			$this->post_status->getStatus('all', $this->user->data['user_id'], 0, "all", 0, "seguel", "");
+			$this->post_status->get_status('all', $this->user->data['user_id'], 0, "all", 0, "seguel", "");
 		}
 	}
 	
 	public function add_page_links($event)
 	{
 		$forumnav = '';
-		if($this->config['pg_social_index_replace']) $forumnav = $this->helper->route('forum_page');
-		
+		if($this->config['pg_social_index_replace'])
+		{
+			$forumnav = $this->helper->route('forum_page');
+		}
 		$this->template->assign_vars(array(
 			'S_PG_SOCIAL_ENABLED' 	=> $this->config['pg_social_enabled'] ? true : false,
 			'PG_SOCIAL_COLOR' 		=> $this->config['pg_social_color'],
@@ -459,7 +484,7 @@ class listener implements EventSubscriberInterface
 		$photo['tmp_name'] = $event['filedata']['filename'];
 		$photo['type'] = $event['filedata']['mimetype'];
 		
-		$this->social_photo->photoUpload("", $this->user->data['user_id'], "", "avatar", "profile", $photo);
+		$this->social_photo->photo_upload("", $this->user->data['user_id'], "", "avatar", "profile", $photo);
 	}
 	
 	/**
@@ -470,7 +495,7 @@ class listener implements EventSubscriberInterface
 		if($event['mode'] == 'post')
 		{
 			$info = $event['data'];
-			$this->post_status->addStatus('post', $this->user->data['user_id'], '', 2, 4, $info['topic_id']."#p".$info['post_id']); 
+			$this->post_status->add_status('post', $this->user->data['user_id'], '', 2, 4, $info['topic_id']."#p".$info['post_id']); 
 		}
 	}		
 }

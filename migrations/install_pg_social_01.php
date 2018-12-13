@@ -14,14 +14,14 @@ namespace pgreca\pgsocial\migrations;
 class install_pg_social_01 extends \phpbb\db\migration\migration
 {
 	static public function depends_on()
-{
+	{
 		return array('\phpbb\db\migration\data\v32x\v321');
 	}
 
 	public function update_data()
-{
+	{
 		$data = array(
-			array('config.add', array('pg_social_version', '0.2')),
+			array('config.add', array('pg_social_version', '0.2.5')),
 			
 			array('config.add', array('pg_social_enabled', 1)),			
 			array('config.add', array('pg_social_index_replace', 0)),
@@ -126,27 +126,27 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 			)),
 		);
 		if($this->role_exists('ROLE_USER_STANDARD'))
-	{
+		{
 			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_page_create'));
 		}
 		if($this->role_exists('ROLE_USER_FULL'))
-	{
+		{
 			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_page_create'));
 		}
 		if($this->role_exists('ROLE_MOD_STANDARD'))
-	{
+		{
 			$data[] = array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_page_manage'));
 		}
 		if($this->role_exists('ROLE_MOD_FULL'))
-	{
+		{
 			$data[] = array('permission.permission_set', array('ROLE_MOD_FULL', 'm_page_manage'));
 		}
 		if($this->role_exists('ROLE_ADMIN_STANDARD'))
-	{
+		{
 			$data[] = array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_page_manage'));
 		}
 		if($this->role_exists('ROLE_ADMIN_FULL'))
-	{
+		{
 			$data[] = array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_page_manage'));
 		}
 		return $data;
@@ -397,6 +397,5 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 		$role_id = $this->db->sql_fetchfield('role_id');
 		$this->db->sql_freeresult($result);
 		return $role_id;
-	}
-	
+	}	
 }

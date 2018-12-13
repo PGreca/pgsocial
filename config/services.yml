@@ -1,3 +1,5 @@
+imports:
+    - { resource: tables.yml }
 services:
     pgreca.pgsocial.forum:
         class: pgreca\pgsocial\controller\forum
@@ -20,8 +22,7 @@ services:
             - '@group_helper'
             - '@dispatcher'
             - '%core.root_path%'
-            - '%core.php_ext%'   
-            - '%core.table_prefix%'            
+            - '%core.php_ext%'            
     pgreca.pgsocial.controller:
         class: pgreca\pgsocial\controller\main
         arguments:
@@ -41,8 +42,8 @@ services:
             - '@template'
             - '@user'
             - '%core.root_path%'
-            - '%core.php_ext%'   
-            - '%core.table_prefix%' 
+            - '%core.php_ext%' 
+            - %pgreca.pgsocial.table.social.wallpost%   
     pgreca.pgsocial.pages:
         class: pgreca\pgsocial\controller\pages
         arguments:
@@ -61,9 +62,10 @@ services:
             - '@pgreca.pgsocial.social.social_page'
             - '@template'
             - '@user'
-            - '%core.root_path%'
-            - '%core.php_ext%'   
-            - '%core.table_prefix%'    
+            - '%core.root_path%'   
+            - %pgreca.pgsocial.table.social.pages%
+            - %pgreca.pgsocial.table.social.pages_like%   
+            - '%core.php_ext%'  
     pgreca.pgsocial.helper:
         class: pgreca\pgsocial\controller\helper
         arguments:
@@ -78,7 +80,9 @@ services:
             - '@dispatcher'
             - '%core.root_path%'
             - '%core.php_ext%'
-            - '%core.table_prefix%'
+            - %pgreca.pgsocial.table.social.wallpostlike% 
+            - %pgreca.pgsocial.table.social.wallpostcomment%  
+            - %pgreca.pgsocial.table.social.photos%
     pgreca.pgsocial.notifyhelper:
         class: pgreca\pgsocial\controller\notifyhelper
         arguments:
@@ -195,9 +199,12 @@ services:
             - '@pgreca.pgsocial.social.social_page'
             - '@config'
             - '@dbal.conn'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%core.table_prefix%'                    
+            - '%core.root_path%' 
+            - %pgreca.pgsocial.table.social.wallpost%    
+            - %pgreca.pgsocial.table.social.wallpostlike% 
+            - %pgreca.pgsocial.table.social.wallpostcomment%      
+            - %pgreca.pgsocial.table.social.pages%           
+            - %pgreca.pgsocial.table.social.pages_like%               
     pgreca.pgsocial.social.social_zebra:
         class: pgreca\pgsocial\social\social_zebra
         arguments:
@@ -208,9 +215,7 @@ services:
             - '@pgreca.pgsocial.notifyhelper'
             - '@config'
             - '@dbal.conn'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%core.table_prefix%'            
+            - '%core.root_path%'         
     pgreca.pgsocial.social.social_photo:
         class: pgreca\pgsocial\social\social_photo
         arguments:
@@ -222,8 +227,10 @@ services:
             - '@config'
             - '@dbal.conn'
             - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%core.table_prefix%'  
+            - %pgreca.pgsocial.table.social.gallery%
+            - %pgreca.pgsocial.table.social.photos%  
+            - %pgreca.pgsocial.table.social.pages%  
+            - %pgreca.pgsocial.table.social.wallpost%        
     pgreca.pgsocial.social.social_tag:
         class: pgreca\pgsocial\social\social_tag
         arguments:
@@ -235,7 +242,7 @@ services:
             - '@pgreca.pgsocial.notifyhelper'  
             - '@config'
             - '@dbal.conn'
-            - '%core.table_prefix%'       
+            - %pgreca.pgsocial.table.social.wallpost%       
     pgreca.pgsocial.social.social_chat:
         class: pgreca\pgsocial\social\social_chat
         arguments:
@@ -247,8 +254,7 @@ services:
             - '@pgreca.pgsocial.helper'
             - '@pgreca.pgsocial.social.social_zebra'
             - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%core.table_prefix%'
+            - %pgreca.pgsocial.table.social.chat%
     pgreca.pgsocial.social.social_page:
         class: pgreca\pgsocial\social\social_page
         arguments:
@@ -262,9 +268,9 @@ services:
             - '@pgreca.pgsocial.social.social_zebra'
             - '@config'
             - '@dbal.conn'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%core.table_prefix%'  
+            - '%core.root_path%'  
+            - %pgreca.pgsocial.table.social.pages%   
+            - %pgreca.pgsocial.table.social.pages_like%           
     pgreca.pgsocial.event.listener:
         class: pgreca\pgsocial\event\listener
         arguments:
@@ -282,7 +288,6 @@ services:
             - '@pgreca.pgsocial.social.social_photo'
             - '@pgreca.pgsocial.social.social_zebra'
             - '@pgreca.pgsocial.social.social_page'
-            - '%core.table_prefix%'
             - '@service_container'
         tags:
             - { name: event.listener }

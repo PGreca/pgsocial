@@ -22,8 +22,8 @@
 		if($(".post_status_head_date, .post_comment_time, span.pg_social_chat_message_time").length) {
 			var date = $(".post_status_head_date, .post_comment_time, span.pg_social_chat_message_time").attr('title');
 			var periods = [
-				"{{ lang('WALL_TIME_PERIODS', 1)|e('js') }}",
-				"{{ lang('WALL_TIME_PERIODS', 2)|e('js') }}"
+				"{{ lang('WALL_TIME_PERIODS', 1)|e('js') }} {{ lang('AGO', 1)|e('js') }}",
+				"{{ lang('WALL_TIME_PERIODS', 2)|e('js') }} {{ lang('AGO', 1)|e('js') }}"
 			];
 			var lengths = [
 				"60",
@@ -56,9 +56,9 @@
 		}
 	}	
 {% if S_USER_LOGGED_IN %}
-	if($("#posts_status").html() == "") pgwall_getStatus('seguel', where);
+	if($("#posts_status").html() == "") pgwall_get_status('seguel', where);
 	var pgsocial = setInterval(function() {
-		pgwall_getStatus('seguel', where);
+		pgwall_get_status('seguel', where);
 		
 	}, 2000);
 	$("#wall_post").submit(function(e) {
@@ -70,24 +70,24 @@
 				uploadPhoto($('#wall_post_text').html(), $('#wall_post_img')[0].files[0], "wall", where);
 			} else {
 				$("#wall_post").removeClass("openform");
-				pgwall_addStatus($('#wall_post_text').html(), $('#wall_post_privacy option:selected').val());
+				pgwall_add_status($('#wall_post_text').html(), $('#wall_post_privacy option:selected').val());
 			}
 		}
 	});
 	
 	$(document).on('click', "#posts_status .post_status .post_status_footer .post_status_like a", function() {
-		pgwall_likeAction($(this).parent().parent().parent().attr('data-lastp'));
+		pgwall_like_action($(this).parent().parent().parent().attr('data-lastp'));
 	});
 	
 	$(document).on('keydown', '.pg_social_photo_comment_text', function(e) {
 		if(e.keyCode == 13) {
-			pgwall_addComment($(this).val(), $(this).parent().parent().find('.pg_social_photo_comments').attr('data-post'));
+			pgwall_add_comment($(this).val(), $(this).parent().parent().find('.pg_social_photo_comments').attr('data-post'));
 		}
 	});
 	
 	$(document).on('keydown', '.wall_comment_text', function(e) {
 		if(e.keyCode == 13) {
-			pgwall_addComment($(this).val(), $(this).parent().parent().attr('data-lastp'));
+			pgwall_add_comment($(this).val(), $(this).parent().parent().attr('data-lastp'));
 		}
 	});
 	

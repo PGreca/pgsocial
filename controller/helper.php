@@ -51,7 +51,7 @@ class helper
 	* @param \phpbb\log\log              $log
 	*/
 	
-	public function __construct($auth, $user, $helper, $notifyhelper, $config, $db, $log, $phpbb_container, $dispatcher, $root_path, $php_ext, $table_prefix)
+	public function __construct($auth, $user, $helper, $notifyhelper, $config, $db, $log, $phpbb_container, $dispatcher, $root_path, $php_ext, $pgsocial_table_wallpostlike, $pgsocial_table_wallpostcomment, $pgsocial_table_photos)
 	{
 		$this->auth = $auth;
 	    $this->user = $user;
@@ -64,7 +64,9 @@ class helper
 		$this->dispatcher			= $dispatcher;
 	    $this->root_path = $root_path;	
 		$this->php_ext = $php_ext;
-        $this->table_prefix = $table_prefix;
+		$this->pgsocial_wallpostlike	= $pgsocial_table_wallpostlike;
+		$this->pgsocial_wallpostcomment = $pgsocial_table_wallpostcomment;
+		$this->pgsocial_photos = $pgsocial_table_photos;
 	    $this->pg_social_path = generate_board_url().'/ext/pgreca/pgsocial';	
 	}
 	
@@ -178,8 +180,10 @@ class helper
 		$core_avatar =  phpbb_get_user_avatar($data);
      	preg_match('#(src=")(.+?)(download|images)#', $core_avatar, $matches);
 	
-		if($matches) $core_avatar = preg_replace('#('.$matches[2].')#', $base_url = generate_board_url(). '/', $core_avatar, 1);
-		//$core_avatar = preg_replace( '/(width|height)="\d*"\s/', "", str_replace("src=\"", 'src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url(', str_replace('" width', ')" width', $core_avatar)));
+		if($matches)
+		{
+			$core_avatar = preg_replace('#('.$matches[2].')#', $base_url = generate_board_url(). '/', $core_avatar, 1);
+		}
 		$core_avatar = str_replace('src="', 'src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url(', str_replace('" alt', ')" alt', preg_replace( '/(width|height)="\d*"\s/', "", $core_avatar)));
 		
 		$wall_avatar = '<img src="'.$this->pg_social_path.'/images/no_avatar.jpg" class="avatar" />';
@@ -242,7 +246,10 @@ class helper
 			$row = $this->db->sql_fetchrow($result);
 			
 			$row['rank_image'] = '<img src="'.generate_board_url().'/images/ranks/'.$row['rank_image'].'" />';
-			if($row['rank_image']) return $row;
+			if($row['rank_image']) 
+			{
+				return $row;
+			}
 		}
 		else
 		{
@@ -258,8 +265,14 @@ class helper
 			$now = phpbb_gmgetdate($now->getTimestamp() + $now->getOffset());
 
 			$diff = $now['mon'] - $bday_month;
-			if($diff == 0) $diff = ($now['mday'] - $bday_day < 0) ? 1 : 0; else $diff = ($diff < 0) ? 1 : 0;
-
+			if($diff == 0) 
+			{
+				$diff = ($now['mday'] - $bday_day < 0) ? 1 : 0; 
+			}
+			else
+			{
+				$diff = ($diff < 0) ? 1 : 0;
+			}
 			$age = max(0, (int) ($now['year'] - $bday_year - $diff));
 			return $age;
 	}
@@ -273,9 +286,14 @@ class helper
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		
-		
-		if($row['session_time'] == '') $row['session_time'] = 0;
-		if($row['session_viewonline'] == '') $row['session_viewonline'] = 0;
+		if($row['session_time'] == '') 
+		{
+			$row['session_time'] = 0;
+		}
+		if($row['session_viewonline'] == '') 
+		{
+			$row['session_viewonline'] = 0;
+		}
 		$update_time = $this->config['load_online_time'] * 60;
 		$online = (time() - $update_time < $row['session_time'] && ((isset($row['session_viewonline']) && $row['session_viewonline']) || $this->auth->acl_get('u_viewonline'))) ? "online" : "offline";
 			
@@ -291,23 +309,23 @@ class helper
 	}
 	
 	/* COUNT LIKES OR COMMENTS OF ACTIVITY */
-	public function countAction($action, $post)
+	public function count_action($action, $post)
 	{
 		switch($action)
 		{
 			case 'like':
 				$sql = "SELECT COUNT(post_like_ID) AS count
-				FROM ".$this->table_prefix."pg_social_wall_like
+				FROM ".$this->pgsocial_wallpostlike."
 				WHERE post_ID = '".$post."'";
 			break;
 			case 'iflike':
 				$sql = "SELECT COUNT(post_like_ID) AS count
-				FROM ".$this->table_prefix."pg_social_wall_like
+				FROM ".$this->pgsocial_wallpostlike."
 				WHERE post_ID = '".$post."' AND user_id = '".$this->user->data['user_id']."'";
 			break;
 			case 'comments':
 				$sql = "SELECT COUNT(post_comment_ID) AS count 
-				FROM ".$this->table_prefix."pg_social_wall_comment
+				FROM ".$this->pgsocial_wallpostcomment."
 				WHERE post_ID = '".$post."'";
 			break;
 		}
@@ -320,7 +338,7 @@ class helper
 	public function countPhotos($user)
 	{
 		$sql = "SELECT COUNT(photo_id) AS count
-		FROM ".$this->table_prefix."pg_social_photos 
+		FROM ".$this->pgsocial_photos."
 		WHERE user_id = '".$user."'";
 		$result = $this->db->sql_query($sql);
 		$count = (int) $this->db->sql_fetchfield('count');
@@ -328,12 +346,18 @@ class helper
 	}
 	
 	/* EXTRA OF ACTIVITY */
-	public function extraText($text)
+	public function extra_text($text)
 	{
 		$a = "";
 		$a .= $this->youtube_embed($text);
-		if($a == "") $a .= $this->facebook_embed($text);
-		if($a == "") $a .= $this->website_embed($text);
+		if($a == "") 
+		{
+			$a .= $this->facebook_embed($text);
+		}
+		if($a == "") 
+		{
+			$a .= $this->website_embed($text);
+		}
 		return $a;
 	}
 	
@@ -347,7 +371,10 @@ class helper
 			$domain = explode('&', $domain);
 			$youtube = '<p class="post_status_youtube"><iframe src="https://www.youtube.com/embed/'.$domain[0].'" allowfullscreen></iframe>
 			</p>';
-			if($youtube) return $youtube;
+			if($youtube)
+			{
+				return $youtube;
+			}
 		}
 	}
 	
@@ -361,7 +388,10 @@ class helper
 			$domain = explode('/?', $domain);
 			$domain[0] = str_replace(":", "%3A", $domain[0]);
 			$facebook = '<p class="post_status_facebook"><iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F'.$domain[0].'&appId=1605771702975630" allowTransparency="true" allow="encrypted-media"></iframe>';
-			if($facebook) return $facebook;
+			if($facebook) 
+			{
+				return $facebook;
+			}
 		}
 	}
 	
@@ -392,15 +422,26 @@ class helper
 					$start = '<title>';
 					$end = '</title>';
 					preg_match('!<title>(.*?)</title>!i', $content, $match);
-					if(array_key_exists(1, $match)) $title = $match[1];
+					if(array_key_exists(1, $match))
+					{
+						$title = $match[1];
+					}
 					$metatagarray = get_meta_tags($url);
-					if(array_key_exists('description', $metatagarray)) $description = $metatagarray["description"];
-					
+					if(array_key_exists('description', $metatagarray)) 
+					{
+						$description = $metatagarray["description"];
+					}
 					$screen = '<a href="'.$domain[0].'" class="post_status_site" target="_blank">
 						<div class="post_status_site_content">
 							<div class="post_status_site_title_domain">'.$site_domain['host'].'<img class="post_status_site_title_domain_favicon" src="https://www.google.com/s2/favicons?domain=http://'.$site_domain['host'].'" /></div>';
-							if($title) $screen .= '<h6 class="post_status_site_title">'.$title.'</h6>';
-							if($description) $screen .= '<div class="post_status_description">'.$description.'</div>';
+					if($title) 
+					{
+						$screen .= '<h6 class="post_status_site_title">'.$title.'</h6>';
+					}
+					if($description)
+					{
+						$screen .= '<div class="post_status_description">'.$description.'</div>';
+					}
 					$screen .= '</div>
 					</a>';
 					return $screen;
@@ -439,7 +480,7 @@ class helper
 		}
 	}
 	
-	public function pgStatus_type($type, $extra, $msg, $author_action, $wshow, $block_vars)
+	public function pg_status_type($type, $extra, $msg, $author_action, $wshow, $block_vars)
 	{
 		$array = array();
 		$vars = array('type', 'extra', 'msg', 'author_action', 'wshow', 'block_vars');

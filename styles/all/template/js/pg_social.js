@@ -21,7 +21,7 @@
 		}
 			
 		//ACTION FRIENDS
-		phpbb.addAjaxCallback('requestFriend', function(response) {
+		phpbb.addAjaxCallback('request_friend', function(response) {
 			location.reload(true);
 		});
 		
@@ -42,13 +42,13 @@
 		
 		//DELETE PHOTO
 		$(document).on('click', "#pg_social_photo_img ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options li#pg_social_photo_img_option_delete a", function() {
-			if(confirm(useLang['ARE_YOU_SURE_PHOTO'])) pgwall_deletePhoto($("#pg_social_photo_img").attr("data-photo"));
+			if(confirm(useLang['ARE_YOU_SURE_PHOTO'])) pgwall_delete_photo($("#pg_social_photo_img").attr("data-photo"));
 		});
 	});
 	
 	$(document).on('scroll', function() { 
 		if($(document).scrollTop() >= ($("#pg_social_sidec > #posts_status").height() - ($("#pg_social_sidec > #posts_status").height() / 2.5))) {
-			pgwall_getStatus('prequel', where);
+			pgwall_get_status('prequel', where);
 		}
 	});
 	
@@ -102,13 +102,13 @@
 		if($('#post_status_'+post_status+' ul.post_status_comments').hasClass('active')) {
 			$('#post_status_'+post_status+' ul.post_status_comments').removeClass('active').html("");
 		} else {
-			pgwall_getComments(post_status, 'post');	
+			pgwall_get_comments(post_status, 'post');	
 		}
 	});
 	
 	$(document).on('click', '.post_comment_action .post_comment_action_delete', function() {
 		if(confirm(useLang['ARE_YOU_SURE'])) {
-			pgwall_removeComment($(this).parent().parent().parent().attr('data-comment'));
+			pgwall_remove_comment($(this).parent().parent().parent().attr('data-comment'));
 		}
 	});
 		 
@@ -173,7 +173,7 @@
 		var ord = 0;
 		if($(this).attr("id") == "pg_social_photo_sideNex") ord = 1;
 		var fdata = new FormData()
-		fdata.append("mode", "prenextPhoto");
+		fdata.append("mode", "prenext_photo");
 		fdata.append("photo", $(this).parent().parent().attr('data-photo'));
 		fdata.append("ord", ord);
 		fdata.append("where", where);
@@ -194,11 +194,11 @@
 	});
 	
 	$(document).on('click', "#pg_social_photo_social .pg_social_photo_likshare .post_status_like a", function() {
-		pgwall_likeAction($(this).parent().parent().attr('data-post'));
+		pgwall_like_action($(this).parent().parent().attr('data-post'));
 	});
 	
 	$(document).on('click', "a.page_list_buttonLike", function() {
-		pgwall_pagelikeAction($(this).attr('data-page'));
+		pgwall_pagelike_action($(this).attr('data-page'));
 
 	});
 	
@@ -229,7 +229,7 @@
 })(jQuery);
 
 /* POST ACTION */
-function pgwall_getStatus(order, post_where) {
+function pgwall_get_status(order, post_where) {
 	if(!post_where) post_where = 'all';
 	if($("#load_more").is(":visible")) {
 		$("#load_more").hide();
@@ -238,7 +238,7 @@ function pgwall_getStatus(order, post_where) {
 		if(lastp == undefined) lastp = 0;
 		
 		var fdata = new FormData()
-		fdata.append("mode", "getStatus");
+		fdata.append("mode", "get_status");
 		fdata.append("post_where", post_where);
 		fdata.append("profile_id", profile_id);
 		fdata.append("lastp", lastp);
@@ -265,11 +265,11 @@ function pgwall_getStatus(order, post_where) {
 	}
 }
 
-function pgwall_addStatus(texta, privacy) {
+function pgwall_add_status(texta, privacy) {
 	if(!privacy) privacy = 1;
 	if($.trim(texta) != "") {
 		var fdata = new FormData()
-		fdata.append("mode", "addStatus");
+		fdata.append("mode", "add_status");
 		fdata.append("post_where", where);
 		fdata.append("profile_id", profile_id);
 		fdata.append("text", encodeURIComponent($.trim(texta)));
@@ -283,6 +283,7 @@ function pgwall_addStatus(texta, privacy) {
 			success: function(data) {
 				$('#wall_post_text').html("");
 				$("#wall_post").addClass("openform");
+				console.log(data);
 			}
 		});
 	}
@@ -307,20 +308,20 @@ function pgwall_removeStatus(post_status) {
 	$.ajax({
 		method: "POST", 
 		url: root,
-		data: "mode=deleteStatus&post_status="+post_status,
+		data: "mode=delete_status&post_status="+post_status,
 		success: function(data) {
 			$("#post_status_"+post_status).remove();
-			pgwall_getStatus('prequel', where);
+			pgwall_get_status('prequel', where);
 		}				
 	});
 }
 
 /* LIKE ACTION */
-function pgwall_likeAction(post_like) {
+function pgwall_like_action(post_like) {
 	$.ajax({
 		method: "POST",
 		url: root,
-		data: "mode=likeAction&post_like="+post_like,
+		data: "mode=like_action&post_like="+post_like,
 		success: function(data) {
 			$('#post_status_'+post_like+' .post_status_footer .post_status_like').replaceWith(data);
 			$('.pg_social_photo #pg_social_photo_social .pg_social_photo_likshare[data-post="'+post_like+'"] .post_status_like').replaceWith(data);
@@ -328,11 +329,11 @@ function pgwall_likeAction(post_like) {
 	});	
 }
 
-function pgwall_pagelikeAction(page) {
+function pgwall_pagelike_action(page) {
 	$.ajax({
 		method: "POST",
 		url: root,
-		data: "mode=pagelikeAction&page="+page,
+		data: "mode=pagelike_action&page="+page,
 		success: function(data) {
 			$("a.page_list_buttonLike[data-page='"+page+"']").removeClass('likepage dislikepage').addClass(data);
 		}		
@@ -340,11 +341,11 @@ function pgwall_pagelikeAction(page) {
 }
 
 /* COMMENT ACTION */
-function pgwall_getComments(post_status, type) {
+function pgwall_get_comments(post_status, type) {
 	$.ajax({
 		method: "POST",
 		url: root,
-		data: "mode=getComments&post_status="+post_status+"&type="+type,
+		data: "mode=get_comments&post_status="+post_status+"&type="+type,
 		success: function(data) {
 			$('ul.post_status_comments').html("");
 			$('#post_status_'+post_status+' ul.post_status_comments').addClass('active');
@@ -354,9 +355,9 @@ function pgwall_getComments(post_status, type) {
 	});
 }
 
-function pgwall_addComment(comment, post_status) {	
+function pgwall_add_comment(comment, post_status) {	
 	var fdata = new FormData()
-	fdata.append("mode", "addComment");
+	fdata.append("mode", "add_comment");
 	fdata.append("post_status", post_status);
 	fdata.append("comment", encodeURIComponent($.trim(comment)));		
 	$.ajax({
@@ -367,14 +368,14 @@ function pgwall_addComment(comment, post_status) {
 		processData: false, 
 		success: function(data) {
 			$(".wall_comment_text").val("");
-			pgwall_getComments(post_status);
+			pgwall_get_comments(post_status);
 		}
 	});
 }
 
-function pgwall_removeComment(comment) {
+function pgwall_remove_comment(comment) {
 	var fdata = new FormData()
-	fdata.append("mode", "removeComment");
+	fdata.append("mode", "remove_comment");
 	fdata.append("comment", comment);
 	$.ajax({
 		type: 'POST',
@@ -406,6 +407,7 @@ function uploadPhoto(msg, photo, type, where, itop) {
 		contentType: false,
 		processData: false, 
 		success: function(data) {	
+			console.log(type);
 			if(type == 'cover' || type == 'avatar') location.reload();
 			$('#wall_post_text').html("");
 			$("#wall_post_img").val("");
@@ -415,11 +417,11 @@ function uploadPhoto(msg, photo, type, where, itop) {
 	})
 }	
 
-function pgwall_deletePhoto(photo) {
+function pgwall_delete_photo(photo) {
 	$.ajax({
 		type: 'POST',
 		url: root, 
-		data: 'mode=deletePhoto&photo='+photo,
+		data: 'mode=delete_photo&photo='+photo,
 		success: function(data) {
 			console.log(data);
 			if(data == 'deleted') {
@@ -437,7 +439,7 @@ function popupPhoto(photo) {
 	$(".darkenwrapper").show();
 	$("#page-footer").append('<div id="pg_social_photo_'+photo+'" data-photo="'+photo+'" class="phpbb_alert pg_social_photo"></div>');
 	var fdata = new FormData()
-	fdata.append("mode", "getPhoto");
+	fdata.append("mode", "get_photo");
 	fdata.append("photo", $.trim(photo));
 	$.ajax({
 		type: 'POST',
@@ -450,7 +452,7 @@ function popupPhoto(photo) {
 			$.ajax({
 			method: "POST", 
 				url: root,
-				data: "mode=getComments&post_status="+$(".pg_social_photo_comments").attr('data-post')+"&type=photo",
+				data: "mode=get_comments&post_status="+$(".pg_social_photo_comments").attr('data-post')+"&type=photo",
 				cache: false,
 				async: true, 
 				success: function(data) {

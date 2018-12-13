@@ -1,0 +1,10 @@
+parameters:
+    pgreca.pgsocial.table.social.wallpost: %core.table_prefix%pg_social_wall_post
+    pgreca.pgsocial.table.social.wallpostlike: %core.table_prefix%pg_social_wall_like
+    pgreca.pgsocial.table.social.wallpostcomment: %core.table_prefix%pg_social_wall_comment
+    pgreca.pgsocial.table.social.gallery: %core.table_prefix%pg_social_gallery
+    pgreca.pgsocial.table.social.photos: %core.table_prefix%pg_social_photos
+    pgreca.pgsocial.table.social.pages: %core.table_prefix%pg_social_pages
+    pgreca.pgsocial.table.social.pages_like: %core.table_prefix%pg_social_pages_like
+    pgreca.pgsocial.table.social.chat: %core.table_prefix%pg_social_chat
+    
