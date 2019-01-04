@@ -150,6 +150,7 @@ class pages
 					'PAGE_ACTION'			=> $page['page_action'],
 					'PAGE_AVATAR'			=> $this->pg_social_helper->social_avatar_page($page['page_avatar']),		     
 					'PAGE_COVER'			=> $this->pg_social_helper->social_cover($page['page_cover']),
+					'PAGE_COVER_POSITION'	=> $page['page_cover_position'],
 					'PAGE_URL'				=> append_sid($this->helper->route('pages_page'), 'u='.$page['page_username_clean']),
 					'PAGE_USERNAME'			=> $page['page_username'],
 					'PAGE_ABOUT_WE'			=> $page['page_about'],

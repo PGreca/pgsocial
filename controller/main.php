@@ -140,14 +140,20 @@ class main
 				case 'request_friend':
 					return $this->social_zebra->request_friend($profile_id, $this->request->variable('request', ''));
 				break;
+				case 'pgsocial_chat_setting':
+					return $this->social_chat->chat_setting($this->request->variable('setting', ''), $this->request->variable('value', 0));				
+				break;
+				case 'pgsocial_chat_check':
+					return $this->social_chat->pgsocial_chat_check();
+				break;
 				case 'message_check':
 					return $this->social_chat->message_check($this->request->variable('exclude', ''));
 				break;
 				case 'getchat_people':
-					return $this->social_chat->getchat_people($this->request->variable('person', ''));
+					return $this->social_chat->getchat_people($this->request->variable('people', ''));
 				break;
 				case 'getchat_person':
-					return $this->social_chat->getchat_person($this->request->variable('person', ''));
+					return $this->social_chat->getchat_person($this->request->variable('person', ''), $this->request->variable('read', ''));
 				break;
 				case 'getchat_message':
 					return $this->social_chat->getchat_message($this->request->variable('person', ''), $this->request->variable('order', ''), $this->request->variable('lastmessage', ''));
@@ -155,8 +161,14 @@ class main
 				case 'message_send':
 					return $this->social_chat->message_send($this->request->variable('person', ''), $this->request->variable('message', ''));
 				break;
+				case 'message_read':
+					return $this->social_chat->message_read($this->request->variable('person', ''));
+				break;
 				case 'get_photo':
 					return $this->social_photo->get_photo($this->request->variable('photo', ''), 1);
+				break;
+				case 'add_gallery':
+					return $this->social_photo->add_gallery($this->request->variable('gallery_name', ''));
 				break;
 				case 'addPhoto':
 					return $this->social_photo->photo_upload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', ''), $this->request->variable('type', ''), $where, $this->request->file('photo'), $this->request->variable('top', ''));
@@ -172,8 +184,6 @@ class main
 				break;
 				case 'pagelike_action':
 					return $this->social_page->pagelike_action($this->request->variable('page', ''));
-				break;
-				default: 
 				break;
 			}	
 			

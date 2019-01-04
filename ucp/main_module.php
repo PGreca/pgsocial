@@ -13,20 +13,10 @@ namespace pgreca\pgsocial\ucp;
 
 class main_module
 {
-	protected $db;
-	
-	protected $auth;
-
-	protected $request;
-
-	protected $template;
-
-	protected $user;
-
 	public $u_action;
 
 	// Main function
-	function main($id, $mode)
+	public function main($id, $mode)
 	{
 		global $db, $auth, $request, $template, $user, $u_action;
 
@@ -46,26 +36,26 @@ class main_module
 			case 'chat':
 				if($request->is_set_post('submit'))
 				{
-					if(!check_form_key('ucp_pg_social'))
+					if(!check_form_key('ucp_pgsocial'))
 					{
 						trigger_error('FORM_INVALID');
-					}
-					
+					}					
 					$sql_arr = array(
 						'user_signature_replace'		=> $this->request->variable('signature_status', false),
 						'user_chat_music'    			=> $this->request->variable('chat_sound', false),
 					);
 
-					$sql = 'UPDATE '.USERS_TABLE.' SET '.$db->sql_build_array('UPDATE', $sql_arr).' WHERE user_id = '.(int) $this->user->data['user_id'];
+					$sql = 'UPDATE '.USERS_TABLE.' SET '.$this->db->sql_build_array('UPDATE', $sql_arr).' WHERE user_id = '.(int) $this->user->data['user_id'];
 					$this->db->sql_query($sql);
 					$message = $this->user->lang('PREFERENCES_UPDATED').'<br /><br />'.sprintf($this->user->lang('RETURN_UCP'), '<a href="'.$this->u_action.'">', '</a>');
 					trigger_error($message);
 				}		
 				
-				$template->assign_vars(array(
+				$this->template->assign_vars(array(
 					'UCP_PG_SOCIAL_PAGE'						=> 'chat',
 					'UCP_PG_SOCIAL_SIGNATURE_STATUS'			=> $this->user->data['user_signature_replace'],						
 					'UCP_PG_SOCIAL_CHAT_SOUND'					=> $this->user->data['user_chat_music'],
+					'S_UCP_ACTION'         						=> $u_action,
 				));
 			break;
 		}

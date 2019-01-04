@@ -73,7 +73,7 @@
 		</fieldset>	
 		{% endif %}	
 		{% if PG_SOCIAL_PAGE_SOCIAL %}  
-			<fieldset>
+		<fieldset>
 			<legend>{{ lang('ACP_PG_SOCIAL_STATUS') }}</legend> 
 			<dl>
 				<dt><label for="pg_social_smilies">{{ lang('ACP_PG_SOCIAL_SMILIES_ENABLED') }}</label></dt>
@@ -91,6 +91,17 @@
 				<input type="radio" class="radio" name="pg_social_url" value="0" {% if not PG_SOCIAL_URL %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
 			</dl>
 		</fieldset>	
+		<fieldset>
+			<legend>{{ lang('ACP_PG_SOCIAL_GALLERY') }}</legend>
+			<dl>
+				<dt>{{ lang('ACP_PG_SOCIAL_GALLERY_LIMIT') }}</dt>
+				<dd><input type="text" class="text" name="pg_social_galleryLimit" placeholder="{{ lang('ACP_PG_SOCIAL_INSERT_GALLERY_LIMIT') }}"{%if PG_SOCIAL_GALLERY_LIMIT %}value="{{ PG_SOCIAL_GALLERY_LIMIT }}"{% endif %} /></dd>
+			</dl>	
+			<dl>
+				<dt>{{ lang('ACP_PG_SOCIAL_PHOTO_LIMIT') }}</dt>
+				<dd><input type="text" class="text" name="pg_social_photoLimit" placeholder="{{ lang('ACP_PG_SOCIAL_INSERT_PHOTO_LIMIT') }}"{%if PG_SOCIAL_PHOTO_LIMIT %}value="{{ PG_SOCIAL_PHOTO_LIMIT }}"{% endif %} /></dd>
+			</dl>			
+		</fieldset>
 		{% endif %}
 		{% if PG_SOCIAL_PAGE_CHAT %}
 			<fieldset>
@@ -137,8 +148,6 @@
 			Non disponi dei permessi per la gestione delle pagine.
 			{% endif %}
 		{% endif %}	
-				
-		
 		{{ S_FORM_TOKEN }}
 	</div><div style="display:inline-block;width:25%;vertical-align:top">
 		<iframe src="https://pgreca.it/pg_social/pg_social_iframe.php?lang={{ lang('USER_LANG') }}" width="100%" height="300px" frameborder="0" cellpadding="0"></iframe>

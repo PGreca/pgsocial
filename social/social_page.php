@@ -156,7 +156,7 @@ class social_page
 	public function page_likeif($user, $template, $if = false)
 	{
 		$sql = "SELECT p.* FROM ".$this->pgsocial_pages." p
-		LEFT JOIN ".$this->pgsocial_pages_like." l ON p.page_id = l.page_id WHERE l.page_id IS NULL and p.page_status = '1'";
+		LEFT JOIN ".$this->pgsocial_pages_like." l ON p.page_id = l.page_id WHERE l.page_id IS NULL and p.page_status = '1' ORDER BY RAND() LIMIT 0, 5";
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
 		{

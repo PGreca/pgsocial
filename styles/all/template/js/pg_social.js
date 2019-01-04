@@ -159,8 +159,32 @@
 		$("#pg_social .profile_avatar").css("z-index", "80");
 		$("#profile_upload_submit, .darkenwrapper").show();
 		$("#pg_social_header").addClass("canMove")
-		console.log(URL.createObjectURL(e.target.files[0]));
 		$("#pg_social .profile_avatar img").css("background-image", "url("+URL.createObjectURL(e.target.files[0])+")");
+	});
+	
+	$(document).on('click', '#pg_social #pg_social_cont ul.colums li#pg_social_gallery_create', function() {
+		$(this).find('.centeralign *').hide();
+		$(this).find('.centeralign input').show();
+	});
+	
+	$(document).on('click', '#pg_social #pg_social_cont ul.colums li#pg_social_gallery_create input[type="submit"]', function() {
+		var fdata = new FormData()
+		fdata.append("mode", "add_gallery");
+		fdata.append("gallery_name", $("#pg_social #pg_social_cont ul.colums li#pg_social_gallery_create input[name='pgsocial_galleryNew_title']").val());
+		$.ajax({
+			method: "POST", 
+			url: root,
+			data: fdata,
+			contentType: false,
+			processData: false,
+			success: function(data) {
+				location.reload(true);
+			}
+		});
+	});
+	
+	$(document).on('change', "input[type='file']#pgsocial_gallery_newPhoto", function(e) {	
+		uploadPhoto("", $(this)[0].files[0], $(this).attr("data-gall"), where, '');
 	});
 	
 	//POPUP PHOTO
@@ -199,7 +223,6 @@
 	
 	$(document).on('click', "a.page_list_buttonLike", function() {
 		pgwall_pagelike_action($(this).attr('data-page'));
-
 	});
 	
 	$(document).on('click', "li.colum .cards ul.bubbles .bubble", function() {
@@ -224,8 +247,6 @@
 			closePopup(true);
 		}
 	});
-	
-	
 })(jQuery);
 
 /* POST ACTION */
@@ -283,7 +304,6 @@ function pgwall_add_status(texta, privacy) {
 			success: function(data) {
 				$('#wall_post_text').html("");
 				$("#wall_post").addClass("openform");
-				console.log(data);
 			}
 		});
 	}
@@ -407,13 +427,13 @@ function uploadPhoto(msg, photo, type, where, itop) {
 		contentType: false,
 		processData: false, 
 		success: function(data) {	
-			console.log(type);
+			if(type == '1') $('ul#pg_social_photos').prepend(data);
 			if(type == 'cover' || type == 'avatar') location.reload();
 			$('#wall_post_text').html("");
-			$("#wall_post_img").val("");
+			$("#wall_post_img, #pgsocial_gallery_newPhoto").val("");
 			$("#wall_post_thumb").removeAttr("style");
 			$("#wall_post_thumb img#wall_post_thumb_img").removeAttr('src');
-		}
+		},
 	})
 }	
 
@@ -423,7 +443,6 @@ function pgwall_delete_photo(photo) {
 		url: root, 
 		data: 'mode=delete_photo&photo='+photo,
 		success: function(data) {
-			console.log(data);
 			if(data == 'deleted') {
 				closePopup(true);
 				$('#page_gallery ul#pg_social_photos #gallery_'+photo).remove();
@@ -464,7 +483,6 @@ function popupPhoto(photo) {
 }
 
 function closePopup(as) {
-	history.pushState(site, site.Title, site.Url);
 	$(".pg_social_photo").remove();
 	$("#page_create").hide();
 	if(as) $("#darken").parent().hide(); $("body").css("overflow", "");

@@ -280,24 +280,30 @@ class helper
 	/* ONLINE STATUS OF USER */
 	public function social_status($user)
 	{
-		$sql = "SELECT MAX(session_time) AS session_time, MIN(session_viewonline) AS session_viewonline
-		FROM ".SESSIONS_TABLE." as s
-		WHERE session_user_id = '".$user."'";
+		$sql = "SELECT MAX(s.session_time) AS session_time, MIN(s.session_viewonline) AS session_viewonline, u.user_allow_viewonline
+		FROM ".SESSIONS_TABLE." as s, ".USERS_TABLE." as u
+		WHERE s.session_user_id = '".$user."' AND u.user_id = '".$user."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
+		if($row['user_allow_viewonline'] == 0)
+		{
+			$online = 'offline';
+		}
+		else
+		{
+			if($row['session_time'] == '') 
+			{
+				$row['session_time'] = 0;
+			}
+			if($row['session_viewonline'] == '') 
+			{
+				$row['session_viewonline'] = 0;
+			}
+			$update_time = $this->config['load_online_time'] * 60;
+			$online = (time() - $update_time < $row['session_time'] && (isset($row['session_viewonline']) || $this->auth->acl_get('u_viewonline'))) ? "online" : "offline";
+		}
 		
-		if($row['session_time'] == '') 
-		{
-			$row['session_time'] = 0;
-		}
-		if($row['session_viewonline'] == '') 
-		{
-			$row['session_viewonline'] = 0;
-		}
-		$update_time = $this->config['load_online_time'] * 60;
-		$online = (time() - $update_time < $row['session_time'] && ((isset($row['session_viewonline']) && $row['session_viewonline']) || $this->auth->acl_get('u_viewonline'))) ? "online" : "offline";
-			
-		return $online;		
+		return $online;
 	}
 	
 	/* FIX PATCH OF SMILIES */

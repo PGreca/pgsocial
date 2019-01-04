@@ -88,12 +88,12 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social .panel {
 	background-color: #fff;
-	width: calc(100% - 20px);
+	width: calc(100% - 20px - 2px);
 	margin: 0px 0px 10px;
 	padding: 10px;
 	border: 0px;
 	border-radius: 5px;
-	box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.05);
+	border: 1px solid #e6ecf5;
 	color: #898da8;
 }
 
@@ -111,17 +111,53 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social .panel h5 {
+	display: inline-block;
+	width: calc(90% - 30px);
     padding: 15px;
 	letter-spacing: 1.3px;
-    font-size: 3em;
+    font-size: 2em;
     font-weight: bold;
-    text-align: center;
 	vertical-align: middle;
+	color: #000;
 }
 
 #pg_social .panel h5 a i {
 	vertical-align: middle;
 	color: #01b7ff;
+}
+
+#pg_social .panel #gallery_photo_add {
+	display: inline-block;
+	width: calc(10%);
+	border-radius: 3px;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#pg_social .panel #gallery_photo_add label {
+	position: relative;
+    display: inline-block;
+    width: calc(100% - 2px);
+    border: 1px solid #d8dbe6;
+	border-radius: 3px;
+}
+
+#pg_social .panel #gallery_photo_add label input[type="file"] {
+	width: calc(100% - 20px);
+	height: calc(100% - 20px);
+	padding: 10px;
+	opacity: 0;
+}
+
+#pg_social .panel #gallery_photo_add label span {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: calc(100% - 20px);
+	height: calc(100% - 20px);
+	padding: 10px;
+	cursor: pointer;
 }
 
 #pg_social #pg_social_pageprofile {
@@ -509,10 +545,10 @@ body.section-memberlist .action-bar.actions-jump {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	width: calc(25% - 12px);
+	width: calc(25% - 15px);
 	margin: 0px 15px 15px 0px;
 	border-radius: 5px;
-	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.08);
+	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.06);
 	text-align: left;
 }
 
@@ -540,19 +576,68 @@ body.section-memberlist .action-bar.actions-jump {
 	min-height: 373px;
 }
 
+#pg_social #pg_social_cont ul.colums li#pg_social_gallery_create {
+	background-color: transparent;
+	width: calc(25% - 15px - 40px - 6px);
+	padding: 13px 20px;
+	border: 3px dashed #bbc0d6;
+	cursor: pointer;
+	font-size: 1.5em;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum .centeralign {
+	position: absolute;
+	top: calc(50% - (100px / 2));
+	left: 0px;
+	width: 100%;
+	height: 100px;
+	text-align: center;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum .centeralign span {
+	display: inline-block;
+	background-color: #ff5e3a;
+	width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    margin: 0px 0px 20px;
+    border-radius: 100%;
+    color: #fff;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum .centeralign h4 {
+	font-size: 1.6em;
+	color: #515365;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum .centeralign h6 {
+	font-weight: normal;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum .centeralign input {
+	display: none;
+	width: calc(80% - 30px);
+	margin: 0px 10%;
+	padding: 15px;
+	border-radius: 3px;
+	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.06);
+}
+
+#pg_social #pg_social_cont ul.colums li.colum .centeralign input[type="submit"] {
+	display: none;
+	background-color: #ff5e3a;
+	margin-top: 10px;
+	color: #fff;
+}
+
 #pg_social #pg_social_cont ul.colums li img {
     width: 100%;
     height: auto;
 }
 
-#pg_social #pg_social_cont ul.colums li#pg_social_gallery_create {
-	background-color: transparent;
-	width: calc(25% - 12px - 14px);
-	border: 3px dashed #bbc0d6;
-}
-
-
 #pg_social #pg_social_cont ul.colums li.colum .cover {
+	background-color: #fe5e3a;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -1004,10 +1089,10 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul#posts_status li.post_status {
 	display: inline-block;
 	background-color: #fff;
-	width: calc(100%);
+	width: calc(100% - 2px);
 	margin: 0px 0px 20px;
 	border-radius: 5px;
-	box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.05);
+	border: 1px solid #e6ecf5;
 	animation: animateElement linear 1s;
 	animation-iteration-count: 1;
 }
@@ -2463,7 +2548,6 @@ a.profile_signature_status {
 		display: none;
 	}
 }
-
 
 @keyframes animateElement{
 	0% {

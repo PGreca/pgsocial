@@ -98,8 +98,8 @@ class listener implements EventSubscriberInterface
 		$this->social_page			= $social_page;
 		$this->phpbb_container 		= $phpbb_container;
 		
-		$this->is_phpbb31	= phpbb_version_compare($config['version'], '3.1.0@dev', '>=') && phpbb_version_compare($config['version'], '3.2.0@dev', '<');
-		$this->is_phpbb32	= phpbb_version_compare($config['version'], '3.2.0@dev', '>=') && phpbb_version_compare($config['version'], '3.3.0@dev', '<');
+		$this->is_phpbb31	= phpbb_version_compare($this->config['version'], '3.1.0@dev', '>=') && phpbb_version_compare($this->config['version'], '3.2.0@dev', '<');
+		$this->is_phpbb32	= phpbb_version_compare($this->config['version'], '3.2.0@dev', '>=') && phpbb_version_compare($this->config['version'], '3.3.0@dev', '<');
 
 		$this->template->assign_vars(array(
 			'IS_PHPBB31' => $this->is_phpbb31,
@@ -272,6 +272,11 @@ class listener implements EventSubscriberInterface
 			{
 				$member['status_action'] = 1;	 		
 			}
+			$gallumb = false;
+			if($this->request->variable('gl', '') == 'album')
+			{
+				$gallumb = true;
+			}
 			$this->template->assign_vars(array(
 				'PG_SOCIAL_SIDEBAR_RIGHT'	=> $this->config['pg_social_sidebarRight'],		
 				'PG_SOCIAL_PROFILE'			=> $this->config['pg_social_profile'],
@@ -301,8 +306,10 @@ class listener implements EventSubscriberInterface
 				'PROFILE_GENDER'			=> $this->user->lang($profile_gender),
 				'PROFILE_COUNT_FRIENDS'		=> $this->social_zebra->count_friends($user_id),
 				
-				'GALLERY_NAME'				=> $this->social_photo->gallery_info($this->request->variable('gall', ''))['gallery_name'],
-				
+				'GALLERY_NEW'				=> ($this->config['pg_social_galleryLimit'] > $this->social_photo->gallery_count('album') && $member['user_action']) ? true : false,
+				'GALLERY_NAME'				=> $this->social_photo->gallery_info($this->request->variable('gall', ''), $gallumb)['gallery_name'],
+				'GALLERY_ID'				=> $this->request->variable('gall', ''),
+				'PHOTO_NEW'					=> ($this->request->variable('gall', '') && $this->request->variable('gl', '') == 'album' && $this->config['pg_social_photoLimit'] > $this->social_photo->gallery_count('photo', $this->request->variable('gall', ''))) ? true : false,
 				'SOCIAL_PROFILE_PATH'		=> $this->helper->route('profile_page'),
 				'STATUS_WHERE'				=> 'profile',
 			));
@@ -312,7 +319,7 @@ class listener implements EventSubscriberInterface
 			$this->social_photo->get_gallery($user_id, "profile");
 			if($this->request->variable('gall', ''))
 			{
-				$this->social_photo->get_photos(0, "gall", $user_id, $this->request->variable('gall', ''));
+				$this->social_photo->get_photos(0, "gall", $user_id, $this->request->variable('gall', ''), $this->request->variable('gl', ''));
 			}
 		}	
 	}
@@ -322,6 +329,8 @@ class listener implements EventSubscriberInterface
 		$this->template->assign_vars(array(				
 			'PROFILE'							=> $this->user->data['user_id'],			
 			'PG_SOCIAL_CHAT'					=> $this->config['pg_social_chat_enabled'] ? true : false,	
+			'PG_SOCIAL_SETTING_HIDE'			=> $this->user->data['user_allow_viewonline'] ? true : false,
+			'PG_SOCIAL_SETTING_AUDIO'			=> $this->user->data['user_chat_music'] ? true : false,
 			'PG_SOCIAL_INDEX_REPLACE'			=> $this->config['pg_social_index_replace'] ? true : false,
 			'PG_SOCIAL_INDEX_ACTIVITY'			=> $this->config['pg_social_index_activity'] ? true : false,
 			'PG_SOCIAL_PAGE_NOTIFIY_MANAGER'	=> ($this->social_page->appro_pages() > 0 && ($this->auth->acl_gets('m_page_manage') || $this->auth->acl_gets('a_page_manage'))) ? true : false,
@@ -406,7 +415,7 @@ class listener implements EventSubscriberInterface
 			'user_favorite_movies'			=> $this->request->variable('user_favorite_movies', $user_favorite_movies),
 			'user_favorite_games'			=> $this->request->variable('user_favorite_games', $user_favorite_games),
 			'user_favorite_musics'			=> $this->request->variable('user_favorite_musics', $user_favorite_musics),
-			'user_favorite_books	'		=> $this->request->variable('user_favorite_books', $user_favorite_books),
+			'user_favorite_books'			=> $this->request->variable('user_favorite_books', $user_favorite_books),
 		));
 
 		$this->template->assign_vars(array(
@@ -470,6 +479,7 @@ class listener implements EventSubscriberInterface
 			'user_favorite_movies'		=> $event['data']['user_favorite_movies'],
 			'user_favorite_games'		=> $event['data']['user_favorite_games'],
 			'user_favorite_musics'		=> $event['data']['user_favorite_musics'],
+			'user_favorite_books'		=> $event['data']['user_favorite_books'],
 		));
 	}
 	

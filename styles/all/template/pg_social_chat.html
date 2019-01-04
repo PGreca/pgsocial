@@ -1,19 +1,15 @@
-<div id="pg_social_chat">
-	<div id="pg_social_chat_box" class="pg_social_chat">
-	<!-- EVENT pgreca_pgsocial_chat_before -->
-		<div id="pg_social_chat_people">
-			<ul id="pg_social_chat_people_online">
-				{% INCLUDE 'pg_social_chatpeople.html' %}
-			</ul>
-		</div>
-		<div id="pg_social_chat_people_buttons">
-			<div class="pg_social_chat_people_button" id="pg_social_chat_people_button_openclose"><i class="icon fa fa-users fa-fw" aria-hidden="true"></i></div><div class="pg_social_chat_people_button" id="pg_social_chat_people_button_search">
-				<input type="text" name="pg_social_chat_people_search" id="pg_social_chat_people_search" placeholder="{{ lang('SEARCH') }}" />
-			</div><a class="pg_social_chat_people_button" id="pg_social_chat_people_button_settings" href="{{ ROOT_PATH }}ucp.php?i=-pgreca-pgsocial-ucp-main_module&mode=chat">
-			<i class="icon fa fa-cog fa-fw" aria-hidden="true"></i></a>
-		</div>
+<div id="pgsocial_chat">
+	<div class="pgsocial_chat pgsocial_chat" id="pgsocial_chatRoot">
+		<ul id="pgsocial_chatPeople"{% if PG_SOCIAL_SETTING_HIDE %}class="canchat"{% endif %}></ul>
+		<div id="pgsocial_chatButton_ext">
+			<i class="fa fa-th-large" aria-hidden="true"></i><input type="text" name="pg_social_chat_people_search" id="pg_social_chat_people_search" placeholder="{{ lang('SEARCH') }}" /><i class="fa fa-sliders" aria-hidden="true"></i>
+			<div id="pgsocial_chat_settings">
+				<input type="checkbox" name="pgsocial_setting_audio" id="pgsocial_setting_audio"{% if not PG_SOCIAL_SETTING_AUDIO %} checked{% endif %} /><label for="pgsocial_setting_audio">{{ lang('PG_SOCIAL_CHAT_SOUND_DISABLE') }}</label>
+				<hr />
+				<input type="checkbox" name="pgsocial_setting_hide" id="pgsocial_setting_hide"{% if not PG_SOCIAL_SETTING_HIDE %} checked{% endif %} /><label for="pgsocial_setting_hide">{{ lang('PG_SOCIAL_CHAT_DISABLE') }}</label>
+			</div>
 	</div>
-	<audio id="pg_social_chat_sound" preload="auto">
+	<audio id="pgsocial_chat_sound" preload="auto">
 		<source src="{{ ROOT_PATH }}ext/pgreca/pgsocial/styles/all/theme/sound/message.mp3"> </source>
 	</audio>
 </div>

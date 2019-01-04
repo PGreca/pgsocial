@@ -241,25 +241,32 @@ class post_status
 				if($row['post_parent'] != 0)
 				{
 					$share = $row['post_parent'];
-					if($this->status_where($row['post_parent']) == 1)
+					if($this->status_where($row['post_parent']) == 0)
 					{
-						$sqlpar = "p.page_id as user_id, p.page_username as username, p.page_username_clean as username_clean, p.page_avatar as user_avatar ";
-						$sqlfro = $this->pgsocial_pages." as p";
-						$sqlwhe = "p.page_id";
-					}
-					else
-					{
-						$sqlpar = "u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour ";
+						$sqlpar = "u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour";
 						$sqlfro = USERS_TABLE." as u ";
-						$sqlwhe = "u.user_id";
+						$sqlwhe = "u.user_id = w.user_id";
+					}
+					elseif($this->status_where($row['post_parent']) == 1)
+					{
+						$sqlpar = "p.page_id as user_id, p.page_username as username, p.page_username_clean as username_clean, p.page_avatar as user_avatar, '' as user_colour";
+						$sqlfro = $this->pgsocial_pages." as p";
+						$sqlwhe = "p.page_id = w.wall_id";
 					}
 					$sql = "SELECT w.*, ".$sqlpar."
 					FROM ".$this->pgsocial_wallpost." as w, ".$sqlfro."
-					WHERE w.post_ID = '".$row['post_parent']."' AND ".$sqlwhe." = w.user_id
+					WHERE w.post_ID = '".$row['post_parent']."' AND ".$sqlwhe."
 					GROUP BY post_ID";
 					$post_parent = $this->db->sql_query($sql);
 					$parent = $this->db->sql_fetchrow($post_parent);
-					$parent['url'] = get_username_string('profile', $parent['user_id'], $parent['username'], $parent['user_colour']);
+					if($this->status_where($row['post_parent']) == 0)
+					{
+						$parent['url'] = get_username_string('profile', $parent['user_id'], $parent['username'], $parent['user_colour']);
+					}
+					elseif($this->status_where($row['post_parent']) == 1)
+					{
+						$parent['url'] = append_sid($this->helper->route('pages_page'), 'u='.$parent['username_clean']);
+					}
 					if($parent['post_ID'])
 					{
 						$sauthor_action = '';
@@ -291,8 +298,16 @@ class post_status
 								default :
 									$photo = $this->photo($parent['post_extra']);
 									//$msg .= $photo['msg'];
-									$submsg .= '<div class="status_photos">'.$photo['img'].'</div>';	
-									$sauthor_action = ' ha condiviso una foto';
+									$submsg .= '<div class="status_photos">'.$photo['img'].'</div>';
+									if($photo['gallery_id'] == '0')
+									{
+										$sauthor_action = ' '.$this->user->lang("HAS_UPLOADED_AVATAR");
+									}
+									else
+									{	
+										$albumlink = '<a href="'.$photo['gallery_url'].'">'.$photo['gallery_name'].'</a>';
+										$sauthor_action = ' '.$this->user->lang("HAS_PUBLISHED_PHOTO_ALBUM", $albumlink);
+									}
 								break;
 							}	
 						}
@@ -327,23 +342,44 @@ class post_status
 									
 									$msg_align = '';						
 								break;	
-								default :
-									$photo = $this->photo($parent['post_extra']);
-									//$msg .= $photo['msg'];
-									$msg .= '<div class="status_photos">'.$photo['img'].'</div>';	
-									$sauthor_action = '';
+								case 3:
+									if($row['post_extra'] != "")
+									{
+										$sauthor_action .= ' '.$this->user->lang('HAS_PUBLISHED_PHOTO');
+									}
+								break;
+								case 2:	
+									$sauthor_action .= " ".$this->user->lang("HAS_UPLOADED_COVER");				
+								break;	
+								case 1:
+									$sauthor_action .= " ".$this->user->lang("HAS_UPLOADED_AVATAR");
 								break;
 							}	
+							if($parent['post_type'] == '0' || $parent['post_type'] == '1' || $parent['post_type'] == '2' || $parent['post_type'] == '3')
+							{	
+								$photo = $this->photo($parent['post_extra']);
+								//$msg .= $photo['msg'];
+								$msg .= '<div class="status_photos">'.$photo['img'].'</div>';	
+							}
 						}
 					}
 				}
 			break;
 			case 1:
-					$author_action = $this->user->lang("HAS_UPLOADED_AVATAR");
+					
 					$photo = $this->photo($row['post_extra']);
+					if($photo['gallery_id'] == '0')
+					{
+						$author_action = $this->user->lang("HAS_UPLOADED_AVATAR");
+					}
+					else
+					{	
+						$album = '<a href="'.$photo['gallery_url'].'">'.$photo['gallery_name'].'</a>';
+						$author_action = $this->user->lang("HAS_PUBLISHED_PHOTO_ALBUM", $album);
+					}
 					$msg .= $photo['msg'];
 					$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
-				break;
+			break;
 			case 2:
 				$author_action = $this->user->lang("HAS_UPLOADED_COVER");
 				$photo = $this->photo($row['post_extra']);
@@ -353,8 +389,16 @@ class post_status
 			case 3:
 				if($row['post_extra'] != "")
 				{
-					$author_action .= ' ha pubblicato una foto';
 					$photo = $this->photo($row['post_extra']);
+					if($photo['album'])
+					{
+						$albumlink = '<a href="'.$photo['gallery_url'].'">'.$photo['gallery_name'].'</a>';
+						$author_action .= ' '.$this->user->lang('HAS_PUBLISHED_PHOTO_ALBUM', $albumlink);
+					} 
+					else
+					{
+						$author_action .= ' '.$this->user->lang('HAS_PUBLISHED_PHOTO');
+					}
 					$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
 				}
 			break;	
@@ -623,7 +667,8 @@ class post_status
 				"AUTHOR_AVATAR"				=> $this->pg_social_helper->social_avatar_thumb($wall['user_avatar'], $wall['user_avatar_type'], $wall['user_avatar_width'], $wall['user_avatar_height']),
 				"AUTHOR_COLOUR"				=> "#".$wall['user_colour'],
 				'COMMENT_TEXT'				=> generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags),			
-				'COMMENT_TIME'				=> date('c', $row['time']),
+				'COMMENT_TIME'				=> $row['time'],		
+				'COMMENT_TIME_AGO'			=> $this->pg_social_helper->time_ago($row['time']),
 			));		
 		}
 		$this->db->sql_freeresult($result);	
@@ -689,11 +734,21 @@ class post_status
 	*/
 	public function photo($photo)
 	{
+		$album = false;
 		$img = $this->social_photo->get_photo($photo);
+		if($img['gallery_id'] != '0')
+		{
+			$album = true;
+		}
+		$gallery = $this->social_photo->gallery_info($img['gallery_id'], $album);
 		
 		return array(
-			'img' => '<img src="'.$img['photo_file'].'" class="photo_popup" data-photo="'.$photo.'" />',
-			'msg' => htmlspecialchars_decode($img['photo_desc']),
+			'gallery_id'	=> $img['gallery_id'],
+			'gallery_name'	=> $gallery['gallery_name'],
+			'gallery_url'	=> $img['gallery_url'],
+			'album'			=> $album,
+			'img' 			=> '<img src="'.$img['photo_file'].'" class="photo_popup" data-photo="'.$photo.'" />',
+			'msg' 			=> htmlspecialchars_decode($img['photo_desc']),
 		);
 	}
 	

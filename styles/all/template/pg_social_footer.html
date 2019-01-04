@@ -1,5 +1,4 @@
 <script type="text/javascript">
-	var site = {Name: $('title').text(), Url: $(location).attr('href')};
 	var profile_id = '{% if PROFILE_ID %}{{ PROFILE_ID }}{% else %}{{ PROFILE }}{% endif %}';	
 	var root = '{{ ACTIVITY_PAGE }}';
 	var where = '{{ STATUS_WHERE }}';
@@ -97,5 +96,4 @@
 	});
 {% endif %}
 {% endif %}	
-
 </script>

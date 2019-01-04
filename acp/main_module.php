@@ -17,7 +17,7 @@ class main_module
 
 	function main($id, $mode){
 		global $db, $user, $auth, $template, $cache, $request, $helper;
-		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx, $table_prefix;
+		global $config, $phpbb_root_path, $phpEx, $table_prefix;
 		
 		$this->tpl_name = 'pg_social_body';
 		$this->page_title = $user->lang('ACP_PG_SOCIAL_TITLE');
@@ -81,6 +81,8 @@ class main_module
 					$config->set('pg_social_smilies', $request->variable('pg_social_smilies', 0));
 					$config->set('pg_social_bbcode', $request->variable('pg_social_bbcode', 0));
 					$config->set('pg_social_url', $request->variable('pg_social_url', 0));
+					$config->set('pg_social_galleryLimit', $request->variable('pg_social_galleryLimit', ''));
+					$config->set('pg_social_photoLimit', $request->variable('pg_social_photoLimit', ''));
 					
 					trigger_error($user->lang('ACP_PG_SOCIAL_SETTING_SAVED').adm_back_link($this->u_action));
 				}
@@ -89,6 +91,8 @@ class main_module
 					'PG_SOCIAL_SMILIES'							=> $config['pg_social_smilies'],
 					'PG_SOCIAL_BBCODE'							=> $config['pg_social_bbcode'],
 					'PG_SOCIAL_URL'								=> $config['pg_social_url'],
+					'PG_SOCIAL_GALLERY_LIMIT'					=> $config['pg_social_galleryLimit'],
+					'PG_SOCIAL_PHOTO_LIMIT'						=> $config['pg_social_photoLimit'],
 				));				
 			break;
 			case 'chat':
@@ -107,6 +111,7 @@ class main_module
 					'PG_SOCIAL_PAGE_CHAT'						=> true,
 					'PG_SOCIAL_CHAT_MESSAGE_BBCODE_ENABLED'		=> $config['pg_social_chat_message_bbcode_enabled'],
 					'PG_SOCIAL_CHAT_MESSAGE_URL_ENABLED'		=> $config['pg_social_chat_message_url_enabled'],
+					
 				));
 			break;
 			case 'page_manage':
@@ -136,8 +141,7 @@ class main_module
 						'PAGE_FOUNDERL'	=> get_username_string('profile', $row['page_founder'], $row['username'], $row['user_colour']),
 						'PAGE_REGDATA'	=> $row['page_regdate'],
 					));
-				}
-				
+				}		
 				$template->assign_vars(array(
 					'PG_SOCIAL_PAGE_PAGE_MANAGE'						=> true,
 					'PAGE_MANAGE_ACTION'								=> ($auth->acl_gets('a_page_manage') ? 1 : 0),			

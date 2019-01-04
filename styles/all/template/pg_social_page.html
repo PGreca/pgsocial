@@ -27,14 +27,21 @@
 			<div class="pg_social_pagesub" id="page_activity">
 				<div id="pg_social_sidel">
 					<div class="panel">
-						<div class="colum" style="width: calc(100% - 20px);">
+						<div class="colum" style="width:100%;">
 							<dl>
-								{% if page.ABOUT_WE %}<dd>{{ page.ABOUT_WE }}</dd>{% endif %}
 								<dt>{{ lang('CREATED') }}{{ lang('COLON') }}</dt><dd>{{ page.PAGE_REGDATE }}</dd>
 								<dt>{{ lang('LIKE', 1) }}{{ lang('COLON') }}</dt><dd>{{ page.PAGE_LIKE }}</dd>
 							</dl>
 						</div>
 					</div>
+					{% if page.PAGE_ABOUT_WE %}<div class="panel">
+						<div class="colum" style="width:100%;">
+							<dl>
+								{% if page.PAGE_ABOUT_WE %}<dd>{{ page.PAGE_ABOUT_WE }}</dd>{% endif %}
+							</dl>
+						</div>
+					</div>{% endif %}
+					<!-- EVENT pgreca_pgsocial_page_sidel -->
 				</div><div id="pg_social_sidec">
 					{% if page.PAGE_ACTION %}
 					<form method="post" id="wall_post" class="openform">

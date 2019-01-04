@@ -19,7 +19,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 $lang = array_merge($lang, array(
-	'ACP_PG_SOCIAL_TITLE'				=> 'PG Social',
+	'ACP_PG_SOCIAL_TITLE'				=> 'PG Social Network',
 	'ACP_PG_SOCIAL_MAIN'				=> 'Hauptmenü',
 	'ACP_PG_SOCIAL_GENERAL'				=> 'Allgemeines',
 	'ACP_PG_SOCIAL_PAGE'				=> 'Menüseiten',
@@ -39,6 +39,9 @@ $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_BBCODE_ENABLED'		=> 'BBCode aktiviert',
 	'ACP_PG_SOCIAL_SMILIES_ENABLED'		=> 'Smiles aktiviert',
 	'ACP_PG_SOCIAL_URL_ENABLED'			=> 'URL aktiviert',
+	//'ACP_PG_SOCIAL_GALLERY'				=> '',
+	//'ACP_PG_SOCIAL_GALLERY_LIMIT'		=> '',
+	//'ACP_PG_SOCIAL_PHOTO_LIMIT'			=> 'Limit photos for gallery',
 	'ACP_PG_SOCIAL_PROFILE'				=> 'Aktiviere PG Social Profile',
 	'ACP_PG_SOCIAL_PROFILE_EXPLAIN'		=> 'Standardprofile ersetzen',
 	'ACP_PG_SOCIAL_SETTINGS'			=> 'PG Social Einstellungen',

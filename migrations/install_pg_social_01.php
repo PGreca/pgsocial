@@ -21,7 +21,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		$data = array(
-			array('config.add', array('pg_social_version', '0.2.5')),
+			array('config.add', array('pg_social_version', '0.4.6')),
 			
 			array('config.add', array('pg_social_enabled', 1)),			
 			array('config.add', array('pg_social_index_replace', 0)),
@@ -37,6 +37,9 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 			array('config.add', array('pg_social_smilies', 1)),
 			array('config.add', array('pg_social_bbcode', 1)),
 			array('config.add', array('pg_social_url', 1)),
+			
+			array('config.add', array('pg_social_galleryLimit', 5)),
+			array('config.add', array('pg_social_photoLimit', 5)),
 			
 			array('config.add', array('pg_social_chat_enabledfor', 1)),
 			array('config.add', array('pg_social_chat_message_url_enabled', 1)),
@@ -152,7 +155,6 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 		return $data;
 	}	
 	
-	// Add chat DB tables and columns
 	public function update_schema()
 	{
 		return array(
@@ -243,7 +245,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 						'page_avatar'				=> array('VCHAR:255', ''),
 						'page_cover'				=> array('VCHAR:255', ''),
 						'page_cover_position'		=> array('VCHAR:10', ''),
-						'page_about'				=> array('VCHAR:255', ''),
+						'page_about'				=> array('MTEXT_UNI', ''),
 					),
 					'PRIMARY_KEY'	=> 'page_id',
 				),

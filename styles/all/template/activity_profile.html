@@ -163,9 +163,16 @@
 			<div class="pg_social_pagesub" id="page_gallery">
 				{% if not GALLERY_NAME %}
 				<ul class="template_photos colums" id="pg_social_gallery">
-					<!--<li class="gallery colum" id="pg_social_gallery_create">
-					</li>-->{% for social_gallery in loops.social_gallery %} {{ social_gallery.SQL }}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}">
-						<div class="cover" style="background-image:url('{{ social_gallery.PHOTO_COVER }}')">
+					{%if GALLERY_NEW %}<li class="gallery colum" id="pg_social_gallery_create">
+						<div class="centeralign">
+							<span><i class="fa fa-plus" aria-hidden="true"></i></span>
+							<h4>Create album</h5>
+							<h6>Ci vuole solo qualche secondo</h6>
+							<input type="text" name="pgsocial_galleryNew_title" placeholder="Inserisci nome album" />
+							<input type="submit" value="Crealo subito!" />
+						</div>
+					</li>{% endif %}{% for social_gallery in loops.social_gallery %}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}">
+						<div class="cover"{% if social_gallery.PHOTO_COVER %} style="background-image:url('{{ social_gallery.PHOTO_COVER }}')"{% endif %}>
 							<img src="./ext/pgreca/pgsocial/images/transp.gif" />
 						</div>
 						<div class="gallery_name username">
@@ -185,12 +192,14 @@
 				<div class="panel" style="margin-bottom: 30px;">
 					<h5>
 						<a href="{{ U_VIEW_PROFILE }}#gallery"><i class="icon fa fa-arrow-left" aria-hidden="true"></i></a> {{ GALLERY_NAME }}
-					</h5>
+					</h5>{% if PHOTO_NEW %}<div id="gallery_photo_add">
+						<label>
+							<input type="file" accept="image/*" name="gallery_photo[]" id="pgsocial_gallery_newPhoto" data-gall="{{ GALLERY_ID }}" value="Carica photo" />
+							<span>Carica photo</span>
+					</div>{% endif %}
 				</div>
 				<ul class="template_photos colums" id="pg_social_photos">
-					{% for social_photos in loops.social_photos %}<li class="photo colum" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}" style="background-image:url({{ social_photos.PHOTO_FILE }})">
-						<img src="./ext/pgreca/pgsocial/images/transp.gif" />
-					</li>{% endfor %}
+					{% INCLUDE 'pg_social_gallery_photo.html' %}
 				</ul>
 				{% endif %}
 			</div>

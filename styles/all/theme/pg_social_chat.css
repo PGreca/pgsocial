@@ -1,164 +1,343 @@
-#pg_social_chat {
+body {
+	width: calc(100% - 60px);
+}
+
+#pgsocial_chat * {
+	margin: 0px;
+	padding: 0px;
+	outline: none;
+	text-align: left;
+}
+
+#pgsocial_chat img.avatar {
+	background-image: url(..ext/pgreca/pgsocial/images/page_no_avatar.jpg);
+	background-color: #fff;
+	background-position: center;
+	background-size: cover;
+	border-radius: inherit;
+}
+
+#pgsocial_chat .pgsocial_chat {
 	position: fixed;
 	bottom: 0px;
 	right: 0px;
+	width: 275px;
+	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.1);
+	z-index: 40;
 }
 
-#pg_social_chat img.avatar {
-	background-position: center;
-	background-size: cover;	
-}
-
-#pg_social_chat_box {
-    width: calc(200px - 2px);
-	margin: 0px;
-	border-radius: 4px 0px 0px 0px;
-}
-
-.pg_social_chat {
-	z-index: 999;
-    display: inline-block;
-	vertical-align: bottom;
-    width: calc(280px - 2px);	
+#pgsocial_chat #pgsocial_chatRoot {
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
 	background-color: #fff;
-	margin-right: 10px;
+	width: 60px;
+	height: 100%;	
+	z-index: 40;
+}
+
+#pgsocial_chat #pgsocial_chatRoot.opened {
+	width: 275px;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople {
+	opacity: 0.2;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: calc(100% - 60px);
+	list-style: none;
+	transition: opacity .1s ease-in-out;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople.canchat {
+	opacity: 1;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single {
+	padding: 15px 10px;
+	cursor: pointer;
+}
+
+#pgsocial_chat #pgsocial_chatRoot.opened ul#pgsocial_chatPeople li.pg_social_chat_people_online_single {
+	padding: 15px 25px;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single:hover {
+	background-color: rgba(0, 0, 0, 0.07);
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author_info {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author_info img.avatar {
+	width: 40px;
+	border-radius: 100%;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author_info span.pg_socialchat_people_online_single_status {
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: #ff4f60;
+	width: 8px;
+	height: 8px;
+	border: 1px solid #fff;
+	border-radius: 100%;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople.canchat li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author_info span.pg_socialchat_people_online_single_status {
+	display: block;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author_info span.pg_socialchat_people_online_single_status.online {
+	background-color: green;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author_info span.pg_socialchat_people_online_single_tmess {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	background-color: #e6ecf5;
+	width: 15px;
+	height: 15x;
+	line-height: 13px;
+	border: 1px solid #fff;
+	border-radius: 100%;
+	text-align: center;
+	font-size: 0.9em;
+	color: #000;
+	font-weight: bold;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author {
+	display: none;
+	margin-left: 10px;
+	vertical-align: middle;
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #000;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author span.pg_social_chat_people_online_single_author_status {
+	font-size: 0.8em;
+	font-weight: normal;
+	text-transform: uppercase;
+	color: #515365;
+	
+}
+
+#pgsocial_chat #pgsocial_chatRoot.opened ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author {
+	display: inline-block;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	height: 60px;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext i.fa-th-large {
+	display: inline-block;
+	vertical-align: bottom;
+	background-color: #7c5ac2;
+	width: 60px;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	font-size: 3em;
+	color: #fff;
+	cursor: pointer;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pg_social_chat_people_search {
+	display: inline-block;
+	vertical-align: middle;
+	width: calc(100% - (60px * 2) - (15px * 2));
+	height: calc(60px - (15px * 2) - 1px);
+	margin: 0px;
+	padding: 15px;
+	border: 0px;
+	border-top: 1px solid #e6ecf5;
+	font-size: 12px;
+	color: #515365;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext i.fa-sliders {
+	display: inline-block;
+	vertical-align: bottom;
+	background-color: #7c5ac2;
+	width: 60px;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	font-size: 3em;
+	color: #fff;
+	cursor: pointer;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings {
+	display: none;
+	position: absolute;
+    bottom: 60px;
+	left: 0px;
+	background-color: #fff;
+    width: calc(90% - 2px);
+    margin: 10px 5%;
+	padding: 10px 0px;
 	border: 1px solid #e6ecf5;
-	border-bottom: 0px;
+	border-radius: 4px;
+	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.1);
+}
+
+#pgsocial_chat #pgsocial_chatRoot.opened #pgsocial_chatButton_ext #pgsocial_chat_settings.opened {
+	display: block;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings input {
+	display: none;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings label {
+	position: relative;
+	display: inline-block;
+	width: calc(100% - 20px);
+	margin: 0px 0px 10px;
+	padding: 10px;
+	font-size: 1.1em;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings label:last-child {
+	margin: 10px 0px 0px;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings label:hover {
+	background-color: #fafbfd;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings label::before {
+	content: '';
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin-right: 5px;
+	border: 1px solid #000;
+	border-radius: 100%;
+	vertical-align: middle;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings label:hover, 
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings input:focus + label {
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings input:checked + label {
+	font-weight: bold;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings input:checked + label::before {
+	background-color: #000;
+}
+
+#pgsocial_chat .pgsocial_chat .pgsocial_chat_head {
+	background-color: #7c5ac2;
+    padding: 10px;
 	border-radius: 4px 4px 0px 0px;
 }
 
-.pg_social_chat .pg_social_chat_head {
-	padding: 10px;
-	border-radius: 5px 5px 0px 0px;
-	font-weight: 700;
-    line-height: 16px;
-    color: #515365;
-	font-size: .875rem;
-}
-
-.pg_social_chat .pg_social_chat_head .pg_social_chat_head_status.status {
+#pgsocial_chat .pgsocial_chat .pgsocial_chat_head .pg_social_chat_head_status {
 	display: inline-block;
 	vertical-align: middle;
-}
-
-.pg_social_chat .pg_social_chat_head .pg_social_chat_head_status.online_status {
-	color: #0c980c;
-}
-
-.pg_social_chat .pg_social_chat_head .pg_social_chat_head_status.offline_status {
-	color: gray;
-}
-
-.pg_social_chat .pg_social_chat_head .pg_social_chat_head_status.status .icon:before {
+	background-color: #ff4f60;
+	width: 8px;
+	height: 8px;
+	border: 1px solid #fff;
 	border-radius: 100%;
-	font-size: 0.6em;
 }
 
-.pg_social_chat .pg_social_chat_head .pg_social_chat_head_username {
-	display: none;	
-	width: calc(100% - 18px - 18px - 18px - 10px);
-	vertical-align: bottom;
+#pgsocial_chat .pgsocial_chat .pgsocial_chat_head .pg_social_chat_head_status.online_status {
+	background-color: green;
+}
+
+#pgsocial_chat .pgsocial_chat .pgsocial_chat_head .pg_social_chat_head_username {
+	display: inline-block;
+	vertical-align: middle;
+	width: calc(100% - 10px - 10px);
+	font-weight: bold;
+	color: #fff;
+}
+
+#pgsocial_chat .pgsocial_chat .pgsocial_chat_head .pg_social_chat_head_minimize,
+#pgsocial_chat .pgsocial_chat .pgsocial_chat_head .chat_close {
+	display: inline-block;
+	vertical-align: middle;
+	width: 10px;
+	color: #fff;
 	font-size: 1.2em;
 }
-.pg_social_chat.opened .pg_social_chat_head .pg_social_chat_head_username {
-	display: inline-block;
-}
 
-.pg_social_chat .pg_social_chat_head .pg_social_chat_head_minimize {
-	vertical-align: middle;
-	display: inline-block;
-	text-align: center;
-}
-
-.pg_social_chat .pg_social_chat_head .pg_social_chat_head_minimize i.icon:before {
-	padding: 0px;
-	color: #fff;
+#pgsocial_chat .pgsocial_chat .pgsocial_chat_head .pg_social_chat_head_minimize i,
+#pgsocial_chat .pgsocial_chat .pgsocial_chat_head .chat_close i {
 	cursor: pointer;
 }
 
-.pg_social_chat .pg_social_chat_head .pg_social_chat_head_minimize i.icon.fa-angle-down {
+#pgsocial_chat .pgsocial_chat .pgsocial_chat_head .pg_social_chat_head_minimize {
 	display: none;
 }
 
-.pg_social_chat.opened .pg_social_chat_head .pg_social_chat_head_minimize i.icon.fa-angle-down {
-	display: inline-block;
-	background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 100%;
-    width: 14px;
-    height: 14px;
-    padding: 1px;
-}
-
-.pg_social_chat.opened .pg_social_chat_head .pg_social_chat_head_minimize i.icon.fa-angle-up {
-	display: none;
-}
-
-.pg_social_chat .pg_social_chat_head .pg_social_chat_head_minimize i.icon.fa-angle-up {
-	background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 100%;
-    width: 14px;
-    height: 14px;
-    padding: 1px;
-}
-
-.pg_social_chat .pg_social_chat_head .pg_social_chat_head_minimize i.icon:before {
-	cursor: pointer;
-}
-
-.pg_social_chat .pg_social_chat_head .chat_close {
-	vertical-align: middle;
-	display: inline-block;
-	background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 100%;
-    width: 16px;
-    height: 16px;
-	margin-left: 3px;
-	color: #fff;
-	font-weight: normal;
-	text-align: center;
-	cursor: pointer;
-}
-
-.pg_social_chat ul.pg_social_chat_messages {
-	display: flex;
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages {	
+	display: inline-flex;
     flex-direction: column-reverse;	
-	overflow-x: hidden;
-	height: calc(200px - 1px);
-	border-top: 1px solid #e6ecf5;
-	
-}
-.pg_social_chat ul.pg_social_chat_messages::-webkit-scrollbar { 
-    display: none; 
+	overflow: scroll;
+	background-color: #fff;
+	width: 100%;
+	height: calc(200px);
 }
 
-.pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message {
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages::-webkit-scrollbar {
+	display: none;
+}
+
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message {
 	position: relative;
+	display: inline-block;
     width: calc(100% - 15px);
 	margin: 5px 7.5px;
+	animation: animateElement linear 1.6s;
+    animation-iteration-count: 1.6;
 }
 
-.pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message.right {
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message.right {
     text-align: right;
 }
 
-.pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_time {
-	display: block;
-	width: 100%;
-	white-space: nowrap;
-}
-
-.pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_avatar {
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_avatar {
 	display: inline-block;
 	width: 30px;
 	margin-right: 5px;
+	vertical-align: bottom;
 }
 
-.pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_avatar img.avatar {
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_avatar {
+	float: right;
+	margin-left: 5px;
+	margin-right: 0px;
+}
+
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_avatar img.avatar {
 	width: 100%;
 	border-radius: 100%;
 }
 
-.pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_text {
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_text {
 	display: inline-block;
 	background-color: #f0f4f9;
 	width: calc(80% - 26px - 35px);
@@ -166,26 +345,26 @@
 	border-radius: 5px;
 }
 
-.pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text {
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text {
 	background-color: rgba(0, 0, 0, 0.65);
 	padding: 10px;
 	border: 0px;
 	color: #fff;
 }
 
-.pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text a {
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text a {
 	color: #cfcfcf;
 }
 
-.pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_text img {
-	vertical-align: middle;
-}
-
-.pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text:hover a {
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text:hover a {
 	color: #2a6496;
 }
 
-.pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_text p.post_status_youtube {
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_text img {
+	vertical-align: middle;
+}
+
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_text p.post_status_youtube {
 	position: relative; 
 	overflow: hidden;
 	height: 0; 
@@ -194,7 +373,7 @@
 	padding-bottom: 50%; 
 }
 
-.pg_social_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text p.post_status_youtube iframe {
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_text p.post_status_youtube iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -203,203 +382,87 @@
     border: none;
 }
 
-.pg_social_chat form.pg_social_chat_form {
-	border-top: 1px solid #e6ecf5;	
-}
-
-.pg_social_chat form.pg_social_chat_form input[type="text"].pg_social_chat_messsage_new {
-	display: inline-block;
-	width: calc(100% - 20px);
-	padding: 10px;
-	border: 0px;
-	vertical-align: middle;
-}
-
-.pg_social_chat ul.pg_social_chat_messages,
-.pg_social_chat form.pg_social_chat_form {
-	display: none;
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_time {
+	display: block;
 	width: 100%;
+	white-space: nowrap;
 }
 
-.pg_social_chat.opened form.pg_social_chat_form {
-	display: inline-block;
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_time {
+	text-align: right;
 }
 
-.pg_social_chat.opened ul.pg_social_chat_messages {
-	display: flex;
-}
-
-#pg_social_chat_box #pg_social_chat_people {
-}
-
-#pg_social_chat_box #pg_social_chat_people.opened {
-	top: 0px;
-}
-
-#pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online {
-	list-style: none;
-}
-
-#pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online li {
-	padding: 10px;
-	font-size: 1.05em;
-	cursor: pointer;
-}
-
-#pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online li.pg_social_chat_people_online_single:hover {
-	background-color: rgba(0, 0, 0, 0.06);
-}
-
-#pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online li .pg_social_chat_people_online_single_author_info {
-	position: relative;
-	display: inline-block;	
-}
-
-#pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online li .pg_social_chat_people_online_single_author_info .check_msg {
-    display: inline-block;
-    position: absolute;
-    bottom: 0px;
-    left: calc(100% - 10px);
-    background-color: #000;
-	width: 10px;
-    height: 10px;
-    border-radius: 100%;
-}
-
-#pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online li.pg_social_chat_people_online_single img.avatar {
-	display: inline-block;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	vertical-align: middle;
-	width: 25px;
-	height: auto;
-	border-radius: 100%;
-}
-
-#pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author {
-	display: inline-block;
-	vertical-align: middle;
-	width: calc(100% - 25px - 8px - 20px);
-}
-
-#pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online li.pg_social_chat_people_online_single .pg_socialchat_people_online_single_status {
-	display: inline-block;
-	vertical-align: middle;
-	width: 15px;
-}
-
-#pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online li.pg_social_chat_people_online_single .pg_socialchat_people_online_single_status.online i.icon:before,
-.pg_social_chat .pg_social_chat_head .pg_social_chat_head_status.status.online_status .icon:before {
-	color: #0c980c;
-}
-
-#pg_social_chat_box #pg_social_chat_people ul#pg_social_chat_people_online li.pg_social_chat_people_online_single .pg_socialchat_people_online_single_status i.icon:before {
-	font-size: 0.7em;
-}
-
-#pg_social_chat_box #pg_social_chat_people_buttons {
+#pgsocial_chat .pgsocial_chat form.pg_social_chat_form {
 	background-color: #fff;
-	height: calc(8% - 1px);
-	padding: 0px 5px;
-	border-radius: 5px 5px 0px 0px;
-	text-align: center;
+	border-top: 1px solid #e6ecf5;
 }
 
-#pg_social_chat_box.opened #pg_social_chat_people_buttons {
-	border-top: 1px solid #e6ecf5;	
-	border-radius: 0px;
-}
 
-#pg_social_chat_box #pg_social_chat_people_buttons .pg_social_chat_people_button {
+#pgsocial_chat .pgsocial_chat form.pg_social_chat_form textarea.pg_social_chat_messsage_new {
 	display: inline-block;
-    width: 10%;
-    vertical-align: middle;
-}
-
-#pg_social_chat_box #pg_social_chat_people_buttons .pg_social_chat_people_button .icon {
-	cursor: pointer;	
-}
-
-#pg_social_chat_box #pg_social_chat_people_buttons #pg_social_chat_people_button_search {
-	width: 80%;
-}
-
-#pg_social_chat_box #pg_social_chat_people_buttons #pg_social_chat_people_button_search input#pg_social_chat_people_search {
 	width: calc(100% - 20px);
-	padding: 10px;
+	height: 15px;
+	line-height: 15px;
+	margin: 10px;
+	padding: 0px;
 	border: 0px;
-	outline: none;
+	resize: none;
 }
 
 @media screen and (max-width: 750px) {
-	#pg_social_chat {
-		position: absolute;
-	}
-	
-	#pg_social_chat_box {
-		position: fixed;
-		height: auto;
-		bottom: 0px;
-		right: 0px;
-		width: auto;
-		height: auto;
-	}
-	
-	#pg_social_chat_box.opened {
-		top: 0px;
-		left: 0px;
-	}
-	
-	#pg_social_chat_box.opened #pg_social_chat_people {
-		height: calc(100% - 34px);
-	}
-		
-	
-	#pg_social_chat_box #pg_social_chat_people_buttons #pg_social_chat_people_button_search,
-	#pg_social_chat_box #pg_social_chat_people_buttons #pg_social_chat_people_button_settings {
-		display: none;
-		width: 5%;
-	}
-	
-	#pg_social_chat_box.opened #pg_social_chat_people_buttons #pg_social_chat_people_button_search,
-	#pg_social_chat_box.opened #pg_social_chat_people_buttons #pg_social_chat_people_button_settings {
-		display: inline-block;
-	}
-	
-	#pg_social_chat_box.opened #pg_social_chat_people_buttons #pg_social_chat_people_button_search {
-		width: 90%;
-	}
-	
-	#pg_social_chat_box #pg_social_chat_people_buttons .pg_social_chat_people_button {
+	body {
 		width: 100%;
 	}
-	
-	#pg_social_chat_box.opened #pg_social_chat_people_buttons .pg_social_chat_people_button {
-		width: 5%;
+
+	#pgsocial_chat #pgsocial_chatRoot {
+		width: 40px;
+		height: 40px;
 	}
 	
-	.pg_social_chat {
-	}
-	
-	.pg_social_chat.opened,
-	#pg_social_chat_box.opened {
-		position: fixed;
-		top: 0px;
-		left: 0px;
-		width: 100%;
+	#pgsocial_chat #pgsocial_chatRoot.opened {
+		width: 230px;
 		height: 100%;
 	}
-		
-	.pg_social_chat .pg_social_chat_head .pg_social_chat_head_username {
-		width: calc(100% - 18px - 18px - 10px);
+	
+	#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext {
+		height: 40px;
 	}
 	
-	.pg_social_chat .pg_social_chat_head .pg_social_chat_head_minimize {
-		display: none;
+	#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext i.fa-th-large,
+	#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext i.fa-sliders	{
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
 	}
 	
-	.pg_social_chat ul.pg_social_chat_messages {
-		height: calc(100% - 72.5px);
+	#pgsocial_chat #pgsocial_chatRoot #pg_social_chat_people_search {
+		display: inline-block;
+		vertical-align: middle;
+		width: calc(100% - (40px * 2) - (15px * 2));
+		height: calc(40px - (15px * 2) - 1px);
+		margin: 0px;
+		padding: 15px;
+	}
+	
+	#pgsocial_chat .pgsocial_chat {
+		width: 225px;
+	}
+	
+	#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages {
+		height: 190px;
+	}
+}
+
+@keyframes animateElement{
+	0% {
+		opacity:0;
+		margin-bottom: 30px;
+		transform:  translate(0px,10px);
+	}
+	
+	100% {
+		opacity:1;
+		margin-bottom: 0px;
+		transform:  translate(0px,0px);
 	}
 }
