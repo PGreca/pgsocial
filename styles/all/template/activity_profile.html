@@ -166,10 +166,10 @@
 					{%if GALLERY_NEW %}<li class="gallery colum" id="pg_social_gallery_create">
 						<div class="centeralign">
 							<span><i class="fa fa-plus" aria-hidden="true"></i></span>
-							<h4>Create album</h5>
-							<h6>Ci vuole solo qualche secondo</h6>
-							<input type="text" name="pgsocial_galleryNew_title" placeholder="Inserisci nome album" />
-							<input type="submit" value="Crealo subito!" />
+							<h4>{{ lang('ALBUM_CREATE') }}</h5>
+							<h6>{{ lang('ALBUM_CREATE_EXPLAIN') }}</h6>
+							<input type="text" name="pgsocial_galleryNew_title" placeholder="{{ lang('ALBUM_CREATE_TITLE') }}" />
+							<input type="submit" value="{{ lang('ALBUM_CREATE_NOW') }}" />
 						</div>
 					</li>{% endif %}{% for social_gallery in loops.social_gallery %}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}">
 						<div class="cover"{% if social_gallery.PHOTO_COVER %} style="background-image:url('{{ social_gallery.PHOTO_COVER }}')"{% endif %}>
