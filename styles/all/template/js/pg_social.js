@@ -429,10 +429,12 @@ function uploadPhoto(msg, photo, type, where, itop) {
 		success: function(data) {	
 			if(type == '1') $('ul#pg_social_photos').prepend(data);
 			if(type == 'cover' || type == 'avatar') location.reload();
-			$('#wall_post_text').html("");
-			$("#wall_post_img, #pgsocial_gallery_newPhoto").val("");
-			$("#wall_post_thumb").removeAttr("style");
-			$("#wall_post_thumb img#wall_post_thumb_img").removeAttr('src');
+			if(type == 'wall') {
+				$('#wall_post_text').html("");
+				$("#wall_post_img, #pgsocial_gallery_newPhoto").val("");
+				$("#wall_post_thumb").removeAttr("style");
+				$("#wall_post_thumb img#wall_post_thumb_img").removeAttr('src');
+			}
 		},
 	})
 }	

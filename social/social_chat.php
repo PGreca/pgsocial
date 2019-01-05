@@ -179,6 +179,7 @@ class social_chat
 	public function getchat_message($person, $type, $lastmessage)
 	{
 		$this->message_read($person);
+		$chatid = '';
 		switch($lastmessage)
 		{
 			case 0:
@@ -201,12 +202,15 @@ class social_chat
 			break;
 		}
 		$limit = 20; 		
-		
+		if($lastmessage != '0')
+		{
+			$chatid = "(chat.chat_id ".$order_vers." '".$lastmessage."') 
+			AND ";
+		}
 		$sql = "SELECT chat.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height 
 		FROM ".$this->pgsocial_chat." as chat, ".USERS_TABLE." as u
 		WHERE (chat.user_id = u.user_id) AND
-		(chat.chat_id ".$order_vers." '".$lastmessage."') 
-			AND ((chat.user_id = '".$person."' AND chat.chat_member = '".$this->user->data['user_id']."') 
+		".$chatid." ((chat.user_id = '".$person."' AND chat.chat_member = '".$this->user->data['user_id']."') 
 			OR (chat.user_id = '".$this->user->data['user_id']."' AND chat.chat_member = '".$person."')) 
 		ORDER BY chat.chat_time ".$orderby;
 		$result = $this->db->sql_query_limit($sql, $limit);

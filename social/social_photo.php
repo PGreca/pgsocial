@@ -523,7 +523,14 @@ class social_photo
 			$photo_id = $this->db->sql_nextid();
 			$this->add_status_photo($where, $who, $this->user->data['user_id'], $gallery, 1, $photo_id, $msg);
 			
-			if($album != '0' && $type != 'avatar')
+			if($type == 'cover' || $type == 'avatar' || $type == 'wall')
+			{
+				$this->template->assign_vars(array(
+					"ACTION"	=>  $type,
+				));
+				return $this->helper->render('activity_status_action.html', "");
+			}
+			elseif($album != '0')
 			{
 				$this->template->assign_block_vars('social_photos', array(
 					"PHOTO_ID"		=> $photo_id,
