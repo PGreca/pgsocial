@@ -36,7 +36,7 @@ $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_LIGHTBLUE'			=> 'Svetlo modrá',
 	'ACP_PG_SOCIAL_GREEN'				=> 'Zelená',
 	'ACP_PG_SOCIAL_RED'					=> 'Červená',
-	'ACP_PG_SOCIAL_BBCODE_ENABLED'		=> 'Poboliť BBKóod',
+	'ACP_PG_SOCIAL_BBCODE_ENABLED'		=> 'Povoliť BBkóod',
 	'ACP_PG_SOCIAL_SMILIES_ENABLED'		=> 'Povoliť smajlov',
 	'ACP_PG_SOCIAL_URL_ENABLED'			=> 'Povoliť URL adresy',
 	'ACP_PG_SOCIAL_GALLERY'				=> 'Nastavenia albumu',
@@ -50,7 +50,7 @@ $lang = array_merge($lang, array(
 	'ACP_SOCIAL_SIDEBAR_RIGHT_LAST_POST'=> 'Povoliť poslednú aktivitu na pravej bočnej lište',
 	'ACP_PG_SOCIAL_CHAT'				=> 'Nastavenia četu',
 	'ACP_SOCIAL_SOCIAL_CHAT_ENABLED'	=> 'Povoliť čet',
-	'ACP_PG_SOCIAL_CHAT_BBCODE_ENABLED'	=> 'Poboliť BBKódy v správach',
+	'ACP_PG_SOCIAL_CHAT_BBCODE_ENABLED'	=> 'Poboliť BBkódy v správach',
 	'ACP_PG_SOCIAL_CHAT_URL_ENABLED'	=> 'Povoliť URL adresy v správach',
 	'ACP_PG_SOCIAL_SETTING_SAVED'		=> 'Nastavenie bolo úspešne aktualizované.',
 	
