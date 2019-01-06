@@ -239,8 +239,13 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social #pg_social_header #pg_social_actionprofile input[type="submit"] {
 	display: none;
-	background: linear-gradient(180deg, #2a6496 0%, #224f77 100%);
+	background: #38a9ff;
+    font-weight: bold;
     color: #fff;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile input[type="submit"]#profile_upload_canc {
+	background: #3f4257;
 }
 
 #pg_social #pg_social_header #pg_social_actionprofile a.page_list_buttonLike {
@@ -2268,6 +2273,19 @@ a.profile_signature_status {
 	font-weight: bold;
 	text-transform: uppercase;
 	color: red;
+}
+
+#darken #pgsocial_loading {
+   position: absolute;
+	top: 0px;
+	left: 0px;
+    width: 200px;
+    height: calc(100% - 80vh);
+    line-height: calc(100% - 80vh);
+    margin: 40vh calc(50% - 100px);
+    padding: 0px;
+    text-align: center;
+    font-size: 10em;	
 }
 
 @keyframes post_fade {

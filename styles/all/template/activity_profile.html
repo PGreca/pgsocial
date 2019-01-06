@@ -14,7 +14,7 @@
 			{% endif %}				
 			{% else %}
 			<div id="profile_upload">
-				<input id="profile_upload_submit" type="submit" value="{{ lang('PROFILE_UPDATE') }}" />
+				<input type="submit" id="profile_upload_canc" value="{{ lang('CANCEL') }}" /><input id="profile_upload_submit" type="submit" value="{{ lang('PROFILE_UPDATE') }}" />
 				<div class="action_profile">				
 					<a id="pg_social_edit_avatar" href="{{ PROFILE_AVATAR_UPDATE }}">{{ lang('PROFILE_AVATAR_UPDATE') }}</a><label id="pg_social_edit_cover">{{ lang('PROFILE_COVER_UPDATE') }}<input type="file" accept="image/*" data-type="cover"></label>
 				</div>

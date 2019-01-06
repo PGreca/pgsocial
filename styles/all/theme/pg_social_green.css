@@ -1,10 +1,6 @@
 #pg_social .panel {
 }
 
-#pg_social #pg_social_header #pg_social_actionprofile input[type="submit"] {
-	background: linear-gradient(180deg, #008465 0%, #224f77 100%);
-}
-
 #pg_social #pg_social_header #pg_social_actionprofile label,
 #pg_social #pg_social_header #pg_social_actionprofile a {
 	color: #008465;

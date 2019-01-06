@@ -129,7 +129,7 @@
 		$("#profile_upload input#profile_upload_submit").attr("data-change", "cover");
 		$("#pg_social_header img#coverdrag").remove();
 		$("#pg_social #pg_social_main .profile_avatar").css("z-index", "80");
-		$("#profile_upload_submit, .darkenwrapper").show();
+		$("#profile_upload_submit, #profile_upload_canc, .darkenwrapper").show();
 		$("#pg_social_header").addClass("canMove").prepend("<img id='coverdrag' src='"+URL.createObjectURL(e.target.files[0])+"' />");
 		$('#pg_social_header img#coverdrag').css('cursor', 's-resize').draggable({
 			scroll: false,
@@ -160,6 +160,10 @@
 		$("#profile_upload_submit, .darkenwrapper").show();
 		$("#pg_social_header").addClass("canMove")
 		$("#pg_social .profile_avatar img").css("background-image", "url("+URL.createObjectURL(e.target.files[0])+")");
+	});
+	
+	$(document).on('click', '#profile_upload_canc', function() {
+		closePopup(true);
 	});
 	
 	$(document).on('click', '#pg_social #pg_social_cont ul.colums li#pg_social_gallery_create', function() {
@@ -426,6 +430,8 @@ function uploadPhoto(msg, photo, type, where, itop) {
 		data: fdata,
 		contentType: false,
 		processData: false, 
+		beforeSend: loadStart,
+		complete: loadStop,
 		success: function(data) {	
 			if(type == '1') $('ul#pg_social_photos').prepend(data);
 			if(type == 'cover' || type == 'avatar') location.reload();
@@ -438,6 +444,18 @@ function uploadPhoto(msg, photo, type, where, itop) {
 		},
 	})
 }	
+
+function loadStart() {
+	$(".darkenwrapper").show();
+	$('#pg_social #pg_social_header.canMove').removeClass('canMove');
+	$('#pg_social #pg_social_header #pg_social_actionprofile input[type="submit"]').removeAttr('style');
+	$('.darkenwrapper #darken').append('<div id="pgsocial_loading"><i class="fa fa-spin fa-circle-o-notch" aria-hidden="true"></i></div>');
+}
+
+function loadStop() {
+	$(".darkenwrapper").hide();
+	$('#pgsocial_loading').remove();
+}
 
 function pgwall_delete_photo(photo) {
 	$.ajax({
@@ -489,7 +507,9 @@ function closePopup(as) {
 	$("#page_create").hide();
 	if(as) $("#darken").parent().hide(); $("body").css("overflow", "");
 	if(!$('#pg_social #pg_social_header.canMove').length) $("#darken").parent().hide();
-	$("#pg_social_header").removeClass("canMove")
+	$("#pg_social_header").removeClass("canMove");
+	$("#profile_upload_submit, #profile_upload_canc").hide();
+	$('#pg_social_header img#coverdrag').remove();
 }
 
 /* TAG SYSTEM */

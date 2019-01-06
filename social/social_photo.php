@@ -488,12 +488,21 @@ class social_photo
 				switch($lwhere)
 				{
 					case 'page':
-						$sql_cover = "UPDATE ".$this->pgsocial_pages." SET page_cover = '".$file."', page_cover_position = '".$itop."' WHERE page_id = '".$who."'";
+						$sql_arr = array(
+							'page_cover'    					=> $file,
+							'page_cover_position'				=> $itop,
+						);
+						$sqlwhere = 'page_id = "'.$who.'"';
 					break;
 					case 'profile':
-						$sql_cover = "UPDATE ".USERS_TABLE." SET user_pg_social_cover = '".$file."', user_pg_social_cover_position = '".$itop."' WHERE user_id = '".$this->user->data['user_id']."'";
+						$sql_arr = array(
+							'user_pg_social_cover'   			 	=> $file,
+							'user_pg_social_cover_position'			=> $itop,
+						);
+						$sqlwhere = 'user_id = "'.$this->user->data['user_id'].'"';
 					break;
 				}
+				$sql_cover = 'UPDATE '.USERS_TABLE.' SET '.$this->db->sql_build_array('UPDATE', $sql_arr).' WHERE '.$sqlwhere;
 				$this->db->sql_query($sql_cover);
 			break;
 			case 'wall':
