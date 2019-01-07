@@ -92,23 +92,26 @@ class social_comments extends base
 	}
 
 	/**
-	* Get the id of the rule
-	*
-	* @param array $data The data for the updated rules
-	*/
+	 * Get item id
+	 *
+	 * @param $data
+	 * @return int
+	 * @access public
+	 */
 	public static function get_item_id($data)
 	{
 		return $data['status_id'];
 	}
 
 	/**
-	* Get the id of the parent
-	*
-	* @param array $data The data for the updated rules
-	*/
+	 * Get item's parent id
+	 *
+	 * @param $data
+	 * @return int
+	 * @access public
+	 */
 	public static function get_item_parent_id($data)
 	{
-		// No parent
 		return $data['status_id'];
 	}
 
