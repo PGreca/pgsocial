@@ -17,12 +17,12 @@ use phpbb\notification\type\base;
 */
 class social_zebra extends base
 {
-	
+
 	/* @var \phpbb\controller\helper */
 	protected $helper;
 
 	protected $pg_social_helper;
-	
+
 	/* @var \phpbb\user */
 	protected $user;
 
@@ -35,7 +35,7 @@ class social_zebra extends base
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\config\config $config
 	* @param \phpbb\controller\helper $helper
-	* @param \pg_social\\controller\helper $pg_social_helper
+	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
 	* @param string $phpbb_root_path
 	* @param string $php_ext
 	* @param string $notification_types_table
@@ -59,7 +59,7 @@ class social_zebra extends base
 		$this->notifications_table 		= $notifications_table;
 		$this->user_notifications_table = $user_notifications_table;
 	}
-	
+
 	/**
 	* Get notification type name
 	*
@@ -69,7 +69,7 @@ class social_zebra extends base
 	{
 		return 'pgreca.pgsocial.notification.type.social_zebra';
 	}
-	
+
 	/**
 	* Notification option data (for outputting to the user)
 	*
@@ -80,7 +80,7 @@ class social_zebra extends base
 		'lang'	=> 'NOTIFICATION_TYPE_SOCIAL_ZEBRA',
 		'group'	=> 'NOTIFICATION_PG_SOCIAL',
 	);
-	
+
 	/**
 	* Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
 	*
@@ -90,7 +90,7 @@ class social_zebra extends base
 	{
 		return true;
 	}
-	
+
 	/**
 	* Get the id of the rule
 	*
@@ -100,7 +100,7 @@ class social_zebra extends base
 	{
 		return $data['status_id'];
 	}
-	
+
 	/**
 	* Get the id of the parent
 	*
@@ -111,7 +111,7 @@ class social_zebra extends base
 		// No parent
 		return $data['status_id'];
 	}
-	
+
 	/**
 	* Find the users who will receive notifications
 	*
@@ -126,7 +126,7 @@ class social_zebra extends base
 
 		return $users;
 	}
-	
+
 	/**
 	* Users needed to query before this notification can be displayed
 	*
@@ -136,7 +136,7 @@ class social_zebra extends base
 	{
 		return array();
 	}
-	
+
 	/**
 	* Get the user's avatar
 	*/
@@ -146,10 +146,10 @@ class social_zebra extends base
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$user_avatar = $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']);
-			
+
 		return $user_avatar;
 	}
-	
+
 	/**
 	* Get the HTML formatted title of this notification
 	*
@@ -159,10 +159,10 @@ class social_zebra extends base
 	{
 		$sql = "SELECT username, user_colour FROM ".USERS_TABLE." WHERE user_id = '".$this->get_data('poster_id')."'";
 		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);		
+		$row = $this->db->sql_fetchrow($result);
 		return $this->user->lang('HAS_TAGGED_YOU', '<span style="color:#'.$row['user_colour'].'">'.$row['username'].'</span>');
 	}
-	
+
 	/**
 	* Get the url to this item
 	*
@@ -173,9 +173,9 @@ class social_zebra extends base
 		$sql = "SELECT user_id, username, user_colour FROM ".USERS_TABLE." WHERE user_id = '".$this->get_data('user_id')."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
-		return $this->helper->route("status_page", array("id" => $this->get_data('status_id'))); 
+		return $this->helper->route("status_page", array("id" => $this->get_data('status_id')));
 	}
-	
+
 	/**
 	* Get email template
 	*
@@ -185,7 +185,7 @@ class social_zebra extends base
 	{
 		return false;
 	}
-	
+
 	/**
 	* Get email template variables
 	*
@@ -195,7 +195,7 @@ class social_zebra extends base
 	{
       return array();
 	}
-	
+
 	/**
    * Get the HTML formatted reference of the notification
    *

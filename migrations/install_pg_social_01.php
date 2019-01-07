@@ -22,33 +22,33 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 	{
 		$data = array(
 			array('config.add', array('pg_social_version', '0.4.6')),
-			
-			array('config.add', array('pg_social_enabled', 1)),			
+
+			array('config.add', array('pg_social_enabled', 1)),
 			array('config.add', array('pg_social_index_replace', 0)),
-			array('config.add', array('pg_social_index_activity', 0)),			
+			array('config.add', array('pg_social_index_activity', 0)),
 			array('config.add', array('pg_social_color', 0)),
 			array('config.add', array('pg_social_profile', 1)),
-			
+
 			array('config.add', array('pg_social_sidebarRight', 1)),
 			array('config.add', array('pg_social_sidebarRight_friendsRandom', 1)),
 			array('config.add', array('pg_social_block_posts_last', 1)),
 			array('config.add', array('pg_social_chat_enabled', 1)),
-			
+
 			array('config.add', array('pg_social_smilies', 1)),
 			array('config.add', array('pg_social_bbcode', 1)),
 			array('config.add', array('pg_social_url', 1)),
-			
+
 			array('config.add', array('pg_social_galleryLimit', 5)),
 			array('config.add', array('pg_social_photoLimit', 5)),
-			
+
 			array('config.add', array('pg_social_chat_enabledfor', 1)),
 			array('config.add', array('pg_social_chat_message_url_enabled', 1)),
 			array('config.add', array('pg_social_chat_smilies_enabled', 1)),
-			
+
 			array('permission.add', array('u_page_create')),
 			array('permission.add', array('m_page_manage')),
-			array('permission.add', array('a_page_manage')),			
-			
+			array('permission.add', array('a_page_manage')),
+
 			array('module.add', array(
 				'acp',
 				0,
@@ -58,7 +58,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 				'acp',
 				'ACP_PG_SOCIAL_TITLE',
 				'ACP_PG_SOCIAL_MAIN'
-			)),			
+			)),
 			array('module.add', array(
 				'acp',
 				'ACP_PG_SOCIAL_MAIN',
@@ -66,7 +66,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 					'module_basename'	=> '\pgreca\pgsocial\acp\main_module',
 					'modes'				=> array('settings'),
 				),
-			)),	
+			)),
 			array('module.add', array(
 				'acp',
 				'ACP_PG_SOCIAL_MAIN',
@@ -74,7 +74,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 					'module_basename'	=> '\pgreca\pgsocial\acp\main_module',
 					'modes'				=> array('social'),
 				),
-			)),		
+			)),
 			array('module.add', array(
 				'acp',
 				'ACP_PG_SOCIAL_MAIN',
@@ -104,7 +104,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 			array('module.add', array(
 				'mcp',
 				'MCP_PG_SOCIAL_TITLE',
-				'MCP_PG_SOCIAL_MAIN'		
+				'MCP_PG_SOCIAL_MAIN'
 			)),
 			array('module.add', array(
 				'mcp',
@@ -121,7 +121,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 			)),
 			array('module.add', array(
 				'ucp',
-				'UCP_PG_SOCIAL_MAIN',				
+				'UCP_PG_SOCIAL_MAIN',
 				array(
 					'module_basename'    => '\pgreca\pgsocial\ucp\main_module',
 					'modes'              => array('chat'),
@@ -153,8 +153,8 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 			$data[] = array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_page_manage'));
 		}
 		return $data;
-	}	
-	
+	}
+
 	public function update_schema()
 	{
 		return array(
@@ -182,9 +182,9 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 						'post_like_ID'		=> array('UINT:11', null, 'auto_increment', 0),
 						'post_ID'			=> array('UINT:11', 0),
 						'user_id'			=> array('UINT:11', 0),
-						'post_like_time'	=> array('UINT:11', 0),					
-					), 
-					'PRIMARY_KEY'	=> 'post_like_ID',				
+						'post_like_time'	=> array('UINT:11', 0),
+					),
+					'PRIMARY_KEY'	=> 'post_like_ID',
 				),
 				$this->table_prefix.'pg_social_wall_comment'	=> array(
 					'COLUMNS'		=> array(
@@ -210,7 +210,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 						'bbcode_bitfield'	=> array('VCHAR:255', ''),
 						'bbcode_uid'		=> array('VCHAR:8', ''),
 					),
-					'PRIMARY_KEY'	=> 'chat_id',					
+					'PRIMARY_KEY'	=> 'chat_id',
 				),
 				$this->table_prefix.'pg_social_gallery'		=> array(
 					'COLUMNS'		=> array(
@@ -254,9 +254,9 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 						'page_like_ID'		=> array('UINT:11', null, 'auto_increment', 0),
 						'user_id'			=> array('UINT:11', 0),
 						'page_id'			=> array('UINT:10', 0),
-						'page_like_time'	=> array('UINT:11', 0),					
-					), 
-					'PRIMARY_KEY'	=> 'page_like_ID',				
+						'page_like_time'	=> array('UINT:11', 0),
+					),
+					'PRIMARY_KEY'	=> 'page_like_ID',
 				),
 			),
 			'add_columns'	=> array(
@@ -275,8 +275,8 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 				),
 			),
 		);
-	}	
-	
+	}
+
 	public function revert_data()
 	{
 		return array(
@@ -323,7 +323,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 						'module_basename'	=> '\pgreca\pgsocial\mcp\main_module',
 					),
 				),
-			),	
+			),
 			array(
 				'custom', array(
 					array(
@@ -333,7 +333,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 			),
 		);
 	}
-	
+
 	public function revert_schema()
 	{
 		return array(
@@ -363,13 +363,13 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 			),
 		);
 	}
-	
+
 	public function remove_photos()
 	{
         global $phpbb_root_path;
 		$this->RemoveFolderContent($phpbb_root_path. 'ext/pgreca/pgsocial/images/upload/');
 	}
-	  
+
 	function RemoveFolderContent($folder)
 	{
 		foreach(glob($folder."/*") as $file)
@@ -389,15 +389,16 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 	/**
 	 * Custom function query permission roles
 	 *
-	 * @return void
+	 * @return bool
 	 * @access public
 	*/
 	private function role_exists($role)
 	{
-		$sql = "SELECT role_id FROM ".ACL_ROLES_TABLE." WHERE role_name = '".$this->db->sql_escape($role)."'";
+		$sql = 'SELECT role_id FROM ' . ACL_ROLES_TABLE . ' WHERE role_name = "' . $this->db->sql_escape($role) . '"';
 		$result = $this->db->sql_query_limit($sql, 1);
 		$role_id = $this->db->sql_fetchfield('role_id');
 		$this->db->sql_freeresult($result);
-		return $role_id;
-	}	
+
+		return (bool) $role_id;
+	}
 }
