@@ -3,22 +3,22 @@
 {% if UCP_PG_SOCIAL_PAGE == 'chat' %}
 	<h2>{{ lang('UCP_PG_SOCIAL_CHAT') }}</h2>
 	<div class="panel">
-		<div class="inner">	
+		<div class="inner">
 			<fieldset>
 				<dl>
-					<dt><label for="chat_sound">{{ lang('UCP_PG_SOCIAL_SIGNATURE_STATUS') }}</label></dt>
-					<dd><input type="radio" class="radio" name="signature_status" value="1" {% if UCP_PG_SOCIAL_SIGNATURE_STATUS %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+					<dt><label for="signature_status">{{ lang('UCP_PG_SOCIAL_SIGNATURE_STATUS') }}</label></dt>
+					<dd><input type="radio" class="radio" id="signature_status" name="signature_status" value="1" {% if UCP_PG_SOCIAL_SIGNATURE_STATUS %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
 					<input type="radio" class="radio" name="signature_status" value="0" {% if not UCP_PG_SOCIAL_SIGNATURE_STATUS %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
-				</dl>		
-			</fieldset>		
+				</dl>
+			</fieldset>
 			<fieldset>
 				<dl>
 					<dt><label for="chat_sound">{{ lang('UCP_PG_SOCIAL_CHAT_SOUND') }}</label></dt>
-					<dd><input type="radio" class="radio" name="chat_sound" value="1" {% if UCP_PG_SOCIAL_CHAT_SOUND %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
+					<dd><input type="radio" class="radio" id="chat_sound" name="chat_sound" value="1" {% if UCP_PG_SOCIAL_CHAT_SOUND %}checked="checked"{% endif %}/> {{ lang('YES') }} &nbsp;
 					<input type="radio" class="radio" name="chat_sound" value="0" {% if not UCP_PG_SOCIAL_CHAT_SOUND %}checked="checked"{% endif %}/> {{ lang('NO') }}</dd>
-				</dl>		
+				</dl>
 			</fieldset>
-	
+
 			<fieldset class="submit-buttons">
 				{{ S_FORM_TOKEN }}
 				<input type="reset" value="{{ lang('RESET') }}" name="reset" class="button2" />&nbsp;<input type="submit" name="submit" value="{{ lang('SUBMIT') }}" class="button1" />
