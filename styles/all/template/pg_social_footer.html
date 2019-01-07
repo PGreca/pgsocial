@@ -3,7 +3,7 @@
 	var root = '{{ ACTIVITY_PAGE }}';
 	var where = '{{ STATUS_WHERE }}';
 	var useLang = {ARE_YOU_SURE: "{{ lang('ARE_YOU_SURE') }}", ARE_YOU_SURE_PHOTO: "{{ lang('ARE_YOU_SURE_PHOTO') }}", DO_YOU_WANT_SHARE: "{{ lang('DO_YOU_WANT_SHARE') }}"};
-{% if (PROFILE_ID || PROFILE) && ACTIVITY_PAGE %}
+{% if (PROFILE_ID || PROFILE) and ACTIVITY_PAGE %}
 {% if PG_SOCIAL_PROFILE %}
 	if($("#viewprofile").length) {
 		$("#viewprofile, h2.memberlist-title").hide().remove();
