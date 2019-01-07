@@ -82,7 +82,7 @@
 			reader.onload = function (e) {
 				$('#wall_post_thumb img#wall_post_thumb_img').attr('src', e.target.result);
 				$('#wall_post_thumb').show();
-			}
+			};
 			reader.readAsDataURL($(this)[0].files[0]);
 			$("#wall_post_privacy").hide();
 		} else {
@@ -158,7 +158,7 @@
 		$("#pg_social_header img#coverdrag").remove();
 		$("#pg_social .profile_avatar").css("z-index", "80");
 		$("#profile_upload_submit, .darkenwrapper").show();
-		$("#pg_social_header").addClass("canMove")
+		$("#pg_social_header").addClass("canMove");
 		$("#pg_social .profile_avatar img").css("background-image", "url("+URL.createObjectURL(e.target.files[0])+")");
 	});
 
@@ -172,7 +172,7 @@
 	});
 
 	$(document).on('click', '#pg_social #pg_social_cont ul.colums li#pg_social_gallery_create input[type="submit"]', function() {
-		var fdata = new FormData()
+		var fdata = new FormData();
 		fdata.append("mode", "add_gallery");
 		fdata.append("gallery_name", $("#pg_social #pg_social_cont ul.colums li#pg_social_gallery_create input[name='pgsocial_galleryNew_title']").val());
 		$.ajax({
@@ -200,7 +200,7 @@
 	$(document).on('click', '.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side #pg_social_photo_sidePre, .phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side #pg_social_photo_sideNex', function() {
 		var ord = 0;
 		if($(this).attr("id") == "pg_social_photo_sideNex") ord = 1;
-		var fdata = new FormData()
+		var fdata = new FormData();
 		fdata.append("mode", "prenext_photo");
 		fdata.append("photo", $(this).parent().parent().attr('data-photo'));
 		fdata.append("ord", ord);
@@ -267,7 +267,7 @@ function pgwall_get_status(order, post_where) {
 			lastp = 0;
 		}
 
-		var fdata = new FormData()
+		var fdata = new FormData();
 		fdata.append("mode", "get_status");
 		fdata.append("post_where", post_where);
 		fdata.append("profile_id", profile_id);
@@ -298,7 +298,7 @@ function pgwall_get_status(order, post_where) {
 function pgwall_add_status(texta, privacy) {
 	if(!privacy) privacy = 1;
 	if($.trim(texta) != "") {
-		var fdata = new FormData()
+		var fdata = new FormData();
 		fdata.append("mode", "add_status");
 		fdata.append("post_where", where);
 		fdata.append("profile_id", profile_id);
@@ -319,7 +319,7 @@ function pgwall_add_status(texta, privacy) {
 }
 
 function pgwall_shareStatus(statu) {
-	var fdata = new FormData()
+	var fdata = new FormData();
 	fdata.append("mode", "shareStatus");
 	fdata.append("status", statu);
 	$.ajax({
@@ -385,7 +385,7 @@ function pgwall_get_comments(post_status, type) {
 }
 
 function pgwall_add_comment(comment, post_status) {
-	var fdata = new FormData()
+	var fdata = new FormData();
 	fdata.append("mode", "add_comment");
 	fdata.append("post_status", post_status);
 	fdata.append("comment", encodeURIComponent($.trim(comment)));
@@ -403,7 +403,7 @@ function pgwall_add_comment(comment, post_status) {
 }
 
 function pgwall_remove_comment(comment) {
-	var fdata = new FormData()
+	var fdata = new FormData();
 	fdata.append("mode", "remove_comment");
 	fdata.append("comment", comment);
 	$.ajax({
@@ -420,7 +420,7 @@ function pgwall_remove_comment(comment) {
 
 /* PHOTO UPLOAD */
 function uploadPhoto(msg, photo, type, where, itop) {
-	var fdata = new FormData()
+	var fdata = new FormData();
 	fdata.append("mode", "addPhoto");
 	if(msg) fdata.append("msg", encodeURIComponent($.trim(msg)));
 	fdata.append("post_where", where);
@@ -482,7 +482,7 @@ function popupPhoto(photo) {
 	$("body").css("overflow", "hidden");
 	$(".darkenwrapper").show();
 	$("#page-footer").append('<div id="pg_social_photo_'+photo+'" data-photo="'+photo+'" class="phpbb_alert pg_social_photo"></div>');
-	var fdata = new FormData()
+	var fdata = new FormData();
 	fdata.append("mode", "get_photo");
 	fdata.append("photo", $.trim(photo));
 	$.ajax({
@@ -519,7 +519,7 @@ function closePopup(as) {
 
 /* TAG SYSTEM */
 function tag_system_search(who) {
-	var fdata = new FormData()
+	var fdata = new FormData();
 	fdata.append("mode", "tag_system_search");
 	fdata.append("who", who[0]);
 	$.ajax({
