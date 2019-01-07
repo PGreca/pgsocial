@@ -34,7 +34,7 @@
 				<div id="pg_social_sidel">
 					<div class="panel">
 						{% if PROFILE_QUOTE %}<blockquote id="profile_quote">{{ PROFILE_QUOTE }}{% if PROFILE_ACTION %}<a href="{{ PROFILE_UPDATE }}" id="profile_changeQuote">{{ lang('EDIT') }}</a>{% endif %}</blockquote>{% endif %}
-						<ul id="profile_menu">
+						<dl id="profile_menu">
 							{% if U_USER_BAN %}<li class="profile-infoRapid"><a href="{{ U_USER_BAN }}">{{ lang('USER_BAN') }}</a></li>{% endif %}
 							{% if U_SWITCH_PERMISSIONS %}<li class="profile-infoRapid"><a href="{{ U_SWITCH_PERMISSIONS }}">{{ lang('USE_PERMISSIONS') }}</a></li>{% endif %}
 							{% if U_EMAIL %}<li class="profile-infoRapid"><dt>{{ lang('EMAIL_ADDRESS') }}{{ lang('COLON') }}</dt><dd><a href="{{ U_EMAIL }}"><i class="icon fa fa-envelope" aria-hidden="true"></i>  {{ lang('SEND_EMAIL_USER') }}</a></dd></li>{% endif %}
@@ -62,7 +62,7 @@
 								{% if RANK_IMG %}{{ RANK_IMG }}<br />{% endif %}
 								{{ RANK_TITLE }}
 							</li>{% endif %}
-						</ul>
+						</dl>
 						{% EVENT memberlist_view_zebra_before %}
 						{% EVENT memberlist_view_zebra_after %}
 						<div class="colum" style="width: calc(100% - 20px);">

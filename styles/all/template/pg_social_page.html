@@ -70,11 +70,11 @@
 					{% if loops.last_photos %}
 					<div class="panel" id="pg_social_profile_lastphotos">
 						<h3>{{ lang('LAST_PHOTO', 2) }}</h3>
-						<dl class="last_photos">
+						<div class="last_photos">
 							<ul class="template_photos bigcolums colums" id="last_photos">
 								{% for last_photos in loops.last_photos %}<li class="photo colum" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="./ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
 							</ul>
-						</dl>
+						</div>
 					</div>
 					{% endif %}
 				</div>{% endif %}
