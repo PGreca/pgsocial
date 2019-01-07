@@ -102,34 +102,44 @@ class social_zebra
 
 	/**
 	 * Zebra status
+	 *
+	 * @param int $user_id
+	 * @return mixed
 	*/
 	public function friend_status($user_id)
 	{
-		if($user_id != $this->user->data['user_id'])
+		if ($user_id != $this->user->data['user_id'])
 		{
-			$sql = "SELECT * FROM ".ZEBRA_TABLE."
-			WHERE zebra_id IN (".$user_id.", ".$this->user->data['user_id'].")
-			AND user_id IN (".$user_id.", ".$this->user->data['user_id'].")";
-			$result = $this->db->sql_query($sql);
+			$user_array = array((int) $user_id, (int) $this->user->data['user_id']);
+
+			$sql = 'SELECT * 
+					FROM ' . ZEBRA_TABLE . '
+					WHERE ' . $this->db->sql_in_set('zebra_id', $user_array) . '
+						AND ' . $this->db->sql_in_set('user_id', $user_array);
+			$result = $this->db->sql_query_limit($sql, 1);
 			$row = $this->db->sql_fetchrow($result);
-			if($row['user_id'] == $user_id && $row['zebra_id'] == $this->user->data['user_id'] && $row['approval'] == 1)
+			$this->db->sql_freeresult($result);
+
+			if (($row['user_id'] == $user_id) && ($row['zebra_id'] == $this->user->data['user_id']) && ($row['approval'] == 1))
 			{
 				$data = array(
-					"status"  => 'PG_SOCIAL_FRIENDS_ACCEPT_REQ',
-					"icon"    => 'check',
+					'status'	=> 'PG_SOCIAL_FRIENDS_ACCEPT_REQ',
+					'icon'		=> 'check',
 				);
 			}
 			else
 			{
 				$data = array(
-					"status"  => ($row['friend'] ? 'PG_SOCIAL_FRIENDS' : ($row['approval'] ? 'PG_SOCIAL_FRIENDS_CANCEL_REQ' : ($row['foe'] ? 'PG_SOCIAL_FRIENDS_REMOVE_BLOCK' : 'PG_SOCIAL_FRIENDS_ADD'))),
-					"icon"    => ($row['friend'] ? 'ok' : ($row['approval'] ? 'remove' : ($row['foe'] ? 'ban-circle' : 'plus'))),
-					"friends" => $row['friend'] ? true : false,
+					'status'	=> ($row['friend'] ? 'PG_SOCIAL_FRIENDS' : ($row['approval'] ? 'PG_SOCIAL_FRIENDS_CANCEL_REQ' : ($row['foe'] ? 'PG_SOCIAL_FRIENDS_REMOVE_BLOCK' : 'PG_SOCIAL_FRIENDS_ADD'))),
+					'icon'		=> ($row['friend'] ? 'ok' : ($row['approval'] ? 'remove' : ($row['foe'] ? 'ban-circle' : 'plus'))),
+					'friends'	=> $row['friend'] ? true : false,
 				);
 			}
-			$this->db->sql_freeresult($result);
+
 			return $data;
 		}
+
+		return false;
 	}
 
 	/**

@@ -18,7 +18,7 @@ class main
 	/* @var \phpbb\config\config */
 	protected $config;
 
-	/* @var \phpbb\db\driver\driver */
+	/* @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/* @var \phpbb\controller\helper */
@@ -27,7 +27,7 @@ class main
 	/* @var \phpbb\request\request */
 	protected $request;
 
-	/** @var\pgreca\pgsocial\controller\helper */
+	/** @var \pgreca\pgsocial\controller\helper */
 	protected $pg_social_helper;
 
 	/** @var \pgreca\pgsocial\controller\notifyhelper */
@@ -71,7 +71,7 @@ class main
 	*
 	* @param \phpbb\auth\auth			$auth
 	* @param \phpbb\config\config      $config
-	* @param \phpbb\db\driver\driver $db
+	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\controller\helper  $helper
 	* @param \phpbb\request\request	$request
 	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
@@ -112,7 +112,7 @@ class main
 	* Profile controller for route /social
 	*
 	* @param string		$name
-	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
+	* @return mixed
 	*/
 	public function handle($name)
 	{
@@ -142,7 +142,7 @@ class main
 					return $this->post_status->add_status($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', ''), $this->request->variable('privacy', ''), 0, '', true);
 				break;
 				case 'delete_status':
-					return $this->post_status->delete_status($this->request->variable('post_status', ''), $name);
+					return $this->post_status->delete_status($this->request->variable('post_status', ''));
 				break;
 				case 'shareStatus':
 					return $this->post_status->shareStatus($this->request->variable('status', ''));
@@ -164,7 +164,8 @@ class main
 					{
 						$friends = $this->request->variable('friend', '');
 					}
-					return $this->social_zebra->get_friends($profile_id, $where, $friends);
+
+					$this->social_zebra->get_friends($profile_id, $where, $friends);
 				break;
 				case 'request_friend':
 					return $this->social_zebra->request_friend($profile_id, $this->request->variable('request', ''));
@@ -191,7 +192,7 @@ class main
 					return $this->social_chat->message_send($this->request->variable('person', ''), $this->request->variable('message', ''));
 				break;
 				case 'message_read':
-					return $this->social_chat->message_read($this->request->variable('person', ''));
+					$this->social_chat->message_read($this->request->variable('person', ''));
 				break;
 				case 'get_photo':
 					return $this->social_photo->get_photo($this->request->variable('photo', ''), 1);
@@ -275,7 +276,7 @@ class main
 							}
 						}
 					}
-					$last_topics = "SELECT p.post_id, p.topic_id, p.post_time, p.forum_id, t.topic_title, f.forum_name
+					$last_posts = "SELECT p.post_id, p.topic_id, p.post_time, p.forum_id, t.topic_title, f.forum_name
 						FROM ".POSTS_TABLE." p
 						LEFT JOIN ".TOPICS_TABLE." t ON p.topic_id = t.topic_id
 						LEFT JOIN ".FORUMS_TABLE." f ON p.forum_id = f.forum_id
