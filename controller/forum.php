@@ -12,39 +12,64 @@ namespace pgreca\pgsocial\controller;
 
 class forum
 {
-	
+
 	/* @var \phpbb\auth\auth */
 	protected $auth;
-	
+
 	/* @var \phpbb\config\config */
 	protected $config;
 
 	/* @var \phpbb\db\driver\driver */
 	protected $db;
-	
+
 	/* @var \phpbb\controller\helper */
 	protected $helper;
 
 	/* @var \phpbb\request\request */
 	protected $request;
-	
+
+	/** @var \pgreca\pgsocial\controller\helper */
+	protected $pg_social_helper;
+
+	/** @var \pgreca\pgsocial\controller\notifyhelper */
+	protected $notifyhelper;
+
+	/** @var \pgreca\pgsocial\social\post_status */
+	protected $post_status;
+
+	/** @var \pgreca\pgsocial\social\social_zebra */
+	protected $social_zebra;
+
+	/** @var \pgreca\pgsocial\social\social_chat */
+	protected $social_chat;
+
+	/** @var \pgreca\pgsocial\social\social_photo */
+	protected $social_photo;
+
+	/** @var \pgreca\pgsocial\social\social_tag */
+	protected $social_tag;
+
+	/** @var \pgreca\pgsocial\social\social_page */
+	protected $social_page;
+
 	/* @var \phpbb\template\template */
 	protected $template;
 
 	/* @var \phpbb\user */
 	protected $user;
-		
+
 	/** @var \phpbb\group\helper */
 	protected $group_helper;
-	
-	/** @var \phpbb\eent\dispatcher */
+
+	/** @var \phpbb\event\dispatcher */
 	protected $dispatcher;
 
 	/* @var string phpBB root path */
-	protected $root_path;	
-	
+	protected $root_path;
+
 	/* @var string phpEx */
 	protected $php_ext;
+
 	/**
 	* Constructor
 	*
@@ -52,19 +77,21 @@ class forum
 	* @param \phpbb\config\config      $config
 	* @param \phpbb\db\driver\driver $db
 	* @param \phpbb\controller\helper  $helper
-	* @param \phpbb\request\request	$request	
-	* @param \pg_social\\controller\helper $pg_social_helper	
-	* @param \pg_social\controller\notifyhelper $notifyhelper Notification helper.	 	
-	* @param \pg_social\social\post_status $post_status 	
-	* @param \pg_social\social\$social_zebra $social_zebra	 	
-	* @param \pg_social\social\$social_chat $social_chat	 	
-	* @param \pg_social\social\$social_photo $social_photo	 	
-	* @param \pg_social\social\$social_tag $social_tag	  	
-	* @param \pg_social\social\$social_page $social_page	 
+	* @param \phpbb\request\request	$request
+	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
+	* @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
+	* @param \pgreca\pgsocial\social\post_status $post_status
+	* @param \pgreca\pgsocial\social\social_zebra $social_zebra
+	* @param \pgreca\pgsocial\social\social_chat $social_chat
+	* @param \pgreca\pgsocial\social\social_photo $social_photo
+	* @param \pgreca\pgsocial\social\social_tag $social_tag
+	* @param \pgreca\pgsocial\social\social_page $social_page
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
-	* @param \phpbb\group\helper     $group_helper 
+	* @param \phpbb\group\helper     $group_helper
 	* @param \phpbb\event\dispatcher $dispatcher
+	* @param string $root_path
+	* @param string $php_ext
 	*/
 	public function __construct($auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $group_helper, $dispatcher, $root_path, $php_ext)
 	{
@@ -75,8 +102,8 @@ class forum
 		$this->request				= $request;
 		$this->pg_social_helper		= $pg_social_helper;
 		$this->notifyhelper			= $notifyhelper;
-		$this->post_status 			= $post_status;		
-		$this->social_zebra 		= $social_zebra;		
+		$this->post_status 			= $post_status;
+		$this->social_zebra 		= $social_zebra;
 		$this->social_chat			= $social_chat;
 		$this->social_photo			= $social_photo;
 		$this->social_tag			= $social_tag;
@@ -86,22 +113,22 @@ class forum
 		$this->group_helper			= $group_helper;
 		$this->dispatcher			= $dispatcher;
 	    $this->root_path			= $root_path;
-		$this->php_ext				= $php_ext;		
+		$this->php_ext				= $php_ext;
 	}
-	
+
 	/**
 	* Profile controller for route /social
 	*
 	* @param string		$name
-	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
+	* @return void
 	*/
 	public function handle()
-	{		
-		if($this->user->data['user_id'] == ANONYMOUS || !$this->config['pg_social_index_replace']) 
+	{
+		if($this->user->data['user_id'] == ANONYMOUS || !$this->config['pg_social_index_replace'])
 		{
 			redirect($this->root_path);
 		}
-		
+
 		// @codeCoverageIgnoreStart
 		if(!function_exists('display_forums'))
 		{
@@ -110,7 +137,7 @@ class forum
 		// @codeCoverageIgnoreEnd
 
 		display_forums('', $this->config['load_moderators']);
-		
+
 		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
 		// Grab group details for legend display
 		if($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel'))
@@ -186,7 +213,7 @@ class forum
 					AND (u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) . "%' $leap_year_birthdays)
 					AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')',
 			);
-			
+
 			/**
 			* Event to modify the SQL query to get birthdays data
 			*
@@ -198,7 +225,7 @@ class forum
 			*/
 			$vars = array('now', 'sql_ary', 'time');
 			extract($this->dispatcher->trigger_event('pgreca.pgsocial.core.index_modify_birthdays_sql', compact($vars)));
-			
+
 			$sql = $this->db->sql_build_query('SELECT', $sql_ary);
 			$result = $this->db->sql_query($sql);
 			$rows = $this->db->sql_fetchrowset($result);
@@ -218,7 +245,7 @@ class forum
 				// For 3.0 compatibility
 				$birthday_list[] = $birthday_username . (($birthday_age) ? " ({$birthday_age})" : '');
 			}
-			
+
 			/**
 			* Event to modify the birthdays list
 			*
@@ -263,7 +290,7 @@ class forum
 			'FORUM_NAME'	=> $this->user->lang('FORUM'),
 			'U_VIEW_FORUM'	=> $this->helper->route('forum_page'),
 		));
-		
+
 		/**
 		* You can use this event to modify the page title and load data for the index
 		*
@@ -280,7 +307,7 @@ class forum
 		$this->template->set_filenames(array(
 			'body' => 'index_body.html')
 		);
-		
+
 		page_footer();
 	}
 }

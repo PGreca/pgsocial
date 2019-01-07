@@ -28,14 +28,14 @@ class social_tag
 	* Constructor
 	*
 	* @param \phpbb\template\template  $template
-	* @param \phpbb\user				$user	
+	* @param \phpbb\user				$user
 	* @param \phpbb\controller\helper		$helper
-	* @param \pg_social\\controller\helper $pg_social_helper 
-	* @param \wall\controller\notifyhelper $notifyhelper Notification helper.
+	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
+	* @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
 	* @param \phpbb\config\config			$config
-	* @param \phpbb\db\driver\driver_interface	$db 		
+	* @param \phpbb\db\driver\driver_interface	$db
 	*/
-	
+
 	public function __construct($template, $user, $helper, $pg_social_helper, $social_zebra, $notifyhelper, $config, $db, $pgsocial_table_wallpost)
 	{
 		$this->template					= $template;
@@ -48,7 +48,7 @@ class social_tag
 		$this->db 						= $db;
 		$this->pgsocial_wallpost		= $pgsocial_table_wallpost;
 	}
-	
+
 	/**
 	 * Search user for tag
 	*/
@@ -66,13 +66,13 @@ class social_tag
 					'USERNAME'			=> $row['username'],
 					'USERNAME_CLEAN'	=> $row['username_clean'],
 					'AVATAR'			=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
-					
+
 				));
 			}
-		}			
+		}
 		return $this->helper->render('pg_social_tag_system_search.html', '');
 	}
-	
+
 	/**
 	 * Display who can tag
 	*/
@@ -87,7 +87,7 @@ class social_tag
 		}
 		return trim($text);
 	}
-	
+
 	/**
 	 * Tag activity query
 	*/
@@ -98,7 +98,7 @@ class social_tag
 		$tagged_user = '';
 		for($i=0; $i < count($matches[1]); $i++)
 		{
-			$this->notify->notify('add_tag', $status, $text, $matches[1][$i], (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_TAG_ADD');			
+			$this->notify->notify('add_tag', $status, $text, $matches[1][$i], (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_TAG_ADD');
 			$tagged_user .= $matches[1][$i].', ';
 		}
 		$sql = "UPDATE ".$this->pgsocial_wallpost." SET tagged_user = '".$tagged_user."' WHERE post_ID = '".$status."'";

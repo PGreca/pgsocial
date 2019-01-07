@@ -16,12 +16,12 @@ namespace pgreca\pgsocial\notification;
 */
 class social_likes extends \phpbb\notification\type\base
 {
-	
+
 	/* @var \phpbb\controller\helper */
 	protected $helper;
 
 	protected $pg_social_helper;
-	
+
 	/* @var \phpbb\user */
 	protected $user;
 
@@ -34,13 +34,13 @@ class social_likes extends \phpbb\notification\type\base
 	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\config\config $config
 	* @param \phpbb\controller\helper $
-	* @param \pg_social\\controller\helper $pg_social_helper
+	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
 	* @param string $phpbb_root_path
 	* @param string $php_ext
 	* @param string $notification_types_table
 	* @param string $notifications_table
 	* @param string $user_notifications_table
-	* @return \phpbb\notification\type\base
+	* @return void
 	*/
 	public function __construct($db, $cache, $user, $auth, $config, $helper, $pg_social_helper, $phpbb_root_path, $php_ext, $notification_types_table, $notifications_table, $user_notifications_table)
 	{
@@ -58,7 +58,7 @@ class social_likes extends \phpbb\notification\type\base
 		$this->notifications_table 		= $notifications_table;
 		$this->user_notifications_table = $user_notifications_table;
 	}
-	
+
 	/**
 	* Get notification type name
 	*
@@ -68,7 +68,7 @@ class social_likes extends \phpbb\notification\type\base
 	{
 		return 'pgreca.pgsocial.notification.type.social_likes';
 	}
-	
+
 	/**
 	* Notification option data (for outputting to the user)
 	*
@@ -79,7 +79,7 @@ class social_likes extends \phpbb\notification\type\base
 		'lang'	=> 'NOTIFICATION_TYPE_SOCIAL_LIKES',
 		'group'	=> 'NOTIFICATION_PG_SOCIAL',
 	);
-	
+
 	/**
 	* Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
 	*
@@ -89,28 +89,32 @@ class social_likes extends \phpbb\notification\type\base
 	{
 		return true;
 	}
-	
+
 	/**
-	* Get the id of the rule
-	*
-	* @param array $data The data for the updated rules
-	*/
+	 * Get item id
+	 *
+	 * @param $data
+	 * @return int
+	 * @access public
+	 */
 	public static function get_item_id($data)
 	{
 		return $data['status_id'];
 	}
-	
+
 	/**
-	* Get the id of the parent
-	*
-	* @param array $data The data for the updated rules
-	*/
+	 * Get item's parent id
+	 *
+	 * @param $data
+	 * @return int
+	 * @access public
+	 */
 	public static function get_item_parent_id($data)
 	{
 		// No parent
 		return $data['status_id'];
 	}
-	
+
 	/**
 	* Find the users who will receive notifications
 	*
@@ -125,7 +129,7 @@ class social_likes extends \phpbb\notification\type\base
 
 		return $users;
 	}
-	
+
 	/**
 	* Users needed to query before this notification can be displayed
 	*
@@ -135,7 +139,7 @@ class social_likes extends \phpbb\notification\type\base
 	{
 		return array();
 	}
-	
+
 	/**
 	* Get the user's avatar
 	*/
@@ -145,10 +149,10 @@ class social_likes extends \phpbb\notification\type\base
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$user_avatar = $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']);
-			
+
 		return $user_avatar;
 	}
-	
+
 	/**
 	* Get the HTML formatted title of this notification
 	*
@@ -158,10 +162,10 @@ class social_likes extends \phpbb\notification\type\base
 	{
 		$sql = "SELECT username, user_colour FROM ".USERS_TABLE." WHERE user_id = '".$this->get_data('poster_id')."'";
 		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);		
+		$row = $this->db->sql_fetchrow($result);
 		return $this->user->lang('HAS_LIKE_YOUR_POST', '<span style="color:#'.$row['user_colour'].'">'.$row['username'].'</span>');
 	}
-	
+
 	/**
 	* Get the url to this item
 	*
@@ -172,9 +176,9 @@ class social_likes extends \phpbb\notification\type\base
 		$sql = "SELECT user_id, username, user_colour FROM ".USERS_TABLE." WHERE user_id = '".$this->get_data('user_id')."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
-		return $this->helper->route("status_page", array("id" => $this->get_data('status_id'))); 
+		return $this->helper->route("status_page", array("id" => $this->get_data('status_id')));
 	}
-	
+
 	/**
 	* Get email template
 	*
@@ -184,7 +188,7 @@ class social_likes extends \phpbb\notification\type\base
 	{
 		return false;
 	}
-	
+
 	/**
 	* Get email template variables
 	*
@@ -194,7 +198,7 @@ class social_likes extends \phpbb\notification\type\base
 	{
       return array();
 	}
-	
+
 	/**
    * Get the HTML formatted reference of the notification
    *

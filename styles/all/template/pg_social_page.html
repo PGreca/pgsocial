@@ -7,20 +7,20 @@
 		Pagina in attesa di moderazione
 	</div>
 	{% endif %}
-	<div id="pg_social_header" style="background-image:url({{ page.PAGE_COVER }}); background-position: left {{ page.PAGE_COVER_POSITION }}px;">	
+	<div id="pg_social_header" style="background-image:url({{ page.PAGE_COVER }}); background-position: left {{ page.PAGE_COVER_POSITION }}px;">
 		<div id="pg_social_actionprofile">
 			<div id="profile_upload">
-				<a class="page_list_buttonLike" data-page="{{ page.PAGE_ID }}"><span class="{{ page.PAGE_LIKE_CHECK }}">{{ page.PAGE_LIKE_CHECKLANG }}</span></a>	
+				<a class="page_list_buttonLike" data-page="{{ page.PAGE_ID }}"><span class="{{ page.PAGE_LIKE_CHECK }}">{{ page.PAGE_LIKE_CHECKLANG }}</span></a>
 				{% if page.PAGE_ACTION %}
 				<input id="profile_upload_submit" type="submit" value="{{ lang('PROFILE_UPDATE') }}" />
-				<div class="action_profile">				
+				<div class="action_profile">
 					<label id="pg_social_edit_avatar">{{ lang('PROFILE_AVATAR_UPDATE') }}<input type="file" accept="image/*" data-type="avatar"></label><label id="pg_social_edit_cover">{{ lang('PROFILE_COVER_UPDATE') }}<input type="file" accept="image/*" data-type="cover"></label>
 				</div>
 				{% endif %}
 			</div>
 		</div>
 	</div><div id="pg_social_main">
-		<div class="profile_avatar">{{ page.PAGE_AVATAR }}</div>			
+		<div class="profile_avatar">{{ page.PAGE_AVATAR }}</div>
 		<h2 class="memberlist-username">{{ page.PAGE_USERNAME }}</h2>
 		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('ACTIVITY') }}</a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa fa-camera fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('GALLER') }}</a></li><!--<li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i> {{ lang('LIKES') }} <span>({{ page.PAGE_COUNT_FOLLOWER }})</span></a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i> {{ lang('INFO') }}</a></li>--></ul>
 		<div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80%);"{% endif %}>
@@ -61,7 +61,7 @@
 							<div id="wall_post_thumb"><img id="wall_post_thumb_img" src="" /></div>
 						</div>
 					</form>
-					{% endif %}		
+					{% endif %}
 					<ul id="posts_status">
 						{% INCLUDE 'activity_status.html' %}
 					</ul>
@@ -70,14 +70,14 @@
 					{% if loops.last_photos %}
 					<div class="panel" id="pg_social_profile_lastphotos">
 						<h3>{{ lang('LAST_PHOTO', 2) }}</h3>
-						<dl class="last_photos">
+						<div class="last_photos">
 							<ul class="template_photos bigcolums colums" id="last_photos">
 								{% for last_photos in loops.last_photos %}<li class="photo colum" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="./ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
 							</ul>
-						</dl>
+						</div>
 					</div>
 					{% endif %}
-				</div>{% endif %}	
+				</div>{% endif %}
 			</div>
 			<div class="pg_social_pagesub" id="page_gallery">
 				{% if not GALLERY_NAME %}
@@ -88,9 +88,9 @@
 						</div>
 						<div class="gallery_name username">
 							<a href="{{ social_gallery.GALLERY_URL }}">
-								<span>{{ social_gallery.GALLERY_NAME }}</h5>
-							</a>						
-						</div>						
+								<h5>{{ social_gallery.GALLERY_NAME }}</h5>
+							</a>
+						</div>
 						<div class="gallery_counts counts counts">
 							<div class="gallery_count_count_photos count">
 								{{ social_gallery.GALLERY_COUNT }}
@@ -116,10 +116,10 @@
 	</div>
 {% endfor %}
 {% else %}
-<div id="pg_social_cont">		
+<div id="pg_social_cont">
 {% if PAGE_CREATE %}
 <a id="page_new_button">{{ lang('PAGE_CREATE') }}</a>
-{% endif %}	
+{% endif %}
 	<ul id="pages_list" class="colums">
 		{% for pages in loops.pages %}<li class="page_list colum" id="page_list_{{ pages.PAGE_ID }}">
 			<div class="cover big_cover" style="background-image:url('{{ pages.PAGE_COVER }}')">

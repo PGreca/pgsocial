@@ -23,25 +23,25 @@ class social_page
 
 	/* @var \phpbb\config\config */
 	protected $config;
-	
+
 	/* @var string phpBB root path */
-	protected $root_path;	
-	
+	protected $root_path;
+
 	/* @var string phpEx */
-	protected $php_ext;	
+	protected $php_ext;
 
 	/**
 	* Constructor
 	*
 	* @param \phpbb\template\template  $template
-	* @param \phpbb\user				$user	 
+	* @param \phpbb\user				$user
 	* @param \phpbb\controller\helper		$helper
-	* @param \pg_social\\controller\helper $pg_social_helper
-	* @param \wall\controller\notifyhelper $notifyhelper Notification helper.	
+	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
+	* @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
 	* @param \phpbb\config\config			$config
-	* @param \phpbb\db\driver\driver_interface	$db 		
+	* @param \phpbb\db\driver\driver_interface	$db
 	*/
-	
+
 	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $social_photo, $social_tag, $social_zebra, $config, $db, $root_path, $pgsocial_table_pages, $pgsocial_table_pages_like)
 	{
 		$this->template					= $template;
@@ -53,12 +53,12 @@ class social_page
 		$this->social_tag				= $social_tag;
 		$this->social_zebra				= $social_zebra;
 		$this->config 					= $config;
-		$this->db 						= $db;	
-	    $this->root_path				= $root_path;	
+		$this->db 						= $db;
+	    $this->root_path				= $root_path;
 		$this->pgsocial_pages			= $pgsocial_table_pages;
 		$this->pgsocial_pages_like		= $pgsocial_table_pages_like;
 	}
-		
+
 	/**
 	 * Create new page
 	*/
@@ -87,30 +87,30 @@ class social_page
 		));
 		return $this->helper->render('activity_status_action.html', "");
 	}
-	
+
 	/**
 	 * Count likes pages
 	*/
 	public function user_like_pages($user, $page = false)
-	{		
+	{
 		$array = '';
-		if(isset($page)) 
+		if(isset($page))
 		{
-			$where = " AND page_id = '".$page."'"; 
+			$where = " AND page_id = '".$page."'";
 		}
-		else 
+		else
 		{
 			$array = array();
 		}
 		$sql = "SELECT page_id FROM ".$this->pgsocial_pages_like." WHERE user_id = '".$user."'".$where;
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
-		{	
-			if(isset($page) && $row['page_id'] != "") 
+		{
+			if(isset($page) && $row['page_id'] != "")
 			{
-				$array = $row['page_id']; 
+				$array = $row['page_id'];
 			}
-			else 
+			else
 			{
 				$array[] = $row['page_id'];
 			}
@@ -121,7 +121,7 @@ class social_page
 		}
 		return $array;
 	}
-	
+
 	/**
 	 * Action like on page
 	*/
@@ -130,7 +130,7 @@ class social_page
 		$sql = "SELECT page_like_ID FROM ".$this->pgsocial_pages_like." WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
 		$result = $this->db->sql_query($sql);
 		$like = $this->db->sql_fetchrow($result);
-		
+
 		if($like['page_like_ID'] != "")
 		{
 			$sql = "DELETE FROM ".$this->pgsocial_pages_like." WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
@@ -145,14 +145,14 @@ class social_page
 			);
 			$sql = "INSERT INTO ".$this->pgsocial_pages_like." ".$this->db->sql_build_array('INSERT', $sql_arr);
 			$action = "likepage";
-		}		
+		}
 		$this->db->sql_query($sql);
 		$this->template->assign_vars(array(
 			"ACTION"	=> $action,
 		));
 		return $this->helper->render('activity_status_action.html', "");
 	}
-	
+
 	public function page_likeif($user, $template, $if = false)
 	{
 		$sql = "SELECT p.* FROM ".$this->pgsocial_pages." p
@@ -165,11 +165,11 @@ class social_page
 				"AVATAR"		=> $this->pg_social_helper->social_avatar_page($row['page_avatar']),
 				"PROFILE_URL"	=> append_sid($this->helper->route('pages_page'), 'u='.$row['page_username_clean']),
 				"USERNAME"		=> $row['page_username'],
-			
+
 			));
-		}		
+		}
 	}
-	
+
 	public function appro_pages()
 	{
 		$sql = "SELECT COUNT(page_id) AS count

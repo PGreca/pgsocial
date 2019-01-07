@@ -1,6 +1,6 @@
 <div id="pgsocial_chat">
 	<div class="pgsocial_chat pgsocial_chat" id="pgsocial_chatRoot">
-		<ul id="pgsocial_chatPeople"{% if PG_SOCIAL_SETTING_HIDE %}class="canchat"{% endif %}></ul>
+		<ul id="pgsocial_chatPeople"{% if PG_SOCIAL_SETTING_HIDE %} class="canchat"{% endif %}></ul>
 		<div id="pgsocial_chatButton_ext">
 			<i class="fa fa-th-large" aria-hidden="true"></i><input type="text" name="pg_social_chat_people_search" id="pg_social_chat_people_search" placeholder="{{ lang('SEARCH') }}" /><i class="fa fa-sliders" aria-hidden="true"></i>
 			<div id="pgsocial_chat_settings">
@@ -8,8 +8,9 @@
 				<hr />
 				<input type="checkbox" name="pgsocial_setting_hide" id="pgsocial_setting_hide"{% if not PG_SOCIAL_SETTING_HIDE %} checked{% endif %} /><label for="pgsocial_setting_hide">{{ lang('PG_SOCIAL_CHAT_DISABLE') }}</label>
 			</div>
+		</div>
 	</div>
 	<audio id="pgsocial_chat_sound" preload="auto">
-		<source src="{{ ROOT_PATH }}ext/pgreca/pgsocial/styles/all/theme/sound/message.mp3"> </source>
+		<source src="{{ ROOT_PATH }}ext/pgreca/pgsocial/styles/all/theme/sound/message.mp3" />
 	</audio>
 </div>

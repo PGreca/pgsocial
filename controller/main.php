@@ -14,48 +14,77 @@ class main
 {
 	/* @var \phpbb\auth\auth */
 	protected $auth;
-	
+
 	/* @var \phpbb\config\config */
 	protected $config;
 
-	/* @var \phpbb\db\driver\driver */
+	/* @var \phpbb\db\driver\driver_interface */
 	protected $db;
-	
+
 	/* @var \phpbb\controller\helper */
 	protected $helper;
 
 	/* @var \phpbb\request\request */
 	protected $request;
-	
+
+	/** @var \pgreca\pgsocial\controller\helper */
+	protected $pg_social_helper;
+
+	/** @var \pgreca\pgsocial\controller\notifyhelper */
+	protected $notifyhelper;
+
+	/** @var \pgreca\pgsocial\social\post_status */
+	protected $post_status;
+
+	/** @var \pgreca\pgsocial\social\social_zebra */
+	protected $social_zebra;
+
+	/** @var \pgreca\pgsocial\social\social_chat */
+	protected $social_chat;
+
+	/** @var \pgreca\pgsocial\social\social_photo */
+	protected $social_photo;
+
+	/** @var \pgreca\pgsocial\social\social_tag */
+	protected $social_tag;
+
+	/** @var \pgreca\pgsocial\social\social_page */
+	protected $social_page;
+
 	/* @var \phpbb\template\template */
 	protected $template;
 
 	/* @var \phpbb\user */
 	protected $user;
-	
+
 	/* @var string phpBB root path */
-	protected $root_path;	
-	
+	protected $root_path;
+
 	/* @var string phpEx */
 	protected $php_ext;
+
+	/** @var string */
+	protected $pgsocial_table_wallpost;
+
 	/**
 	* Constructor
 	*
 	* @param \phpbb\auth\auth			$auth
 	* @param \phpbb\config\config      $config
-	* @param \phpbb\db\driver\driver $db
+	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\controller\helper  $helper
-	* @param \phpbb\request\request	$request	
-	* @param \pgsocial\\controller\helper $pg_social_helper	
-	* @param \pgsocial\controller\notifyhelper $notifyhelper Notification helper.	 	
-	* @param \pgsocial\social\post_status $post_status 	
-	* @param \pgsocial\social\$social_zebra $social_zebra	 	
-	* @param \pgsocial\social\$social_chat $social_chat	 	
-	* @param \pgsocial\social\$social_photo $social_photo	 	
-	* @param \pgsocial\social\$social_tag $social_tag	  	
-	* @param \pgsocial\social\$social_page $social_page	 
+	* @param \phpbb\request\request	$request
+	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
+	* @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
+	* @param \pgreca\pgsocial\social\post_status $post_status
+	* @param \pgreca\pgsocial\social\social_zebra $social_zebra
+	* @param \pgreca\pgsocial\social\social_chat $social_chat
+	* @param \pgreca\pgsocial\social\social_photo $social_photo
+	* @param \pgreca\pgsocial\social\social_tag $social_tag
+	* @param \pgreca\pgsocial\social\social_page $social_page
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
+	 * @param string $pgsocial_table_wallpost
 	*/
 	public function __construct($auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $pgsocial_table_wallpost)
 	{
@@ -66,8 +95,8 @@ class main
 		$this->request				= $request;
 		$this->pg_social_helper		= $pg_social_helper;
 		$this->notifyhelper			= $notifyhelper;
-		$this->post_status 			= $post_status;		
-		$this->social_zebra 		= $social_zebra;		
+		$this->post_status 			= $post_status;
+		$this->social_zebra 		= $social_zebra;
 		$this->social_chat			= $social_chat;
 		$this->social_photo			= $social_photo;
 		$this->social_tag			= $social_tag;
@@ -75,15 +104,15 @@ class main
 		$this->template				= $template;
 		$this->user					= $user;
 	    $this->root_path			= $root_path;
-		$this->php_ext				= $php_ext;	
+		$this->php_ext				= $php_ext;
 		$this->pgsocial_wallpost	= $pgsocial_table_wallpost;
 	}
-	
+
 	/**
 	* Profile controller for route /social
 	*
 	* @param string		$name
-	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
+	* @return mixed
 	*/
 	public function handle($name)
 	{
@@ -95,25 +124,25 @@ class main
 			}
 			login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
 			*/
-			
+
 			redirect($this->root_path);
 		}
 		else
-		{	
+		{
 			$mode = $this->request->variable('mode', '');
 			$profile_id = $this->request->variable('profile_id', '');
 			$where = $this->request->variable('where', '');
-			
+
 			switch($mode)
 			{
-				case 'get_status':	
+				case 'get_status':
 					return $this->post_status->get_status($this->request->variable('post_where', ''), $profile_id, $this->request->variable('lastp', ''), $where, '', $this->request->variable('order', ''), true);
 				break;
 				case 'add_status':
 					return $this->post_status->add_status($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', ''), $this->request->variable('privacy', ''), 0, '', true);
 				break;
 				case 'delete_status':
-					return $this->post_status->delete_status($this->request->variable('post_status', ''), $name);
+					return $this->post_status->delete_status($this->request->variable('post_status', ''));
 				break;
 				case 'shareStatus':
 					return $this->post_status->shareStatus($this->request->variable('status', ''));
@@ -131,17 +160,18 @@ class main
 					return $this->post_status->remove_comment($this->request->variable('comment', ''));
 				break;
 				case 'get_friends':
-					if($this->request->variable('friend', '')) 
+					if($this->request->variable('friend', ''))
 					{
 						$friends = $this->request->variable('friend', '');
 					}
-					return $this->social_zebra->get_friends($profile_id, $where, $friends);
+
+					$this->social_zebra->get_friends($profile_id, $where, $friends);
 				break;
 				case 'request_friend':
 					return $this->social_zebra->request_friend($profile_id, $this->request->variable('request', ''));
 				break;
 				case 'pgsocial_chat_setting':
-					return $this->social_chat->chat_setting($this->request->variable('setting', ''), $this->request->variable('value', 0));				
+					return $this->social_chat->chat_setting($this->request->variable('setting', ''), $this->request->variable('value', 0));
 				break;
 				case 'pgsocial_chat_check':
 					return $this->social_chat->pgsocial_chat_check();
@@ -162,7 +192,7 @@ class main
 					return $this->social_chat->message_send($this->request->variable('person', ''), $this->request->variable('message', ''));
 				break;
 				case 'message_read':
-					return $this->social_chat->message_read($this->request->variable('person', ''));
+					$this->social_chat->message_read($this->request->variable('person', ''));
 				break;
 				case 'get_photo':
 					return $this->social_photo->get_photo($this->request->variable('photo', ''), 1);
@@ -185,9 +215,9 @@ class main
 				case 'pagelike_action':
 					return $this->social_page->pagelike_action($this->request->variable('page', ''));
 				break;
-			}	
-			
-			
+			}
+
+
 			if($name == 'mp')
 			{
 				$time = $this->user->create_datetime();
@@ -222,7 +252,7 @@ class main
 					$birthday_username	= get_username_string('full', $birthday['user_id'], $birthday['username'], $birthday['user_colour']);
 					$birthday_year		= (int) substr($birthday['user_birthday'], -4);
 					$birthday_age		= ($birthday_year) ? max(0, $now['year'] - $birthday_year) : '';
-			
+
 					$this->template->assign_block_vars('friend_birthday', array(
 						'USERNAME'		=> $birthday_username,
 						'AGE'			=> $birthday_age,
@@ -231,7 +261,7 @@ class main
 					));
 				}
 				$this->db->sql_freeresult($birthdays_result);
-				
+
 				if($this->config['pg_social_block_posts_last'])
 				{
 					$a_f_auth_read = $this->auth->acl_getf('f_read');
@@ -246,7 +276,7 @@ class main
 							}
 						}
 					}
-					$last_topics = "SELECT p.post_id, p.topic_id, p.post_time, p.forum_id, t.topic_title, f.forum_name
+					$last_posts = "SELECT p.post_id, p.topic_id, p.post_time, p.forum_id, t.topic_title, f.forum_name
 						FROM ".POSTS_TABLE." p
 						LEFT JOIN ".TOPICS_TABLE." t ON p.topic_id = t.topic_id
 						LEFT JOIN ".FORUMS_TABLE." f ON p.forum_id = f.forum_id
@@ -274,28 +304,28 @@ class main
 						'POST_TIME'			 => $this->pg_social_helper->time_ago($last_topics['topic_last_post_time']),
 						));
 					}
-				}			
-				
+				}
+
 				$this->template->assign_vars(array(
-					'PG_SOCIAL_SIDEBAR_RIGHT'				=> $this->config['pg_social_sidebarRight'],	
-					'PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM'	=> $this->config['pg_social_sidebarRight_friendsRandom'],	
+					'PG_SOCIAL_SIDEBAR_RIGHT'				=> $this->config['pg_social_sidebarRight'],
+					'PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM'	=> $this->config['pg_social_sidebarRight_friendsRandom'],
 					'PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST'		=> $this->config['pg_social_block_posts_last'],
-					
+
 					'PROFILE'								=> $this->user->data['user_id'],
 					'PROFILE_URL'							=> get_username_string('profile', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
 					'PROFILE_EDIT'							=> append_sid($this->root_path."ucp.".$this->php_ext, "i=ucp_profile&amp;mode=profile_info"),
-					'PROFILE_AVATAR'						=> $this->pg_social_helper->social_avatar_thumb($this->user->data['user_avatar'], $this->user->data['user_avatar_type'], $this->user->data['user_avatar_width'], $this->user->data['user_avatar_height']),	     
+					'PROFILE_AVATAR'						=> $this->pg_social_helper->social_avatar_thumb($this->user->data['user_avatar'], $this->user->data['user_avatar_type'], $this->user->data['user_avatar_width'], $this->user->data['user_avatar_height']),
 					'PROFILE_USERNAME'						=> $this->user->data['username'],
 					'PROFILE_USERNAME_CLEAN'				=> $this->user->data['username_clean'],
 					'PROFILE_COLOUR'						=> "#".$this->user->data['user_colour'],
 					'PROFILE_QUOTE'							=> $this->user->data['user_quote'],
 					'PROFILE_GENDER'						=> $this->user->data['user_gender'],
-					'PROFILE_RANK'							=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_title'],					
-					'PROFILE_RANK_IMG'						=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_image'],				
-				
+					'PROFILE_RANK'							=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_title'],
+					'PROFILE_RANK_IMG'						=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_image'],
+
 					'PAGES_URL'								=> $this->helper->route("pages_page"),
-				));	
-			
+				));
+
 				$this->post_status->get_status('all', $this->user->data['user_id'], 0, "all", 0, "seguel", "");
 				$this->social_page->page_likeif($this->user->data['user_id'], "pagesMaylike", false);
 				$this->social_zebra->get_friends($profile_id, $where, "no");
@@ -303,11 +333,12 @@ class main
 					'FORUM_NAME'	=> $this->user->lang('ACTIVITY'),
 					'U_VIEW_FORUM'	=> $this->helper->route('profile_page'),
 				));
-				return $this->helper->render('activity_body.html', $this->user->lang['ACTIVITY']);	
+
+				return $this->helper->render('activity_body.html', $this->user->lang['ACTIVITY']);
 			}
 		}
-	}	
-	
+	}
+
 		/**
 	* Status controller for route /status/{id}
 	*
@@ -315,7 +346,7 @@ class main
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
 	public function handle_status($id)
-	{		
+	{
 		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
 		{
 			if($this->user->data['user_id'] != ANONYMOUS)
@@ -325,19 +356,19 @@ class main
 			login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
 		}
 		else
-		{	
+		{
 			$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_width, u.user_avatar_height, u.user_avatar_type, u.user_colour
 			FROM ".$this->pgsocial_wallpost." as w, ".USERS_TABLE." as u	
-			WHERE post_ID = '".$id."' AND (w.user_id = u.user_id) AND u.user_type != '2'";	
+			WHERE post_ID = '".$id."' AND (w.user_id = u.user_id) AND u.user_type != '2'";
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);		
+			$this->db->sql_freeresult($result);
 			if($row['post_ID'])
 			{
 				$this->template->assign_vars(array(
 					'PROFILE_ID'	=> $row['wall_id'],
 				));
-				return $this->post_status->status(0, $row['wall_id'], $row['post_type'], 'half', $row, 0);		
+				return $this->post_status->status(0, $row['wall_id'], $row['post_type'], 'half', $row, 0);
 			}
 			else
 			{

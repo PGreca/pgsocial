@@ -10,47 +10,73 @@
 
 namespace pgreca\pgsocial\controller;
 
+use \Symfony\Component\DependencyInjection\ContainerInterface;
+
 class helper
 {
 	/* @var \phpbb\auth\auth */
 	protected $auth;
-	
+
 	/* @var \phpbb\user */
 	protected $user;
-	
+
 	/* @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var \pgreca\pgsocial\controller\notifyhelper */
+	protected $notifyhelper;
+
 	/* @var \phpbb\config\config */
 	protected $config;
-	
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
 	/* @var \phpbb\log\log */
 	protected $log;
-	
+
 	/** @var ContainerInterface */
 	protected $phpbb_container;
-	
-	/** @var \phpbb\eent\dispatcher */
+
+	/** @var \phpbb\event\dispatcher */
 	protected $dispatcher;
-	
+
 	/* @var string phpBB root path */
-	protected $root_path;	
-	
+	protected $root_path;
+
 	/* @var string phpEx */
-	protected $php_ext;	
+	protected $php_ext;
+
+	/** @var string */
+	protected $pgsocial_wallpostlike;
+
+	/** @var string */
+	protected $pgsocial_wallpostcomment;
+
+	/** @var string */
+	protected $pgsocial_photos;
+
+	/** @var string */
+	protected $pg_social_path;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\auth\auth			$auth
-	* @param \phpbb\user				$user	 
-	* @param \phpbb\controller\helper		$helper	
-	* @param \pg_social\\controller\helper $pg_social_helper	
-	* @param \phpbb\config\config			$config	
-	* @param \phpbb\db\driver\driver_interface	$db	 
-	* @param \phpbb\log\log              $log
-	*/
-	
+	 * Constructor
+	 *
+	 * @param \phpbb\auth\auth $auth
+	 * @param \phpbb\user $user
+	 * @param \phpbb\controller\helper $helper
+	 * @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper
+	 * @param \phpbb\config\config $config
+	 * @param \phpbb\db\driver\driver_interface	$db
+	 * @param \phpbb\log\log $log
+	 * @param ContainerInterface $phpbb_container
+	 * @param \phpbb\event\dispatcher $dispatcher
+	 * @param string $root_path
+	 * @param string $php_ext
+	 * @param string $pgsocial_table_wallpostlike
+	 * @param string $pgsocial_table_wallpostcomment
+	 * @param string $pgsocial_table_photos
+	 */
 	public function __construct($auth, $user, $helper, $notifyhelper, $config, $db, $log, $phpbb_container, $dispatcher, $root_path, $php_ext, $pgsocial_table_wallpostlike, $pgsocial_table_wallpostcomment, $pgsocial_table_photos)
 	{
 		$this->auth = $auth;
@@ -62,14 +88,14 @@ class helper
 		$this->log = $log;
 		$this->phpbb_container = $phpbb_container;
 		$this->dispatcher			= $dispatcher;
-	    $this->root_path = $root_path;	
+	    $this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 		$this->pgsocial_wallpostlike	= $pgsocial_table_wallpostlike;
 		$this->pgsocial_wallpostcomment = $pgsocial_table_wallpostcomment;
 		$this->pgsocial_photos = $pgsocial_table_photos;
-	    $this->pg_social_path = generate_board_url().'/ext/pgreca/pgsocial';	
+	    $this->pg_social_path = generate_board_url().'/ext/pgreca/pgsocial';
 	}
-	
+
 	/* TIME AGO - FOR ACTIVITY AND MESSAGES CHAT */
 	public function time_ago($from, $to = 0)
 	{
@@ -120,8 +146,8 @@ class helper
 		{
 			return sprintf($this->user->lang[$tense], $difference, $this->user->lang['WALL_TIME_PERIODS'][$period]);
 		}
-	} 	
-	
+	}
+
 	/* PRIVACY OF ACTIVITY */
 	public function social_privacy($privacy)
 	{
@@ -139,21 +165,21 @@ class helper
 		}
 		return $privacySet;
 	}
-	
+
 	/* COVER DEFAULT */
 	public function social_cover($cover)
 	{
 		if($cover == "")
 		{
-			$cover = $this->pg_social_path."/images/no_cover.jpg"; 
+			$cover = $this->pg_social_path."/images/no_cover.jpg";
 		}
 		else
 		{
-			$cover = $this->pg_social_path."/images/upload/".$cover; 
+			$cover = $this->pg_social_path."/images/upload/".$cover;
 		}
-		return $cover;		
+		return $cover;
 	}
-	
+
 	public function social_avatar_page($avatar)
 	{
 		if($avatar)
@@ -179,18 +205,18 @@ class helper
 		);
 		$core_avatar =  phpbb_get_user_avatar($data);
      	preg_match('#(src=")(.+?)(download|images)#', $core_avatar, $matches);
-	
+
 		if($matches)
 		{
 			$core_avatar = preg_replace('#('.$matches[2].')#', $base_url = generate_board_url(). '/', $core_avatar, 1);
 		}
 		$core_avatar = str_replace('src="', 'src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url(', str_replace('" alt', ')" alt', preg_replace( '/(width|height)="\d*"\s/', "", $core_avatar)));
-		
+
 		$wall_avatar = '<img src="'.$this->pg_social_path.'/images/no_avatar.jpg" class="avatar" />';
-		
+
 		return ($core_avatar) ? $core_avatar : $wall_avatar;
-    }	
-	
+    }
+
 	/* GENDER OF USER */
 	public function social_gender($gender)
 	{
@@ -202,13 +228,13 @@ class helper
 			case 2:
 				$return = "GENDER_MALE";
 			break;
-			default: 
+			default:
 				$return = "GENDER_UNKNOWN";
 			break;
 		}
 		return $return;
 	}
-	
+
 	public function social_status_life($status)
 	{
 		switch($status)
@@ -229,34 +255,37 @@ class helper
 				$return = "SOCIAL_STATUS_RELATIONSHIP";
 			break;
 			case 0:
-			default: 
+			default:
 				$return = "SOCIAL_STATUS_UNKNOW";
 			break;
 		}
 		return $return;
 	}
-	
+
 	/* RANK OF USER */
 	public function social_rank($rank)
 	{
-		if($rank)
+		if ($rank)
 		{
 			$sql = "SELECT * FROM ".RANKS_TABLE." WHERE rank_id = '".$rank."'";
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
-			
+
 			$row['rank_image'] = '<img src="'.generate_board_url().'/images/ranks/'.$row['rank_image'].'" />';
-			if($row['rank_image']) 
+
+			if($row['rank_image'])
 			{
 				return $row;
 			}
+
+			return false;
 		}
 		else
 		{
 			return false;
 		}
 	}
-	
+
 	/* AGE OF USER */
 	public function social_age($birth)
 	{
@@ -265,9 +294,9 @@ class helper
 			$now = phpbb_gmgetdate($now->getTimestamp() + $now->getOffset());
 
 			$diff = $now['mon'] - $bday_month;
-			if($diff == 0) 
+			if($diff == 0)
 			{
-				$diff = ($now['mday'] - $bday_day < 0) ? 1 : 0; 
+				$diff = ($now['mday'] - $bday_day < 0) ? 1 : 0;
 			}
 			else
 			{
@@ -276,7 +305,7 @@ class helper
 			$age = max(0, (int) ($now['year'] - $bday_year - $diff));
 			return $age;
 	}
-	
+
 	/* ONLINE STATUS OF USER */
 	public function social_status($user)
 	{
@@ -291,29 +320,29 @@ class helper
 		}
 		else
 		{
-			if($row['session_time'] == '') 
+			if($row['session_time'] == '')
 			{
 				$row['session_time'] = 0;
 			}
-			if($row['session_viewonline'] == '') 
+			if($row['session_viewonline'] == '')
 			{
 				$row['session_viewonline'] = 0;
 			}
 			$update_time = $this->config['load_online_time'] * 60;
 			$online = (time() - $update_time < $row['session_time'] && (isset($row['session_viewonline']) || $this->auth->acl_get('u_viewonline'))) ? "online" : "offline";
 		}
-		
+
 		return $online;
 	}
-	
+
 	/* FIX PATCH OF SMILIES */
 	public function social_smilies($text)
 	{
 		$text = str_replace("./../", generate_board_url()."/", $text);
 		$text = str_replace("/..", "", $text);
-		return $text;		
+		return $text;
 	}
-	
+
 	/* COUNT LIKES OR COMMENTS OF ACTIVITY */
 	public function count_action($action, $post)
 	{
@@ -339,7 +368,7 @@ class helper
 		$count = (int) $this->db->sql_fetchfield('count');
 		return $count;
 	}
-	
+
 	/* COUNT PHOTOS OF USER */
 	public function countPhotos($user)
 	{
@@ -350,26 +379,26 @@ class helper
 		$count = (int) $this->db->sql_fetchfield('count');
 		return $count;
 	}
-	
+
 	/* EXTRA OF ACTIVITY */
 	public function extra_text($text)
 	{
 		$a = "";
 		$a .= $this->youtube_embed($text);
-		if($a == "") 
+		if($a == "")
 		{
 			$a .= $this->facebook_embed($text);
 		}
-		if($a == "") 
+		if($a == "")
 		{
 			$a .= $this->website_embed($text);
 		}
 		return $a;
 	}
-	
+
 	/* PLAYER YOUTUBE FOR ACTIVITY OR MESSAGES CHAT */
 	public function youtube_embed($text)
-	{                        
+	{
 		if(strstr($text, 'youtube.com/watch?v=') !== false)
 		{
 			$domain = strstr($text, 'youtube.com/watch?v=');
@@ -377,30 +406,36 @@ class helper
 			$domain = explode('&', $domain);
 			$youtube = '<p class="post_status_youtube"><iframe src="https://www.youtube.com/embed/'.$domain[0].'" allowfullscreen></iframe>
 			</p>';
-			if($youtube)
+
+			if ($youtube)
 			{
 				return $youtube;
 			}
 		}
+
+		return '';
 	}
-	
+
 	/* EMBED FACEBOOK POST FOR ACTIVITY OR MESSAGES CHAT */
 	public function facebook_embed($text)
 	{
-		if(strstr($text, 'facebook.com/') !== false)
+		if (strstr($text, 'facebook.com/') !== false)
 		{
 			$domain = strstr($text, 'facebook.com/');
 			$domain = str_replace("facebook.com/", "", $domain);
 			$domain = explode('/?', $domain);
 			$domain[0] = str_replace(":", "%3A", $domain[0]);
 			$facebook = '<p class="post_status_facebook"><iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F'.$domain[0].'&appId=1605771702975630" allowTransparency="true" allow="encrypted-media"></iframe>';
-			if($facebook) 
+
+			if ($facebook)
 			{
 				return $facebook;
 			}
 		}
+
+		return '';
 	}
-	
+
 	/* EMBED LINK FOR ACTIVITY OR MESSAGES CHAT */
 	public function website_embed($text)
 	{
@@ -411,14 +446,14 @@ class helper
 		{
 			$domain = strstr($text, 'http');
 			$domain = explode('">', $domain);
-			
+
 			if($domain[0])
 			{
 				$url = $domain[0];
 				$site_domain = parse_url($domain[0]);
 				$fp = fopen($url, 'r');
 				if($fp)
-				{	
+				{
 					$content = '';
 					while(!feof($fp))
 					{
@@ -433,14 +468,14 @@ class helper
 						$title = $match[1];
 					}
 					$metatagarray = get_meta_tags($url);
-					if(array_key_exists('description', $metatagarray)) 
+					if(array_key_exists('description', $metatagarray))
 					{
 						$description = $metatagarray["description"];
 					}
 					$screen = '<a href="'.$domain[0].'" class="post_status_site" target="_blank">
 						<div class="post_status_site_content">
 							<div class="post_status_site_title_domain">'.$site_domain['host'].'<img class="post_status_site_title_domain_favicon" src="https://www.google.com/s2/favicons?domain=http://'.$site_domain['host'].'" /></div>';
-					if($title) 
+					if($title)
 					{
 						$screen .= '<h6 class="post_status_site_title">'.$title.'</h6>';
 					}
@@ -452,26 +487,27 @@ class helper
 					</a>';
 					return $screen;
 				}
-			} 			
+			}
 		}
+
+		return '';
 	}
-	
+
 	public function noextra($text,  $tags = '')
 	{
-		preg_match_all('/<(.+?)[\s]*\/?[\s]*>/si', trim($tags), $tags); 
-		$tags = array_unique($tags[1]); 
+		preg_match_all('/<(.+?)[\s]*\/?[\s]*>/si', trim($tags), $tags);
+		$tags = array_unique($tags[1]);
 
 		if(is_array($tags) AND count($tags) > 0)
-		{ 
-			return preg_replace('@<(?!(?:'. implode('|', $tags) .')\b)(\w+)\b.*?>.*?</\1>@si', '', $text); 
-		} 
+		{
+			return preg_replace('@<(?!(?:'. implode('|', $tags) .')\b)(\w+)\b.*?>.*?</\1>@si', '', $text);
+		}
 		else
-		{ 
-			return preg_replace('@<(\w+)\b.*?>.*?</\1>@si', '', $text); 
-		} 
-		return $text;
+		{
+			return preg_replace('@<(\w+)\b.*?>.*?</\1>@si', '', $text);
+		}
 	}
-	
+
 	/* ADD LOG OF USER */
 	public function log($user, $ip, $action, $id)
 	{
@@ -480,12 +516,14 @@ class helper
 
 	public function pgblog_statusArticle($article)
 	{
-		if($this->phpbb_container->get('pgreca.pgblog.controller')) {
-			$this->pgblog = $this->phpbb_container->get('pgreca.pgblog.controller');
-			return $this->pgblog->pgblog_article($article); 
+		if ($this->pgblog = $this->phpbb_container->get('pgreca.pgblog.controller'))
+		{
+			return $this->pgblog->pgblog_article($article);
 		}
+
+		return null;
 	}
-	
+
 	public function pg_status_type($type, $extra, $msg, $author_action, $wshow, $block_vars)
 	{
 		$array = array();
@@ -503,4 +541,3 @@ class helper
 		return $array;
 	}
 }
-?>
