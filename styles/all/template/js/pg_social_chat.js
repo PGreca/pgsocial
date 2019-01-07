@@ -43,7 +43,7 @@
 
 		$(document).on('change', '#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings input', function() {
 			var setting = $(this).attr('name');
-			var fdata = new FormData()
+			var fdata = new FormData();
 			fdata.append("mode", "pgsocial_chat_setting");
 			fdata.append("setting", setting);
 			fdata.append("value", $(this).val());
@@ -202,7 +202,7 @@
 	function chat_message_send(message, person) {
 		if($.trim(message) != "") {
 			$("#pgsocial_chat #pg_social_chat_box_"+person+" form.pg_social_chat_form textarea.pg_social_chat_messsage_new").val("");
-			var fdata = new FormData()
+			var fdata = new FormData();
 			fdata.append("mode", "message_send");
 			fdata.append("person", person);
 			fdata.append("message",  encodeURIComponent($.trim(message)));
@@ -217,7 +217,7 @@
 	}
 
 	function chat_message_read(person) {
-		var fdata = new FormData()
+		var fdata = new FormData();
 		fdata.append("mode", "message_read");
 		fdata.append("person", person);
 		$.ajax({
