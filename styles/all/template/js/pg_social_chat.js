@@ -6,8 +6,8 @@
 		} else {
 			var arr = Cookies.get('pgsocial_chat').split(',');
 			for(var i = 0; i < arr.length; i++) {
-				if(arr[i] != "") {
-					if(arr[i] == "0") {
+				if (arr[i] !== "") {
+					if (arr[i] === "0") {
 						$('#pgsocial_chat #pgsocial_chatRoot').addClass('opened');
 					} else {
 						chat_new(arr[i], 'read', false);
@@ -54,8 +54,8 @@
 				contentType: false,
 				processData: false,
 				success: function(data) {
-					if(setting == 'pgsocial_setting_hide') {
-						if($('#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople').hasClass('canchat')) {
+					if (setting === 'pgsocial_setting_hide') {
+						if ($('#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople').hasClass('canchat')) {
 							$('#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople').removeClass('canchat');
 							closeChat();
 						} else {
@@ -97,7 +97,7 @@
 	});
 
 	$(document).on('keypress', '#pgsocial_chat .pgsocial_chat form.pg_social_chat_form textarea.pg_social_chat_messsage_new', function(e) {
-        if(e.which == 13) {
+        if (e.which === 13) {
 			e.preventDefault();
 			e.stopPropagation();
 			chat_message_send($(this).val(), $(this).parent().parent().attr("data-people"));
@@ -127,7 +127,9 @@
 				cache: false,
 				async: true,
 				success: function(data) {
-					if(data == 'sound') pgsocial_chat_sound.play();
+					if (data === 'sound') {
+						pgsocial_chat_sound.play();
+					}
 				}
 			});
 		}
@@ -188,7 +190,7 @@
 				cache: false,
 				async: true,
 				success: function(data) {
-					if(order == 'prequel') {
+					if (order === 'prequel') {
 						$("#pgsocial_chat #pg_social_chat_box_"+person+" ul.pg_social_chat_messages").append(data);
 					} else {
 						$("#pgsocial_chat #pg_social_chat_box_"+person+" ul.pg_social_chat_messages").prepend(data);
@@ -200,7 +202,7 @@
 	}
 
 	function chat_message_send(message, person) {
-		if($.trim(message) != "") {
+		if ($.trim(message) !== "") {
 			$("#pgsocial_chat #pg_social_chat_box_"+person+" form.pg_social_chat_form textarea.pg_social_chat_messsage_new").val("");
 			var fdata = new FormData();
 			fdata.append("mode", "message_send");
@@ -243,7 +245,7 @@
 
 	function chat_position() {
 		$($("#pgsocial_chat .pgsocial_chat.chat_person").get().reverse()).each(function(index, element) {
-			if(index == 0) {
+			if (index === 0) {
 				$(this).css('right', ($('#pgsocial_chat #pgsocial_chatRoot').width() + 10)+'px');
 			} else {
 				$(this).css('right', (($('#pgsocial_chat #pgsocial_chatRoot').width() + 10) + (((275 + 10) * (index))))+'px');
