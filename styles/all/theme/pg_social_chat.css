@@ -32,7 +32,7 @@ body {
 	right: 0px;
 	background-color: #fff;
 	width: 60px;
-	height: 100%;	
+	height: 100%;
 	z-index: 40;
 }
 
@@ -105,7 +105,7 @@ body {
 	right: 0px;
 	background-color: #e6ecf5;
 	width: 15px;
-	height: 15x;
+	height: 15px;
 	line-height: 13px;
 	border: 1px solid #fff;
 	border-radius: 100%;
@@ -129,7 +129,7 @@ body {
 	font-weight: normal;
 	text-transform: uppercase;
 	color: #515365;
-	
+
 }
 
 #pgsocial_chat #pgsocial_chatRoot.opened ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author {
@@ -235,7 +235,7 @@ body {
 	vertical-align: middle;
 }
 
-#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings label:hover, 
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings label:hover,
 #pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings input:focus + label {
 }
 
@@ -293,9 +293,9 @@ body {
 	display: none;
 }
 
-#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages {	
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages {
 	display: inline-flex;
-    flex-direction: column-reverse;	
+    flex-direction: column-reverse;
 	overflow: scroll;
 	background-color: #fff;
 	width: 100%;
@@ -365,12 +365,12 @@ body {
 }
 
 #pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_text p.post_status_youtube {
-	position: relative; 
+	position: relative;
 	overflow: hidden;
-	height: 0; 
+	height: 0;
 	margin: 10px 0px 0px;
 	padding-top: 30px;
-	padding-bottom: 50%; 
+	padding-bottom: 50%;
 }
 
 #pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_text p.post_status_youtube iframe {
@@ -418,23 +418,23 @@ body {
 		width: 40px;
 		height: 40px;
 	}
-	
+
 	#pgsocial_chat #pgsocial_chatRoot.opened {
 		width: 230px;
 		height: 100%;
 	}
-	
+
 	#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext {
 		height: 40px;
 	}
-	
+
 	#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext i.fa-th-large,
 	#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext i.fa-sliders	{
 		width: 40px;
 		height: 40px;
 		line-height: 40px;
 	}
-	
+
 	#pgsocial_chat #pgsocial_chatRoot #pg_social_chat_people_search {
 		display: inline-block;
 		vertical-align: middle;
@@ -443,11 +443,11 @@ body {
 		margin: 0px;
 		padding: 15px;
 	}
-	
+
 	#pgsocial_chat .pgsocial_chat {
 		width: 225px;
 	}
-	
+
 	#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages {
 		height: 190px;
 	}
@@ -459,7 +459,7 @@ body {
 		margin-bottom: 30px;
 		transform:  translate(0px,10px);
 	}
-	
+
 	100% {
 		opacity:1;
 		margin-bottom: 0px;
