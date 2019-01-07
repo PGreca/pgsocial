@@ -18,6 +18,7 @@ use phpbb\request\request;
 use phpbb\controller\helper;
 use phpbb\config\db;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use \Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Event listener
@@ -53,32 +54,54 @@ class listener implements EventSubscriberInterface
 	/* @var string phpBB root path */
 	protected $root_path;
 
-	/** @var core.php_ext */
+	/** @var string php_ext */
 	protected $php_ext;
+
+	/** @var \pgreca\pgsocial\controller\helper */
+	protected $pgsocial_helper;
+	protected $post_status;
+
+	/** @var string */
+	protected $social_photo;
+
+	/** @var string */
+	protected $social_zebra;
+
+	/** @var string */
+	protected $social_page;
 
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 
 	protected $is_startpage = false;
 
-	/**
-	 * Constructor
-	 *
-	 * @param template		$template
-	 * @param user			$user
-	 * @param db_driver		$db
-	 * @param auth			$auth
-	 * @param request		$request
-	 * @param helper		$helper
-	 * @param db			$config
-	 * @param string		$root_path
-	 * @param string		$php_ext
-	 * @param $social_helper $social_helper
-	 * @param $social_photo $social_photo
-	 * @param $social_zebra $social_zebra
-	 * @param $social_page $social_page
-	 */
+	/** @var bool */
+	protected $is_phpbb31;
 
+	/** @var bool */
+	protected $is_phpbb32;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param \phpbb\template\template             $template
+	 * @param \phpbb\user                          $user
+	 * @param \phpbb\db\driver\driver_interface    $db
+	 * @param \phpbb\auth\auth                     $auth
+	 * @param \phpbb\request\request               $request
+	 * @param \phpbb\controller\helper             $helper
+	 * @param \phpbb\config\db                     $config
+	 * @param string                               $root_path
+	 * @param string                               $php_ext
+	 * @param \pgreca\pgsocial\controller\helper   $social_helper
+	 * @param \pgreca\pgsocial\social\post_status  $post_status
+	 * @param \pgreca\pgsocial\social\social_photo $social_photo
+	 * @param \pgreca\pgsocial\social\social_zebra $social_zebra
+	 * @param \pgreca\pgsocial\social\social_page  $social_page
+	 * @param ContainerInterface                   $phpbb_container
+	 * @return void
+	 * @access public
+	 */
 	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request,
 	helper $helper, db $config, $root_path, $php_ext, $social_helper, $post_status, $social_photo, $social_zebra, $social_page, $phpbb_container)
 	{
@@ -140,6 +163,8 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * Load language for PG Social Network
+	 *
+	 * @param \phpbb\event\data $event The event object
 	*/
 	public function load_language_on_setup($event)
 	{
@@ -173,6 +198,8 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * Remove forumlist from index and replace with Social
+	 *
+	 * @param \phpbb\event\data $event The event object
 	 */
 	public function set_startpage($event)
 	{
@@ -205,7 +232,7 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * @return object|void
+	 * @return object
 	 */
 	protected function get_startpage_controller()
 	{
@@ -219,10 +246,12 @@ class listener implements EventSubscriberInterface
 				return $controller_object;
 			}
 		}
+
+		return null;
 	}
 
 	/**
-	 * @param \phpbb\event\data $event
+	 * @param \phpbb\event\data $event The event object
 	 */
 	public function add_viewonline_location(\phpbb\event\data $event)
 	{
@@ -235,6 +264,8 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * New look for memberlist_view_profile
+	 *
+	 * @param \phpbb\event\data $event The event object
 	*/
 	public function memberlist_view_profile($event)
 	{
@@ -324,6 +355,9 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	 * @param \phpbb\event\data $event The event object
+	 */
 	public function load($event)
 	{
 		$this->template->assign_vars(array(
@@ -335,15 +369,19 @@ class listener implements EventSubscriberInterface
 			'PG_SOCIAL_INDEX_ACTIVITY'			=> $this->config['pg_social_index_activity'] ? true : false,
 			'PG_SOCIAL_PAGE_NOTIFIY_MANAGER'	=> ($this->social_page->appro_pages() > 0 && ($this->auth->acl_gets('m_page_manage') || $this->auth->acl_gets('a_page_manage'))) ? true : false,
 		));
-		if($this->is_startpage) {
+
+		if ($this->is_startpage) {
 			$this->template->destroy_block_vars('navlinks');
 		}
-		if($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->config['pg_social_index_replace'] && $this->user->data['user_id'] != ANONYMOUS && $this->config['pg_social_index_activity'])
+		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->config['pg_social_index_replace'] && $this->user->data['user_id'] != ANONYMOUS && $this->config['pg_social_index_activity'])
 		{
 			$this->post_status->get_status('all', $this->user->data['user_id'], 0, "all", 0, "seguel", "");
 		}
 	}
 
+	/**
+	 * @param \phpbb\event\data $event The event object
+	 */
 	public function add_page_links($event)
 	{
 		$forumnav = '';
@@ -485,6 +523,8 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * Activity for new avatar
+	 *
+	 * @param object $event The event object
 	*/
 	public function user_avatar_change($event)
 	{
@@ -499,6 +539,8 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * Activity for new post in topic_id
+	 *
+	 * @param object $event The event object
 	*/
 	public function user_status_post($event)
 	{
