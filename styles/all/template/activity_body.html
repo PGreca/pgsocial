@@ -5,7 +5,7 @@
 			<ul id="profile_menu">
 				{% if PROFILE_AVATAR %}<li class="profile_avatar">{{ PROFILE_AVATAR }}</li>{% endif %}
 				<li class="memberlist-title"><h2{% if PROFILE_COLOUR %} style="color: {{ PROFILE_COLOUR }};"{% endif %}>{{ PROFILE_USERNAME }}</h2></li>
-				<li class="profile-profile_link"><a href="{{ PROFILE_URL }}"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i> {{ lang('READ_PROFILE') }}</a></li>	
+				<li class="profile-profile_link"><a href="{{ PROFILE_URL }}"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i> {{ lang('READ_PROFILE') }}</a></li>
 				<li class="profile-profile-friends"><a href=" {{ PROFILE_URL }}#friends"><i class="icon fa fa-handshake-o fa-fw" aria-hidden="true"></i> {{ lang('FRIEND', 2) }}</a></li>
 				<li class="profile-profile_edit"><a href="{{ PROFILE_EDIT }}"><i class="icon fa fa-cog fa-fw" aria-hidden="true"></i> {{ lang('EDIT_PROFILE') }}</a></li>
 				<li class="profile-profile_pages"><a href="{{ PAGES_URL }}"><i class="icon fa fa-book fa-fw" aria-hidden="true"></i> {{ lang('PAGES') }}</a></li>
@@ -27,7 +27,7 @@
 								<span>{{ pagesMaylike.USERNAME }}</span>
 							</div>
 						</a>{% if pagesMaylike.PAGE_ACTION %}<div class="listElementaction">
-						</div>{% endif %}	
+						</div>{% endif %}
 					</div>
 				</li>{% endfor %}
 			</ul>
@@ -37,12 +37,12 @@
 		<div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80% - 20px);"{% endif %}>
 			{% INCLUDE 'activity_form.html' %}
 			<ul id="posts_status">
-				{% INCLUDE 'activity_status.html' %}					
+				{% INCLUDE 'activity_status.html' %}
 			</ul>
 			<div id="load_more"></div>
 		</div>
 	</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
-		{% if PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM && loops.profileFriends %}
+		{% if PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM and loops.profileFriends %}
 		<div class="panel" id="profile_FriendsRandom">
 			<h3>{{ lang('FRIENDS_SUGGESTION') }}</h3>
 			<ul id="friends_suggestions" class="sidelist">
@@ -62,10 +62,10 @@
 						{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' %}
 						<a href="{{ SOCIAL_PROFILE_PATH }}?mode=request_friend&profile_id={{ profileFriends.PROFILE_ID }}&request=undoFriend" id="profile_friend_undo" data-ajax="request_friend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_CANCEL_REQ') }}</a>
 						{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ'	%}
-						<a href="{{ SOCIAL_PROFILE_PATH }}?mode=request_friend&profile_id={{ profileFriends.PROFILE_ID }}&request=acceptFriend" id="profile_friend_accept" data-ajax="request_friend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ACCEPT_REQ') }}</a>	
+						<a href="{{ SOCIAL_PROFILE_PATH }}?mode=request_friend&profile_id={{ profileFriends.PROFILE_ID }}&request=acceptFriend" id="profile_friend_accept" data-ajax="request_friend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ACCEPT_REQ') }}</a>
 						<a href="{{ SOCIAL_PROFILE_PATH }}?mode=request_friend&profile_id={{ profileFriends.PROFILE_ID }}&request=declineFriend" id="profile_friend_declide" data-ajax="request_friend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_DECLINE_REQ') }}</a>
 						{% else %}
-						{{ PROFILE_FRIEND_ACTION }}			
+						{{ PROFILE_FRIEND_ACTION }}
 						{% endif %}
 					</div>{% endif %}
 				</li>
@@ -79,7 +79,7 @@
 			<ul>
 				{% for friend_birthday in loops.friend_birthday %}
 				<li class="birthday">
-					<a href="{friend_birthday.PROFILE}">{{ friend_birthday.AVATAR }}</a>					
+					<a href="{friend_birthday.PROFILE}">{{ friend_birthday.AVATAR }}</a>
 					{friend_birthday.USERNAME} {% if friend_birthday.AGE %}(<b>{friend_birthday.AGE}</b>){% endif %}
 				</li>
 				{% endfor %}
@@ -96,7 +96,7 @@
 						<a href="{{ last_topics.POST_LINK }}" class="post_topic">
 							{{ last_topics.TOPIC_TITLE }}
 						</a>
-						su <a href="{{ last_topics.TOPIC_FORUM_LINK }}">{{ last_topics.TOPIC_FORUM }}</a> - <span class="posts_time">{{ last_topics.POST_TIME }}</span> 
+						su <a href="{{ last_topics.TOPIC_FORUM_LINK }}">{{ last_topics.TOPIC_FORUM }}</a> - <span class="posts_time">{{ last_topics.POST_TIME }}</span>
 					</li>
 				{% endfor %}
 			</ul>
