@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	var profile_id = '{% if PROFILE_ID %}{{ PROFILE_ID }}{% else %}{{ PROFILE }}{% endif %}';	
+	var profile_id = '{% if PROFILE_ID %}{{ PROFILE_ID }}{% else %}{{ PROFILE }}{% endif %}';
 	var root = '{{ ACTIVITY_PAGE }}';
 	var where = '{{ STATUS_WHERE }}';
 	var useLang = {ARE_YOU_SURE: "{{ lang('ARE_YOU_SURE') }}", ARE_YOU_SURE_PHOTO: "{{ lang('ARE_YOU_SURE_PHOTO') }}", DO_YOU_WANT_SHARE: "{{ lang('DO_YOU_WANT_SHARE') }}"};
@@ -16,7 +16,7 @@
 			$("#pg_social_containerR").css("height", $("#pg_social_containerL").height());
 		}
 	}, 990);
-	
+
 	function timeago(time) {
 		if($(".post_status_head_date, .post_comment_time, span.pg_social_chat_message_time").length) {
 			var date = $(".post_status_head_date, .post_comment_time, span.pg_social_chat_message_time").attr('title');
@@ -29,36 +29,36 @@
 				"60"
 			];
 			var to = Math.round(new Date() / 1000);
-			
-			if(to > date)
-			{
-				var difference = to - date;
-				var tense = 'WALL_TIME_AGO';
+
+			let difference, tense;
+
+			if (to > date) {
+				difference = to - date;
+				tense = 'WALL_TIME_AGO';
+			} else {
+				difference = date - to;
+				tense = 'WALL_TIME_FROM_NOW';
 			}
-			else
-			{
-				var difference = date - to;
-				var tense = 'WALL_TIME_FROM_NOW';
-			}
+
 			for(var j = 0; difference >= lengths[j] && j < lengths.length - 1; j++)
 			{
 				difference /= lengths[j];
 			}
-			
+
 			difference = Math.round(difference);
 			period = periods[j];
-			
+
 			if((to - date) < (3600 / (60 + (60 / 2))))
 			{
 				$('.post_status_head_date[title="'+date+'"], .post_comment_time[title="'+date+'"], span.pg_social_chat_message_time[title="'+date+'"]').html(difference+' '+period);
 			}
 		}
-	}	
+	}
 {% if S_USER_LOGGED_IN %}
 	if($("#posts_status").html() == "") pgwall_get_status('seguel', where);
 	var pgsocial = setInterval(function() {
 		pgwall_get_status('seguel', where);
-		
+
 	}, 2000);
 	$("#wall_post").submit(function(e) {
 		e.preventDefault();
@@ -73,27 +73,27 @@
 			}
 		}
 	});
-	
+
 	$(document).on('click', "#posts_status .post_status .post_status_footer .post_status_like a", function() {
 		pgwall_like_action($(this).parent().parent().parent().attr('data-lastp'));
 	});
-	
+
 	$(document).on('keydown', '.pg_social_photo_comment_text', function(e) {
 		if(e.keyCode == 13) {
 			pgwall_add_comment($(this).val(), $(this).parent().parent().find('.pg_social_photo_comments').attr('data-post'));
 		}
 	});
-	
+
 	$(document).on('keydown', '.wall_comment_text', function(e) {
 		if(e.keyCode == 13) {
 			pgwall_add_comment($(this).val(), $(this).parent().parent().attr('data-lastp'));
 		}
 	});
-	
+
 	$(document).on('submit', '.wall_comment, .pg_social_photo_comment_form', function(e) {
 		e.preventDefault();
 		e.stopPropagation();
 	});
 {% endif %}
-{% endif %}	
+{% endif %}
 </script>
