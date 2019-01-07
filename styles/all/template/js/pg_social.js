@@ -1,6 +1,8 @@
 (function($) {
 	$(document).ready(function() {
-		if(where == undefined || where == '') where = "all";
+		if(where === undefined || where === '') {
+			where = "all";
+		}
 
 		if(window.location.hash) {
 			var hash = window.location.hash.substring(1);
@@ -77,7 +79,7 @@
 	});
 
 	$(document).on('change', "#wall_post_img", function(e) {
-		if($(this).val() != "") {
+		if($(this).val() !== "") {
 			var reader = new FileReader();
 			reader.onload = function (e) {
 				$('#wall_post_thumb img#wall_post_thumb_img').attr('src', e.target.result);
@@ -117,9 +119,9 @@
 		var whatchange = $(this).attr('data-change');
 		e.preventDefault();
 		e.stopPropagation();
-		if(whatchange == 'cover') {
+		if (whatchange === 'cover') {
 			uploadPhoto("", $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input")[0].files[0], $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input").attr("data-type"), where, $("img#coverdrag").position().top);
-		} else if(whatchange == 'avatar') {
+		} else if (whatchange === 'avatar') {
 			uploadPhoto("", $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_avatar input")[0].files[0], $("#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_avatar input").attr("data-type"), where, 0);
 		}
 	});
@@ -199,7 +201,7 @@
 
 	$(document).on('click', '.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side #pg_social_photo_sidePre, .phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side #pg_social_photo_sideNex', function() {
 		var ord = '0';
-		if ($(this).attr("id") == "pg_social_photo_sideNex") {
+		if ($(this).attr("id") === "pg_social_photo_sideNex") {
 			ord = '1';
 		}
 		var fdata = new FormData();
@@ -249,7 +251,7 @@
 	});
 
 	$(document).on("click", function(e) {
-		if(e.target.id == "darken") {
+		if(e.target.id === "darken") {
 			closePopup(true);
 		}
 	});
@@ -284,7 +286,7 @@
 				processData: false,
 				success: function(data) {
 					if(data) {
-						if(order == 'prequel') {
+						if (order === 'prequel') {
 							$("#posts_status").append(data);
 						} else {
 							$("#posts_status").prepend(data);
@@ -297,8 +299,8 @@
 	}
 
 	function pgwall_add_status(texta, privacy) {
-		if(!privacy) privacy = 1;
-		if($.trim(texta) != "") {
+		if (!privacy) privacy = 1;
+		if ($.trim(texta) !== "") {
 			var fdata = new FormData();
 			fdata.append("mode", "add_status");
 			fdata.append("post_where", where);
@@ -439,9 +441,13 @@
 			beforeSend: loadStart,
 			complete: loadStop,
 			success: function(data) {
-				if(type == '1') $('ul#pg_social_photos').prepend(data);
-				if(type == 'cover' || type == 'avatar') location.reload();
-				if(type == 'wall') {
+				if (type === '1') {
+					$('ul#pg_social_photos').prepend(data);
+				}
+				if (type === 'cover' || type === 'avatar') {
+					location.reload();
+				}
+				if (type === 'wall') {
 					$('#wall_post_text').html("");
 					$("#wall_post_img, #pgsocial_gallery_newPhoto").val("");
 					$("#wall_post_thumb").removeAttr("style");
@@ -469,7 +475,7 @@
 			url: root,
 			data: 'mode=delete_photo&photo='+photo,
 			success: function(data) {
-				if(data == 'deleted') {
+				if (data === 'deleted') {
 					closePopup(true);
 					$('#page_gallery ul#pg_social_photos #gallery_'+photo).remove();
 					$("img.photo_popup[data-photo='"+photo+"']").parent().parent().parent().remove();
