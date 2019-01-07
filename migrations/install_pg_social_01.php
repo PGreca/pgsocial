@@ -389,6 +389,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 	/**
 	 * Custom function query permission roles
 	 *
+	 * @param string $role
 	 * @return bool
 	 * @access public
 	*/

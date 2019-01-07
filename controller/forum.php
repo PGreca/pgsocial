@@ -37,7 +37,7 @@ class forum
 	/** @var \phpbb\group\helper */
 	protected $group_helper;
 
-	/** @var \phpbb\eent\dispatcher */
+	/** @var \phpbb\event\dispatcher */
 	protected $dispatcher;
 
 	/* @var string phpBB root path */
@@ -45,6 +45,7 @@ class forum
 
 	/* @var string phpEx */
 	protected $php_ext;
+
 	/**
 	* Constructor
 	*
@@ -53,18 +54,20 @@ class forum
 	* @param \phpbb\db\driver\driver $db
 	* @param \phpbb\controller\helper  $helper
 	* @param \phpbb\request\request	$request
-	* @param \pg_social\\controller\helper $pg_social_helper
-	* @param \pg_social\controller\notifyhelper $notifyhelper Notification helper.
-	* @param \pg_social\social\post_status $post_status
-	* @param \pg_social\social\$social_zebra $social_zebra
-	* @param \pg_social\social\$social_chat $social_chat
-	* @param \pg_social\social\$social_photo $social_photo
-	* @param \pg_social\social\$social_tag $social_tag
-	* @param \pg_social\social\$social_page $social_page
+	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
+	* @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
+	* @param \pgreca\pgsocial\social\post_status $post_status
+	* @param \pgreca\pgsocial\social\social_zebra $social_zebra
+	* @param \pgreca\pgsocial\social\social_chat $social_chat
+	* @param \pgreca\pgsocial\social\social_photo $social_photo
+	* @param \pgreca\pgsocial\social\social_tag $social_tag
+	* @param \pgreca\pgsocial\social\social_page $social_page
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
 	* @param \phpbb\group\helper     $group_helper
 	* @param \phpbb\event\dispatcher $dispatcher
+	* @param string $root_path
+	* @param string $php_ext
 	*/
 	public function __construct($auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $group_helper, $dispatcher, $root_path, $php_ext)
 	{

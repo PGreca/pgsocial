@@ -10,6 +10,8 @@
 
 namespace pgreca\pgsocial\controller;
 
+use \Symfony\Component\DependencyInjection\ContainerInterface;
+
 class helper
 {
 	/* @var \phpbb\auth\auth */
@@ -21,8 +23,14 @@ class helper
 	/* @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var \pgreca\pgsocial\controller\notifyhelper */
+	protected $notifyhelper;
+
 	/* @var \phpbb\config\config */
 	protected $config;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
 
 	/* @var \phpbb\log\log */
 	protected $log;
@@ -30,7 +38,7 @@ class helper
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 
-	/** @var \phpbb\eent\dispatcher */
+	/** @var \phpbb\event\dispatcher */
 	protected $dispatcher;
 
 	/* @var string phpBB root path */
@@ -40,17 +48,23 @@ class helper
 	protected $php_ext;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\auth\auth			$auth
-	* @param \phpbb\user				$user
-	* @param \phpbb\controller\helper		$helper
-	* @param \pg_social\\controller\helper $pg_social_helper
-	* @param \phpbb\config\config			$config
-	* @param \phpbb\db\driver\driver_interface	$db
-	* @param \phpbb\log\log              $log
-	*/
-
+	 * Constructor
+	 *
+	 * @param \phpbb\auth\auth $auth
+	 * @param \phpbb\user $user
+	 * @param \phpbb\controller\helper $helper
+	 * @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper
+	 * @param \phpbb\config\config $config
+	 * @param \phpbb\db\driver\driver_interface	$db
+	 * @param \phpbb\log\log $log
+	 * @param ContainerInterface $phpbb_container
+	 * @param \phpbb\event\dispatcher $dispatcher
+	 * @param string $root_path
+	 * @param string $php_ext
+	 * @param string $pgsocial_table_wallpostlike
+	 * @param string $pgsocial_table_wallpostcomment
+	 * @param string $pgsocial_table_photos
+	 */
 	public function __construct($auth, $user, $helper, $notifyhelper, $config, $db, $log, $phpbb_container, $dispatcher, $root_path, $php_ext, $pgsocial_table_wallpostlike, $pgsocial_table_wallpostcomment, $pgsocial_table_photos)
 	{
 		$this->auth = $auth;
