@@ -198,8 +198,10 @@
 	});
 
 	$(document).on('click', '.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side #pg_social_photo_sidePre, .phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side #pg_social_photo_sideNex', function() {
-		var ord = 0;
-		if($(this).attr("id") == "pg_social_photo_sideNex") ord = 1;
+		var ord = '0';
+		if ($(this).attr("id") == "pg_social_photo_sideNex") {
+			ord = '1';
+		}
 		var fdata = new FormData();
 		fdata.append("mode", "prenext_photo");
 		fdata.append("photo", $(this).parent().parent().attr('data-photo'));
