@@ -515,4 +515,3 @@ class helper
 		return $array;
 	}
 }
-?>
