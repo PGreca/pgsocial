@@ -170,6 +170,7 @@ class social_chat
 					'USER_AVATAR'		=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
 					'USER_PROFILE'		=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
 					'USER_STATUS'		=> $this->pg_social_helper->social_status($row['user_id']),
+
 					'USER_TMSG'			=> $this->message_check((int) $row['user_id']),
 				));
 			}
@@ -177,8 +178,8 @@ class social_chat
 		$this->db->sql_freeresult($result);
 
 		$this->template->assign_vars(array(
-										 'CHAT_LOGIN'	=> $this->user->data['user_allow_viewonline'] ? false : true,
-									 ));
+			'CHAT_LOGIN'	=> $this->user->data['user_allow_viewonline'] ? false : true,
+		));
 
 		return $this->helper->render('pg_social_chatpeople.html', '');
 	}
@@ -316,8 +317,8 @@ class social_chat
 		$this->db->sql_query($sql);
 
 		$this->template->assign_vars(array(
-										 'ACTION'	=> 'message_send',
-									 ));
+			'ACTION'	=> 'message_send',
+		));
 
 		return $this->helper->render('activity_status_action.html', "ah");
 	}
@@ -338,7 +339,6 @@ class social_chat
 					AND user_id = ' . (int) $person;
 		$this->db->sql_query($sql);
 	}
-
 
 	/**
 	 * Check if has new message on chat
