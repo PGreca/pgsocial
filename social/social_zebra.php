@@ -14,7 +14,7 @@ class social_zebra
 {
 	/* @var \phpbb\template\template */
 	protected $template;
-	
+
 	/* @var \phpbb\user */
 	protected $user;
 
@@ -23,27 +23,27 @@ class social_zebra
 
 	/* @var \phpbb\config\config */
 	protected $config;
-	
+
 	/* @var string phpBB root path */
-	protected $root_path;	
-	
+	protected $root_path;
+
 	/* @var string phpEx */
-	protected $php_ext;	
-		
+	protected $php_ext;
+
 	/**
 	* Constructor
 	*
 	* @param \phpbb\template\template  $template
-	* @param \phpbb\user				$user	 
-	* @param \phpbb\controller\helper		$helper	
-	* @param \pg_social\\controller\helper $pg_social_helper
-	* @param \wall\controller\notifyhelper $notifyhelper Notification helper.	
+	* @param \phpbb\user				$user
+	* @param \phpbb\controller\helper		$helper
+	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
+	* @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
 	* @param \phpbb\config\config 	$config
-	* @param \phpbb\db\driver\driver_interface			$db 
+	* @param \phpbb\db\driver\driver_interface			$db
 	*/
-	
+
 	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $config, $db, $root_path)
-	{	
+	{
 		$this->template							= $template;
 	    $this->user								= $user;
 		$this->helper							= $helper;
@@ -51,14 +51,14 @@ class social_zebra
 		$this->notify 							= $notifyhelper;
 		$this->config							= $config;
 		$this->db								= $db;
-	    $this->root_path						= $root_path;	
-	}	
-	
+	    $this->root_path						= $root_path;
+	}
+
 	/**
 	 * Return the friends or no-friends
 	*/
 	public function get_friends($profile, $type = NULL, $friend = "yes")
-	{		
+	{
 		if($friend == "no")
 		{
 			//return $this->last_register(); exit();
@@ -82,11 +82,11 @@ class social_zebra
 			$result = $this->db->sql_query($sql);
 		}
 		while($row = $this->db->sql_fetchrow($result))
-		{	
+		{
 			$this->template->assign_block_vars('profileFriends', array(
 				'PROFILE_ID'				=> $row['user_id'],
-				'PROFILE_URL'				=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),	
-				'USERNAME'					=> $row['username'],				
+				'PROFILE_URL'				=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
+				'USERNAME'					=> $row['username'],
 				'USERNAME_CLEAN'			=> $row['username_clean'],
 				'FRIEND_COLOUR'				=> "#".$row['user_colour'],
 				'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
@@ -99,10 +99,10 @@ class social_zebra
 		}
 		//return $this->helper->render('pg_social_friends.html', '');
 	}
-	
+
 	/**
 	 * Zebra status
-	*/	
+	*/
 	public function friend_status($user_id)
 	{
 		if($user_id != $this->user->data['user_id'])
@@ -115,23 +115,23 @@ class social_zebra
 			if($row['user_id'] == $user_id && $row['zebra_id'] == $this->user->data['user_id'] && $row['approval'] == 1)
 			{
 				$data = array(
-					"status"  => 'PG_SOCIAL_FRIENDS_ACCEPT_REQ',		
-					"icon"    => 'check',								
-				);	
+					"status"  => 'PG_SOCIAL_FRIENDS_ACCEPT_REQ',
+					"icon"    => 'check',
+				);
 			}
 			else
 			{
 				$data = array(
-					"status"  => ($row['friend'] ? 'PG_SOCIAL_FRIENDS' : ($row['approval'] ? 'PG_SOCIAL_FRIENDS_CANCEL_REQ' : ($row['foe'] ? 'PG_SOCIAL_FRIENDS_REMOVE_BLOCK' : 'PG_SOCIAL_FRIENDS_ADD'))),		
-					"icon"    => ($row['friend'] ? 'ok' : ($row['approval'] ? 'remove' : ($row['foe'] ? 'ban-circle' : 'plus'))),		
-					"friends" => $row['friend'] ? true : false,								
-				);	
+					"status"  => ($row['friend'] ? 'PG_SOCIAL_FRIENDS' : ($row['approval'] ? 'PG_SOCIAL_FRIENDS_CANCEL_REQ' : ($row['foe'] ? 'PG_SOCIAL_FRIENDS_REMOVE_BLOCK' : 'PG_SOCIAL_FRIENDS_ADD'))),
+					"icon"    => ($row['friend'] ? 'ok' : ($row['approval'] ? 'remove' : ($row['foe'] ? 'ban-circle' : 'plus'))),
+					"friends" => $row['friend'] ? true : false,
+				);
 			}
 			$this->db->sql_freeresult($result);
 			return $data;
 		}
 	}
-	
+
 	/**
 	 * Send request friend
 	*/
@@ -148,7 +148,7 @@ class social_zebra
 					'approval'	=> 1,
 				);
 				$sql = "INSERT INTO ".ZEBRA_TABLE.$this->db->sql_build_array('INSERT', $sql_arr);
-				$this->notify->notify('add_friend', '', '', $profile, $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_FRIEND_ADD');		
+				$this->notify->notify('add_friend', '', '', $profile, $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_FRIEND_ADD');
 				if($this->db->sql_query($sql))
 				{
 					$action = "REQUEST_SEND";
@@ -189,15 +189,15 @@ class social_zebra
 				{
 					$action = "FRIEND_DELETE";
 				}
-			break;			
+			break;
 		}
 		$this->template->assign_vars(array(
 			"ACTION"	=> $action,
 		));
-		
+
 		return $this->helper->render('activity_status_action.html', "");
 	}
-		
+
 	/**
 	 * Count the friends
 	*/
@@ -211,7 +211,7 @@ class social_zebra
 		$return = $count;
 		return $return;
 	}
-		
+
 	/**
 	 * The $s last register
 	*/
@@ -225,16 +225,16 @@ class social_zebra
 			$this->template->assign_block_vars('profileFriends', array(
 				'PROFILE_ID'				=> $row['user_id'],
 				'PROFILE_URL'				=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
-				'USERNAME'					=> $row['username'],				
+				'USERNAME'					=> $row['username'],
 				'USERNAME_CLEAN'			=> $row['username_clean'],
 				'FRIEND_COLOUR'				=> "#".$row['user_colour'],
 				'AVATAR'					=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),
-				
+
 			));
 		}
 		//return $this->helper->render('pg_social_friends.html', '');
 	}
-	
+
 	/**
 	 * Return who not is your friend
 	*/
@@ -258,12 +258,12 @@ class social_zebra
 					'PROFILE_URL'				=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
 					'USERNAME'					=> $row['username'],
 					'USERNAME_CLEAN'			=> $row['username_clean'],
-					'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),				
-				
-					
+					'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
+
+
 					'PROFILE_FRIEND_ACTION'		=> $this->friend_status($row['user_id'])['status'],
-				));	
+				));
 			}
-		}		
+		}
 	}
 }

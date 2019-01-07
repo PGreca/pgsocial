@@ -47,6 +47,18 @@ class helper
 	/* @var string phpEx */
 	protected $php_ext;
 
+	/** @var string */
+	protected $pgsocial_wallpostlike;
+
+	/** @var string */
+	protected $pgsocial_wallpostcomment;
+
+	/** @var string */
+	protected $pgsocial_photos;
+
+	/** @var string */
+	protected $pg_social_path;
+
 	/**
 	 * Constructor
 	 *

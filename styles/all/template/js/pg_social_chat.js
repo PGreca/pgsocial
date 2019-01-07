@@ -18,7 +18,7 @@
 		setInterval(function() {
 			pgsocial_chat();
 			console.log(Cookies.get('pgsocial_chat'));
-		}, 500);
+		}, 1500);
 
 		$(document).on('click', '#pgsocial_chatButton_ext i.fa-th-large', function() {
 			if($('#pgsocial_chat #pgsocial_chatRoot').hasClass('opened')) {

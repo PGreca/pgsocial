@@ -27,6 +27,30 @@ class main
 	/* @var \phpbb\request\request */
 	protected $request;
 
+	/** @var\pgreca\pgsocial\controller\helper */
+	protected $pg_social_helper;
+
+	/** @var \pgreca\pgsocial\controller\notifyhelper */
+	protected $notifyhelper;
+
+	/** @var \pgreca\pgsocial\social\post_status */
+	protected $post_status;
+
+	/** @var \pgreca\pgsocial\social\social_zebra */
+	protected $social_zebra;
+
+	/** @var \pgreca\pgsocial\social\social_chat */
+	protected $social_chat;
+
+	/** @var \pgreca\pgsocial\social\social_photo */
+	protected $social_photo;
+
+	/** @var \pgreca\pgsocial\social\social_tag */
+	protected $social_tag;
+
+	/** @var \pgreca\pgsocial\social\social_page */
+	protected $social_page;
+
 	/* @var \phpbb\template\template */
 	protected $template;
 
@@ -38,6 +62,10 @@ class main
 
 	/* @var string phpEx */
 	protected $php_ext;
+
+	/** @var string */
+	protected $pgsocial_table_wallpost;
+
 	/**
 	* Constructor
 	*
@@ -46,16 +74,17 @@ class main
 	* @param \phpbb\db\driver\driver $db
 	* @param \phpbb\controller\helper  $helper
 	* @param \phpbb\request\request	$request
-	* @param \pgsocial\\controller\helper $pg_social_helper
-	* @param \pgsocial\controller\notifyhelper $notifyhelper Notification helper.
-	* @param \pgsocial\social\post_status $post_status
-	* @param \pgsocial\social\$social_zebra $social_zebra
-	* @param \pgsocial\social\$social_chat $social_chat
-	* @param \pgsocial\social\$social_photo $social_photo
-	* @param \pgsocial\social\$social_tag $social_tag
-	* @param \pgsocial\social\$social_page $social_page
+	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
+	* @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
+	* @param \pgreca\pgsocial\social\post_status $post_status
+	* @param \pgreca\pgsocial\social\social_zebra $social_zebra
+	* @param \pgreca\pgsocial\social\social_chat $social_chat
+	* @param \pgreca\pgsocial\social\social_photo $social_photo
+	* @param \pgreca\pgsocial\social\social_tag $social_tag
+	* @param \pgreca\pgsocial\social\social_page $social_page
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
+	 * @param string $pgsocial_table_wallpost
 	*/
 	public function __construct($auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_chat, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $php_ext, $pgsocial_table_wallpost)
 	{

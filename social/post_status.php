@@ -36,8 +36,8 @@ class post_status
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
 	* @param \phpbb\controller\helper		$helper
-	* @param \pg_social\\controller\helper $pg_social_helper
-	* @param \wall\controller\notifyhelper $notifyhelper Notification helper.
+	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
+	* @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
 	* @param \phpbb\config\config			$config
 	* @param \phpbb\db\driver\driver_interface	$db
 	*/

@@ -223,6 +223,6 @@ class social_zebra extends base
 		$this->set_data('status', $data['status']);
 		$this->set_data('lang', $data['lang']);
 
-		return parent::create_insert_array($data, $pre_create_data);
+		parent::create_insert_array($data, $pre_create_data);
 	}
 }

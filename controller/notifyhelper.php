@@ -40,7 +40,7 @@ class notifyhelper
 		$this->root_path 		= $root_path;
 		$this->php_ext 			= $php_ext;
 	}
-	
+
 	/* MANAGE NOTIFICATIONS SOCIAL */
 	public function notify($type, $status_id, $status, $wall_id, $user_id, $lang)
 	{
@@ -53,7 +53,7 @@ class notifyhelper
 		);
 
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
-		
+
 		switch($type)
 		{
 			case 'add_status':
@@ -63,14 +63,14 @@ class notifyhelper
 				$phpbb_notifications->delete_notifications('pgreca.pgsocial.notification.type.social_status', $notification_data);
 			break;
 			case 'add_tag':
-				$phpbb_notifications->add_notifications('pgreca.pgsocial.notification.type.social_tag', $notification_data);					
+				$phpbb_notifications->add_notifications('pgreca.pgsocial.notification.type.social_tag', $notification_data);
 			break;
 			case 'add_comment':
 				$phpbb_notifications->add_notifications('pgreca.pgsocial.notification.type.social_comments', $notification_data);
 			break;
 			case 'remove_cmt':
 				$phpbb_notifications->delete_notifications('pgreca.pgsocial.notification.type.social_comments', $notification_data);
-			break;				
+			break;
 			case 'add_like':
 				$phpbb_notifications->add_notifications('pgreca.pgsocial.notification.type.social_likes', $notification_data);
 			break;
@@ -78,6 +78,6 @@ class notifyhelper
 				$phpbb_notifications->delete_notifications('pgreca.pgsocial.notification.type.social_likes', $notification_data);
 			break;
 		}
-		
+
 	}
 }

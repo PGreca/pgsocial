@@ -28,6 +28,30 @@ class forum
 	/* @var \phpbb\request\request */
 	protected $request;
 
+	/** @var \pgreca\pgsocial\controller\helper */
+	protected $pg_social_helper;
+
+	/** @var \pgreca\pgsocial\controller\notifyhelper */
+	protected $notifyhelper;
+
+	/** @var \pgreca\pgsocial\social\post_status */
+	protected $post_status;
+
+	/** @var \pgreca\pgsocial\social\social_zebra */
+	protected $social_zebra;
+
+	/** @var \pgreca\pgsocial\social\social_chat */
+	protected $social_chat;
+
+	/** @var \pgreca\pgsocial\social\social_photo */
+	protected $social_photo;
+
+	/** @var \pgreca\pgsocial\social\social_tag */
+	protected $social_tag;
+
+	/** @var \pgreca\pgsocial\social\social_page */
+	protected $social_page;
+
 	/* @var \phpbb\template\template */
 	protected $template;
 

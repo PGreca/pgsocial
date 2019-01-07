@@ -257,7 +257,7 @@
 	});
 
 	/* POST ACTION */
-	function pgwall_get_status(order, post_where) {
+	pgwall_get_status = function(order, post_where) {
 		if(!post_where) post_where = 'all';
 		if($("#load_more").is(":visible")) {
 			$("#load_more").hide();
