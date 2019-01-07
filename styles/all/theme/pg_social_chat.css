@@ -3,8 +3,8 @@ body {
 }
 
 #pgsocial_chat * {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	outline: none;
 	text-align: left;
 }
@@ -19,17 +19,17 @@ body {
 
 #pgsocial_chat .pgsocial_chat {
 	position: fixed;
-	bottom: 0px;
-	right: 0px;
+	bottom: 0;
+	right: 0;
 	width: 275px;
-	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
 	z-index: 40;
 }
 
 #pgsocial_chat #pgsocial_chatRoot {
 	position: fixed;
-	bottom: 0px;
-	right: 0px;
+	bottom: 0;
+	right: 0;
 	background-color: #fff;
 	width: 60px;
 	height: 100%;
@@ -43,8 +43,8 @@ body {
 #pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople {
 	opacity: 0.2;
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: calc(100% - 60px);
 	list-style: none;
@@ -82,8 +82,8 @@ body {
 #pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author_info span.pg_socialchat_people_online_single_status {
 	display: none;
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	top: 0;
+	left: 0;
 	background-color: #ff4f60;
 	width: 8px;
 	height: 8px;
@@ -101,8 +101,8 @@ body {
 
 #pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author_info span.pg_socialchat_people_online_single_tmess {
 	position: absolute;
-	bottom: 0px;
-	right: 0px;
+	bottom: 0;
+	right: 0;
 	background-color: #e6ecf5;
 	width: 15px;
 	height: 15px;
@@ -138,8 +138,8 @@ body {
 
 #pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext {
 	position: absolute;
-	bottom: 0px;
-	left: 0px;
+	bottom: 0;
+	left: 0;
 	width: 100%;
 	height: 60px;
 }
@@ -162,9 +162,9 @@ body {
 	vertical-align: middle;
 	width: calc(100% - (60px * 2) - (15px * 2));
 	height: calc(60px - (15px * 2) - 1px);
-	margin: 0px;
+	margin: 0;
 	padding: 15px;
-	border: 0px;
+	border: 0;
 	border-top: 1px solid #e6ecf5;
 	font-size: 12px;
 	color: #515365;
@@ -187,14 +187,14 @@ body {
 	display: none;
 	position: absolute;
     bottom: 60px;
-	left: 0px;
+	left: 0;
 	background-color: #fff;
     width: calc(90% - 2px);
     margin: 10px 5%;
-	padding: 10px 0px;
+	padding: 10px 0;
 	border: 1px solid #e6ecf5;
 	border-radius: 4px;
-	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 #pgsocial_chat #pgsocial_chatRoot.opened #pgsocial_chatButton_ext #pgsocial_chat_settings.opened {
@@ -209,7 +209,7 @@ body {
 	position: relative;
 	display: inline-block;
 	width: calc(100% - 20px);
-	margin: 0px 0px 10px;
+	margin: 0 0 10px;
 	padding: 10px;
 	font-size: 1.1em;
 	vertical-align: middle;
@@ -217,7 +217,7 @@ body {
 }
 
 #pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings label:last-child {
-	margin: 10px 0px 0px;
+	margin: 10px 0 0;
 }
 
 #pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings label:hover {
@@ -250,7 +250,7 @@ body {
 #pgsocial_chat .pgsocial_chat .pgsocial_chat_head {
 	background-color: #7c5ac2;
     padding: 10px;
-	border-radius: 4px 4px 0px 0px;
+	border-radius: 4px 4px 0 0;
 }
 
 #pgsocial_chat .pgsocial_chat .pgsocial_chat_head .pg_social_chat_head_status {
@@ -329,7 +329,7 @@ body {
 #pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_avatar {
 	float: right;
 	margin-left: 5px;
-	margin-right: 0px;
+	margin-right: 0;
 }
 
 #pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_avatar img.avatar {
@@ -348,7 +348,7 @@ body {
 #pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message.right .pg_social_chat_message_text {
 	background-color: rgba(0, 0, 0, 0.65);
 	padding: 10px;
-	border: 0px;
+	border: 0;
 	color: #fff;
 }
 
@@ -368,7 +368,7 @@ body {
 	position: relative;
 	overflow: hidden;
 	height: 0;
-	margin: 10px 0px 0px;
+	margin: 10px 0 0;
 	padding-top: 30px;
 	padding-bottom: 50%;
 }
@@ -404,8 +404,8 @@ body {
 	height: 15px;
 	line-height: 15px;
 	margin: 10px;
-	padding: 0px;
-	border: 0px;
+	padding: 0;
+	border: 0;
 	resize: none;
 }
 
@@ -440,7 +440,7 @@ body {
 		vertical-align: middle;
 		width: calc(100% - (40px * 2) - (15px * 2));
 		height: calc(40px - (15px * 2) - 1px);
-		margin: 0px;
+		margin: 0;
 		padding: 15px;
 	}
 
@@ -462,7 +462,7 @@ body {
 
 	100% {
 		opacity:1;
-		margin-bottom: 0px;
+		margin-bottom: 0;
 		transform:  translate(0px,0px);
 	}
 }
