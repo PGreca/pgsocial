@@ -203,7 +203,7 @@ class listener implements EventSubscriberInterface
 	 */
 	public function set_startpage($event)
 	{
-		if($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->is_startpage && $this->user->data['user_id'] != ANONYMOUS)
+		if($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->is_startpage && (int) $this->user->data['user_id'] != ANONYMOUS)
 		{
 			if($this->config['pg_social_index_replace'])
 			{
@@ -223,7 +223,7 @@ class listener implements EventSubscriberInterface
 					$this->template->set_style(array($controller_style_dir, 'styles'));
 
 					/** @type \Symfony\Component\HttpFoundation\Response $response */
-					$response = call_user_func_array(array($controller_object, "handle"), explode('/', "mp"));
+					$response = call_user_func_array(array($controller_object, 'handle'), explode('/', 'mp'));
 					$response->send();
 					exit_handler();
 				}
@@ -236,10 +236,10 @@ class listener implements EventSubscriberInterface
 	 */
 	protected function get_startpage_controller()
 	{
-		if ($this->phpbb_container->has("pgreca.pgsocial.controller"))
+		if ($this->phpbb_container->has('pgreca.pgsocial.controller'))
 		{
-			$controller_object = $this->phpbb_container->get("pgreca.pgsocial.controller");
-			$method = "handle";
+			$controller_object = $this->phpbb_container->get('pgreca.pgsocial.controller');
+			$method = 'handle';
 
 			if (is_callable(array($controller_object, $method)))
 			{
@@ -274,7 +274,7 @@ class listener implements EventSubscriberInterface
 			$member = $event['member'];
 			$user_id = $member['user_id'];
 			$member['status_action'] = 0;
-			if($user_id == $this->user->data['user_id'])
+			if($user_id == (int) $this->user->data['user_id'])
 			{
 				$member['user_action'] = true;
 			}
@@ -284,7 +284,7 @@ class listener implements EventSubscriberInterface
 			}
 			if($member['user_gender'] == 0)
 			{
-				$profile_gender = "";
+				$profile_gender = '';
 			}
 			else
 			{
@@ -292,14 +292,14 @@ class listener implements EventSubscriberInterface
 			}
 			if($member['user_status_life'] == 0)
 			{
-				$profile_status_life = "";
+				$profile_status_life = '';
 			}
 			else
 			{
 				$profile_status_life = $this->pgsocial_helper->social_status_life($member['user_status_life']);
 			}
 			$friends = $this->social_zebra->friend_status($user_id);
-			if($friends['status'] == "PG_SOCIAL_FRIENDS" || $user_id == $this->user->data['user_id'])
+			if($friends['status'] == 'PG_SOCIAL_FRIENDS' || $user_id == (int) $this->user->data['user_id'])
 			{
 				$member['status_action'] = 1;
 			}
@@ -318,13 +318,13 @@ class listener implements EventSubscriberInterface
 				'PROFILE_STATUS_ACTION'		=> $member['status_action'],
 
 				'PROFILE_ID'				=> $user_id,
-				'PROFILE_UPDATE'			=> append_sid($this->root_path."ucp.".$this->php_ext, 'i=ucp_profile&mode=profile_info'),
+				'PROFILE_UPDATE'			=> append_sid($this->root_path.'ucp.'.$this->php_ext, 'i=ucp_profile&mode=profile_info'),
 				'PROFILE_COVER'				=> $this->pgsocial_helper->social_cover($member['user_pg_social_cover']),
 				'PROFILE_COVER_POSITION'	=> $member['user_pg_social_cover_position'],
 				'PROFILE_AVATAR_THUMB'		=> $this->pgsocial_helper->social_avatar_thumb($member['user_avatar'], $member['user_avatar_type'], $member['user_avatar_width'], $member['user_avatar_height']),
-				'PROFILE_AVATAR_UPDATE'     => append_sid($this->root_path."ucp.".$this->php_ext, 'i=profile&mode=avatar'),
+				'PROFILE_AVATAR_UPDATE'     => append_sid($this->root_path.'ucp.'.$this->php_ext, 'i=profile&mode=avatar'),
 				'PROFILE_USERNAME'			=> $member['username'],
-				'PROFILE_COLOUR'			=> "#".$member['user_colour'],
+				'PROFILE_COLOUR'			=> '#'.$member['user_colour'],
 				'PROFILE_QUOTE'				=> $member['user_quote'],
 				'PROFILE_ABOUT_ME'			=> $member['user_about'],
 				'PROFILE_STATUS_LIFE'		=> $this->user->lang($profile_status_life),
@@ -337,20 +337,20 @@ class listener implements EventSubscriberInterface
 				'PROFILE_GENDER'			=> $this->user->lang($profile_gender),
 				'PROFILE_COUNT_FRIENDS'		=> $this->social_zebra->count_friends($user_id),
 
-				'GALLERY_NEW'				=> ($this->config['pg_social_galleryLimit'] > $this->social_photo->gallery_count('album') && $member['user_action']) ? true : false,
+				'GALLERY_NEW'				=> ((int) $this->config['pg_social_galleryLimit'] > (int) $this->social_photo->gallery_count('album') && $member['user_action']) ? true : false,
 				'GALLERY_NAME'				=> $this->social_photo->gallery_info($this->request->variable('gall', ''), $gallumb)['gallery_name'],
 				'GALLERY_ID'				=> $this->request->variable('gall', ''),
-				'PHOTO_NEW'					=> ($this->request->variable('gall', '') && $this->request->variable('gl', '') == 'album' && $this->config['pg_social_photoLimit'] > $this->social_photo->gallery_count('photo', $this->request->variable('gall', ''))) ? true : false,
+				'PHOTO_NEW'					=> ($this->request->variable('gall', '') && $this->request->variable('gl', '') == 'album' && (int) $this->config['pg_social_photoLimit'] > (int) $this->social_photo->gallery_count('photo', $this->request->variable('gall', ''))) ? true : false,
 				'SOCIAL_PROFILE_PATH'		=> $this->helper->route('profile_page'),
 				'STATUS_WHERE'				=> 'profile',
 			));
-			$this->post_status->get_status("profile", $user_id, 0, "profile", 0, "seguel", "");
-			$this->social_photo->get_photos(0, "last", $user_id);
-			$this->social_zebra->get_friends($user_id, "profile", "yes");
-			$this->social_photo->get_gallery($user_id, "profile");
+			$this->post_status->get_status('profile', $user_id, 0, 'profile', 0, 'seguel', '');
+			$this->social_photo->get_photos(0, 'last', $user_id);
+			$this->social_zebra->get_friends($user_id, 'profile', 'yes');
+			$this->social_photo->get_gallery($user_id, 'profile');
 			if($this->request->variable('gall', ''))
 			{
-				$this->social_photo->get_photos(0, "gall", $user_id, $this->request->variable('gall', ''), $this->request->variable('gl', ''));
+				$this->social_photo->get_photos(0, 'gall', $user_id, $this->request->variable('gall', ''), $this->request->variable('gl', ''));
 			}
 		}
 	}
@@ -361,7 +361,7 @@ class listener implements EventSubscriberInterface
 	public function load($event)
 	{
 		$this->template->assign_vars(array(
-			'PROFILE'							=> $this->user->data['user_id'],
+			'PROFILE'							=> (int) $this->user->data['user_id'],
 			'PG_SOCIAL_CHAT'					=> $this->config['pg_social_chat_enabled'] ? true : false,
 			'PG_SOCIAL_SETTING_HIDE'			=> $this->user->data['user_allow_viewonline'] ? true : false,
 			'PG_SOCIAL_SETTING_AUDIO'			=> $this->user->data['user_chat_music'] ? true : false,
@@ -373,9 +373,9 @@ class listener implements EventSubscriberInterface
 		if ($this->is_startpage) {
 			$this->template->destroy_block_vars('navlinks');
 		}
-		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->config['pg_social_index_replace'] && $this->user->data['user_id'] != ANONYMOUS && $this->config['pg_social_index_activity'])
+		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->config['pg_social_index_replace'] && (int) $this->user->data['user_id'] != ANONYMOUS && $this->config['pg_social_index_activity'])
 		{
-			$this->post_status->get_status('all', $this->user->data['user_id'], 0, "all", 0, "seguel", "");
+			$this->post_status->get_status('all', (int) $this->user->data['user_id'], 0, 'all', 0, 'seguel', '');
 		}
 	}
 
@@ -534,7 +534,7 @@ class listener implements EventSubscriberInterface
 		$photo['tmp_name'] = $event['filedata']['filename'];
 		$photo['type'] = $event['filedata']['mimetype'];
 
-		$this->social_photo->photo_upload("", $this->user->data['user_id'], "", "avatar", "profile", $photo);
+		$this->social_photo->photo_upload('', (int) $this->user->data['user_id'], '', 'avatar', 'profile', $photo);
 	}
 
 	/**
@@ -547,7 +547,7 @@ class listener implements EventSubscriberInterface
 		if($event['mode'] == 'post')
 		{
 			$info = $event['data'];
-			$this->post_status->add_status('post', $this->user->data['user_id'], '', 2, 4, $info['topic_id']."#p".$info['post_id']);
+			$this->post_status->add_status('post', (int) $this->user->data['user_id'], '', 2, 4, $info['topic_id'].'#p'.$info['post_id']);
 		}
 	}
 }

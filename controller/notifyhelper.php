@@ -46,7 +46,7 @@ class notifyhelper
 	{
 		$notification_data = array(
 			'status_id'	=> (int) $status_id,
-			'status'	=>	substr(preg_replace("(\r\n|\n|\r)", " ", utf8_normalize_nfc($status)),0,40).((strlen($status) > 39)?'...':''),
+			'status'	=>	substr(preg_replace('(\r\n|\n|\r)', ' ', utf8_normalize_nfc($status)),0,40).((strlen($status) > 39)?'...':''),
 			'user_id'	=> (int) $wall_id,
 			'poster_id'	=>  $user_id,
 			'lang'	    => $lang,

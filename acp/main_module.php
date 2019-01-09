@@ -132,7 +132,7 @@ class main_module
 						trigger_error($user->lang('ACP_PG_SOCIAL_SETTING_SAVED') . adm_back_link($this->u_action));
 					}
 				}
-				$sql = "SELECT p.*, u.username, u.user_colour FROM ".$table_prefix."pg_social_pages as p, ".USERS_TABLE." as u WHERE p.page_founder = u.user_id AND p.page_status = '0'";
+				$sql = 'SELECT p.*, u.username, u.user_colour FROM '.$table_prefix.'pg_social_pages as p, '.USERS_TABLE.' as u WHERE p.page_founder = u.user_id AND p.page_status = "0"';
 				$result = $db->sql_query($sql);
 				while($row = $db->sql_fetchrow($result))
 				{

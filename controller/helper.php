@@ -100,23 +100,23 @@ class helper
 	public function time_ago($from, $to = 0)
 	{
 		$periods = array(
-			"SECOND",
-			"MINUTE",
-			"HOUR",
-			"DAY",
-			"WEEK",
-			"MONTH",
-			"YEAR",
-			"DECADE",
+			'SECOND',
+			'MINUTE',
+			'HOUR',
+			'DAY',
+			'WEEK',
+			'MONTH',
+			'YEAR',
+			'DECADE',
 		);
 		$lengths = array(
-			"60",
-			"60",
-			"24",
-			"7",
-			"4.35",
-			"12",
-			"10",
+			'60',
+			'60',
+			'24',
+			'7',
+			'4.35',
+			'12',
+			'10',
 		);
 		if($to == 0)
 		{
@@ -140,7 +140,7 @@ class helper
 		$period = $periods[$j];
 		if($difference != 1)
 		{
-			$period .= "S";
+			$period .= 'S';
 		}
 		if(($to - $from) > ((3600 - 1) / 60))
 		{
@@ -154,13 +154,13 @@ class helper
 		switch($privacy)
 		{
 			case '1':
-				$privacySet = "FRIEND";
+				$privacySet = 'FRIEND';
 			break;
 			case '2':
-				$privacySet = "ALL";
+				$privacySet = 'ALL';
 			break;
 			default:
-				$privacySet = "ONLY_YOU";
+				$privacySet = 'ONLY_YOU';
 			break;
 		}
 		return $privacySet;
@@ -169,13 +169,13 @@ class helper
 	/* COVER DEFAULT */
 	public function social_cover($cover)
 	{
-		if($cover == "")
+		if($cover == '')
 		{
-			$cover = $this->pg_social_path."/images/no_cover.jpg";
+			$cover = $this->pg_social_path.'/images/no_cover.jpg';
 		}
 		else
 		{
-			$cover = $this->pg_social_path."/images/upload/".$cover;
+			$cover = $this->pg_social_path.'/images/upload/'.$cover;
 		}
 		return $cover;
 	}
@@ -198,10 +198,10 @@ class helper
 	public function social_avatar_thumb($avatar, $avatar_type, $avatar_width, $avatar_height)
 	{
 		$data = array(
-			"user_avatar"         => $avatar,
-			"user_avatar_type"    => $avatar_type,
-			"user_avatar_width"    => $avatar_width,
-			"user_avatar_height"    => $avatar_height,
+			'user_avatar'         => $avatar,
+			'user_avatar_type'    => $avatar_type,
+			'user_avatar_width'    => $avatar_width,
+			'user_avatar_height'    => $avatar_height,
 		);
 		$core_avatar =  phpbb_get_user_avatar($data);
      	preg_match('#(src=")(.+?)(download|images)#', $core_avatar, $matches);
@@ -223,13 +223,13 @@ class helper
 		switch($gender)
 		{
 			case 1:
-				$return = "GENDER_FEMALE";
+				$return = 'GENDER_FEMALE';
 			break;
 			case 2:
-				$return = "GENDER_MALE";
+				$return = 'GENDER_MALE';
 			break;
 			default:
-				$return = "GENDER_UNKNOWN";
+				$return = 'GENDER_UNKNOWN';
 			break;
 		}
 		return $return;
@@ -240,23 +240,23 @@ class helper
 		switch($status)
 		{
 			case 1:
-				$return = "SOCIAL_STATUS_SINGLE";
+				$return = 'SOCIAL_STATUS_SINGLE';
 			break;
 			case 2:
-				$return = "SOCIAL_STATUS_ENGAGED";
+				$return = 'SOCIAL_STATUS_ENGAGED';
 			break;
 			case 3:
-				$return = "SOCIAL_STATUS_MARRIED";
+				$return = 'SOCIAL_STATUS_MARRIED';
 			break;
 			case 4:
-				$return = "SOCIAL_STATUS_COMPLICATED";
+				$return = 'SOCIAL_STATUS_COMPLICATED';
 			break;
 			case 5:
-				$return = "SOCIAL_STATUS_RELATIONSHIP";
+				$return = 'SOCIAL_STATUS_RELATIONSHIP';
 			break;
 			case 0:
 			default:
-				$return = "SOCIAL_STATUS_UNKNOW";
+				$return = 'SOCIAL_STATUS_UNKNOW';
 			break;
 		}
 		return $return;
@@ -267,7 +267,7 @@ class helper
 	{
 		if ($rank)
 		{
-			$sql = "SELECT * FROM ".RANKS_TABLE." WHERE rank_id = '".$rank."'";
+			$sql = 'SELECT * FROM '.RANKS_TABLE.' WHERE rank_id = "'.$rank.'"';
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
 
@@ -329,7 +329,7 @@ class helper
 				$row['session_viewonline'] = 0;
 			}
 			$update_time = $this->config['load_online_time'] * 60;
-			$online = (time() - $update_time < $row['session_time'] && (isset($row['session_viewonline']) || $this->auth->acl_get('u_viewonline'))) ? "online" : "offline";
+			$online = (time() - $update_time < $row['session_time'] && (isset($row['session_viewonline']) || $this->auth->acl_get('u_viewonline'))) ? 'online' : 'offline';
 		}
 
 		return $online;
@@ -338,8 +338,8 @@ class helper
 	/* FIX PATCH OF SMILIES */
 	public function social_smilies($text)
 	{
-		$text = str_replace("./../", generate_board_url()."/", $text);
-		$text = str_replace("/..", "", $text);
+		$text = str_replace('./../', generate_board_url().'/', $text);
+		$text = str_replace('/..', '', $text);
 		return $text;
 	}
 
@@ -359,7 +359,7 @@ class helper
 				WHERE post_ID = '".$post."' AND user_id = '".$this->user->data['user_id']."'";
 			break;
 			case 'comments':
-				$sql = "SELECT COUNT(post_comment_ID) AS count 
+				$sql = "SELECT COUNT(post_comment_ID) AS count
 				FROM ".$this->pgsocial_wallpostcomment."
 				WHERE post_ID = '".$post."'";
 			break;
@@ -383,13 +383,13 @@ class helper
 	/* EXTRA OF ACTIVITY */
 	public function extra_text($text)
 	{
-		$a = "";
+		$a = '';
 		$a .= $this->youtube_embed($text);
-		if($a == "")
+		if($a == '')
 		{
 			$a .= $this->facebook_embed($text);
 		}
-		if($a == "")
+		if($a == '')
 		{
 			$a .= $this->website_embed($text);
 		}
@@ -402,7 +402,7 @@ class helper
 		if(strstr($text, 'youtube.com/watch?v=') !== false)
 		{
 			$domain = strstr($text, 'youtube.com/watch?v=');
-			$domain = str_replace("youtube.com/watch?v=", "", $domain);
+			$domain = str_replace('youtube.com/watch?v=', '', $domain);
 			$domain = explode('&', $domain);
 			$youtube = '<p class="post_status_youtube"><iframe src="https://www.youtube.com/embed/'.$domain[0].'" allowfullscreen></iframe>
 			</p>';
@@ -422,9 +422,9 @@ class helper
 		if (strstr($text, 'facebook.com/') !== false)
 		{
 			$domain = strstr($text, 'facebook.com/');
-			$domain = str_replace("facebook.com/", "", $domain);
+			$domain = str_replace('facebook.com/', '', $domain);
 			$domain = explode('/?', $domain);
-			$domain[0] = str_replace(":", "%3A", $domain[0]);
+			$domain[0] = str_replace(':', '%3A', $domain[0]);
 			$facebook = '<p class="post_status_facebook"><iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F'.$domain[0].'&appId=1605771702975630" allowTransparency="true" allow="encrypted-media"></iframe>';
 
 			if ($facebook)
@@ -470,7 +470,7 @@ class helper
 					$metatagarray = get_meta_tags($url);
 					if(array_key_exists('description', $metatagarray))
 					{
-						$description = $metatagarray["description"];
+						$description = $metatagarray['description'];
 					}
 					$screen = '<a href="'.$domain[0].'" class="post_status_site" target="_blank">
 						<div class="post_status_site_content">
@@ -511,7 +511,7 @@ class helper
 	/* ADD LOG OF USER */
 	public function log($user, $ip, $action, $id)
 	{
-		$this->log->add('user', $user, $ip, 'PG_SOCIAL_'.$action.'_LOG', time(), array($id));
+		$this->log->add('user', $user, $ip, 'PG_SOCIAL_'.$action.'_LOG', time(), array('reportee_id' => $id));
 	}
 
 	public function pgblog_statusArticle($article)
@@ -530,12 +530,12 @@ class helper
 		$vars = array('type', 'extra', 'msg', 'author_action', 'wshow', 'block_vars');
 		extract($this->dispatcher->trigger_event('pgreca.pgsocial.statustype', compact($vars)));
 		$temp = array(
-			"type"				=> $type,
-			"extra"				=> $extra,
-			"msg"				=> $msg,
-			"author_action"		=> $author_action,
-			"wshow"				=> $wshow,
-			"block_vars"		=> $block_vars
+			'type'				=> $type,
+			'extra'				=> $extra,
+			'msg'				=> $msg,
+			'author_action'		=> $author_action,
+			'wshow'				=> $wshow,
+			'block_vars'		=> $block_vars
 		);
 		$array = $temp;
 		return $array;

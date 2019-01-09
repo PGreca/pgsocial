@@ -64,7 +64,7 @@ class social_page
 	*/
 	public function page_create($page_name, $page_category = 0)
 	{
-		$permalink = preg_replace("/[^a-zA-Z]/", "", strtolower(str_replace(' ', '_', $page_name)).rand(0, 1000));
+		$permalink = preg_replace('/[^a-zA-Z]/', '', strtolower(str_replace(' ', '_', $page_name)).rand(0, 1000));
 		$sql_arr = array(
 			'page_type'				=> 0,
 			'page_status'			=> 0,
@@ -77,15 +77,15 @@ class social_page
 			'page_cover_position'	=> '',
 			'page_about'			=> '',
 		);
-		$sql = "INSERT INTO ".$this->pgsocial_pages." ".$this->db->sql_build_array('INSERT', $sql_arr);
+		$sql = 'INSERT INTO '.$this->pgsocial_pages.' '.$this->db->sql_build_array('INSERT', $sql_arr);
 		if($this->db->sql_query($sql))
 		{
-			redirect($this->helper->route('pages_page', array("name" => $permalink)));
+			redirect($this->helper->route('pages_page', array('name' => $permalink)));
 		}
 		$this->template->assign_vars(array(
-			"ACTION"	=> $sql,
+			'ACTION'	=> $sql,
 		));
-		return $this->helper->render('activity_status_action.html', "");
+		return $this->helper->render('activity_status_action.html', '');
 	}
 
 	/**
@@ -106,7 +106,7 @@ class social_page
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
 		{
-			if(isset($page) && $row['page_id'] != "")
+			if(isset($page) && $row['page_id'] != '')
 			{
 				$array = $row['page_id'];
 			}
@@ -131,10 +131,10 @@ class social_page
 		$result = $this->db->sql_query($sql);
 		$like = $this->db->sql_fetchrow($result);
 
-		if($like['page_like_ID'] != "")
+		if($like['page_like_ID'] != '')
 		{
 			$sql = "DELETE FROM ".$this->pgsocial_pages_like." WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
-			$action = "dislikepage";
+			$action = 'dislikepage';
 		}
 		else
 		{
@@ -143,14 +143,14 @@ class social_page
 				'user_id'			=> $this->user->data['user_id'],
 				'page_like_time'	=> time(),
 			);
-			$sql = "INSERT INTO ".$this->pgsocial_pages_like." ".$this->db->sql_build_array('INSERT', $sql_arr);
-			$action = "likepage";
+			$sql = 'INSERT INTO '.$this->pgsocial_pages_like.' '.$this->db->sql_build_array('INSERT', $sql_arr);
+			$action = 'likepage';
 		}
 		$this->db->sql_query($sql);
 		$this->template->assign_vars(array(
-			"ACTION"	=> $action,
+			'ACTION'	=> $action,
 		));
-		return $this->helper->render('activity_status_action.html', "");
+		return $this->helper->render('activity_status_action.html', '');
 	}
 
 	public function page_likeif($user, $template, $if = false)
@@ -161,10 +161,10 @@ class social_page
 		while($row = $this->db->sql_fetchrow($result))
 		{
 			$this->template->assign_block_vars($template, array(
-				"PAGE_ID"		=> $row['page_id'],
-				"AVATAR"		=> $this->pg_social_helper->social_avatar_page($row['page_avatar']),
-				"PROFILE_URL"	=> append_sid($this->helper->route('pages_page'), 'u='.$row['page_username_clean']),
-				"USERNAME"		=> $row['page_username'],
+				'PAGE_ID'		=> $row['page_id'],
+				'AVATAR'		=> $this->pg_social_helper->social_avatar_page($row['page_avatar']),
+				'PROFILE_URL'	=> append_sid($this->helper->route('pages_page'), 'u='.$row['page_username_clean']),
+				'USERNAME'		=> $row['page_username'],
 
 			));
 		}

@@ -313,22 +313,22 @@ class main
 
 					'PROFILE'								=> $this->user->data['user_id'],
 					'PROFILE_URL'							=> get_username_string('profile', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
-					'PROFILE_EDIT'							=> append_sid($this->root_path."ucp.".$this->php_ext, "i=ucp_profile&amp;mode=profile_info"),
+					'PROFILE_EDIT'							=> append_sid($this->root_path.'ucp.'.$this->php_ext, 'i=ucp_profile&amp;mode=profile_info'),
 					'PROFILE_AVATAR'						=> $this->pg_social_helper->social_avatar_thumb($this->user->data['user_avatar'], $this->user->data['user_avatar_type'], $this->user->data['user_avatar_width'], $this->user->data['user_avatar_height']),
 					'PROFILE_USERNAME'						=> $this->user->data['username'],
 					'PROFILE_USERNAME_CLEAN'				=> $this->user->data['username_clean'],
-					'PROFILE_COLOUR'						=> "#".$this->user->data['user_colour'],
+					'PROFILE_COLOUR'						=> '#'.$this->user->data['user_colour'],
 					'PROFILE_QUOTE'							=> $this->user->data['user_quote'],
 					'PROFILE_GENDER'						=> $this->user->data['user_gender'],
 					'PROFILE_RANK'							=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_title'],
 					'PROFILE_RANK_IMG'						=> $this->pg_social_helper->social_rank($this->user->data['user_rank'])['rank_image'],
 
-					'PAGES_URL'								=> $this->helper->route("pages_page"),
+					'PAGES_URL'								=> $this->helper->route('pages_page'),
 				));
 
-				$this->post_status->get_status('all', $this->user->data['user_id'], 0, "all", 0, "seguel", "");
-				$this->social_page->page_likeif($this->user->data['user_id'], "pagesMaylike", false);
-				$this->social_zebra->get_friends($profile_id, $where, "no");
+				$this->post_status->get_status('all', $this->user->data['user_id'], 0, 'all', 0, 'seguel', '');
+				$this->social_page->page_likeif($this->user->data['user_id'], 'pagesMaylike', false);
+				$this->social_zebra->get_friends($profile_id, $where, 'no');
 				$this->template->assign_block_vars('navlinks', array(
 					'FORUM_NAME'	=> $this->user->lang('ACTIVITY'),
 					'U_VIEW_FORUM'	=> $this->helper->route('profile_page'),
@@ -358,7 +358,7 @@ class main
 		else
 		{
 			$sql = "SELECT w.*, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_width, u.user_avatar_height, u.user_avatar_type, u.user_colour
-			FROM ".$this->pgsocial_wallpost." as w, ".USERS_TABLE." as u	
+			FROM ".$this->pgsocial_wallpost." as w, ".USERS_TABLE." as u
 			WHERE post_ID = '".$id."' AND (w.user_id = u.user_id) AND u.user_type != '2'";
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);

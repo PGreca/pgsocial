@@ -123,9 +123,9 @@ class social_chat
 	*/
 	public function getchat_people($person)
 	{
-		if ($person != "")
+		if ($person != '')
 		{
-			$expression = $this->db->sql_like_expression('LIKE ' . $this->db->get_any_char() . $this->db->sql_escape($person) . $this->db->get_any_char());
+			$expression = $this->db->sql_like_expression($this->db->get_any_char() . $this->db->sql_escape($person) . $this->db->get_any_char());
 			$sql_where = 'AND (u.username_clean ' . $expression . ' OR u.username ' . $expression . ')';
 		}
 		else
@@ -135,9 +135,9 @@ class social_chat
 
 		$sql = 'SELECT user_id, username, username_clean, user_colour,
 						user_avatar, user_avatar_type, user_avatar_width, user_avatar_height
-				FROM ' . USERS_TABLE . '
+				FROM ' . USERS_TABLE . ' u
 				WHERE ' . $this->db->sql_in_set('user_type', array(USER_NORMAL, USER_FOUNDER)) . '
-					AND user_id <> ' . (int) $this->user->data['user_id'] . $sql_where;
+					AND user_id <> "' . (int) $this->user->data['user_id'] .'" '.$sql_where;
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -182,7 +182,7 @@ class social_chat
 			'PROFILE_URL'						=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
 			'PROFILE_STATUS'					=> $this->pg_social_helper->social_status($row['user_id']),
 			'PROFILE_USERNAME'					=> $row['username'],
-			'PROFILE_COLOUR'					=> "#".$row['user_colour'],
+			'PROFILE_COLOUR'					=> '#'.$row['user_colour'],
 			'PROFILE_AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
 		));
 		if($read == 'read') $this->message_read($person);
@@ -201,10 +201,10 @@ class social_chat
 		switch($lastmessage)
 		{
 			case 0:
-				$orderby = "DESC";
+				$orderby = 'DESC';
 			break;
 			default:
-				$orderby = "ASC";
+				$orderby = 'ASC';
 			break;
 		}
 
@@ -212,7 +212,7 @@ class social_chat
 		{
 			case 'prequel':
 				$order_vers = '<';
-				$orderby = "DESC";
+				$orderby = 'DESC';
 				$limit = 3;
 			break;
 			case 'seguel':
@@ -222,14 +222,14 @@ class social_chat
 		$limit = 20;
 		if($lastmessage != '0')
 		{
-			$chatid = "(chat.chat_id ".$order_vers." '".$lastmessage."') 
+			$chatid = "(chat.chat_id ".$order_vers." '".$lastmessage."')
 			AND ";
 		}
-		$sql = "SELECT chat.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height 
+		$sql = "SELECT chat.*, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height
 		FROM ".$this->pgsocial_chat." as chat, ".USERS_TABLE." as u
 		WHERE (chat.user_id = u.user_id) AND
-		".$chatid." ((chat.user_id = '".$person."' AND chat.chat_member = '".$this->user->data['user_id']."') 
-			OR (chat.user_id = '".$this->user->data['user_id']."' AND chat.chat_member = '".$person."')) 
+		".$chatid." ((chat.user_id = '".$person."' AND chat.chat_member = '".$this->user->data['user_id']."')
+			OR (chat.user_id = '".$this->user->data['user_id']."' AND chat.chat_member = '".$person."'))
 		ORDER BY chat.chat_time ".$orderby;
 		$result = $this->db->sql_query_limit($sql, $limit);
 		while($row = $this->db->sql_fetchrow($result))
@@ -249,8 +249,8 @@ class social_chat
 				'IFRIGHT'		=> $ifright,
 				'AVATAR'		=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
 				'MESSAGE'		=> $msg,
-				"TIME"			=> $row['chat_time'],
-				"TIME_AGO"		=> $this->pg_social_helper->time_ago($row['chat_time']),
+				'TIME'			=> $row['chat_time'],
+				'TIME_AGO'		=> $this->pg_social_helper->time_ago($row['chat_time']),
 			));
 		}
 		return $this->helper->render('pg_social_chatmessage.html', '');
@@ -279,13 +279,13 @@ class social_chat
 			'bbcode_bitfield'	=> $bitfield,
 			'bbcode_uid'		=> $uid
 		);
-		$sql = "INSERT INTO ".$this->pgsocial_chat." ".$this->db->sql_build_array('INSERT', $sql_arr);
+		$sql = 'INSERT INTO '.$this->pgsocial_chat.' '.$this->db->sql_build_array('INSERT', $sql_arr);
 		$this->db->sql_query($sql);
 
 		$this->template->assign_vars(array(
-			"ACTION"	=> "message_send",
+			'ACTION'	=> 'message_send',
 		));
-		return $this->helper->render('activity_status_action.html', "ah");
+		return $this->helper->render('activity_status_action.html', 'ah');
 	}
 
 	/**

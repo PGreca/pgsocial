@@ -54,7 +54,7 @@ class social_tag
 	*/
 	public function tag_system_search($who)
 	{
-		$who = str_replace("@", "", $who);
+		$who = str_replace('@', '', $who);
 		$sql = "SELECT user_id, username, username_clean, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height, user_colour FROM ".USERS_TABLE." WHERE (username LIKE '%".$who."%' OR username_clean LIKE '%".$who."%') AND user_id != '".$this->user->data['user_id']."' AND user_type IN (".USER_NORMAL.", ".USER_FOUNDER.") ORDER BY username_clean ASC";
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))

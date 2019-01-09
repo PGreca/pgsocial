@@ -372,7 +372,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 
 	function RemoveFolderContent($folder)
 	{
-		foreach(glob($folder."/*") as $file)
+		foreach(glob($folder.'/*') as $file)
 		{
 			if(is_dir($file))
 			{

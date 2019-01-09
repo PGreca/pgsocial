@@ -37,8 +37,8 @@
 						<dl id="profile_menu">
 							{% if U_USER_BAN %}<li class="profile-infoRapid"><a href="{{ U_USER_BAN }}">{{ lang('USER_BAN') }}</a></li>{% endif %}
 							{% if U_SWITCH_PERMISSIONS %}<li class="profile-infoRapid"><a href="{{ U_SWITCH_PERMISSIONS }}">{{ lang('USE_PERMISSIONS') }}</a></li>{% endif %}
-							{% if U_EMAIL %}<li class="profile-infoRapid"><dt>{{ lang('EMAIL_ADDRESS') }}{{ lang('COLON') }}</dt><dd><a href="{{ U_EMAIL }}"><i class="icon fa fa-envelope" aria-hidden="true"></i>  {{ lang('SEND_EMAIL_USER') }}</a></dd></li>{% endif %}
-							{% if U_PM %}<li class="profile-infoRapid"><dt>{{ lang('PM') }}{{ lang('COLON') }}</dt><dd><a href="{{ U_PM }}"><i class="icon fa fa-envelope" aria-hidden="true"></i>  {{ lang('SEND_PRIVATE_MESSAGE') }}</a></dd></li>{% endif %}
+							{% if U_EMAIL %}<li class="profile-infoRapid"><dd><a href="{{ U_EMAIL }}"><i class="icon fa fa-envelope" aria-hidden="true"></i>  {{ lang('SEND_EMAIL_USER') }}</a></dd></li>{% endif %}
+							{% if U_PM %}<li class="profile-infoRapid"><dd><a href="{{ U_PM }}"><i class="icon fa fa-envelope" aria-hidden="true"></i>  {{ lang('SEND_PRIVATE_MESSAGE') }}</a></dd></li>{% endif %}
 							{% if U_JABBER and S_JABBER_ENABLED %}<li class="profile-infoRapid"><dt>{{ lang('JABBER') }}{{ lang('COLON') }}</dt><dd><a href="{{ U_JABBER }}" onclick="popup(this.href, 750, 320); return false;">{{ lang('SEND_JABBER_MESSAGE') }}</a></dd></li>{% elseif USER_JABBER %}<li class="profile-infoRapid"><dt>{{ lang('JABBER') }}{{ lang('COLON') }}</dt> <dd>{{ USER_JABBER }}</dd></li>{% endif %}
 							{% for custom_fields in loops.custom_fields %}
 								{% if custom_fields.S_PROFILE_CONTACT %}

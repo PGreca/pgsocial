@@ -101,7 +101,7 @@ class pages
 		{
 			$page_title = $this->user->lang['PAGES'];
 
-			$sql = "SELECT p.*, (SELECT COUNT(*) 
+			$sql = "SELECT p.*, (SELECT COUNT(*)
 					FROM ".$this->pgsocial_pages_like." as l
 					WHERE l.page_id = p.page_id) AS countlike
 			FROM ".$this->pgsocial_pages." as p
@@ -135,12 +135,12 @@ class pages
 				}
 				if($this->social_page->user_like_pages($this->user->data['user_id'], $page['page_id']) == $page['page_id'])
 				{
-					$page_likeCheck = "like";
+					$page_likeCheck = 'like';
 					$page_likelang = $this->user->lang('LIKE', 2);
 				}
 				else
 				{
-					$page_likeCheck = "dislike";
+					$page_likeCheck = 'dislike';
 					$page_likelang = $this->user->lang('LIKE', 1);
 				}
 
@@ -157,7 +157,7 @@ class pages
 					'PAGE_REGDATE'			=> $this->pg_social_helper->time_ago($page['page_regdate']),
 
 					'PAGE_LIKE'				=> $page['countlike'],
-					'PAGE_LIKE_CHECK'		=> $page_likeCheck."page",
+					'PAGE_LIKE_CHECK'		=> $page_likeCheck.'page',
 					'PAGE_LIKE_CHECKLANG'	=> $page_likelang,
 				));
 
@@ -168,12 +168,12 @@ class pages
 					'PROFILE_ID'				=> $page['page_id'],
 					'GALLERY_NAME'				=> $this->social_photo->gallery_info($this->request->variable('gall', ''))['gallery_name'],
 				));
-				$this->post_status->get_status('page', $page['page_id'], 0, "all", "", "seguel", "");
-				$this->social_photo->get_photos(1, "last", $page['page_id']);
-				$this->social_photo->get_gallery($page['page_id'], "page");
+				$this->post_status->get_status('page', $page['page_id'], 0, 'all', '', 'seguel', '');
+				$this->social_photo->get_photos(1, 'last', $page['page_id']);
+				$this->social_photo->get_gallery($page['page_id'], 'page');
 				if($this->request->variable('gall', ''))
 				{
-					$this->social_photo->get_photos(1, "gall", $page['page_id'], $this->request->variable('gall', ''));
+					$this->social_photo->get_photos(1, 'gall', $page['page_id'], $this->request->variable('gall', ''));
 				}
 			}
 			else
@@ -191,7 +191,7 @@ class pages
 				$result = $this->db->sql_query($sql);
 				while($pages = $this->db->sql_fetchrow($result))
 				{
-					if($page['page_avatar'] != "")
+					if($page['page_avatar'] != '')
 					{
 						$page_avatar = 'upload/'.$page['page_avatar'];
 					}
@@ -201,20 +201,20 @@ class pages
 					}
 					if($this->social_page->user_like_pages($this->user->data['user_id'], $pages['page_id']) == $pages['page_id'])
 					{
-						$page_likeCheck = "like";
+						$page_likeCheck = 'like';
 					}
 					else
 					{
-						$page_likeCheck = "dislike";
+						$page_likeCheck = 'dislike';
 					}
 					if($this->social_page->user_like_pages($this->user->data['user_id'], $pages['page_id']) == $pages['page_id'])
 					{
-						$page_likeCheck = "like";
+						$page_likeCheck = 'like';
 						$page_like = $this->user->lang('LIKE', 2);
 					}
 					else
 					{
-						$page_likeCheck = "dislike";
+						$page_likeCheck = 'dislike';
 						$page_like = $this->user->lang('LIKE', 1);
 					}
 					$this->template->assign_block_vars('pages', array(
@@ -226,7 +226,7 @@ class pages
 						'PAGE_URL'				=> append_sid($this->helper->route('pages_page'), 'u='.$pages['page_username_clean']),
 						'PAGE_REGDATE'			=> $page['page_regdate'],
 						'PAGE_LIKE'				=> $page_like,
-						'PAGE_LIKE_CHECK'		=> $page_likeCheck."page",
+						'PAGE_LIKE_CHECK'		=> $page_likeCheck.'page',
 					));
 				}
 				$this->template->assign_vars(array(
