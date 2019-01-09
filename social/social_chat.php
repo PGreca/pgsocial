@@ -65,6 +65,13 @@ class social_chat
 		$this->pgsocial_chat 			= $pgsocial_table_chat;
 	}
 
+	/**
+	 * Update settings chat
+	 *
+	 * @param int $setting
+	 * @param int $value
+	 * @return
+	*/
 	public function chat_setting($setting, $value)
 	{
 		switch($setting)
@@ -104,6 +111,8 @@ class social_chat
 
 	/**
 	 * Play audio notify for new message on chat
+	 *
+	 * @return
 	*/
 	public function pgsocial_chat_check()
 	{
@@ -120,6 +129,9 @@ class social_chat
 
 	/**
 	 * Return people online on chat
+	 *
+	 * @param int $person
+	 * @return
 	*/
 	public function getchat_people($person)
 	{
@@ -168,6 +180,10 @@ class social_chat
 
 	/**
 	 * Return info of user's chat
+	 *
+	 * @param int $person
+	 * @param string $read
+	 * @return
 	*/
 	public function getchat_person($person, $read)
 	{
@@ -190,9 +206,13 @@ class social_chat
 		return $this->helper->render('pg_social_chatperson.html', '');
 	}
 
-
 	/**
-	 * Message of chat
+	 * Message of the chat
+	 *
+	 * @param int $person
+	 * @param string $type
+	 * @param int $lastmessage
+	 * @return
 	*/
 	public function getchat_message($person, $type, $lastmessage)
 	{
@@ -259,6 +279,10 @@ class social_chat
 
 	/**
 	 * Send new message on chat
+	 *
+	 * @param int $person
+	 * @param string $message
+	 * @return
 	*/
 	public function message_send($person, $message)
 	{
@@ -291,10 +315,17 @@ class social_chat
 
 	/**
 	 * Mark read message on chat's user
+	 *
+	 * @param int $person
+	 * @return
 	*/
 	public function message_read($person)
 	{
-		$sql = "UPDATE ".$this->pgsocial_chat." SET chat_status = '1', chat_read = '1' WHERE chat_member = '".$this->user->data['user_id']."' AND user_id = '".$person."'";
+		$sql_arr = array(
+			'chat_status'		=> '1',
+			'chat_read'			=> '1',
+		);
+		$sql = 'UPDATE ' . $this->pgsocial_chat . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . 'WHERE chat_member = "' . $this->user->data['user_id'] . '" AND user_id = "' .$person . '"';
 		$this->db->sql_query($sql);
 	}
 
