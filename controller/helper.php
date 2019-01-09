@@ -80,7 +80,7 @@ class helper
 	public function __construct($auth, $user, $helper, $notifyhelper, $config, $db, $log, $phpbb_container, $dispatcher, $root_path, $php_ext, $pgsocial_table_wallpostlike, $pgsocial_table_wallpostcomment, $pgsocial_table_photos)
 	{
 		$this->auth = $auth;
-	    $this->user = $user;
+		$this->user = $user;
 		$this->helper = $helper;
 		$this->notifyhelper = $notifyhelper;
 		$this->config = $config;
@@ -88,12 +88,12 @@ class helper
 		$this->log = $log;
 		$this->phpbb_container = $phpbb_container;
 		$this->dispatcher			= $dispatcher;
-	    $this->root_path = $root_path;
+		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 		$this->pgsocial_wallpostlike	= $pgsocial_table_wallpostlike;
 		$this->pgsocial_wallpostcomment = $pgsocial_table_wallpostcomment;
 		$this->pgsocial_photos = $pgsocial_table_photos;
-	    $this->pg_social_path = generate_board_url().'/ext/pgreca/pgsocial';
+		$this->pg_social_path = generate_board_url().'/ext/pgreca/pgsocial';
 	}
 
 	/* TIME AGO - FOR ACTIVITY AND MESSAGES CHAT */
@@ -270,7 +270,7 @@ class helper
 			$sql = 'SELECT * FROM '.RANKS_TABLE.' WHERE rank_id = "'.$rank.'"';
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
-
+			$this->db->sql_freeresult($result);
 			$row['rank_image'] = '<img src="'.generate_board_url().'/images/ranks/'.$row['rank_image'].'" />';
 
 			if($row['rank_image'])
@@ -314,6 +314,7 @@ class helper
 		WHERE s.session_user_id = '".$user."' AND u.user_id = '".$user."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 		if($row['user_allow_viewonline'] == 0)
 		{
 			$online = 'offline';
@@ -366,6 +367,7 @@ class helper
 		}
 		$result = $this->db->sql_query($sql);
 		$count = (int) $this->db->sql_fetchfield('count');
+		$this->db->sql_freeresult($result);
 		return $count;
 	}
 
@@ -377,6 +379,7 @@ class helper
 		WHERE user_id = '".$user."'";
 		$result = $this->db->sql_query($sql);
 		$count = (int) $this->db->sql_fetchfield('count');
+		$this->db->sql_freeresult($result);
 		return $count;
 	}
 

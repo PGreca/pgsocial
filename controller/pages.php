@@ -76,7 +76,7 @@ class pages
 		$this->social_page			= $social_page;
 		$this->template				= $template;
 		$this->user					= $user;
-	    $this->root_path			= $root_path;
+		$this->root_path			= $root_path;
 		$this->pgsocial_pages		= $pgsocial_table_pages;
 		$this->pgsocial_pages_like	= $pgsocial_table_pages_like;
 		$this->php_ext				= $php_ext;
@@ -108,6 +108,7 @@ class pages
 			WHERE p.page_username_clean = '".$this->request->variable('u', '')."'";
 			$result = $this->db->sql_query($sql);
 			$page = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
 			$page_alert = false;
 			$this->db->sql_freeresult($result);
 			if($page && ($page['page_status'] == 1 || $page['page_founder'] == $this->user->data['user_id'] || $this->auth->acl_get('a_page_manage')))
@@ -229,6 +230,7 @@ class pages
 						'PAGE_LIKE_CHECK'		=> $page_likeCheck.'page',
 					));
 				}
+				$this->db->sql_freeresult($result);
 				$this->template->assign_vars(array(
 					'PG_SOCIAL_SIDEBAR_RIGHT'				=> $this->config['pg_social_sidebarRight'],
 					'PAGES'									=> true,

@@ -74,6 +74,7 @@ class main_module
 						'PAGE_REGDATA'	=> $row['page_regdate'],
 					));
 				}
+				$this->db->sql_freeresult($result);
 				$this->template->assign_vars(array(
 					'MCP_PG_SOCIAL_PAGE'	=> 'page_manage',
 					'PAGE_MANAGE_ACTION'	=> ($auth->acl_gets('m_page_manage') || $auth->acl_gets('a_page_manage') ? 1 : 0),

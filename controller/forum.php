@@ -112,7 +112,7 @@ class forum
 		$this->user					= $user;
 		$this->group_helper			= $group_helper;
 		$this->dispatcher			= $dispatcher;
-	    $this->root_path			= $root_path;
+		$this->root_path			= $root_path;
 		$this->php_ext				= $php_ext;
 	}
 

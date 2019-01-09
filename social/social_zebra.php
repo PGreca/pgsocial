@@ -45,13 +45,13 @@ class social_zebra
 	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $config, $db, $root_path)
 	{
 		$this->template							= $template;
-	    $this->user								= $user;
+		$this->user								= $user;
 		$this->helper							= $helper;
 		$this->pg_social_helper					= $pg_social_helper;
 		$this->notify 							= $notifyhelper;
 		$this->config							= $config;
 		$this->db								= $db;
-	    $this->root_path						= $root_path;
+		$this->root_path						= $root_path;
 	}
 
 	/**
@@ -97,6 +97,7 @@ class social_zebra
 				'COUNT_PHOTOS'				=> $this->pg_social_helper->countPhotos($row['user_id']),
 			));
 		}
+		$this->db->sql_freeresult($result);
 		//return $this->helper->render('pg_social_friends.html', '');
 	}
 
@@ -218,6 +219,7 @@ class social_zebra
 		WHERE user_id = '".$user."' AND friend = '1'";
 		$result = $this->db->sql_query($sql);
 		$count = (int) $this->db->sql_fetchfield('count');
+		$this->db->sql_freeresult($result);
 		$return = $count;
 		return $return;
 	}
@@ -239,9 +241,9 @@ class social_zebra
 				'USERNAME_CLEAN'			=> $row['username_clean'],
 				'FRIEND_COLOUR'				=> '#'.$row['user_colour'],
 				'AVATAR'					=> $this->pg_social_helper->social_avatar($row['user_avatar'], $row['user_avatar_type']),
-
 			));
 		}
+		$this->db->sql_freeresult($result);
 		//return $this->helper->render('pg_social_friends.html', '');
 	}
 
@@ -275,5 +277,6 @@ class social_zebra
 				));
 			}
 		}
+		$this->db->sql_freeresult($result);
 	}
 }

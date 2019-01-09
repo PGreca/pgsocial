@@ -54,7 +54,7 @@ class social_page
 		$this->social_zebra				= $social_zebra;
 		$this->config 					= $config;
 		$this->db 						= $db;
-	    $this->root_path				= $root_path;
+		$this->root_path				= $root_path;
 		$this->pgsocial_pages			= $pgsocial_table_pages;
 		$this->pgsocial_pages_like		= $pgsocial_table_pages_like;
 	}
@@ -115,6 +115,7 @@ class social_page
 				$array[] = $row['page_id'];
 			}
 		}
+		$this->db->sql_freeresult($result);
 		if(!$array)
 		{
 			$array = 0;
@@ -130,7 +131,7 @@ class social_page
 		$sql = "SELECT page_like_ID FROM ".$this->pgsocial_pages_like." WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
 		$result = $this->db->sql_query($sql);
 		$like = $this->db->sql_fetchrow($result);
-
+		$this->db->sql_freeresult($result);
 		if($like['page_like_ID'] != '')
 		{
 			$sql = "DELETE FROM ".$this->pgsocial_pages_like." WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
@@ -168,6 +169,7 @@ class social_page
 
 			));
 		}
+		$this->db->sql_freeresult($result);
 	}
 
 	public function appro_pages()
@@ -176,6 +178,7 @@ class social_page
 		FROM ".$this->pgsocial_pages." WHERE page_status = '0'";
 		$result = $this->db->sql_query($sql);
 		$count = $this->db->sql_fetchrow($result);
-		return $count['count'];
+		$this->db->sql_freeresult($result);
+		return (int) $count['count'];
 	}
 }

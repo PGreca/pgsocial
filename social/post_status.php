@@ -206,6 +206,7 @@ class post_status
 					$resulta = $this->db->sql_query($sqla);
 					$wall = $this->db->sql_fetchrow($resulta);
 					$wall_action = $this->user->lang('HAS_WRITE_IN');
+					$this->db->sql_freeresult($resulta);
 				}
 				else
 				{
@@ -219,7 +220,6 @@ class post_status
 						$sql_post = "SELECT topic_id, topic_title FROM ".TOPICS_TABLE." WHERE topic_id = '".$posts[0]."'";
 						$res = $this->db->sql_query($sql_post);
 						$post = $this->db->sql_fetchrow($res);
-
 						if(!$post['topic_id'])
 						{
 							$author_action = $this->user->lang('HAS_WRITED_POST_ON_CANCEL');
@@ -228,6 +228,7 @@ class post_status
 						{
 							$author_action = $this->user->lang('HAS_WRITED_POST_ON', '<a href="'.append_sid(generate_board_url()).'/viewtopic.php?t='.$post['topic_id'].'#p'.$posts[1].'">'.$post['topic_title'].'</a>');
 						}
+						$this->db->sql_freeresult($res);
 					break;
 				}
 			break;
@@ -259,6 +260,7 @@ class post_status
 					GROUP BY post_ID";
 					$post_parent = $this->db->sql_query($sql);
 					$parent = $this->db->sql_fetchrow($post_parent);
+					$this->db->sql_freeresult($post_parent);
 					if($this->status_where($row['post_parent']) == 0)
 					{
 						$parent['url'] = get_username_string('profile', $parent['user_id'], $parent['username'], $parent['user_colour']);
@@ -285,6 +287,7 @@ class post_status
 									$sql_post = "SELECT * FROM ".TOPICS_TABLE." WHERE topic_id = '".$posts[0]."'";
 									$res = $this->db->sql_query($sql_post);
 									$post = $this->db->sql_fetchrow($res);
+									$this->db->sql_freeresult($res);
 									if(!$post['topic_id'])
 									{
 										$sauthor_action = ' '.$this->user->lang('HAS_WRITED_POST_ON_CANCEL');
@@ -331,6 +334,7 @@ class post_status
 									$sql_post = "SELECT * FROM ".TOPICS_TABLE." WHERE topic_id = '".$posts[0]."'";
 									$res = $this->db->sql_query($sql_post);
 									$post = $this->db->sql_fetchrow($res);
+									$this->db->sql_freeresult($res);
 									if(!$post['topic_id'])
 									{
 										$sauthor_action .= ' '.$this->user->lang('HAS_WRITED_POST_ON_CANCEL');
@@ -600,12 +604,14 @@ class post_status
 		$post_info = 'SELECT user_id, wall_id FROM '.$this->pgsocial_wallpost.' WHERE post_ID = "'.$post.'"';
 		$res = $this->db->sql_query($post_info);
 		$post_info = $this->db->sql_fetchrow($res);
+		$this->db->sql_freeresult($res);
 
 		$user_id = (int) $this->user->data['user_id'];
 		$sql = "SELECT post_like_ID FROM ".$this->pgsocial_wallpostlike."
 		WHERE post_ID = '".$post."' AND user_id = '".$user_id."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 		if($row['post_like_ID'] != '')
 		{
 			$sql = "DELETE FROM ".$this->pgsocial_wallpostlike." WHERE post_ID = '".$post."' AND user_id = '".$user_id."'";
@@ -683,6 +689,7 @@ class post_status
 		$post_info = "SELECT user_id, wall_id FROM ".$this->pgsocial_wallpost." WHERE post_ID = '".$post."'";
 		$res = $this->db->sql_query($post_info);
 		$post_info = $this->db->sql_fetchrow($res);
+		$this->db->sql_freeresult($res);
 
 		$user_id = (int) $this->user->data['user_id'];
 		$time = time();
@@ -760,6 +767,7 @@ class post_status
 		$sql = "SELECT post_where FROM ".$this->pgsocial_wallpost." WHERE post_ID = '".$status."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 
 		return $row['post_where'];
 	}

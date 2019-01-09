@@ -70,6 +70,7 @@ class social_tag
 				));
 			}
 		}
+		$this->db->sql_freeresult($result);
 		return $this->helper->render('pg_social_tag_system_search.html', '');
 	}
 

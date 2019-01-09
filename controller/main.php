@@ -103,7 +103,7 @@ class main
 		$this->social_page			= $social_page;
 		$this->template				= $template;
 		$this->user					= $user;
-	    $this->root_path			= $root_path;
+		$this->root_path			= $root_path;
 		$this->php_ext				= $php_ext;
 		$this->pgsocial_wallpost	= $pgsocial_table_wallpost;
 	}
@@ -164,7 +164,6 @@ class main
 					{
 						$friends = $this->request->variable('friend', '');
 					}
-
 					$this->social_zebra->get_friends($profile_id, $where, $friends);
 				break;
 				case 'request_friend':
@@ -216,7 +215,6 @@ class main
 					return $this->social_page->pagelike_action($this->request->variable('page', ''));
 				break;
 			}
-
 
 			if($name == 'mp')
 			{
