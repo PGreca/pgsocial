@@ -322,10 +322,10 @@ class social_chat
 	public function message_read($person)
 	{
 		$sql_arr = array(
-			'chat_status'		=> '1',
-			'chat_read'			=> '1',
+			'chat_status'		=> (int) '1',
+			'chat_read'			=> (int) '1',
 		);
-		$sql = 'UPDATE ' . $this->pgsocial_chat . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . 'WHERE chat_member = "' . $this->user->data['user_id'] . '" AND user_id = "' .$person . '"';
+		$sql = 'UPDATE ' . $this->pgsocial_chat . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . ' WHERE chat_member = ' . (int) $this->user->data['user_id'] . ' AND user_id = ' . (int) $person;
 		$this->db->sql_query($sql);
 	}
 
@@ -333,7 +333,7 @@ class social_chat
 	 * Check if has new message on chat
 	 *
 	 * @param int|null $user
-	 * @return int
+	 * @return int $message
 	*/
 	public function message_check($user = null)
 	{
