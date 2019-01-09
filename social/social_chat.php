@@ -339,19 +339,25 @@ class social_chat
 	{
 		if (!empty($user))
 		{
-			$sql_where = 'chat_status = 1 AND chat_read = 0 AND user_id = ' . (int) $user;
+			$sql_array = array(
+				'chat_status'				=> (int) '1',
+				'chat_read'        	=> (int) '0',
+				'user_id'						=> (int) $user,
+				'chat_member'				=> (int) $this->user->data['user_id'],
+			);
 		}
 		else
 		{
-			$sql_where = 'chat_status = "0"';
+			$sql_array = array(
+				'chat_status'				=> (int) '0',
+				'chat_member'				=> (int) $this->user->data['user_id'],
+			);
 		}
 
 		$message = 0;
-
 		$sql = 'SELECT chat_id, user_id
 				FROM ' . $this->pgsocial_chat . '
-				WHERE chat_member = ' . (int) $this->user->data['user_id']. '
-					AND ' . $sql_where . '
+				WHERE ' . $this->db->sql_build_array('SELECT', $sql_array) . '
 				ORDER BY chat_time DESC';
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
