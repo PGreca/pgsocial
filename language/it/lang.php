@@ -17,7 +17,8 @@ if(empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
-$lang = array_merge($lang, array(	
+
+$lang = array_merge($lang, array(
 	'ABOUT_HOUR'						=> array(
 		1				=> 'ora',
 		2				=> 'ore',
@@ -70,7 +71,7 @@ $lang = array_merge($lang, array(
 		1				=> 'Musica/Canzone/Cantante/Band preferite',
 		2				=> 'Musiche/Canzoni/Cantanti/ Band preferiti',
 	),
-	
+
 	'FAVORITE_TVSHOW'					=> array(
 		1				=> 'Serie tv preferita',
 		2				=> 'Serie tv preferite',
@@ -78,7 +79,7 @@ $lang = array_merge($lang, array(
 	'FRIEND'							=> array(
 		1				=> 'Amico',
 		2				=> 'Amici',
-	),	
+	),
 	'FRIENDS_SUGGESTION'				=> 'Amici suggeriti',
 	'GALLER'							=> 'Galleria',
 	'GENDER'							=> 'Sesso',
@@ -188,7 +189,7 @@ $lang = array_merge($lang, array(
 	'SECONDS'							=> 'secondi',
 	'SHARE'								=> 'Condividi',
 	'STATUS'							=> 'stato',
-	'PG_SOCIAL_SUPPORT_EXT_KOFI'		=> 'Supporta PG SOCIAL NETWORK su Ko-fi',	
+	'PG_SOCIAL_SUPPORT_EXT_KOFI'		=> 'Supporta PG SOCIAL NETWORK su Ko-fi',
 	'PG_SOCIAL_WALL'				=> 'Bacheca',
 	'WALL_TIME_AGO'						=> '%1$u %2$s fa',
 	'WALL_TIME_FROM_NOW'				=> '%1$u %2$s fa',

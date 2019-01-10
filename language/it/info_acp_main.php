@@ -17,6 +17,7 @@ if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
+
 $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_TITLE'				=> 'PG Social Network',
 	'ACP_PG_SOCIAL_MAIN'				=> 'Menù principale',
@@ -50,7 +51,7 @@ $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_CHAT'				=> 'Impostazioni CHAT',
 	'ACP_SOCIAL_SOCIAL_CHAT_ENABLED'	=> 'Abilita Chat',
 	'ACP_PG_SOCIAL_CHAT_BBCODE_ENABLED'	=> 'Abilita i BBCode nei messaggi',
-	'ACP_PG_SOCIAL_CHAT_URL_ENABLED'	=> 'Abilita gli URL nei messaggi', 
+	'ACP_PG_SOCIAL_CHAT_URL_ENABLED'	=> 'Abilita gli URL nei messaggi',
 	'ACP_PG_SOCIAL_SETTING_SAVED'		=> 'Configurazione aggiornata.',
-	
+
 ));

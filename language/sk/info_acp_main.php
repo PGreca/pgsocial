@@ -3,13 +3,16 @@
 /**
  *
  * PGreca Social extension for phpBB.
- * Slovak translation by Fonzi
  *
  * @copyright (c) 2018 pgreca <https:/pgreca.it>
+ * @translation (c) 2018 Fonzi
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
- 
+
+/**
+* DO NOT CHANGE
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -18,6 +21,7 @@ if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
+
 $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_TITLE'				=> 'PG Sociálna sieť',
 	'ACP_PG_SOCIAL_MAIN'				=> 'Hlavná ponuka',
@@ -53,5 +57,5 @@ $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_CHAT_BBCODE_ENABLED'	=> 'Poboliť BBKódy v správach',
 	'ACP_PG_SOCIAL_CHAT_URL_ENABLED'	=> 'Povoliť URL adresy v správach',
 	'ACP_PG_SOCIAL_SETTING_SAVED'		=> 'Nastavenie bolo úspešne aktualizované.',
-	
+
 ));

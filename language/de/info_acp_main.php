@@ -9,7 +9,10 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
- 
+
+/**
+* DO NOT CHANGE
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -18,6 +21,7 @@ if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
+
 $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_TITLE'				=> 'PG Social Network',
 	'ACP_PG_SOCIAL_MAIN'				=> 'Hauptmenü',
@@ -53,5 +57,5 @@ $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_CHAT_BBCODE_ENABLED'	=> 'BBCode bei Nachrichten aktivieren',
 	'ACP_PG_SOCIAL_CHAT_URL_ENABLED'	=> 'URL bei Nachrichten aktivieren',
 	'ACP_PG_SOCIAL_SETTING_SAVED'		=> 'Einstellung gespeichert.',
-	
+
 ));

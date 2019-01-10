@@ -17,6 +17,7 @@ if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
+
 $lang = array_merge($lang, array(
 	'UCP_PG_SOCIAL_CHAT'				=> 'Imposta la chat',
 	'UCP_PG_SOCIAL_MAIN'				=> 'Social',

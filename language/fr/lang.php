@@ -1,22 +1,28 @@
 <?php
+
 /**
  *
  * PGreca Social extension for phpBB.
  *
  * @copyright (c) 2018 pgreca <https:/pgreca.it>
+ * @translation (c) 2018 Mathieu M. <https://www.phpbb.com/community/memberlist.php?mode=viewprofile&u=1781476>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
- 
-if(!defined('IN_PHPBB'))
+
+/**
+* DO NOT CHANGE
+*/
+if (!defined('IN_PHPBB'))
 {
 	exit;
 }
-if(empty($lang) || !is_array($lang))
+if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
-$lang = array_merge($lang, array(	
+
+$lang = array_merge($lang, array(
 	'ABOUT_HOUR'						=> array(
 		1				=> 'heure',
 		2				=> 'heures',
@@ -69,7 +75,7 @@ $lang = array_merge($lang, array(
 		1				=> 'Musique / Chanson / Artiste / Groupe favori(-e)',
 		2				=> 'Musiques / Chansons / Artistes / Groupes favori(-e)s',
 	),
-	
+
 	'FAVORITE_TVSHOW'					=> array(
 		1				=> 'Emission TV favorite',
 		2				=> 'Emissions TV favorites',
@@ -128,7 +134,7 @@ $lang = array_merge($lang, array(
 	'MINUTE'							=> array(
 		1				=> 'minute',
 		2				=> 'minutes',
-	),	
+	),
 	'NOTIFICATION_PG_SOCIAL'			=> 'Notifications d’activités',
 	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'rédige quelque chose sur le mur',
 	'NOTIFICATION_TYPE_SOCIAL_COMMENTS'	=> 'en train de commenter votre message',
@@ -158,7 +164,7 @@ $lang = array_merge($lang, array(
 	'PG_SOCIAL_LIKE_NEW_LOG'			=> '<strong>Aime une activité</strong><br />» %s',
 	'PG_SOCIAL_STATUS_NEW_LOG'			=> '<strong>A publié une activité</strong><br />» %s',
 	'PG_SOCIAL_STATUS_SHARE_LOG'		=> '<strong>A partagé une activité</strong><br />» %s',
-	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>A supprimé une activité</strong>',	
+	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>A supprimé une activité</strong>',
 	'PG_SOCIAL_WRITE_A_MESSAGE'					=> 'Ecrire un message',
 	'PG_SOCIAL_WRITE_SOMETHING'					=> 'Ecrivez quelque chose',
 	'PG_SOCIAL_VERSION'							=> 'Version',
@@ -169,7 +175,7 @@ $lang = array_merge($lang, array(
 	),
 	'PRIVACY_ALL'						=> 'Public',
 	'PRIVACY_ONLY_FRIENDS'				=> 'Amis',
-	'PRIVACY_ONLY_ME'					=> 'Moi seulement',	
+	'PRIVACY_ONLY_ME'					=> 'Moi seulement',
 	'PRIVACY_VISIBLE_FOR'				=> 'Visible pour',
 	'PROFILE_AVATAR_UPDATE'				=> 'Modifier la photo de profil',
 	'PROFILE_COVER_UPDATE'				=> 'Modifier la photo de couverture',

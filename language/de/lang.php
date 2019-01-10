@@ -9,16 +9,20 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
- 
-if(!defined('IN_PHPBB'))
+
+/**
+* DO NOT CHANGE
+*/
+if (!defined('IN_PHPBB'))
 {
 	exit;
 }
-if(empty($lang) || !is_array($lang))
+if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
-$lang = array_merge($lang, array(	
+
+$lang = array_merge($lang, array(
 	'ABOUT_HOUR'						=> array(
 		1				=> 'hour',
 		2				=> 'hours',
@@ -70,7 +74,7 @@ $lang = array_merge($lang, array(
 		1				=> 'Lieblingsmusik/Song/Sänger/Band',
 		2				=> 'Lieblingsmusik/Song/Sänger/Band',
 	),
-	
+
 	'FAVORITE_TVSHOW'					=> array(
 		1				=> 'Lieblingsfernsehsendung',
 		2				=> 'Lieblingsfernsehsendungen',
@@ -78,7 +82,7 @@ $lang = array_merge($lang, array(
 	'FRIEND'							=> array(
 		1				=> 'Freund',
 		2				=> 'Freunde',
-	),	
+	),
 	'FRIENDS_SUGGESTION'				=> 'Freundevorschlag',
 	'GALLER'							=> 'Galerie',
 	'GENDER'							=> 'Geschlecht',
@@ -129,7 +133,7 @@ $lang = array_merge($lang, array(
 	'MINUTE'							=> array(
 		1				=> 'minute',
 		2				=> 'minuten',
-	),	
+	),
 	'NOTIFICATION_PG_SOCIAL'			=> 'Social Benachrichtigungen',
 	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'schreibt etwas an die Wand.',
 	'NOTIFICATION_TYPE_SOCIAL_COMMENTS'	=> 'kommentiert deinen Beitrag',
@@ -159,7 +163,7 @@ $lang = array_merge($lang, array(
 	'PG_SOCIAL_LIKE_NEW_LOG'			=> '<strong>Mag eine Aktivität</strong><br />» %s',
 	'PG_SOCIAL_STATUS_NEW_LOG'			=> '<strong>Hat eine Aktivität veröffentlicht</strong><br />» %s',
 	'PG_SOCIAL_STATUS_SHARE_LOG'		=> '<strong>Hat eine Aktivität geteilt</strong><br />» %s',
-	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>Hat eine Aktivität gelöscht</strong>',	
+	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>Hat eine Aktivität gelöscht</strong>',
 	'PG_SOCIAL_WRITE_A_MESSAGE'					=> 'Schreib eine Nachricht',
 	'PG_SOCIAL_WRITE_SOMETHING'					=> 'Schreib etwas',
 	'PG_SOCIAL_VERSION'							=> 'Version',
@@ -170,7 +174,7 @@ $lang = array_merge($lang, array(
 	),
 	'PRIVACY_ALL'						=> 'Alle',
 	'PRIVACY_ONLY_FRIENDS'				=> 'Freunde',
-	'PRIVACY_ONLY_ME'					=> 'Nur ich',	
+	'PRIVACY_ONLY_ME'					=> 'Nur ich',
 	'PRIVACY_VISIBLE_FOR'				=> 'Sichtbar für',
 	'PROFILE_AVATAR_UPDATE'				=> 'Ändere Profilbild',
 	'PROFILE_COVER_UPDATE'				=> 'Ändere Titelbild',
