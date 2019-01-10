@@ -15,9 +15,9 @@ class install_pg_social_03 extends \phpbb\db\migration\migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbb\db\migration\data\v32x\v321');
+		return array('\pgreca\pgsocial\migrations\install_pg_social_02');
 	}
-	
+
 	public function update_schema()
 	{
 		$sql = "ALTER TABLE ".$this->table_prefix."pg_social_photos CHANGE gallery_id album_id INT(11) UNSIGNED NOT NULL DEFAULT '0'";
@@ -29,5 +29,5 @@ class install_pg_social_03 extends \phpbb\db\migration\migration
 				),
 			),
 		);
-	}	
+	}
 }

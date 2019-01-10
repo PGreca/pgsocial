@@ -15,9 +15,10 @@ class install_pg_social_04 extends \phpbb\db\migration\migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbb\db\migration\data\v32x\v321');
+		return array('\pgreca\pgsocial\migrations\install_pg_social_03');
 	}
-	
+
+
 	public function update_schema()
 	{
 		return array(
@@ -27,5 +28,5 @@ class install_pg_social_04 extends \phpbb\db\migration\migration
 				),
 			),
 		);
-	}	
+	}
 }

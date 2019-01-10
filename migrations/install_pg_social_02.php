@@ -15,10 +15,9 @@ class install_pg_social_02 extends \phpbb\db\migration\migration
 {
 	static public function depends_on()
 	{
-		return array('\phpbb\db\migration\data\v32x\v321');
+		return array('\pgreca\pgsocial\migrations\install_pg_social_01');
 	}
-			
-	
+
 	// Add chat DB tables and columns
 	public function update_schema()
 	{
@@ -36,8 +35,8 @@ class install_pg_social_02 extends \phpbb\db\migration\migration
 				),
 			),
 		);
-	}	
-	
+	}
+
 	public function revert_schema()
 	{
 		return array(
@@ -53,5 +52,5 @@ class install_pg_social_02 extends \phpbb\db\migration\migration
 				),
 			),
 		);
-	}	
+	}
 }
