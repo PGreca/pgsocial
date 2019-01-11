@@ -66,7 +66,7 @@
 			$('#pg_social_wall_tag_system').html('');
 		});
 		*/
-		$('#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people').on('click', function() {
+		$(document).on('click', '#pg_social form#wall_post ul#pg_social_wall_tag_system li.tag_system_search_people', function() {
 			var username = $(this).attr('data-people_username');
 			var user = $(this).attr('data-people');
 			var content = $('#wall_post_text').val();
@@ -256,12 +256,14 @@
 
 		$(document).on('keydown', '.pg_social_photo_comment_text', function(e) {
 			if (e.keyCode === 13) {
+				e.preventDefault();
 				pgwall_add_comment($(this).val(), $(this).parent().parent().find('.pg_social_photo_comments').attr('data-post'));
 			}
 		});
 
 		$(document).on('keydown', '.wall_comment_text', function(e) {
 			if (e.keyCode === 13) {
+				e.preventDefault();
 				pgwall_add_comment($(this).val(), $(this).parent().parent().attr('data-lastp'));
 			}
 		});
