@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * PGreca Social extension for phpBB.
@@ -9,7 +8,6 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
-
 /**
 * DO NOT CHANGE
 */
@@ -21,7 +19,6 @@ if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
-
 $lang = array_merge($lang, array(
 	'ABOUT_HOUR'						=> array(
 		1				=> 'hodinou',
@@ -32,7 +29,7 @@ $lang = array_merge($lang, array(
 	'ABOUT_MONTHS'						=> 'mesiacmi',
 	'ACTIVITY'							=> 'Aktivita',
 	'ACTIVITY_PAGE'						=> 'Nástenka',
-	'AGO'								=> 'pred',
+	'AGO'								=> '',
 	'ALBUM_CREATE'						=> 'Vytvoriť album',
 	'ALBUM_CREATE_EXPLAIN'				=> 'Trvá to len niekoľko minút!',
 	'ALBUM_CREATE_TITLE'				=> 'Zadajte názov albumu',
@@ -103,7 +100,7 @@ $lang = array_merge($lang, array(
 	'HAS_UPLOADED_AVATAR'				=> 'nahral nový profilový obrázok',
 	'HAS_UPLOADED_COVER'				=> 'nahral nový titulný obrázok',
 	'HAS_TAGGED_YOU'					=> '%s vás označil v aktivite',
-	'HAS_WRITE_IN'						=> 'has written on the wall of',
+	'HAS_WRITE_IN'						=> 'napísal na nástenku',
 	'HAS_WRITE_IN_YOUR'					=> '%s napísal na Vašu nástenku',
 	'HAS_WRITED_ARTICLE'				=> 'napísal článok',
 	'HAS_WRITED_POST_ON'				=> 'napísal príspevok %s',
@@ -123,13 +120,13 @@ $lang = array_merge($lang, array(
 		1				=> 'Posledná fotka',
 		2				=> 'Posledné fotky',
 	),
-	'LESS'								=> 'menej ako',
+	'LESS'								=> 'menej než',
 	'LIKE'								=> array(
 		1				=> 'Páči sa mi to',
 		2				=> 'Páči sa mi to',
 	),
-	'LIKE_ACTIVE'  						=> 'Páči sa ti to',
-	//'LIKE_TO'							=> 'Like to',
+	//'LIKE_ACTIVE'  						=> 'You like it',
+	'LIKE_TO'							=> 'Like to',
 	'MINUTE'							=> array(
 		1				=> 'minútou',
 		2				=> 'minútami',
@@ -149,7 +146,7 @@ $lang = array_merge($lang, array(
 	'PAGES'								=> 'Stránky',
 	'PERSONAL_INFO'						=> 'Osobné informácie',
 	'PG_SOCIAL_CHAT_DISABLE'			=> 'Vypnúť čet',
-	'PG_SOCIAL_CHAT_SOUND_DISABLE'		=> 'Vypnúť zvuky pri prijímaní nových správ v čete',
+	'PG_SOCIAL_CHAT_SOUND_DISABLE'		=> 'Vypnúť zvuky',
 	'PG_SOCIAL_COMMENT_NEW_LOG'			=> '<strong>Komentovala aktivitu</strong><br />» %s',
 	'PG_SOCIAL_COMMENT_REMOVE_LOG'		=> '<strong>Zmaže svoj komentár z aktivity</strong>',
 	'PG_SOCIAL_FRIENDS'					=> 'Priatelia',
