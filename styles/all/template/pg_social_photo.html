@@ -14,13 +14,10 @@
 		<ul id="pg_social_photo_img_footer">
 			<li id="pg_social_photo_img_close">
 				<i class="icon fa fa-times" aria-hidden="true"></i>
-			</li>
-			<li id="pg_social_photo_img_option">
+			</li>{% if social_photo.PHOTO_ACTION %}<li id="pg_social_photo_img_option">
 				<span>{{ lang('OPTIONS') }}</span><i class="icon fa fa-bars" aria-hidden="true"></i>
-				<ul id="pg_social_photo_img_options">
-					{% if social_photo.PHOTO_ACTION %}<li id="pg_social_photo_img_option_delete"><a>{{ lang('PHOTO_DELETE') }}</a></li>{% endif %}
-				</ul>
-			</li>
+				<ul id="pg_social_photo_img_options"><li id="pg_social_photo_img_option_delete"><a>{{ lang('PHOTO_DELETE') }}</a></li></ul>
+			</li>{% endif %}
 		</ul>
 	</div>
 </div><div id="pg_social_photo_social">
@@ -31,8 +28,7 @@
 	</div><p class="photo_desc">{{ social_photo.PHOTO_DESC }}</p><div class="pg_social_photo_likshare" data-post="{{ social_photo.POST_ID }}">
 		<div class="post_status_like {% if social_photo.IFLIKE != 0 %}active{% endif %}">
 			<a><i class="icon fa-heart fa-fw" aria-hidden="true"></i>{{ social_photo.LIKE }}</a>
-		</div>
-		<div class="social_photo_comment">
+		</div><div class="social_photo_comment">
 			<a><i class="icon fa-comments fa-fw" aria-hidden="true"></i>{{ social_photo.COMMENT }}</a>
 		</div>
 	</div><div id="pg_social_photo_comment">

@@ -376,7 +376,7 @@
 			success: function(data) {
 				$('#post_status_'+post_like+' .post_status_footer .post_status_like').replaceWith(data);
 				$('.pg_social_photo #pg_social_photo_social .pg_social_photo_likshare[data-post="'+post_like+'"] .post_status_like').replaceWith(data);
-			},
+			}
 		});
 	}
 

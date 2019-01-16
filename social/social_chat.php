@@ -37,7 +37,7 @@ class social_chat
 	protected $root_path;
 
 	/** @var string */
-	protected $pgsocial_chat;
+	protected $pgsocial_table_chat;
 
 	/**
 	 * Constructor
@@ -104,8 +104,8 @@ class social_chat
 		}
 
 		$this->template->assign_vars(array(
-										 'ACTION'	=> $set,
-									 ));
+			'ACTION'	=> $set,
+		));
 
 		return $this->helper->render('activity_status_action.html', '');
 	}

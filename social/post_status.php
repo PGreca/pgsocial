@@ -21,14 +21,41 @@ class post_status
 	/* @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var \pgreca\pgsocial\controller\helper */
+	protected $pg_social_helper;
+
+	/** @var \pgreca\pgsocial\social\social_photo */
+	protected $social_photo;
+
+	/** @var \pgreca\pgsocial\social\social_tag */
+	protected $social_tag;
+
+	/** @var \pgreca\pgsocial\social\social_zebra */
+	protected $social_zebra;
+
+	/** @var \pgreca\pgsocial\social\social_page */
+	protected $social_page;
+
 	/* @var \phpbb\config\config */
 	protected $config;
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
 
 	/* @var string phpBB root path */
 	protected $root_path;
 
-	/* @var string phpEx */
-	protected $php_ext;
+	/** @var string */
+	protected $pgsocial_table_wallpost;
+
+	/** @var string */
+	protected $pgsocial_table_wallpostlike;
+
+	/** @var string */
+	protected $pgsocial_table_wallpostcomment;
+
+	/** @var string */
+	protected $pgsocial_table_pages;
 
 	/**
 	* Constructor
@@ -42,7 +69,24 @@ class post_status
 	* @param \phpbb\db\driver\driver_interface	$db
 	*/
 
-	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $social_photo, $social_tag, $social_zebra, $social_page, $config, $db, $root_path, $pgsocial_table_wallpost, $pgsocial_table_wallpostlike, $pgsocial_table_wallpostcomment, $pgsocial_table_pages)
+	public function __construct(
+		\phpbb\template\template $template,
+		\phpbb\user $user,
+		\phpbb\controller\helper $helper,
+		\pgreca\pgsocial\controller\helper $pg_social_helper,
+		$notifyhelper,
+		\pgreca\pgsocial\social\social_photo $social_photo,
+		\pgreca\pgsocial\social\social_tag $social_tag,
+		\pgreca\pgsocial\social\social_zebra $social_zebra,
+		\pgreca\pgsocial\social\social_page $social_page,
+		\phpbb\config\config $config,
+		\phpbb\db\driver\driver_interface $db,
+		$root_path,
+		$pgsocial_table_wallpost,
+		$pgsocial_table_wallpostlike,
+		$pgsocial_table_wallpostcomment,
+		$pgsocial_table_pages
+	)
 	{
 		$this->template					= $template;
 		$this->user						= $user;
@@ -55,16 +99,26 @@ class post_status
 		$this->social_page				= $social_page;
 		$this->config 					= $config;
 		$this->db 						= $db;
-	    $this->root_path				= $root_path;
+		$this->root_path				= $root_path;
 		$this->pgsocial_wallpost		= $pgsocial_table_wallpost;
 		$this->pgsocial_wallpostlike	= $pgsocial_table_wallpostlike;
 		$this->pgsocial_wallpostcomment = $pgsocial_table_wallpostcomment;
 		$this->pgsocial_pages			= $pgsocial_table_pages;
-	    $this->pg_social_path 			= generate_board_url().'/ext/pgreca/pgsocial';
+		$this->pg_social_path 			= generate_board_url().'/ext/pgreca/pgsocial';
 	}
 
 	/**
-	 * The wall
+	 * The Wall
+	 *
+	 * @param int $post_where
+	 * @param int $wall_id
+	 * @param int $lastp
+	 * @param string $type
+	 * @param int $select
+	 * @param string $order
+	 * @param bool $template
+	 * @return function status
+	 * @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function get_status($post_where, $wall_id, $lastp, $type, $select, $order, $template)
 	{
@@ -147,6 +201,15 @@ class post_status
 
 	/**
 	 * Information or Output of the Activity
+	 *
+	 * @param int $post_where
+	 * @param int $wall_id
+	 * @param string $type
+	 * @param bool $template
+	 * @param array $row
+	 * @param int $order
+	 * @return array
+	 * @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function status($post_where, $wall_id, $type, $template, $row, $select = 0)
 	{
@@ -472,6 +535,15 @@ class post_status
 
 	/**
 	 * Add new activity on wall
+	 *
+	 * @param int $post_where
+	 * @param int $wall_id
+	 * @param string $text
+	 * @param int $privacy
+	 * @param int $type
+	 * @param string $extra
+	 * @param bool $template
+	 * @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function add_status($post_where, $wall_id, $text, $privacy, $type = 0, $extra = NULL, $template = true)
 	{
@@ -546,6 +618,9 @@ class post_status
 
 	/**
 	 * Delete the activity from the wall
+	 *
+	 * @param int $post
+	 * @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function delete_status($post)
 	{
@@ -566,6 +641,9 @@ class post_status
 
 	/**
 	 * Share the activity on the wall
+	 *
+	 * @param int $post
+	 * @return
 	*/
 	public function shareStatus($post)
 	{
@@ -596,8 +674,10 @@ class post_status
 	}
 
 	/**
-	 * Like / Dislike
-	 * Count Like on the activity
+	 * Like / Dislike and Count Like on the activity
+	 *
+	 * @param int $post
+	 * @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function like_action($post)
 	{
@@ -606,32 +686,31 @@ class post_status
 		$post_info = $this->db->sql_fetchrow($res);
 		$this->db->sql_freeresult($res);
 
-		$user_id = (int) $this->user->data['user_id'];
 		$sql = "SELECT post_like_ID FROM ".$this->pgsocial_wallpostlike."
-		WHERE post_ID = '".$post."' AND user_id = '".$user_id."'";
+		WHERE post_ID = '".$post."' AND user_id = '".(int) $this->user->data['user_id']."'";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 		if($row['post_like_ID'] != '')
 		{
-			$sql = "DELETE FROM ".$this->pgsocial_wallpostlike." WHERE post_ID = '".$post."' AND user_id = '".$user_id."'";
+			$sql = "DELETE FROM ".$this->pgsocial_wallpostlike." WHERE post_ID = '".$post."' AND user_id = '".(int) $this->user->data['user_id']."'";
 			$action = 'dislike';
-			if($post_info['user_id'] != $user_id || $post_info['wall_id'] == $user_id) $this->notify->notify('remove_like', $post, '', (int) $post_info['user_id'], (int) $user_id, 'NOTIFICATION_SOCIAL_LIKE_ADD');
+			if($post_info['user_id'] != (int) $this->user->data['user_id'] || $post_info['wall_id'] == (int) $this->user->data['user_id']) $this->notify->notify('remove_like', $post, '', (int) $post_info['user_id'],  (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_LIKE_ADD');
 			$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'DISLIKE_NEW', "<a href='".$this->helper->route('status_page', array('id' => $post))."'>#".$post."</a>");
 		}
 		else
 		{
 			$sql_arr = array(
 				'post_ID'			=> $post,
-				'user_id'			=> $user_id,
+				'user_id'			=> (int) $this->user->data['user_id'],
 				'post_like_time'	=> time(),
 			);
 			$sql = 'INSERT INTO '.$this->pgsocial_wallpostlike.' '.$this->db->sql_build_array('INSERT', $sql_arr);
 			$action = 'like';
-			if($post_info['user_id'] != $user_id) $this->notify->notify('add_like', $post, '', (int) $post_info['user_id'], (int) $user_id, 'NOTIFICATION_SOCIAL_LIKE_ADD');
+			if($post_info['user_id'] != (int) $this->user->data['user_id']) $this->notify->notify('add_like', $post, '', (int) $post_info['user_id'], (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_LIKE_ADD');
 			$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'LIKE_NEW', "<a href='".$this->helper->route('status_page', array('id' => $post))."'>#".$post."</a>");
 		}
-		if($this->db->sql_query($sql)) $this->db->sql_freeresult($result);
+		$this->db->sql_query($sql);
 
 		$this->template->assign_vars(array(
 			'ACTION'	=> $action,
@@ -642,6 +721,11 @@ class post_status
 
 	/**
 	 * The comments of activity
+	 *
+	 * @param int $post
+	 * @param int $type
+	 * @param bool $template
+	 * @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function get_comments($post, $type, $template = true)
 	{
@@ -683,6 +767,10 @@ class post_status
 
 	/**
 	 * Add new comment on activity
+	 *
+	 * @param int $post
+	 * @param string $comment
+	 * @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function add_comment($post, $comment)
 	{
@@ -724,6 +812,9 @@ class post_status
 
 	/**
 	 * Remove the comment on activity
+	 *
+	 * @param int $comment
+	 * @return \Symfony\Component\HttpFoundation\Response
 	*/
 	public function remove_comment($comment)
 	{
@@ -738,6 +829,9 @@ class post_status
 
 	/**
 	 * Array information photo
+	 *
+	 * @param int $photo
+	 * @return array
 	*/
 	public function photo($photo)
 	{
@@ -761,6 +855,9 @@ class post_status
 
 	/**
 	 * Profile or page is published the activity?
+	 *
+	 * @param int $status
+	 * @return int $row
 	*/
 	public function status_where($status)
 	{
@@ -769,6 +866,6 @@ class post_status
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-		return $row['post_where'];
+		return (int) $row['post_where'];
 	}
 }

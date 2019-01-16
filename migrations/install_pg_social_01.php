@@ -284,7 +284,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 			array(
 				'module.remove', array(
 					'acp',
-					'ACP_PG_SOCIAL_MAIN',
+					'ACP_PG_SOCIAL_TITLE',
 					array(
 						'module_basename'	=> '\pgreca\pgsocial\acp\main_module',
 					),
@@ -298,7 +298,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 				),
 				'module.remove', array(
 					'acp',
-					'ACP_PG_SOCIAL_TITLE',
+					'ACP_PG_SOCIAL_MAIN',
 					array(
 						'module_basename'	=> '\pgreca\pgsocial\acp\main_module',
 					),

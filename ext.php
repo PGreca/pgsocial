@@ -4,7 +4,7 @@
  *
  * PGreca Social extension for phpBB.
  *
- * @copyright (c) 2015 pgreca <http://www.livemembersonly.com>
+ * @copyright (c) 2018 pgreca <http://www.pgreca.it>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -19,17 +19,17 @@ class ext extends \phpbb\extension\base
 	const PG_SOCIAL_VERSION = '0.4.6';
 
 	public function is_enableable()
-	{	
+	{
 		// Set globals for use in the language file
 		global $ver_error, $cookie_error;
-		
+
 		// Requires phpBB 3.2.2 or newer.
 		$ver  = phpbb_version_compare(PHPBB_VERSION, '3.2.2', '>=');
-		
+
 		// Display a custom warning message if this requirement fails.
-		
+
 		$ver_error = ($ver) ? false : true;
-		
+
 		// Need to cater for 3.1 and 3.2
 		if (phpbb_version_compare(PHPBB_VERSION, '3.2.0', '>='))
 		{
@@ -41,7 +41,7 @@ class ext extends \phpbb\extension\base
 		}
 		return $ver;
 	}
-	
+
 	/**
 	* Single enable step that installs any included migrations
 	*
@@ -57,9 +57,9 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->enable_notifications('notification.type.social_status');
 				$phpbb_notifications->enable_notifications('notification.type.social_comments');
-				$phpbb_notifications->enable_notifications('notification.type.social_likes');	
-				$phpbb_notifications->enable_notifications('notification.type.social_tag');		
-				$phpbb_notifications->enable_notifications('notification.type.social_zebra');				
+				$phpbb_notifications->enable_notifications('notification.type.social_likes');
+				$phpbb_notifications->enable_notifications('notification.type.social_tag');
+				$phpbb_notifications->enable_notifications('notification.type.social_zebra');
 				return 'notifications';
 			break;
 			default:
@@ -83,9 +83,9 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->disable_notifications('notification.type.social_status');
 				$phpbb_notifications->disable_notifications('notification.type.social_comments');
-				$phpbb_notifications->disable_notifications('notification.type.social_likes');	
+				$phpbb_notifications->disable_notifications('notification.type.social_likes');
 				$phpbb_notifications->disable_notifications('notification.type.social_tag');
-				$phpbb_notifications->disable_notifications('notification.type.social_zebra');							
+				$phpbb_notifications->disable_notifications('notification.type.social_zebra');
 				return 'notifications';
 			break;
 			default:
@@ -118,8 +118,8 @@ class ext extends \phpbb\extension\base
 					$phpbb_notifications->purge_notifications('notification.type.social_status');
 					$phpbb_notifications->purge_notifications('notification.type.social_comments');
 					$phpbb_notifications->purge_notifications('notification.type.social_likes');
-					$phpbb_notifications->purge_notifications('notification.type.social_tag');	
-					$phpbb_notifications->purge_notifications('notification.type.social_zebra');					
+					$phpbb_notifications->purge_notifications('notification.type.social_tag');
+					$phpbb_notifications->purge_notifications('notification.type.social_zebra');
 				}
 				catch(\phpbb\notification\exception $e)
 				{

@@ -61,6 +61,10 @@ class social_page
 
 	/**
 	 * Create new page
+	 *
+	 * @param string $page_name
+	 * @param int $page_category
+	 * @return
 	*/
 	public function page_create($page_name, $page_category = 0)
 	{
@@ -90,6 +94,10 @@ class social_page
 
 	/**
 	 * Count likes pages
+	 *
+	 * @param int $user
+	 * @param bool $page
+	 * @return array $array
 	*/
 	public function user_like_pages($user, $page = false)
 	{
@@ -125,6 +133,9 @@ class social_page
 
 	/**
 	 * Action like on page
+	 *
+	 * @param int $page
+	 * @return
 	*/
 	public function pagelike_action($page)
 	{
@@ -154,6 +165,14 @@ class social_page
 		return $this->helper->render('activity_status_action.html', '');
 	}
 
+	/**
+	 * Count like page if
+	 *
+	 * @param int $user
+	 * @param string $template
+	 * @param bool $if
+	 * @return
+	*/
 	public function page_likeif($user, $template, $if = false)
 	{
 		$sql = "SELECT p.* FROM ".$this->pgsocial_pages." p
@@ -172,6 +191,11 @@ class social_page
 		$this->db->sql_freeresult($result);
 	}
 
+	/**
+	 * Count page not approved
+	 *
+	 * @return int $count
+	*/
 	public function appro_pages()
 	{
 		$sql = "SELECT COUNT(page_id) AS count

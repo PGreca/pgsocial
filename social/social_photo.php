@@ -536,7 +536,7 @@ class social_photo
 			$photo_id = $this->db->sql_nextid();
 			$this->add_status_photo($where, $who, $this->user->data['user_id'], $gallery, 1, $photo_id, $msg);
 
-			if($type == 'cover' || $type == 'avatar' || $type == 'wall')
+			if($type == 'cover' || $type != 'avatar' || $type == 'wall')
 			{
 				$this->template->assign_vars(array(
 					'ACTION'	=>  $type,
