@@ -1,5 +1,5 @@
 {% if S_PG_SOCIAL_ENABLED %}
-{% if not SOCIAL_FORUM %}
+{% if not SOCIAL_FORUM and S_USER_LOGGED_IN %}
 <li class="no-bulletin" data-last-responsive="true">
 	<a href="{{ ACTIVITY_PAGE_NAV }}" rel="{{ lang('ACTIVITY_PAGE') }}" title="{{ lang('ACTIVITY_PAGE') }}" role="menuitem">
 		<i class="icon fa fa-users fa-fw" aria-hidden="true"></i><span>{{ lang('ACTIVITY_PAGE') }}</span>

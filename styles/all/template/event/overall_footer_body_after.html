@@ -14,9 +14,7 @@
 	{% INCLUDEJS 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js' %}
 	{% INCLUDEJS 'js/pg_social.js' %}
 {% endif %}
-
 {% INCLUDE 'pg_social_footer.html' %}
-
 {% if PG_SOCIAL_CHAT and S_USER_LOGGED_IN %}
 	{% INCLUDE 'pg_social_chat.html' %}
 	{% INCLUDECSS 'pg_social_chat.css' %}

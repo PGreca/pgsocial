@@ -1,16 +1,15 @@
 <?php
+
 /**
  *
  * PGreca Social extension for phpBB.
+ * Slovak translation by Fonzi
  *
  * @copyright (c) 2018 pgreca <https:/pgreca.it>
- * @translation (c) 2018 Fonzi
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
-/**
-* DO NOT CHANGE
-*/
+
 if (!defined('IN_PHPBB'))
 {
 	exit;

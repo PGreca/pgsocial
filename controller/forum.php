@@ -124,10 +124,6 @@ class forum
 	*/
 	public function handle()
 	{
-		if($this->user->data['user_id'] == ANONYMOUS || !$this->config['pg_social_index_replace'])
-		{
-			redirect($this->root_path);
-		}
 
 		// @codeCoverageIgnoreStart
 		if(!function_exists('display_forums'))

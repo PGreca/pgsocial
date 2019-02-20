@@ -34,7 +34,7 @@
 				<div id="pg_social_sidel">
 					<div class="panel">
 						{% if PROFILE_QUOTE %}<blockquote id="profile_quote">{{ PROFILE_QUOTE }}{% if PROFILE_ACTION %}<a href="{{ PROFILE_UPDATE }}" id="profile_changeQuote">{{ lang('EDIT') }}</a>{% endif %}</blockquote>{% endif %}
-						<dl id="profile_menu">
+						<ul id="profile_menu">
 							{% if U_USER_BAN %}<li class="profile-infoRapid"><a href="{{ U_USER_BAN }}">{{ lang('USER_BAN') }}</a></li>{% endif %}
 							{% if U_SWITCH_PERMISSIONS %}<li class="profile-infoRapid"><a href="{{ U_SWITCH_PERMISSIONS }}">{{ lang('USE_PERMISSIONS') }}</a></li>{% endif %}
 							{% if U_EMAIL %}<li class="profile-infoRapid"><dd><a href="{{ U_EMAIL }}"><i class="icon fa fa-envelope" aria-hidden="true"></i>  {{ lang('SEND_EMAIL_USER') }}</a></dd></li>{% endif %}
@@ -43,12 +43,10 @@
 							{% for custom_fields in loops.custom_fields %}
 								{% if custom_fields.S_PROFILE_CONTACT %}
 									<li class="profile-infoRapid">
-									<dt>{{ custom_fields.PROFILE_FIELD_NAME }}{{ lang('COLON') }}</dt>
-									{% if custom_fields.PROFILE_FIELD_CONTACT %}
-										<dd><a href="{{ custom_fields.PROFILE_FIELD_CONTACT }}" target="_blank">{{ custom_fields.PROFILE_FIELD_DESC }}</a></dd>
-									{% else %}
-										<dd>{{ custom_fields.PROFILE_FIELD_VALUE }}</dd>
-									{% endif %}
+									<li>
+										<dt>{{ custom_fields.PROFILE_FIELD_NAME }}{{ lang('COLON') }}</dt>
+										{% if custom_fields.PROFILE_FIELD_CONTACT %}<dd><a href="{{ custom_fields.PROFILE_FIELD_CONTACT }}" target="_blank">{{ custom_fields.PROFILE_FIELD_DESC }}</a></dd>
+										{% else %}<dd>{{ custom_fields.PROFILE_FIELD_VALUE }}</dd>{% endif %}
 									</li>
 								{% endif %}
 							{% endfor %}
@@ -62,10 +60,10 @@
 								{% if RANK_IMG %}{{ RANK_IMG }}<br />{% endif %}
 								{{ RANK_TITLE }}
 							</li>{% endif %}
-						</dl>
+						</ul>
 						{% EVENT memberlist_view_zebra_before %}
 						{% EVENT memberlist_view_zebra_after %}
-						<div class="colum" style="width: calc(100% - 20px);">
+						<div class="colum colum_info">
 							<dl>
 								{% if PROFILE_ABOUT_ME %}<dt>{{ lang('ABOUT_ME') }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_ABOUT_ME }}</dd>{% endif %}
 								{% if PROFILE_FAVORITE_TVSERIES %}<dt>{{ lang('FAVORITE_TVSHOW', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_FAVORITE_TVSERIES }}</dd>{% endif %}
@@ -75,7 +73,7 @@
 								{% if PROFILE_FAVORITE_GAMES %}<dt>{{ lang('FAVORITE_GAME', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_FAVORITE_GAMES }}</dd>{% endif %}
 							</dl>
 						</div>
-						<div class="colum onecolum" style="margin-top: 30px;">
+						<div class="colum onecolum">
 							<dl class="social_networks">
 								{% for custom_fields in loops.custom_fields %}
 								{% if custom_fields.PROFILE_FIELD_IDENT == 'phpbb_facebook' %}<dd class="{{ custom_fields.PROFILE_FIELD_IDENT }}"><a target="_blank" href="https://facebook.com/{{ custom_fields.PROFILE_FIELD_VALUE }}"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></dd>{% endif  %}
@@ -98,11 +96,9 @@
 					{% if loops.last_photos %}
 					<div class="panel" id="pg_social_profile_lastphotos">
 						<h3>{{ lang('LAST_PHOTO', 2) }}</h3>
-						<dl class="last_photos">
-							<ul class="template_photos bigcolums colums" id="last_photos">
-								{% for last_photos in loops.last_photos %}<li class="colum" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="./ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
-							</ul>
-						</dl>
+						<ul class="template_photos bigcolums colums" id="last_photos">
+							{% for last_photos in loops.last_photos %}<li class="colum" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="./ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
+						</ul>
 					</div>
 					{% endif %}
 				</div>{% endif %}
@@ -224,7 +220,7 @@
 						</div>
 						{% EVENT memberlist_view_contact_before %}
 						{% EVENT memberlist_view_contact_custom_fields_before %}
-						<div class="colum onecolum" style="margin: 20px 0;">
+						<div class="colum onecolum">
 							<dl class="social_networks">
 								{% for custom_fields in loops.custom_fields %}
 								{% if custom_fields.PROFILE_FIELD_IDENT == 'phpbb_facebook' %}<dd class="{{ custom_fields.PROFILE_FIELD_IDENT }}"><a target="_blank" href="https://facebook.com/{{ custom_fields.PROFILE_FIELD_VALUE }}"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></dd>{% endif  %}

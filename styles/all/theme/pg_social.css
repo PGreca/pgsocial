@@ -405,6 +405,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_sidel ul#profile_menu {
+	margin: 10px 0px 5px;
 }
 
 #pg_social #pg_social_sidel ul#profile_menu li {
@@ -940,6 +941,7 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social form#wall_post select,
 #pg_social form#wall_post input[type="submit"] {
 	height: 34px;
+	line-height: calc(34px - 20px);
 	padding: 10px;
 	border-radius: 5px;
 	margin-left: 10px;
@@ -1587,6 +1589,18 @@ body.section-memberlist .action-bar.actions-jump {
 	cursor: pointer;
 }
 
+#pg_social ul#profile_menu {
+	width: 100%;
+}
+
+#pg_social ul#profile_menu li {
+	margin-bottom: 10px;
+}
+
+#pg_social ul#profile_menu li.profile_rank {
+	text-align: center;
+}
+
 #pg_social .panel dl dt {
 	color: #545267;
 }
@@ -1608,12 +1622,22 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social .panel .colum.onecolum {
-	width: calc(100% - 20px) !important;
+	width: 100%;
 }
 
-#pg_social .panel .colum:last-child {
-	width: calc(50% - 10px);
-	padding-right: 0;
+#pg_social .panel .colum.colum_info {
+	width: calc(100% - 20px);
+	padding: 0px 10px;
+}
+
+#pg_social .panel .colum.colum_info dt {
+	margin-top: 0px;
+	vertical-align: top;
+}
+
+#pg_social .panel .colum.colum_info dl {
+	width: 100%;
+	padding: 0px;
 }
 
 #pg_social .panel dl dt,
@@ -1644,6 +1668,11 @@ body.section-memberlist .action-bar.actions-jump {
 	border-radius: 5px;
 	text-align: center;
 	color: #fff;
+}
+
+#pg_social .panel .colum dl.social_networks {
+	width: calc(100% - 20px);
+    padding: 10px;
 }
 
 #pg_social .panel .colum dl.social_networks dd.phpbb_facebook {

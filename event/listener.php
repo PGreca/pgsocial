@@ -370,7 +370,8 @@ class listener implements EventSubscriberInterface
 			'PG_SOCIAL_PAGE_NOTIFIY_MANAGER'	=> ($this->social_page->appro_pages() > 0 && ($this->auth->acl_gets('m_page_manage') || $this->auth->acl_gets('a_page_manage'))) ? true : false,
 		));
 
-		if ($this->is_startpage) {
+		if ($this->is_startpage)
+		{
 			$this->template->destroy_block_vars('navlinks');
 		}
 		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->config['pg_social_index_replace'] && (int) $this->user->data['user_id'] != ANONYMOUS && $this->config['pg_social_index_activity'])
