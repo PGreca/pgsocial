@@ -1124,6 +1124,30 @@ body.section-memberlist .action-bar.actions-jump {
 	color: #888da8;
 }
 
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author .post_status_privacy {
+	position: relative;
+	display: inline-block;
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author .post_status_privacy .post_status_privacy_box {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0px;
+	background-color: #fff;
+	width: calc(100px - 2px);
+	padding: 5px 10px;
+	border: 1px solid #e6ecf5;
+	border-radius: 4px;
+	text-align: center;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author .post_status_privacy.active .post_status_privacy_box {
+	display: inline-block;
+}
+
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author_avatar img {
 	background-position: center;
 	background-repeat: no-repeat;
@@ -1614,11 +1638,6 @@ body.section-memberlist .action-bar.actions-jump {
 	width: 50%;
 	vertical-align: top;
 	font-size: 1.2em;
-}
-
-#pg_social #page_info .panel .colum {
-	width: calc(50% - 20px);
-	padding: 0 10px;
 }
 
 #pg_social .panel .colum.onecolum {

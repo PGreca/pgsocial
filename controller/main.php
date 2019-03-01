@@ -138,6 +138,9 @@ class main
 				case 'get_status':
 					return $this->post_status->get_status($this->request->variable('post_where', ''), $profile_id, $this->request->variable('lastp', ''), $where, '', $this->request->variable('order', ''), true);
 				break;
+				case 'status_action':
+					return $this->post_status->status_action($this->request->variable('post', 0), $this->request->variable('action', ''), $this->request->variable('value', ''));
+				break;
 				case 'add_status':
 					return $this->post_status->add_status($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', ''), $this->request->variable('privacy', ''), 0, '', true);
 				break;

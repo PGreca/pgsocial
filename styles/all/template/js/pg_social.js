@@ -273,6 +273,26 @@
 				closePopup(true);
 			}
 		});
+
+		$(document).on('click', '.post_status_privacy i', function() {
+			$(this).parent().toggleClass('active');
+		});
+
+		$(document).on('change', 'select.post_status_privacy_set', function() {
+			console.log($(this).parent().parent().parent().parent().parent().attr('data-lastp'));
+			var fdata = new FormData();
+			fdata.append('mode', 'status_action');
+			fdata.append('post', $(this).parent().parent().parent().parent().parent().attr('data-lastp'));
+			fdata.append('action', 'privacy');
+			fdata.append('value', $(this).val());
+			$.ajax({
+				method: 'POST',
+				url: root,
+				data: fdata,
+				contentType: false,
+				processData: false,
+			});
+		});
 	});
 
 	/* POST ACTION */

@@ -518,7 +518,7 @@ class post_status
 			'POST_DATE_AGO'				=> $this->pg_social_helper->time_ago($row['time']),
 			'MESSAGE'					=> htmlspecialchars_decode($msg),
 			'MESSAGE_ALIGN'				=> $msg_align,
-			'POST_PRIVACY'				=> $this->user->lang($this->pg_social_helper->social_privacy($row['post_privacy'])),
+			'POST_PRIVACY'				=> $row['post_privacy'],
 			'ACTION'					=> $action,
 			'LIKE'						=> $likes,
 			'IFLIKE'					=> $this->pg_social_helper->count_action('iflike', $row['post_ID']),
@@ -531,6 +531,44 @@ class post_status
 			$this->get_comments($row['post_ID'], $type, false);
 			return $this->helper->render('status.html', $this->user->lang('YOU_SEE_ACTIVITY', $status_username));
 		}
+			elseif($template == 'off')
+		{
+
+		}
+	}
+
+	/**
+	 * Action on activity
+	 *
+	 * @param int $post
+	 * @param int $action
+	 * @param int $value
+	 * @return \Symfony\Component\HttpFoundation\Response
+	*/
+	public function status_action($post, $action, $value)
+	{
+		$sql = 'SELECT post_ID, user_id, wall_id FROM '  .$this->pgsocial_wallpost.  ' WHERE post_ID = "' . $post. '"';
+		$result = $this->db->sql_query($sql);
+		$post = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
+		switch($action)
+		{
+			case 'privacy':
+				if($post['wall_id'] == $this->user->data['user_id'])
+				{
+					$sql_arr = array(
+						'post_privacy'	=> (int) $value,
+					);
+				}
+			break;
+		}
+		$sql = 'UPDATE ' . $this->pgsocial_wallpost . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . ' WHERE post_ID = "' . $post['post_ID']. '"';
+		$this->db->sql_query($sql);
+		$this->template->assign_vars(array(
+			'ACTION'	=> $sql.'',
+		));
+		return $this->helper->render('activity_status_action.html', '');
 	}
 
 	/**
