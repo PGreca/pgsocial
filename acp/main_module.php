@@ -144,7 +144,7 @@ class main_module
 						'PAGE_REGDATA'	=> $row['page_regdate'],
 					));
 				}
-				$this->db->sql_freeresult($result);
+				$db->sql_freeresult($result);
 				$template->assign_vars(array(
 					'PG_SOCIAL_PAGE_PAGE_MANAGE'						=> true,
 					'PAGE_MANAGE_ACTION'								=> ($auth->acl_gets('a_page_manage') ? 1 : 0),
