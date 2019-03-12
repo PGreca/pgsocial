@@ -5,7 +5,7 @@
 #pg_social b {
 	color: #fff;
 }
-
+
 #pg_social img.avatar {
 	background-color: #181818;
 }
@@ -302,10 +302,10 @@
 }
 
 #pgsocial_chat .pgsocial_chat form.pg_social_chat_form {
-	background-color: #181818;	
+	background-color: #181818;
 }
 
 #pgsocial_chat .pgsocial_chat form.pg_social_chat_form textarea.pg_social_chat_messsage_new {
-	background-color: #181818;	
+	background-color: #181818;
 	color: #fff;
 }
