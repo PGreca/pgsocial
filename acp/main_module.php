@@ -59,17 +59,17 @@ class main_module
 				}
 
 				$template->assign_vars(array(
-					'PG_SOCIAL_PAGE_MAIN'						=> true,
-					'PG_SOCIAL_ENABLED'							=> $config['pg_social_enabled'],
-					'PG_SOCIAL_COLOR'							=> $config['pg_social_color'],
-					'PG_SOCIAL_INDEX_REPLACE'					=> $config['pg_social_index_replace'],
-					'PG_SOCIAL_INDEX_ACTIVITY'					=> $config['pg_social_index_activity'],
-					'PG_SOCIAL_PROFILE'							=> $config['pg_social_profile'],
-					'PG_SOCIAL_SIDEBAR_RIGHT'					=> $config['pg_social_sidebarRight'],
+					'PG_SOCIAL_PAGE_MAIN'											=> true,
+					'PG_SOCIAL_ENABLED'												=> $config['pg_social_enabled'],
+					'PG_SOCIAL_COLOR'													=> $config['pg_social_color'],
+					'PG_SOCIAL_INDEX_REPLACE'									=> $config['pg_social_index_replace'],
+					'PG_SOCIAL_INDEX_ACTIVITY'								=> $config['pg_social_index_activity'],
+					'PG_SOCIAL_PROFILE'												=> $config['pg_social_profile'],
+					'PG_SOCIAL_SIDEBAR_RIGHT'									=> $config['pg_social_sidebarRight'],
 					'PG_SOCIAL_SIDEBAR_RIGHT_FRIENDSRANDOM'		=> $config['pg_social_sidebarRight_friendsRandom'],
-					'PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST'			=> $config['pg_social_block_posts_last'],
+					'PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST'				=> $config['pg_social_block_posts_last'],
 
-					'PG_SOCIAL_CHAT'							=> $config['pg_social_chat_enabled'],
+					'PG_SOCIAL_CHAT'													=> $config['pg_social_chat_enabled'],
 				));
 			break;
 			case 'social':
@@ -112,7 +112,7 @@ class main_module
 				$template->assign_vars(array(
 					'PG_SOCIAL_PAGE_CHAT'						=> true,
 					'PG_SOCIAL_CHAT_MESSAGE_BBCODE_ENABLED'		=> $config['pg_social_chat_message_bbcode_enabled'],
-					'PG_SOCIAL_CHAT_MESSAGE_URL_ENABLED'		=> $config['pg_social_chat_message_url_enabled'],
+					'PG_SOCIAL_CHAT_MESSAGE_URL_ENABLED'			=> $config['pg_social_chat_message_url_enabled'],
 
 				));
 			break;
@@ -137,17 +137,17 @@ class main_module
 				while($row = $db->sql_fetchrow($result))
 				{
 					$template->assign_block_vars('pages', array(
-						'PAGE_ID'		=> $row['page_id'],
+						'PAGE_ID'				=> $row['page_id'],
 						'PAGE_USERNAME'	=> $row['page_username'],
 						'PAGE_FOUNDER'	=> $row['username'],
 						'PAGE_FOUNDERL'	=> get_username_string('profile', $row['page_founder'], $row['username'], $row['user_colour']),
 						'PAGE_REGDATA'	=> $row['page_regdate'],
 					));
 				}
-				$db->sql_freeresult($result);
+				$this->db->sql_freeresult($result);
 				$template->assign_vars(array(
 					'PG_SOCIAL_PAGE_PAGE_MANAGE'						=> true,
-					'PAGE_MANAGE_ACTION'								=> ($auth->acl_gets('a_page_manage') ? 1 : 0),
+					'PAGE_MANAGE_ACTION'										=> ($auth->acl_gets('a_page_manage') ? 1 : 0),
 				));
 			break;
 		}

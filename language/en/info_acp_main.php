@@ -32,6 +32,7 @@ $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_COLOR'				=> 'Choose color',
 	'ACP_PG_SOCIAL_NOCOLOR'				=> 'None',
 	'ACP_PG_SOCIAL_BLUE'				=> 'Blue',
+	'ACP_PG_SOCIAL_DARK'				=> 'Dark',
 	'ACP_PG_SOCIAL_LIGHTBLUE'			=> 'Lightblue',
 	'ACP_PG_SOCIAL_GREEN'				=> 'Green',
 	'ACP_PG_SOCIAL_RED'					=> 'Red',

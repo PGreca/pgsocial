@@ -7,7 +7,10 @@
 	{% INCLUDECSS 'pg_social_red.css' %}
 {% elseif PG_SOCIAL_COLOR == 4 %}
 	{% INCLUDECSS 'pg_social_lightblue.css' %}
+{% elseif PG_SOCIAL_COLOR == 5 %}
+	{% INCLUDECSS 'pg_social_dark.css' %}
 {% endif %}
+
 {% if S_PG_SOCIAL_ENABLED and S_USER_LOGGED_IN %}
 	{% INCLUDEJS 'js/cookie.js' %}
 	{% INCLUDECSS 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' %}

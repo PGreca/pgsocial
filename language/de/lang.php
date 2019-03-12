@@ -51,7 +51,7 @@ $lang = array_merge($lang, array(
 	//'CREATE'							=> '',
 	'CREATED'							=> 'Erstellt am',
 	'PG_SOCIAL_COVER'				=> 'Titelbild',
-	'DAY'								=> array(
+	'PG_SOCIAL_DAY'								=> array(
 		1	=> 'Tag',
 		2	=> 'Tage',
 	),
@@ -182,6 +182,7 @@ $lang = array_merge($lang, array(
 	'PUBLIC'							=> 'Senden',
 	'QUOTE'								=> 'Zitat',
 	'RECENT_DISCUSSIONS'				=> 'Aktuelle Diskussionen',
+	//'RENAME'							=> '',
 	'SOCIAL_STATU'						=> 'Status',
 	'SOCIAL_STATUS_UNKNOW'				=> 'Unbekannt',
 	'SOCIAL_STATUS_SINGLE'				=> 'Single',

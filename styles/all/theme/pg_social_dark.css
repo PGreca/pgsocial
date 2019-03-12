@@ -1,0 +1,311 @@
+#pg_social {
+	color: #aaa;
+}
+
+#pg_social b {
+	color: #fff;
+}
+
+#pg_social img.avatar {
+	background-color: #181818;
+}
+
+#pg_social .panel {
+	background-color: #181818;
+	border-color: #1f242a;
+}
+
+#pg_social .panel h3 {
+	background-color: #181818;
+	border-color: #1f242a;
+	color: #fff;
+}
+
+#pg_social .panel h5 {
+	color: #fff;
+}
+
+
+#pg_social #pg_social_header #pg_social_actionprofile input[type="submit"],
+#pg_social #pg_social_header #pg_social_actionprofile label,
+#pg_social #pg_social_header #pg_social_actionprofile a {
+	background: linear-gradient(180deg, #181818 0%, #000 100%);
+	color: #fff;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile input[type="submit"] {
+	color: #fff;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile a.page_list_buttonLike span.likepage {
+	color: #fff;
+}
+
+#pg_social #pg_social_main > .profile_avatar {
+	background-color: #181818;
+}
+
+#pg_social #pg_social_main h2.memberlist-username {
+	color: #fff;
+}
+
+#pg_social #pg_social_main ul#pg_social_menu {
+	background-color: #181818;
+	border-color: #1f242a;
+}
+
+#pg_social #pg_social_main ul#pg_social_menu li.active a:before {
+	background-color: #181818;
+}
+
+#pg_social #pg_social_main ul#pg_social_menu li a {
+	color: #fff;
+}
+
+#pg_social #pg_social_cont a#page_new_button {
+	color: #181818;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum {
+	background-color: #181818;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum#pg_social_gallery_create {
+	background-color: #181818;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum .centeralign h4 {
+	color: #fff;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum .centeralign span {
+	color: #181818;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum .centeralign input[type="submit"] {
+	color: #181818;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum .cover .gallery_covhov i {
+	color: #181818;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum a.aavatar img.avatar {
+	border: 4px solid #181818;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum .action a {
+	color: #181818;
+}
+
+#pg_social form#wall_post {
+	background-color: #181818;
+}
+
+#pg_social form#wall_post ul#wall_post_header {
+	background-color: #000;
+	border-color: #1f242a;
+}
+
+#pg_social form#wall_post ul#wall_post_header li {
+	background-color: #181818;
+	border-color: #1f242a;
+	color: #fff;
+}
+
+#pg_social form#wall_post #wall_post_footer {
+	border-color: #1f242a;
+}
+
+#pg_social form#wall_post select {
+	background-color: #181818;
+	border-color: #1f242a;
+	color: #fff;
+}
+
+#pg_social form#wall_post select option {
+	background-color: #181818;
+	color: #fff;
+}
+
+#pg_social form#wall_post input[type="submit"]:hover {
+	color: #181818;
+}
+
+#pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system {
+	background-color: #181818;
+	border-color: #1f242a;
+}
+
+#pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system li.tag_system_search_people:hover {
+	color: #181818;
+}
+
+#pg_social form#wall_post #pg_social_wall_tag i#pg_social_wall_tag_systemClose {
+	background-color: #181818;
+}
+
+#pg_social form#wall_post #wall_post_thumb img#wall_post_thumb_img {
+	background-color: #181818;
+}
+
+#pg_social #pg_social_cont ul#profile_head_menu li.active a {
+	color: #181818;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status {
+	background-color: #181818;
+	border-color: #1f242a;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author .post_status_privacy .post_status_privacy_box,
+#pg_social #pg_social_cont ul.colums li.colum .cover .gallery_covhov .gallery_covhovEl .post_status_covhovEl_box {
+	background-color: #181818;
+	border-color: #1f242a;
+	color: #fff;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author .post_status_privacy .post_status_privacy_box select,
+#pg_social #pg_social_cont ul.colums li.colum .cover .gallery_covhov .gallery_covhovEl .post_status_covhovEl_box select {
+    background-color: #181818;
+    border-color: #1f242a;
+	color: #fff;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton .post_status_action {
+	background-color: #181818;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content .post_parent_info .post_parent_author a {
+	color: #181818;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status ul.post_status_comments li.post_comment .post_comment_message {
+	background-color: #181818;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment {
+	background-color: #181818;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment input[type="text"].wall_comment_text {
+	background-color: #181818;
+	border-color: #1f242a;
+}
+
+#pg_social a#page_new_form_open {
+	background-color: #fff;
+}
+
+#pg_social .panel .colum dt {
+	color: #fff;
+}
+
+#pg_social .panel .colum dl.social_networks dd {
+	background-color: #fff;
+	color: #181818;
+}
+
+#pg_social ul.sidelist li.listElement {
+	border-color: #1f242a;
+}
+
+#pg_social ul.sidelist li.listElement .listElementaction a {
+	color: #181818;
+}
+
+#pg_social #page_create form#page_new_form input[type="submit"] {
+	color: #181818;
+}
+
+#pg_social .panel #gallery_photo_add label {
+	border-color: #1f242a;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side #pg_social_photo_img_header h5#pg_social_photo_name_album a {
+	color: #181818;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options {
+	background: #181818;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options li a:hover {
+	color: #181818;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social {
+	background-color: #181818;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social div.pg_social_photo_likshare {
+	border-color: #1f242a;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments li.post_comment .post_comment_message {
+	background-color: #181818;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social form.pg_social_photo_comment_form {
+	background-color: #181818;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_social form.pg_social_photo_comment_form input[type="text"].pg_social_photo_comment_text {
+	background-color: #181818;
+    border-color: #1f242a;
+	color: #fff;
+}
+.pg_social_alert {
+	background-color: #181818;
+}
+
+#pgsocial_chat img.avatar {
+	background-color: #181818;
+}
+
+#pgsocial_chat #pgsocial_chatRoot {
+	background-color: #181818;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pg_social_chat_people_search {
+	background-color: #181818;
+	border-color: #1f242a;
+	color: #fff;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author {
+	color: #fff;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author span.pg_social_chat_people_online_single_author_status {
+	color: #aaa;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author_info span.pg_socialchat_people_online_single_status {
+	border-color: #1f242a;
+}
+
+#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author_info span.pg_socialchat_people_online_single_tmess {
+	border-color: #1f242a;
+}
+
+#pgsocial_chat #pgsocial_chatRoot #pgsocial_chatButton_ext #pgsocial_chat_settings {
+	background-color: #181818;
+}
+
+#pgsocial_chat .pgsocial_chat .pgsocial_chat_head .pg_social_chat_head_status {
+	border-color: #1f242a;
+}
+
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages {
+	background-color: #181818;
+}
+
+#pgsocial_chat .pgsocial_chat form.pg_social_chat_form {
+	background-color: #181818;	
+}
+
+#pgsocial_chat .pgsocial_chat form.pg_social_chat_form textarea.pg_social_chat_messsage_new {
+	background-color: #181818;	
+	color: #fff;
+}

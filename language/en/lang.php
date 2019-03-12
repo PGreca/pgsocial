@@ -8,7 +8,7 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
- 
+
 if(!defined('IN_PHPBB'))
 {
 	exit;
@@ -17,7 +17,7 @@ if(empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
-$lang = array_merge($lang, array(	
+$lang = array_merge($lang, array(
 	'ABOUT_HOUR'						=> array(
 		1				=> 'hour',
 		2				=> 'hours',
@@ -47,7 +47,7 @@ $lang = array_merge($lang, array(
 	'CREATE'							=> 'Create',
 	'CREATED'							=> 'Created on',
 	'PG_SOCIAL_COVER'				=> 'Cover photo',
-	'DAY'								=> array(
+	'PG_SOCIAL_DAY'								=> array(
 		1	=> 'day',
 		2	=> 'days',
 	),
@@ -70,7 +70,7 @@ $lang = array_merge($lang, array(
 		1				=> 'Favorite Music/Song/Singer/Band',
 		2				=> 'Favorite Musics/Songs/Singers/Bands',
 	),
-	
+
 	'FAVORITE_TVSHOW'					=> array(
 		1				=> 'Favorite TV Show',
 		2				=> 'Favorite TV Shows',
@@ -129,7 +129,7 @@ $lang = array_merge($lang, array(
 	'MINUTE'							=> array(
 		1				=> 'minute',
 		2				=> 'minutes',
-	),	
+	),
 	'NOTIFICATION_PG_SOCIAL'			=> 'Social notifications',
 	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'is writing something on the wall',
 	'NOTIFICATION_TYPE_SOCIAL_COMMENTS'	=> 'is commenting your post',
@@ -159,7 +159,7 @@ $lang = array_merge($lang, array(
 	'PG_SOCIAL_LIKE_NEW_LOG'			=> '<strong>Likes an activity</strong><br />» %s',
 	'PG_SOCIAL_STATUS_NEW_LOG'			=> '<strong>Has published an activity</strong><br />» %s',
 	'PG_SOCIAL_STATUS_SHARE_LOG'		=> '<strong>Has shared an activity</strong><br />» %s',
-	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>Has deleted an activity</strong>',	
+	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>Has deleted an activity</strong>',
 	'PG_SOCIAL_WRITE_A_MESSAGE'					=> 'Write a message',
 	'PG_SOCIAL_WRITE_SOMETHING'					=> 'Write something',
 	'PG_SOCIAL_VERSION'							=> 'Version',
@@ -170,7 +170,7 @@ $lang = array_merge($lang, array(
 	),
 	'PRIVACY_ALL'						=> 'All',
 	'PRIVACY_ONLY_FRIENDS'				=> 'Friends',
-	'PRIVACY_ONLY_ME'					=> 'Only me',	
+	'PRIVACY_ONLY_ME'					=> 'Only me',
 	'PRIVACY_VISIBLE_FOR'				=> 'Visible for',
 	'PROFILE_AVATAR_UPDATE'				=> 'Change Profile picture',
 	'PROFILE_COVER_UPDATE'				=> 'Change Cover picture',
@@ -178,6 +178,7 @@ $lang = array_merge($lang, array(
 	'PUBLIC'							=> 'Post',
 	'QUOTE'								=> 'Quote',
 	'RECENT_DISCUSSIONS'				=> 'Recent discussions',
+	'RENAME'							=> 'Rename',
 	'SOCIAL_STATU'						=> 'Status',
 	'SOCIAL_STATUS_UNKNOW'				=> 'Unknow',
 	'SOCIAL_STATUS_SINGLE'				=> 'Single',

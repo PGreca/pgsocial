@@ -9,7 +9,7 @@
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
- 
+
 if(!defined('IN_PHPBB'))
 {
 	exit;
@@ -18,7 +18,7 @@ if(empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
-$lang = array_merge($lang, array(	
+$lang = array_merge($lang, array(
 	'ABOUT_HOUR'						=> array(
 		1				=> 'hodinou',
 		2				=> 'hodinami',
@@ -48,7 +48,7 @@ $lang = array_merge($lang, array(
 	'CREATE'							=> 'Vytvoriť',
 	'CREATED'							=> 'Vytvoril',
 	'PG_SOCIAL_COVER'				=> 'Titulná fotka',
-	'DAY'								=> array(
+	'PG_SOCIAL_DAY'								=> array(
 		1	=> 'deň',
 		2	=> 'dní',
 	),
@@ -71,7 +71,7 @@ $lang = array_merge($lang, array(
 		1				=> 'Obľúbená hudba/song/spevák/skuúina',
 		2				=> 'Obľúbené hudby/songy/speváci/skupiny',
 	),
-	
+
 	'FAVORITE_TVSHOW'					=> array(
 		1				=> 'Obľúbený seriál',
 		2				=> 'Obľúbené seriály',
@@ -129,7 +129,7 @@ $lang = array_merge($lang, array(
 	'MINUTE'							=> array(
 		1				=> 'minútou',
 		2				=> 'minútami',
-	),	
+	),
 	'NOTIFICATION_PG_SOCIAL'			=> 'Upozornenia',
 	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'píše niečo na nástenku',
 	'NOTIFICATION_TYPE_SOCIAL_COMMENTS'	=> 'komentoval váš komentár',
@@ -159,7 +159,7 @@ $lang = array_merge($lang, array(
 	'PG_SOCIAL_LIKE_NEW_LOG'			=> '<strong>Likes an activity</strong><br />» %s',
 	'PG_SOCIAL_STATUS_NEW_LOG'			=> '<strong>Has published an activity</strong><br />» %s',
 	'PG_SOCIAL_STATUS_SHARE_LOG'		=> '<strong>Has shared an activity</strong><br />» %s',
-	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>Has deleted an activity</strong>',	
+	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>Has deleted an activity</strong>',
 	'PG_SOCIAL_WRITE_A_MESSAGE'					=> 'Napíšte správu',
 	'PG_SOCIAL_WRITE_SOMETHING'					=> 'Niečo napíšte',
 	'PG_SOCIAL_VERSION'							=> 'Verzia',
@@ -170,7 +170,7 @@ $lang = array_merge($lang, array(
 	),
 	'PRIVACY_ALL'						=> 'Verejné',
 	'PRIVACY_ONLY_FRIENDS'				=> 'Priatelia',
-	'PRIVACY_ONLY_ME'					=> 'Iba ja',	
+	'PRIVACY_ONLY_ME'					=> 'Iba ja',
 	'PRIVACY_VISIBLE_FOR'				=> 'Viditeľné pre',
 	'PROFILE_AVATAR_UPDATE'				=> 'Aktualizovať profilovú fotku',
 	'PROFILE_COVER_UPDATE'				=> 'Aktualizovať titulnú fotku',
@@ -178,6 +178,7 @@ $lang = array_merge($lang, array(
 	'PUBLIC'							=> 'Zdieľať',
 	'QUOTE'								=> 'Citát',
 	'RECENT_DISCUSSIONS'				=> 'Nedávna diskusia',
+	//'RENAME'							=> '',
 	'SOCIAL_STATU'						=> 'Status',
 	'SOCIAL_STATUS_UNKNOW'				=> 'Neuvedené',
 	'SOCIAL_STATUS_SINGLE'				=> 'Slobodný',

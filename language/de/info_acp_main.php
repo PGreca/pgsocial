@@ -37,6 +37,7 @@ $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_COLOR'				=> 'Wähle eine Farbe',
 	'ACP_PG_SOCIAL_NOCOLOR'				=> 'Nichts',
 	'ACP_PG_SOCIAL_BLUE'				=> 'Blau',
+	//'ACP_PG_SOCIAL_DARK'				=> '',
 	'ACP_PG_SOCIAL_LIGHTBLUE'			=> 'Hellblau',
 	'ACP_PG_SOCIAL_GREEN'				=> 'Grün',
 	'ACP_PG_SOCIAL_RED'					=> 'Rot',
@@ -57,5 +58,4 @@ $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_CHAT_BBCODE_ENABLED'	=> 'BBCode bei Nachrichten aktivieren',
 	'ACP_PG_SOCIAL_CHAT_URL_ENABLED'	=> 'URL bei Nachrichten aktivieren',
 	'ACP_PG_SOCIAL_SETTING_SAVED'		=> 'Einstellung gespeichert.',
-
 ));

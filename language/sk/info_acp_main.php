@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_COLOR'				=> 'Vyberte farbu',
 	'ACP_PG_SOCIAL_NOCOLOR'				=> 'Žiadny',
 	'ACP_PG_SOCIAL_BLUE'				=> 'Modrá',
+	//'ACP_PG_SOCIAL_DARK'				=> '',
 	'ACP_PG_SOCIAL_LIGHTBLUE'			=> 'Svetlo modrá',
 	'ACP_PG_SOCIAL_GREEN'				=> 'Zelená',
 	'ACP_PG_SOCIAL_RED'					=> 'Červená',

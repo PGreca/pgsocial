@@ -49,7 +49,7 @@
 				{% for profileFriends in loops.profileFriends %}
 				<li class="friend listElement" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
 					<div class="elementLeft">
-						<a href="{{ profileFriends.PROFILE_URL }}" class="avatar" style="color:{{ profileFriends.PROFILE_COLOUR }}">
+						<a href="{{ profileFriends.PROFILE_URL }}" class="avatar"{% if profileFriends.PROFILE_COLOUR %} style="color:{{ profileFriends.PROFILE_COLOUR }}"{% endif %}>
 							{{ profileFriends.AVATAR }}<div class="listUsername">
 								<span>{{ profileFriends.USERNAME }}</span>
 							</div>
