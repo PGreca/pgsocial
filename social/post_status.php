@@ -179,17 +179,11 @@ class post_status
 		$result = $this->db->sql_query_limit($sql, $limit);
 		while($row = $this->db->sql_fetchrow($result))
 		{
-			if(($post_where == 'page'|| $row['post_where'] == 1 && $this->social_page->user_like_pages($this->user->data['user_id'], $row['wall_id']) == $row['wall_id']) || ($row['post_where'] == 0 && ($row['wall_id'] == $this->user->data['user_id']) || ($row['post_privacy'] == 0 && $row['wall_id'] == $this->user->data['user_id']) || ($row['post_privacy'] == 1 && $this->social_zebra->friend_status($row['wall_id'])['status'] == 'PG_SOCIAL_FRIENDS') || $row['post_privacy'] == 2))
+			$this->status($post_where, $wall_id, $type, $template, $row, $select);
+			if($order == 'prequel')
 			{
-				$this->status($post_where, $wall_id, $type, $template, $row, $select);
-			}
-			else
-			{
-				if($order == 'prequel')
-				{
-					$lastp = $lastp - 2;
-					$this->get_status($post_where, $wall_id, $lastp, $type, $select, $order, $template);
-				}
+				$lastp = $lastp - 2;
+				$this->get_status($post_where, $wall_id, $lastp, $type, $select, $order, $template);
 			}
 		}
 		$this->db->sql_freeresult($result);
@@ -218,7 +212,7 @@ class post_status
 		{
 			$block_vars = 'post_status';
 		}
-		$rele = true;
+		$rele = $actionprivacy = true;
 		$author_action = '';
 		$action = false;
 		$user_id = (int) $this->user->data['user_id'];
@@ -231,6 +225,7 @@ class post_status
 		$allow_urls = $this->config['pg_social_url'];
 		$allow_smilies = $this->config['pg_social_smilies'];
 		$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
+		$status_privacy = $row['post_privacy'];
 
 		switch($row['post_where'])
 		{
@@ -273,8 +268,7 @@ class post_status
 				}
 				else
 				{
-					$wall['user_id'] = '';
-					$wall['username'] = '';
+					$wall['user_id'] = $wall['username'] = '';
 				}
 				switch($row['post_type'])
 				{
@@ -371,8 +365,13 @@ class post_status
 									}
 									else
 									{
-										$albumlink = '<a href="'.$photo['gallery_url'].'">'.$photo['gallery_name'].'</a>';
-										$sauthor_action = ' '.$this->user->lang('HAS_PUBLISHED_PHOTO_ALBUM', $albumlink);
+										if($photo['gallery_privacy'] == 0 && $this->user->data['user_id'])
+										{
+											$actionprivacy = false;
+											$status_privacy = $photo['gallery_privacy'];
+											$albumlink = '<a href="'.$photo['gallery_url'].'">'.$photo['gallery_name'].'</a>';
+											$sauthor_action = ' '.$this->user->lang('HAS_PUBLISHED_PHOTO_ALBUM', $albumlink);
+										}
 									}
 								break;
 							}
@@ -406,7 +405,6 @@ class post_status
 									{
 										$sauthor_action .= " ".$this->user->lang("HAS_WRITED_POST_ON", '<a href="'.append_sid(generate_board_url()).'/viewtopic.php?t='.$post['topic_id'].'#p'.$posts[1].'">'.$post['topic_title'].'</a>');
 									}
-
 									$msg_align = '';
 								break;
 								case 3:
@@ -433,7 +431,6 @@ class post_status
 				}
 			break;
 			case 1:
-
 					$photo = $this->photo($row['post_extra']);
 					if($photo['gallery_id'] == '0')
 					{
@@ -441,6 +438,8 @@ class post_status
 					}
 					else
 					{
+						$actionprivacy = false;
+						$status_privacy = $photo['gallery_privacy'];
 						$album = '<a href="'.$photo['gallery_url'].'">'.$photo['gallery_name'].'</a>';
 						$author_action = $this->user->lang("HAS_PUBLISHED_PHOTO_ALBUM", $album);
 					}
@@ -459,6 +458,8 @@ class post_status
 					$photo = $this->photo($row['post_extra']);
 					if($photo['album'])
 					{
+						$actionprivacy = false;
+						$status_privacy = $photo['gallery_privacy'];
 						$albumlink = '<a href="'.$photo['gallery_url'].'">'.$photo['gallery_name'].'</a>';
 						$author_action .= ' '.$this->user->lang('HAS_PUBLISHED_PHOTO_ALBUM', $albumlink);
 					}
@@ -497,43 +498,51 @@ class post_status
 			$likes .= $this->user->lang('LIKE', 1);
 		}
 
-		if($row['wall_id'] == $user_id || $user_id == $row['user_id']) $action = true;
-		$this->template->assign_block_vars($block_vars, array(
-			'POST_STATUS_ID'            => $row['post_ID'],
-			'AUTHOR_ACTION'				=> $author_action,
-			'AUTHOR_PROFILE'			=> $status_profile,
-			'AUTHOR_ID'					=> $status_aut_id,
-			'AUTHOR_USERNAME'			=> $status_username,
-			'AUTHOR_AVATAR'				=> $status_avatar,
-			'AUTHOR_COLOUR'				=> $status_color,
-			'WALL_ACTION'				=> $wall_action,
-			'WALL_PROFILE'				=> get_username_string('profile', $wall['user_id'], $wall['username'], $wall['user_colour']),
-			'WALL_ID'					=> $row['wall_id'],
-			'WALL_USERNAME'				=> $wall['username'],
-			'WALL_COLOUR'				=> '#'.$wall['user_colour'],
-			'POST_TYPE'					=> $row['post_type'],
-			'POST_URL'					=> $this->helper->route('status_page', array('id' => $row['post_ID'])),
-			//'POST_DATE'					=> date('c', $row['time']),
-			'POST_DATE'					=> $row['time'],
-			'POST_DATE_AGO'				=> $this->pg_social_helper->time_ago($row['time']),
-			'MESSAGE'					=> htmlspecialchars_decode($msg),
-			'MESSAGE_ALIGN'				=> $msg_align,
-			'POST_PRIVACY'				=> $row['post_privacy'],
-			'ACTION'					=> $action,
-			'LIKE'						=> $likes,
-			'IFLIKE'					=> $this->pg_social_helper->count_action('iflike', $row['post_ID']),
-			'COMMENT'					=> $comment,
-			'SHARE'						=> $share
-		));
-
-		if($template == 'half')
+		$rele = false;
+		if(($status_privacy == 0 && $row['wall_id'] == $this->user->data['user_id']) || ($status_privacy == 1 && ($this->social_zebra->friend_status($row['wall_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['wall_id'])) || $status_privacy == 2)
 		{
-			$this->get_comments($row['post_ID'], $type, false);
-			return $this->helper->render('status.html', $this->user->lang('YOU_SEE_ACTIVITY', $status_username));
+			$rele = true;
 		}
-			elseif($template == 'off')
+		if($rele)
 		{
+			if($row['wall_id'] == $user_id || $user_id == $row['user_id']) $action = true;
+			$this->template->assign_block_vars($block_vars, array(
+				'POST_STATUS_ID'            => $row['post_ID'],
+				'AUTHOR_ACTION'							=> $author_action,
+				'AUTHOR_PROFILE'						=> $status_profile,
+				'AUTHOR_ID'									=> $status_aut_id,
+				'AUTHOR_USERNAME'						=> $status_username,
+				'AUTHOR_AVATAR'							=> $status_avatar,
+				'AUTHOR_COLOUR'							=> $status_color,
+				'WALL_ACTION'								=> $wall_action,
+				'WALL_PROFILE'							=> get_username_string('profile', $wall['user_id'], $wall['username'], $wall['user_colour']),
+				'WALL_ID'										=> $row['wall_id'],
+				'WALL_USERNAME'							=> $wall['username'],
+				'WALL_COLOUR'								=> '#'.$wall['user_colour'],
+				'POST_TYPE'									=> $row['post_type'],
+				'POST_URL'									=> $this->helper->route('status_page', array('id' => $row['post_ID'])),
+				'POST_DATE'									=> $row['time'],
+				'POST_DATE_AGO'							=> $this->pg_social_helper->time_ago($row['time']),
+				'MESSAGE'										=> htmlspecialchars_decode($msg),
+				'MESSAGE_ALIGN'							=> $msg_align,
+				'POST_PRIVACY'							=> $status_privacy,
+				'POST_PRIVACYACTION'				=> $actionprivacy,
+				'ACTION'										=> $action,
+				'LIKE'											=> $likes,
+				'IFLIKE'										=> $this->pg_social_helper->count_action('iflike', $row['post_ID']),
+				'COMMENT'					=> $comment,
+				'SHARE'						=> $share
+			));
 
+			if($template == 'half')
+			{
+				$this->get_comments($row['post_ID'], $type, false);
+				return $this->helper->render('status.html', $this->user->lang('YOU_SEE_ACTIVITY', $status_username));
+			}
+				elseif($template == 'off')
+			{
+
+			}
 		}
 	}
 
@@ -882,12 +891,13 @@ class post_status
 		$gallery = $this->social_photo->gallery_info($img['gallery_id'], $album);
 
 		return array(
-			'gallery_id'	=> $img['gallery_id'],
-			'gallery_name'	=> $gallery['gallery_name'],
-			'gallery_url'	=> $img['gallery_url'],
-			'album'			=> $album,
-			'img' 			=> '<img src="'.$img['photo_file'].'" class="photo_popup" data-photo="'.$photo.'" />',
-			'msg' 			=> htmlspecialchars_decode($img['photo_desc']),
+			'gallery_id'		=> $img['gallery_id'],
+			'gallery_name'		=> $gallery['gallery_name'],
+			'gallery_url'		=> $img['gallery_url'],
+			'gallery_privacy'	=> $gallery['gallery_privacy'],
+			'album'				=> $album,
+			'img' 				=> '<img src="'.$img['photo_file'].'" class="photo_popup" data-photo="'.$photo.'" />',
+			'msg' 				=> htmlspecialchars_decode($img['photo_desc']),
 		);
 	}
 

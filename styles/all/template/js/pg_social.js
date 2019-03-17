@@ -29,6 +29,20 @@
 			$("#pg_social #pg_social_cont #page_"+$(this).attr('data-social_menu')).show();
 		});
 
+		$("#wall_post").on('submit', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			if ($("#wall_post").hasClass("openform")) {
+				if ($('#wall_post_img').length && $('#wall_post_img').val() !== "") {
+					$("#wall_post").removeClass("openform");
+					uploadPhoto($('#wall_post_text').html(), $('#wall_post_img')[0].files[0], "wall", where);
+				} else {
+					$("#wall_post").removeClass("openform");
+					pgwall_add_status($('#wall_post_text').html(), $('#wall_post_privacy option:selected').val());
+				}
+			}
+		});
+		
 		//ACTION FRIENDS
 		phpbb.addAjaxCallback('request_friend', function(response) {
 			location.reload(true);
@@ -85,9 +99,6 @@
 					$('#wall_post_thumb').show();
 				};
 				reader.readAsDataURL($(this)[0].files[0]);
-				$('#wall_post_privacy').hide();
-			} else {
-				$('#wall_post_privacy').show();
 			}
 		});
 
@@ -274,15 +285,82 @@
 			}
 		});
 
-		$(document).on('click', '.post_status_privacy i', function() {
-			$(this).parent().toggleClass('active');
+		$(document).on('click', '.gallery_covhovEl i', function() {
+			if($(this).parent().hasClass('active')) {
+				$(this).parent().removeClass('active');
+			} else {
+				$('.gallery_covhovEl').removeClass('active');
+				$(this).parent().addClass('active');
+			}
+		});
+		
+		$(document).on('mouseleave', '.gallery_covhov, ul#posts_status li.post_status', function() {
+			$('.gallery_covhovEl').removeClass('active');
+			
 		});
 
-		$(document).on('change', 'select.post_status_privacy_set', function() {
-			console.log($(this).parent().parent().parent().parent().parent().attr('data-lastp'));
+		$(document).on('click', 'a.gallery_name_renameLink', function() {
+			$(this).parent().parent().removeClass('active');
+			$(this).parent().parent().parent().parent().parent().find('.gallery_name').addClass('rename');
+		});
+		
+		$(document).on('click', 'i.gallery_name_renameSub', function() {
+			var newTitle = $(this).parent().find('input.gallery_name_renameTitle').val();
+			var album = $(this).parent().parent().parent().attr('data-album');
 			var fdata = new FormData();
-			fdata.append('mode', 'status_action');
-			fdata.append('post', $(this).parent().parent().parent().parent().parent().attr('data-lastp'));
+			fdata.append('mode', 'album_action');
+			fdata.append('element', album);
+			fdata.append('action', 'rename');
+			fdata.append('value', newTitle);
+			$.ajax({
+				method: 'POST',
+				url: root,
+				data: fdata,
+				contentType: false,
+				processData: false,
+				success: function() {
+					$('.gallery[data-album="'+album+'"] .gallery_name a h5').text(newTitle);
+					$('.gallery_name').removeClass('rename');
+				}
+			});
+		});		
+		
+		$(document).on('click', '.gallery_name_delete', function() {
+			if (confirm('sicuro?')) {
+				var element = $(this).parent().parent().parent().parent().parent();
+				var fdata = new FormData();
+				fdata.append('mode', 'album_action');
+				fdata.append('element', $(element).attr('data-album'));
+				fdata.append('action', 'delete');
+				fdata.append('value', '');
+				$.ajax({
+					method: 'POST',
+					url: root,
+					data: fdata,
+					contentType: false,
+					processData: false,
+					success: function(data) {
+						$(element).remove();
+					}
+				});	
+			}
+		});
+		
+		$(document).on('change', 'select.post_status_privacy_set', function() {
+		var mode = id = '';
+			switch($(this).attr('data-type')) {
+				case 'album':
+					mode = 'album_action';
+					id = $(this).parent().parent().parent().parent().parent().attr('data-album');
+				break;
+				case 'status':
+					mode = 'status_action';
+					id = $(this).parent().parent().parent().parent().parent().attr('data-lastp');
+				break;
+			}
+			var fdata = new FormData();
+			fdata.append('mode', mode);
+			fdata.append('element', id);
 			fdata.append('action', 'privacy');
 			fdata.append('value', $(this).val());
 			$.ajax({

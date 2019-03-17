@@ -18,27 +18,12 @@
 		}
 	}, 990);
 
-{% if S_USER_LOGGED_IN %}
 	if ($("#posts_status").html() === "") {
 		pgwall_get_status('seguel', where);
 	}
 	var pgsocial = setInterval(function() {
 		pgwall_get_status('seguel', where);
 	}, 2000);
-	$("#wall_post").on('submit', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		if ($("#wall_post").hasClass("openform")) {
-			if ($('#wall_post_img').length && $('#wall_post_img').val() !== "") {
-				$("#wall_post").removeClass("openform");
-				uploadPhoto($('#wall_post_text').html(), $('#wall_post_img')[0].files[0], "wall", where);
-			} else {
-				$("#wall_post").removeClass("openform");
-				pgwall_add_status($('#wall_post_text').html(), $('#wall_post_privacy option:selected').val());
-			}
-		}
-	});
-{% endif %}
 
 	timeago = function(time) {
 		if ($(".post_status_head_date, .post_comment_time, span.pg_social_chat_message_time").length) {

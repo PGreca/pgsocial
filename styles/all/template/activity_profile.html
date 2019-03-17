@@ -105,8 +105,8 @@
 			</div>
 			<div class="pg_social_pagesub" id="page_friends">
 				<ul id="pg_social_friends" class="colums">
-					{% for profileFriends in loops.profileFriends %}
-					<li class="friend colum" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
+					<li class="friend colum colum_nosize"></li>
+					{% for profileFriends in loops.profileFriends %}<li class="friend colum" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
 						<div class="cover big_cover" style="background-image:url({{ profileFriends.COVER }});">
 							<a class="friend_avatar aavatar" href="{{ profileFriends.PROFILE_URL }}">
 								{{ profileFriends.AVATAR }}
@@ -152,8 +152,7 @@
 								<li class="bubble" data-bubble="2"></li>
 							</ul>{% endif %}
 						</div>
-					</li>
-					{% endfor %}
+					</li>{% endfor %}
 				</ul>
 			</div>
 			<div class="pg_social_pagesub" id="page_gallery">
@@ -167,14 +166,36 @@
 							<input type="text" name="pgsocial_galleryNew_title" placeholder="{{ lang('ALBUM_CREATE_TITLE') }}" />
 							<input type="submit" value="{{ lang('ALBUM_CREATE_NOW') }}" />
 						</div>
-					</li>{% endif %}{% for social_gallery in loops.social_gallery %}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}">
+					</li>{% endif %}{% for social_gallery in loops.social_gallery %}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-{% if social_gallery.GALLERY_ACTION %}album{% else %}gallery{% endif %}="{{ social_gallery.GALLERY_ID }}">
 						<div class="cover"{% if social_gallery.PHOTO_COVER %} style="background-image:url('{{ social_gallery.PHOTO_COVER }}')"{% endif %}>
 							<img src="./ext/pgreca/pgsocial/images/transp.gif" />
+							<div class="gallery_covhov">
+								{% if S_USER_LOGGED_IN and social_gallery.GALLERY_ACTION %}
+								<div class="gallery_covhovEl post_status_privacy">
+									<i class="fa fa-eye" aria-hidden="true"></i>
+									<div class="post_status_privacy_box post_status_covhovEl_box">{{ lang('PRIVACY_VISIBLE_FOR') }}{{ lang('COLON') }}
+										<select data-type="album" class="post_status_privacy_set">
+											<option value="0"{% if social_gallery.GALLERY_PRIVACY == 0 %} selected{% endif %}>{{ lang('PRIVACY_ONLY_ME') }}</option>
+											<option value="1"{% if social_gallery.GALLERY_PRIVACY == 1 %} selected{% endif %}>{{ lang('PRIVACY_ONLY_FRIENDS') }}</option>
+											<option value="2"{% if social_gallery.GALLERY_PRIVACY == 2 %} selected{% endif %}>{{ lang('PRIVACY_ALL') }}</option>
+										</select>
+									</div>
+								</div><div class="gallery_covhovEl post_status_option">
+									<i class="fa fa-bars" aria-hidden="true"></i>
+									<div class="post_status_option_box post_status_covhovEl_box">
+										<a class="gallery_name_renameLink">{{ lang('RENAME') }}</a>
+										<a class="gallery_name_delete">{{ lang('DELETE') }}</a>
+									</div>
+								</div>{% endif %}
+							</div>
 						</div>
 						<div class="gallery_name username">
 							<a href="{{ social_gallery.GALLERY_URL }}">
 								<h5>{{ social_gallery.GALLERY_NAME }}</h5>
 							</a>
+							<div class="gallery_name_rename">
+								<input type="text" class="gallery_name_renameTitle" value="{{ social_gallery.GALLERY_NAME }}" /><i class="gallery_name_renameSub fa fa-check-circle" aria-hidden="true"></i>
+							</div>
 						</div>
 						<div class="gallery_counts counts counts">
 							<div class="gallery_count_count_photos count">
@@ -191,11 +212,12 @@
 					</h5>{% if PHOTO_NEW %}<div id="gallery_photo_add">
 						<label>
 							<input type="file" accept="image/*" name="gallery_photo[]" id="pgsocial_gallery_newPhoto" data-gall="{{ GALLERY_ID }}" value="Carica photo" />
-							<span>Carica photo</span>
+							<span>Carica photo</span> <i class="fa fa-upload" aria-hidden="true"></i>
 						</label>
 					</div>{% endif %}
 				</div>
 				<ul class="template_photos colums" id="pg_social_photos">
+					<li class="gallery colum colum_nosize"></li>
 					{% INCLUDE 'pg_social_gallery_photo.html' %}
 				</ul>
 				{% endif %}
@@ -234,7 +256,7 @@
 				</div><div id="pg_social_sidec">
 					<div class="panel">
 						<h3>{{ lang('HOBBIES_INTERESTS') }}</h3>
-						<div class="colum">
+						<div class="colum colum_info">
 							<dl>
 								{% if PROFILE_HOBBIES %}<dt>{{ lang('HOBBY', 2) }}{{ lang('COLON') }}</dt>
 								<dd>{{ PROFILE_HOBBIES }}</dd>{% endif %}
@@ -247,7 +269,7 @@
 								{% if PROFILE_FAVORITE_MOVIES %}<dt>{{ lang('FAVORITE_MOVIE', 2) }}{{ lang('COLON') }}</dt>
 								<dd>{{ PROFILE_FAVORITE_MOVIES }}</dd>{% endif %}
 							</dl>
-						</div><div class="colum">
+						</div><div class="colum colum_info">
 							<dl>
 								{% if PROFILE_FAVORITE_MUSICS %}<dt>{{ lang('FAVORITE_MUSIC', 2) }}{{ lang('COLON') }}</dt>
 								<dd>{{ PROFILE_FAVORITE_MUSICS }}</dd>{% endif %}
@@ -260,23 +282,33 @@
 					</div>
 					<div class="panel">
 						<h3>{L_USER_FORUM}</h3>
-						<dl class="details">
-							{% EVENT memberlist_view_user_statistics_before %}
+						<div class="colum colum_info">
+							<dl>
+								{% EVENT memberlist_view_user_statistics_before %}
+							</dl>
 							{% if S_WARNINGS %}
-							<dt>{{ lang('WARNINGS') }}{{ lang('COLON') }} </dt>
-							<dd><strong>{{ WARNINGS }}</strong>{% if U_NOTES or U_WARN %} [ {% if U_NOTES %}<a href="{{ U_NOTES }}">{{ lang('VIEW_NOTES') }}</a>{% endif %} {% if U_WARN %}{% if U_NOTES %} | {% endif %}<a href="{{ U_WARN }}">{{ lang('WARN_USER') }}</a>{% endif %} ]{% endif %}</dd>
+							<dl>
+								<dt>{{ lang('WARNINGS') }}{{ lang('COLON') }} </dt>
+								<dd><strong>{{ WARNINGS }}</strong>{% if U_NOTES or U_WARN %} [ {% if U_NOTES %}<a href="{{ U_NOTES }}">{{ lang('VIEW_NOTES') }}</a>{% endif %} {% if U_WARN %}{% if U_NOTES %} | {% endif %}<a href="{{ U_WARN }}">{{ lang('WARN_USER') }}</a>{% endif %} ]{% endif %}</dd>
+							</dl>
 							{% endif %}
-							<dt>{{ lang('TOTAL_POSTS') }}{{ lang('COLON') }}</dt>
-							<dd>{{ POSTS }} {% if S_DISPLAY_SEARCH %}| <strong><a href="{{ U_SEARCH_USER }}">{{ lang('SEARCH_USER_POSTS') }}</a></strong>{% endif %}
-								{% if POSTS_PCT %}<br />({{ POSTS_PCT }} / {{ POSTS_DAY }}){% endif %}
-								{% if POSTS_IN_QUEUE and U_MCP_QUEUE %}<br />(<a href="{{ U_MCP_QUEUE }}">{{ lang('POSTS_IN_QUEUE') }}</a>){% elseif POSTS_IN_QUEUE %}<br />({{ lang('POSTS_IN_QUEUE') }}){% endif %}
-							</dd>
+							<dl>
+								<dt>{{ lang('TOTAL_POSTS') }}{{ lang('COLON') }}</dt>
+								<dd>{{ POSTS }} {% if S_DISPLAY_SEARCH %}| <strong><a href="{{ U_SEARCH_USER }}">{{ lang('SEARCH_USER_POSTS') }}</a></strong>{% endif %}
+									{% if POSTS_PCT %}<br />({{ POSTS_PCT }} / {{ POSTS_DAY }}){% endif %}
+									{% if POSTS_IN_QUEUE and U_MCP_QUEUE %}<br />(<a href="{{ U_MCP_QUEUE }}">{{ lang('POSTS_IN_QUEUE') }}</a>){% elseif POSTS_IN_QUEUE %}<br />({{ lang('POSTS_IN_QUEUE') }}){% endif %}
+								</dd>
+							</dl>
 							{% if S_SHOW_ACTIVITY and POSTS %}
-							<dt>{{ lang('ACTIVE_IN_FORUM') }}{{ lang('COLON') }}</dt> <dd>{% if ACTIVE_FORUM != '' %}<strong><a href="{{ U_ACTIVE_FORUM }}">{{ ACTIVE_FORUM }}</a></strong><br />({{ ACTIVE_FORUM_POSTS }} / {{ ACTIVE_FORUM_PCT }}){% else %} - {% endif %}</dd>
-							<dt>{{ lang('ACTIVE_IN_TOPIC') }}{{ lang('COLON') }}</dt> <dd>{% if ACTIVE_TOPIC != '' %}<strong><a href="{{ U_ACTIVE_TOPIC }}">{{ ACTIVE_TOPIC }}</a></strong><br />({{ ACTIVE_TOPIC_POSTS }} / {{ ACTIVE_TOPIC_PCT }}){% else %} - {% endif %}</dd>
+							<dl>
+								<dt>{{ lang('ACTIVE_IN_FORUM') }}{{ lang('COLON') }}</dt> <dd>{% if ACTIVE_FORUM != '' %}<strong><a href="{{ U_ACTIVE_FORUM }}">{{ ACTIVE_FORUM }}</a></strong><br />({{ ACTIVE_FORUM_POSTS }} / {{ ACTIVE_FORUM_PCT }}){% else %} - {% endif %}</dd>
+								<dt>{{ lang('ACTIVE_IN_TOPIC') }}{{ lang('COLON') }}</dt> <dd>{% if ACTIVE_TOPIC != '' %}<strong><a href="{{ U_ACTIVE_TOPIC }}">{{ ACTIVE_TOPIC }}</a></strong><br />({{ ACTIVE_TOPIC_POSTS }} / {{ ACTIVE_TOPIC_PCT }}){% else %} - {% endif %}</dd>
+							</dl>
 							{% endif %}
-							{% EVENT memberlist_view_user_statistics_after %}
-						</dl>
+							<dl>
+								{% EVENT memberlist_view_user_statistics_after %}
+							</dl>
+						</div>
 					</div>
 				</div>
 				{% if SIGNATURE %}

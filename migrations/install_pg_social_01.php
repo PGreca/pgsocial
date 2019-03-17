@@ -218,6 +218,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 						'gallery_name'		=> array('VCHAR:255', ''),
 						'user_id'			=> array('UINT:11', 0),
 						'gallery_time'		=> array('UINT:11', 0),
+						'gallery_privacy'	=> array('UINT:1', 0),
 					),
 					'PRIMARY_KEY'	=> 'gallery_id',
 				),

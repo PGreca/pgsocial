@@ -1,15 +1,3 @@
-{% INCLUDECSS 'pg_social.css' %}
-{% if PG_SOCIAL_COLOR == 1 %}
-	{% INCLUDECSS 'pg_social_blue.css' %}
-{% elseif PG_SOCIAL_COLOR == 2 %}
-	{% INCLUDECSS 'pg_social_green.css' %}
-{% elseif PG_SOCIAL_COLOR == 3 %}
-	{% INCLUDECSS 'pg_social_red.css' %}
-{% elseif PG_SOCIAL_COLOR == 4 %}
-	{% INCLUDECSS 'pg_social_lightblue.css' %}
-{% elseif PG_SOCIAL_COLOR == 5 %}
-	{% INCLUDECSS 'pg_social_dark.css' %}
-{% endif %}
 
 {% if S_PG_SOCIAL_ENABLED and S_USER_LOGGED_IN %}
 	{% INCLUDEJS 'js/cookie.js' %}
@@ -22,4 +10,16 @@
 	{% INCLUDE 'pg_social_chat.html' %}
 	{% INCLUDECSS 'pg_social_chat.css' %}
 	{% INCLUDEJS 'js/pg_social_chat.js' %}
+{% endif %}
+{% INCLUDECSS 'pg_social.css' %}
+{% if PG_SOCIAL_COLOR == 1 %}
+	{% INCLUDECSS 'pg_social_blue.css' %}
+{% elseif PG_SOCIAL_COLOR == 2 %}
+	{% INCLUDECSS 'pg_social_green.css' %}
+{% elseif PG_SOCIAL_COLOR == 3 %}
+	{% INCLUDECSS 'pg_social_red.css' %}
+{% elseif PG_SOCIAL_COLOR == 4 %}
+	{% INCLUDECSS 'pg_social_lightblue.css' %}
+{% elseif PG_SOCIAL_COLOR == 5 %}
+	{% INCLUDECSS 'pg_social_dark.css' %}
 {% endif %}

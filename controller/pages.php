@@ -110,7 +110,7 @@ class pages
 			$page = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
 			$page_alert = false;
-			
+			$this->db->sql_freeresult($result);
 			if($page && ($page['page_status'] == 1 || $page['page_founder'] == $this->user->data['user_id'] || $this->auth->acl_get('a_page_manage')))
 			{
 				$page_title = $page['page_username'];

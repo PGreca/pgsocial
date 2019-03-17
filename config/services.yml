@@ -224,6 +224,7 @@ services:
             - '@controller.helper'
             - '@pgreca.pgsocial.helper'
             - '@pgreca.pgsocial.social.social_tag'
+            - '@pgreca.pgsocial.social.social_zebra'
             - '@config'
             - '@dbal.conn'
             - '%core.root_path%'
