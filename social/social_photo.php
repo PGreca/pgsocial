@@ -197,7 +197,7 @@ class social_photo
 	*/
 	public function album_action($gallery, $action, $value)
 	{
-		$sql = 'SELECT gallery_id, user_id FROM ' . $this->pgsocial_gallery . ' WHERE gallery_id = "' . $gallery. '"';
+		$sql = 'SELECT gallery_id, user_id FROM ' . $this->pgsocial_gallery . ' WHERE ' . $this->db->sql_build_array('SELECT', array('gallery_id' => (int) $gallery));
 		$result = $this->db->sql_query($sql);
 		$gallery = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -208,7 +208,7 @@ class social_photo
 			switch($action)
 			{
 				case 'delete':
-					$sphotos = 'SELECT photo_id, photo_file FROM ' . $this->pgsocial_photos . ' WHERE gallery_id = "' . $gallery['gallery_id'] . '"';
+					$sphotos = 'SELECT photo_id, photo_file FROM ' . $this->pgsocial_photos . ' WHERE ' . $this->db->sql_build_array('SELECT', array('gallery_id' => (int) $gallery['gallery_id']));
 					$result = $this->db->sql_query($sphotos);
 					while($row = $this->db->sql_fetchrow($result))
 					{
@@ -220,7 +220,7 @@ class social_photo
 						$delete = 'DELETE FROM ' . $this->pgsocial_photos . ' WHERE ' . $this->db->sql_in_set('photo_id', $sql_arr);
 						$this->db->sql_query($delete);
 					}
-					$delete = 'DELETE FROM ' . $this->pgsocial_gallery . ' WHERE gallery_id = "' . $gallery['gallery_id'] . '"';
+					$delete = 'DELETE FROM ' . $this->pgsocial_gallery . ' WHERE ' . $this->db->sql_build_array('DELETE', array('gallery_id' => $gallery['gallery_id']));
 					$this->db->sql_query($delete);
 				break;
 				case 'rename':
@@ -232,14 +232,14 @@ class social_photo
 				case 'privacy':
 					$sql_arr = array(
 						'gallery_privacy'	=> (int) $value,
-					);	
-					$sql = true;				
+					);
+					$sql = true;
 				break;
 			}
 		}
 		if($sql)
 		{
-			$sql = 'UPDATE ' . $this->pgsocial_gallery . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . ' WHERE gallery_id = "' . $gallery['gallery_id']. '"';
+			$sql = 'UPDATE ' . $this->pgsocial_gallery . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . ' WHERE ' . $this->db->sql_build_array('DELETE', array('gallery_id' => $gallery['gallery_id']));
 			$this->db->sql_query($sql);
 		}
 		$this->template->assign_vars(array(
@@ -330,7 +330,7 @@ class social_photo
 		$photoe = explode('#', $photo);
 		$photo = $photoe[0];
 
-		$sql = "SELECT p.*, (SELECT post_ID FROM ".$this->pgsocial_wallpost." WHERE post_extra = '".$photo."') as post_id, (SELECT g.gallery_privacy FROM " . $this->pgsocial_gallery . " g WHERE p.photo_id = '".$photo."' AND p.gallery_id = g.gallery_id) as post_privacy FROM ".$this->pgsocial_photos." AS p WHERE p.photo_id = '".$photo."'";
+		$sql = "SELECT p.*, (SELECT post_ID FROM ".$this->pgsocial_wallpost." WHERE post_extra = '".$photo."') as post_id, (SELECT g.gallery_privacy FROM " . $this->pgsocial_gallery . " g WHERE p.photo_id = '".$photo."' AND p.gallery_id = g.gallery_id) as post_privacy FROM ".$this->pgsocial_photos." AS p WHERE ".$this->db->sql_build_array('SELECT', array('p.photo_id' => $photo));
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -410,7 +410,7 @@ class social_photo
 				}
 				else
 				{
-					
+
 					$this->template->assign_block_vars('social_photo', array(
 						'PHOTO_ID'					=> $row['photo_id'],
 						'PHOTO_FILE'				=> generate_board_url().'/ext/pgreca/pgsocial/images/upload/'.$row['photo_file'],
@@ -759,7 +759,7 @@ class social_photo
 			return $action;
 		}
 	}
-	
+
 	public function add_gallery($gallery_name)
 	{
 		$sql_arr = array(

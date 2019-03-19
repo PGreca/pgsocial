@@ -556,7 +556,7 @@ class post_status
 	*/
 	public function status_action($post, $action, $value)
 	{
-		$sql = 'SELECT post_ID, user_id, wall_id FROM '  .$this->pgsocial_wallpost.  ' WHERE post_ID = "' . $post. '"';
+		$sql = 'SELECT post_ID, user_id, wall_id FROM '  .$this->pgsocial_wallpost.  ' WHERE ' . $this->db->sql_build_array('SELECT', array('post_ID' => $post));
 		$result = $this->db->sql_query($sql);
 		$post = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -572,7 +572,7 @@ class post_status
 				}
 			break;
 		}
-		$sql = 'UPDATE ' . $this->pgsocial_wallpost . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . ' WHERE post_ID = "' . $post['post_ID']. '"';
+		$sql = 'UPDATE ' . $this->pgsocial_wallpost . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . ' WHERE ' . $this->db->sql_build_array('UPDATE', array('post_ID' => $post['post_ID']));
 		$this->db->sql_query($sql);
 		$this->template->assign_vars(array(
 			'ACTION'	=> $sql.'',

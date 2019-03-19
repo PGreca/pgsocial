@@ -138,25 +138,25 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'								=> 'load_language_on_setup',
-			'core.permissions'								=> 'add_permission',
-			'core.viewonline_overwrite_location'			=> 'add_viewonline_location',
-			'core.display_forums_modify_sql'				=> 'set_startpage',
+			'core.user_setup'															=> 'load_language_on_setup',
+			'core.permissions'														=> 'add_permission',
+			'core.viewonline_overwrite_location'					=> 'add_viewonline_location',
+			'core.display_forums_modify_sql'							=> 'set_startpage',
 
-			'core.page_header'								=> 'add_page_links',
-			'core.page_footer'								=> 'load',
-			'core.memberlist_view_profile'	    			=> 'memberlist_view_profile',
+			'core.page_header'														=> 'add_page_links',
+			'core.page_footer'														=> 'load',
+			'core.memberlist_view_profile'	    					=> 'memberlist_view_profile',
 
-			'core.submit_post_end'							=> 'user_status_post',
+			'core.submit_post_end'												=> 'user_status_post',
 
-			'core.acp_users_modify_profile'					=> 'user_profile',
-			'core.ucp_register_data_before'					=> 'user_profile',
-			'core.ucp_profile_modify_profile_info'			=> 'user_profile',
-			'core.ucp_register_data_after'					=> 'user_profile_validate',
-			'core.ucp_register_user_row_after'				=> 'user_profile_sql',
-			'core.ucp_profile_validate_profile_info'		=> 'user_profile_validate',
-			'core.acp_users_profile_modify_sql_ary'			=> 'user_profile_sql',
-			'core.ucp_profile_info_modify_sql_ary'			=> 'user_profile_sql',
+			'core.acp_users_modify_profile'								=> 'user_profile',
+			'core.ucp_register_data_before'								=> 'user_profile',
+			'core.ucp_profile_modify_profile_info'				=> 'user_profile',
+			'core.ucp_register_data_after'								=> 'user_profile_validate',
+			/*'core.ucp_register_user_row_after'					=> 'user_profile_sql',*/
+			'core.ucp_profile_validate_profile_info'			=> 'user_profile_validate',
+			'core.acp_users_profile_modify_sql_ary'				=> 'user_profile_sql',
+			'core.ucp_profile_info_modify_sql_ary'				=> 'user_profile_sql',
 			'core.avatar_driver_upload_move_file_before'	=> 'user_avatar_change',
 		);
 	}
