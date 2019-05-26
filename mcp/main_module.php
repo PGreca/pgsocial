@@ -27,8 +27,9 @@ class main_module
 	// Main function
 	function main($id, $mode)
 	{
-		global $db, $auth, $request, $template, $user, $u_action, $table_prefix;
+		global $phpbb_container, $db, $auth, $request, $template, $user, $u_action, $table_prefix;
 
+		$this->phpbb_container = $phpbb_container;
 		$this->db = $db;
 		$this->auth = $auth;
 		$this->request = $request;
@@ -41,6 +42,8 @@ class main_module
 		$this->page_title = 'MCP_PG_SOCIAL_MAIN';
 		add_form_key('mcp_pg_social');
 
+		$pgsocial_helper = $this->phpbb_container->get('pgreca.pgsocial.helper');
+		$submit = false;
 		switch($mode)
 		{
 			case 'page_manage':
@@ -57,7 +60,7 @@ class main_module
 					$sql = 'UPDATE '.$this->table_prefix.'pg_social_pages SET '.$this->db->sql_build_array('UPDATE', $sql_arr).' WHERE page_id IN ("'.implode('", "', $this->request->variable('page_selected', array('' => ''))).'")';
 					if($this->db->sql_query($sql))
 					{
-						$message = $this->user->lang('PREFERENCES_UPDATED').'<br /><br /><a href="'.$this->u_action.'">A</a>';
+						$message = $this->user->lang('PAGES_ENABLED').'<br /><br /><a href="'.$this->u_action.'">A</a>';
 						trigger_error($message);
 					}
 				}
@@ -66,18 +69,20 @@ class main_module
 				$result = $this->db->sql_query($sql);
 				while($row = $this->db->sql_fetchrow($result))
 				{
+					$submit = true;
 					$this->template->assign_block_vars('pages', array(
 						'PAGE_ID'		=> $row['page_id'],
 						'PAGE_USERNAME'	=> $row['page_username'],
 						'PAGE_FOUNDER'	=> $row['username'],
 						'PAGE_FOUNDERL'	=> get_username_string('profile', $row['page_founder'], $row['username'], $row['user_colour']),
-						'PAGE_REGDATA'	=> $row['page_regdate'],
+						'PAGE_REGDATA'	=> $pgsocial_helper->time_ago($row['page_regdate']),
 					));
 				}
 				$this->db->sql_freeresult($result);
 				$this->template->assign_vars(array(
-					'MCP_PG_SOCIAL_PAGE'	=> 'page_manage',
-					'PAGE_MANAGE_ACTION'	=> ($auth->acl_gets('m_page_manage') || $auth->acl_gets('a_page_manage') ? 1 : 0),
+					'MCP_PG_SOCIAL_PAGE'		=> 'page_manage',
+					'PAGE_MANAGE_ACTION'		=> ($auth->acl_gets('m_page_manage') || $auth->acl_gets('a_page_manage') ? 1 : 0),
+					'PG_SOCIAL_MCP_SUBMIT'		=> $submit,
 				));
 			break;
 		}

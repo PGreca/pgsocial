@@ -117,28 +117,18 @@ class pages
 	*/
 	public function handlepage()
 	{
-		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
-		{
-			if($this->user->data['user_id'] != ANONYMOUS)
-			{
-				trigger_error('NO_VIEW_USERS');
-			}
-			login_box('', ((isset($this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')])) ? $this->user->lang['LOGIN_EXPLAIN_'.strtoupper('viewprofile')] : $this->user->lang['LOGIN_EXPLAIN_MEMBERLIST']));
-		}
-		else
-		{
+		
 			$page_title = $this->user->lang['PAGES'];
 
 			$sql = "SELECT p.*, (SELECT COUNT(*)
 					FROM ".$this->pgsocial_pages_like." as l
 					WHERE l.page_id = p.page_id) AS countlike
 			FROM ".$this->pgsocial_pages." as p
-			WHERE p.page_username_clean = '".$this->request->variable('u', '')."'";
+			WHERE p.page_username_clean = '".$this->request->variable('name', '')."'";
 			$result = $this->db->sql_query($sql);
 			$page = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
 			$page_alert = false;
-			$this->db->sql_freeresult($result);
 			if($page && ($page['page_status'] == 1 || $page['page_founder'] == $this->user->data['user_id'] || $this->auth->acl_get('a_page_manage')))
 			{
 				$page_title = $page['page_username'];
@@ -267,6 +257,6 @@ class pages
 				));
 			}
 			return $this->helper->render('pg_social_page.html', $page_title);
-		}
+		
 	}
 }

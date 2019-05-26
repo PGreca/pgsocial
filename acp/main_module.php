@@ -18,7 +18,7 @@ class main_module
 	public $u_action;
 
 	function main($id, $mode){
-		global $db, $user, $auth, $template, $cache, $request, $helper;
+		global $phpbb_container, $db, $user, $auth, $template, $cache, $request, $helper;
 		global $config, $phpbb_root_path, $phpEx, $table_prefix;
 
 		$this->tpl_name = 'pg_social_body';
@@ -132,23 +132,27 @@ class main_module
 						trigger_error($user->lang('ACP_PG_SOCIAL_SETTING_SAVED') . adm_back_link($this->u_action));
 					}
 				}
-				$sql = 'SELECT p.*, u.username, u.user_colour FROM '.$table_prefix.'pg_social_pages as p, '.USERS_TABLE.' as u WHERE p.page_founder = u.user_id AND p.page_status = "0"';
-				$result = $db->sql_query($sql);
-				while($row = $db->sql_fetchrow($result))
+				else 
 				{
-					$template->assign_block_vars('pages', array(
-						'PAGE_ID'				=> $row['page_id'],
-						'PAGE_USERNAME'	=> $row['page_username'],
-						'PAGE_FOUNDER'	=> $row['username'],
-						'PAGE_FOUNDERL'	=> get_username_string('profile', $row['page_founder'], $row['username'], $row['user_colour']),
-						'PAGE_REGDATA'	=> $row['page_regdate'],
+					$pgsocial_helper = $phpbb_container->get('pgreca.pgsocial.helper');
+					$sql = 'SELECT p.*, u.username, u.user_colour FROM '.$table_prefix.'pg_social_pages as p, '.USERS_TABLE.' as u WHERE p.page_founder = u.user_id AND p.page_status = "0"';
+					$result = $db->sql_query($sql);
+					while($row = $db->sql_fetchrow($result))
+					{
+						$template->assign_block_vars('pages', array(
+							'PAGE_ID'				=> $row['page_id'],
+							'PAGE_USERNAME'	=> $row['page_username'],
+							'PAGE_FOUNDER'	=> $row['username'],
+							'PAGE_FOUNDERL'	=> get_username_string('profile', $row['page_founder'], $row['username'], $row['user_colour']),
+							'PAGE_REGDATA'	=> $pgsocial_helper->time_ago($row['page_regdate']),
+						));
+					}
+					$db->sql_freeresult($result);
+					$template->assign_vars(array(
+						'PG_SOCIAL_PAGE_PAGE_MANAGE'						=> true,
+						'PAGE_MANAGE_ACTION'										=> ($auth->acl_gets('a_page_manage') ? 1 : 0),
 					));
 				}
-				$db->sql_freeresult($result);
-				$template->assign_vars(array(
-					'PG_SOCIAL_PAGE_PAGE_MANAGE'						=> true,
-					'PAGE_MANAGE_ACTION'										=> ($auth->acl_gets('a_page_manage') ? 1 : 0),
-				));
 			break;
 		}
 	}

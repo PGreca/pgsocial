@@ -3,9 +3,7 @@
 {% if not PAGES %}
 {% for page in loops.page %}
 	{% if page.PAGE_ALERT %}
-	<div class="pg_social_alert">
-		Pagina in attesa di moderazione
-	</div>
+	<div class="page_alert">
 	{% endif %}
 	<div id="pg_social_header" style="background-image:url({{ page.PAGE_COVER }}); background-position: left {{ page.PAGE_COVER_POSITION }}px;">
 		<div id="pg_social_actionprofile">
@@ -114,6 +112,9 @@
 			</div>
 		</div>
 	</div>
+	{% if page.PAGE_ALERT %}
+	</div>
+	{% endif %}
 {% endfor %}
 {% else %}
 <div id="pg_social_cont">
