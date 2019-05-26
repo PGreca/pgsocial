@@ -12,7 +12,7 @@ namespace pgreca\pgsocial\controller;
 
 class pages
 {
-	/** @var \phpbb\files\factory */
+	/* @var \phpbb\files\factory */
 	protected $files_factory;
 
 	/* @var \phpbb\auth\auth */
@@ -30,6 +30,27 @@ class pages
 	/* @var \phpbb\request\request */
 	protected $request;
 
+	/** @var \pgreca\pgsocial\controller\helper */
+	protected $pg_social_helper;
+
+	/** @var \pgreca\pgsocial\controller\notifyhelper */
+	protected $notifyhelper;
+
+	/** @var \pgreca\pgsocial\social\post_status */
+	protected $post_status;
+
+	/** @var \pgreca\pgsocial\social\social_zebra */
+	protected $social_zebra;
+
+	/** @var \pgreca\pgsocial\social\social_photo */
+	protected $social_photo;
+
+	/** @var \pgreca\pgsocial\social\social_tag */
+	protected $social_tag;
+
+	/** @var \pgreca\pgsocial\social\social_page */
+	protected $social_page;
+
 	/* @var \phpbb\template\template */
 	protected $template;
 
@@ -39,11 +60,18 @@ class pages
 	/* @var string phpBB root path */
 	protected $root_path;
 
+	/** @var string */
+	protected $pgsocial_table_pages;
+
+	/** @var string */
+	protected $pgsocial_table_pages_like;
+
 	/* @var string phpEx */
 	protected $php_ext;
 	/**
 	* Constructor
 	*
+	* @param \phpbb\files\factory $files_factory
 	* @param \phpbb\auth\auth			$auth
 	* @param \phpbb\config\config      $config
 	* @param \phpbb\db\driver\driver $db
@@ -52,21 +80,21 @@ class pages
 	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
 	* @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
 	* @param \pgreca\pgsocial\social\post_status $post_status
-	* @param \pgreca\pgsocial\social\$social_zebra $social_zebra
-	* @param \pgreca\pgsocial\social\$social_photo $social_photo
-	* @param \pgreca\pgsocial\social\$social_tag $social_tag
-	* @param \pgreca\pgsocial\social\$social_page $social_page
+	* @param \pgreca\pgsocial\social\social_zebra $social_zebra
+	* @param \pgreca\pgsocial\social\social_photo $social_photo
+	* @param \pgreca\pgsocial\social\social_tag $social_tag
+	* @param \pgreca\pgsocial\social\social_page $social_page
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
 	*/
 	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $pgsocial_table_pages, $pgsocial_table_pages_like, $php_ext)
 	{
-		$this->files_factory		= $files_factory;
-		$this->auth					= $auth;
-		$this->config				= $config;
-		$this->db					= $db;
-		$this->helper				= $helper;
-		$this->request				= $request;
+		$this->files_factory			= $files_factory;
+		$this->auth								= $auth;
+		$this->config							= $config;
+		$this->db									= $db;
+		$this->helper							= $helper;
+		$this->request						= $request;
 		$this->pg_social_helper		= $pg_social_helper;
 		$this->notifyhelper			= $notifyhelper;
 		$this->post_status 			= $post_status;

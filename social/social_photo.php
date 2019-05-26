@@ -237,7 +237,7 @@ class social_photo
 				break;
 			}
 		}
-		if($sql)
+		if($sql && count($sql_arr) > 0)
 		{
 			$sql = 'UPDATE ' . $this->pgsocial_gallery . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . ' WHERE ' . $this->db->sql_build_array('DELETE', array('gallery_id' => $gallery['gallery_id']));
 			$this->db->sql_query($sql);

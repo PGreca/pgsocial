@@ -136,11 +136,11 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social .panel #gallery_photo_add label {
 	position: relative;
-    display: inline-block;
+	display: inline-block;
 	background-color: #ff5e3a;
-    width: calc(100% - 2px);
-    border: 1px solid #d8dbe6;
+	width: 100%;
 	border-radius: 3px;
+	color: #fff;
 }
 
 #pg_social .panel #gallery_photo_add label input[type="file"] {
@@ -159,6 +159,10 @@ body.section-memberlist .action-bar.actions-jump {
 	height: calc(100% - 20px);
 	padding: 10px;
 	cursor: pointer;
+}
+
+#pg_social .panel #gallery_photo_add label i {
+	display: none;
 }
 
 #pg_social #pg_social_pageprofile {
@@ -216,6 +220,10 @@ body.section-memberlist .action-bar.actions-jump {
 	padding: 10px;
 	border-radius: 5px;
 	cursor: pointer;
+}
+
+#pg_social #pg_social_header #pg_social_actionprofile label a {
+	padding: 0px;
 }
 
 #pg_social #pg_social_header.canMove #pg_social_actionprofile .action_profile {
@@ -330,15 +338,11 @@ body.section-memberlist .action-bar.actions-jump {
 	text-align: center;
 }
 
-#pg_social #pg_social_main ul#pg_social_menu li:last-child {
-	margin-right: 20px;
-}
-
 #pg_social #pg_social_main ul#pg_social_menu li a {
 	position: relative;
 	display: block;
 	padding: 20px 15px;
-	color: #898da8;
+	color: #545365;
 }
 
 #pg_social #pg_social_main ul#pg_social_menu li a:before {
@@ -360,7 +364,8 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_main ul#pg_social_menu li.active a {
-	color: #545365;
+
+	color: #898da8;
 }
 
 #pg_social #pg_social_main ul#pg_social_menu li.active a:before {
@@ -405,7 +410,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_sidel ul#profile_menu {
-	margin: 10px 0px 5px;
+	margin: 10px 0 5px;
 }
 
 #pg_social #pg_social_sidel ul#profile_menu li {
@@ -530,7 +535,7 @@ body.section-memberlist .action-bar.actions-jump {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	width: calc(25% - 15px);
+	width: calc(25% - 15px + (15px / 4));
 	height: 400px;
 	margin: 0 15px 15px 0;
 	border-radius: 5px;
@@ -553,8 +558,8 @@ body.section-memberlist .action-bar.actions-jump {
 	margin: 0 5px 5px 0;
 }
 
-#pg_social ul#pg_social_gallery li:nth-child(4n),
-#pg_social #pg_social_cont ul.colums li:nth-child(4n),
+#pg_social ul#pg_social_gallery li:nth-child(5n),
+#pg_social #pg_social_cont ul.colums li:nth-child(5n),
 #pg_social #pg_social_cont ul.colums#last_photos li:nth-child(3n) {
 	margin-right: 0;
 }
@@ -568,11 +573,9 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont ul.colums li#pg_social_gallery_create {
-	background-color: transparent;
-	width: calc(25% - 15px - 40px - 6px);
-	height: calc(400px - 26px - 6px);
+	width: calc(25% - 15px - 40px);
+	height: calc(400px - 26px);
 	padding: 13px 20px;
-	border: 3px dashed #bbc0d6;
 	cursor: pointer;
 	font-size: 1.5em;
 }
@@ -609,11 +612,11 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social #pg_social_cont ul.colums li.colum .centeralign input {
 	display: none;
-	width: calc(80% - 30px);
+	width: calc(80% - 30px - 2px);
 	margin: 0 10%;
 	padding: 15px;
 	border-radius: 3px;
-	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.06);
+	border: 1px solid #e6ecf5;
 }
 
 #pg_social #pg_social_cont ul.colums li.colum .centeralign input[type="submit"] {
@@ -639,8 +642,8 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul.colums li.colum .cover .gallery_covhov {
 	display: none;
 	position: absolute;
-	top: 0px;
-	right: 0px;
+	top: 0;
+	right: 0;
 	background-color: rgba(43, 45, 59, .8);
 	width: calc(100% - 40px);
 	height: calc(100% - 40px);
@@ -691,7 +694,7 @@ body.section-memberlist .action-bar.actions-jump {
 	margin: calc(45px + 15px) 0 5px;
 	padding: 0 10px;
 	text-align: center;
-	font-size: 1.35em;
+	font-size: 1.4em;
 }
 
 #pg_social #pg_social_cont ul.colums li.colum .card_about {
@@ -728,7 +731,7 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul.colums li.colum.gallery .gallery_name.rename .gallery_name_rename i {
 	position: absolute;
 	top: 5px;
-	right: 0px;
+	right: 0;
 	display: inline-block;
 	width: 20px;
 	margin-left: 10px;
@@ -964,7 +967,7 @@ body.section-memberlist .action-bar.actions-jump {
 	display: inline-block;
 	vertical-align: top;
 	width: 50%;
-	padding: 1px 0px;
+	padding: 1px 0;
 	text-align: right;
 }
 
@@ -1025,8 +1028,8 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system:empty {
-	margin-top: 0px;
-	border: 0px;
+	margin-top: 0;
+	border: 0;
 }
 
 #pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system::-webkit-scrollbar {
@@ -1140,10 +1143,9 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul#posts_status li.post_status {
 	display: inline-block;
 	background-color: #fff;
-	width: calc(100% - 2px);
+	width: 100%;
 	margin: 0 0 20px;
 	border-radius: 5px;
-	border: 1px solid #e6ecf5;
 	animation: animateElement linear 1s;
 	animation-iteration-count: 1;
 }
@@ -1174,7 +1176,7 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social #pg_social_cont ul.colums li.colum .cover .gallery_covhov .gallery_covhovEl {
 	margin-left: 10px;
-	margin-right: 0px;
+	margin-right: 0;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author .post_status_privacy .post_status_privacy_box,
@@ -1182,7 +1184,7 @@ body.section-memberlist .action-bar.actions-jump {
 	display: none;
 	position: absolute;
 	top: 100%;
-	left: 0px;
+	left: 0;
 	background-color: #fff;
 	width: calc(100px - 2px);
 	padding: 5px 10px;
@@ -1213,7 +1215,7 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author .post_status_privacy .post_status_privacy_box a,
 #pg_social #pg_social_cont ul.colums li.colum .cover .gallery_covhov .gallery_covhovEl .post_status_covhovEl_box a {
-	margin: 0px 5px 5px;
+	margin: 0 5px 5px;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author .post_status_privacy .post_status_privacy_box a:hover,
@@ -1617,7 +1619,7 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment input[type="text"].wall_comment_text {
 	width: calc(100% - 30px - 10px - 20px - 2px);
 	margin-left: 10px;
-	padding: 10px;
+	padding: 5px 10px;
 	border: 1px solid #d8dae6;
 	border-radius: 5px;
 }
@@ -1719,17 +1721,17 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social .panel .colum.colum_info {
 	width: calc(100% - 20px);
-	padding: 0px 10px;
+	padding: 0 10px;
 }
 
 #pg_social .panel .colum.colum_info dt {
-	margin-top: 0px;
+	margin-top: 0;
 	vertical-align: top;
 }
 
 #pg_social .panel .colum.colum_info dl {
 	width: 100%;
-	padding: 0px;
+	padding: 0;
 }
 
 #pg_social .panel dl dt,
@@ -2473,7 +2475,7 @@ a.profile_signature_status {
 	}
 
 	#pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system:empty {
-		margin-bottom: 0px;
+		margin-bottom: 0;
 	}
 
 	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action {
@@ -2554,10 +2556,6 @@ a.profile_signature_status {
 		width: calc(100% / 5);
 		text-align: center;
 		white-space: nowrap;
-	}
-
-	#pg_social #pg_social_main ul#pg_social_menu li:last-child {
-		margin-right: 0;
 	}
 
 	#pg_social #pg_social_main ul#pg_social_menu li a {
@@ -2714,7 +2712,7 @@ a.profile_signature_status {
 
 	.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options li {
 		width: calc(100% - 20px);
-		padding: 0px 10px;
+		padding: 0 10px;
 	}
 
 	.phpbb_alert.pg_social_photo #pg_social_photo_social {

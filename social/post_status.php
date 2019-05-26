@@ -575,7 +575,7 @@ class post_status
 		$sql = 'UPDATE ' . $this->pgsocial_wallpost . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_arr) . ' WHERE ' . $this->db->sql_build_array('UPDATE', array('post_ID' => $post['post_ID']));
 		$this->db->sql_query($sql);
 		$this->template->assign_vars(array(
-			'ACTION'	=> $sql.'',
+			'ACTION'	=> '',
 		));
 		return $this->helper->render('activity_status_action.html', '');
 	}
