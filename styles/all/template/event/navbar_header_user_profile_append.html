@@ -1,0 +1,30 @@
+<li class="dropdown-container dropdown-{S_CONTENT_FLOW_END} rightside" data-skip-responsive="true">
+	<a href="" class="dropdown-trigger headerlink dropdown-toggle">
+		<i class="icon fa-users fa-fw" aria-hidden="true"></i>
+	</a>
+	<div class="dropdown dropdown-extended">
+		<div class="pointer"><div class="pointer-inner"></div></div>
+		<div class="dropdown-contents" role="menu">
+			<div class="header">
+				{{ lang('FRIENDS_REQUEST') }}
+				{% if S_DISPLAY_MEMBERLIST %}<span class="header_settings"><a href="{U_MEMBERLIST}" title="{L_MEMBERLIST_EXPLAIN}" role="menuitem">{L_MEMBERLIST}</a></span>{% endif %}
+			</div>
+			<ul id="pgsocial_friends_request">
+			{% if loops.friends_request %}
+				{% for friends_request in loops.friends_request %}
+				<li>
+					<a class="friend_avatar" href="{{ friends_request.PROFILE_URL }}">{{ friends_request.AVATAR }}</a><div class="friend_requestinfo">
+						<a class="friend_username" href="{{ friends_request.PROFILE_URL }}">{{ friends_request.USERNAME }}</a>
+						<a class="friend_request" href="{{ SOCIAL_PROFILE_PATH }}?mode=request_friend&profile_id={{ friends_request.PROFILE_ID }}&request=acceptFriend" data-ajax="request_friend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ACCEPT_REQ_SHORT') }}</a><a class="friend_request decline" href="{{ SOCIAL_PROFILE_PATH }}?mode=request_friend&profile_id={{ friends_request.PROFILE_ID }}&request=declineFriend" id="profile_friend_decline" data-ajax="request_friend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_DECLINE_REQ_SHORT') }}</a>
+					</div>
+				</li>
+				{% endfor %}
+			{% else %}
+				<li>
+					{{ lang('FRIENDS_NO_REQUEST') }}
+				</li>
+			{% endif %}
+			</ul>
+		</div>
+	</div>
+</li>

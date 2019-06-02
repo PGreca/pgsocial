@@ -1,7 +1,7 @@
 {% for pg_social_chat_person in loops.pg_social_chat_person %}<div class="pgsocial_chat chat_person opened" id="pg_social_chat_box_{{ pg_social_chat_person.PROFILE_ID }}" data-people="{{ pg_social_chat_person.PROFILE_ID }}">
 	<!-- EVENT pgreca_pgsocial_chat_before -->
 	<div class="pgsocial_chat_head">
-		<div class="pg_social_chat_head_username">{{ pg_social_chat_person.PROFILE_USERNAME }}</div><div class="pg_social_chat_head_minimize"><i class="icon fa fa-angle-down fa-fw chat_down" aria-hidden="true"></i><i class="icon fa fa-angle-up fa-fw chat_up" aria-hidden="true"></i></div><div class="chat_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+		<div class="pg_social_chat_head_username"><a href="{{ pg_social_chat_person.PROFILE_URL }}">{{ pg_social_chat_person.PROFILE_USERNAME }}</a></div><div class="pg_social_chat_head_minimize"><i class="icon fa fa-angle-down fa-fw chat_down" aria-hidden="true"></i><i class="icon fa fa-angle-up fa-fw chat_up" aria-hidden="true"></i></div><div class="chat_close"><i class="fa fa-times" aria-hidden="true"></i></div>
 	</div>
 	<ul class="pg_social_chat_messages">{% INCLUDE 'pg_social_chatmessage.html' %}</ul>
 	<div class="load_more_chat"></div>

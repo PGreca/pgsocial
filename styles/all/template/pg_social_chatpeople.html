@@ -1,10 +1,15 @@
 {% if loops.pg_social_chat %}
-{% for pg_social_chat in loops.pg_social_chat %}<li class="pg_social_chat_people_online_single {{ pg_social_chat.USER_STATUS }}_status" {% if not CHAT_LOGIN %}data-people="{{ pg_social_chat.USER_ID }}"{% endif %}>
-<div class="pg_social_chat_people_online_single_author_info">
-	<span class="pg_socialchat_people_online_single_status {{ pg_social_chat.USER_STATUS }}"></span>
-	{{ pg_social_chat.USER_AVATAR }}
-	{% if pg_social_chat.USER_TMSG != '0' %}<span class="pg_socialchat_people_online_single_tmess">{{ pg_social_chat.USER_TMSG }}</span>{% endif %}
-</div><div class="pg_social_chat_people_online_single_author">{{ pg_social_chat.USER_USERNAME }}{% if not CHAT_LOGIN %}<br /><span class="pg_social_chat_people_online_single_author_status">{{ pg_social_chat.USER_STATUS }}</span>{% endif %}</div>
+{% for pg_social_chat in loops.pg_social_chat %}<li class="pg_social_chat_people_online_single {{ pg_social_chat.USER_STATUS }}_status tooltiped" {% if not CHAT_LOGIN %}data-people="{{ pg_social_chat.USER_ID }}"{% endif %}>
+	<div class="pgsocial_tooltip">
+		<div class="tooltiptext">
+			{{ pg_social_chat.USER_USERNAME }}
+		</div>
+	</div>
+	<div class="pg_social_chat_people_online_single_author_info">
+		<span class="pg_socialchat_people_online_single_status {{ pg_social_chat.USER_STATUS }}"></span>
+		{{ pg_social_chat.USER_AVATAR }}
+		{% if pg_social_chat.USER_TMSG != '0' %}<span class="pg_socialchat_people_online_single_tmess">{{ pg_social_chat.USER_TMSG }}</span>{% endif %}
+	</div><div class="pg_social_chat_people_online_single_author">{{ pg_social_chat.USER_USERNAME }}{% if not CHAT_LOGIN %}<br /><span class="pg_social_chat_people_online_single_author_status">{{ pg_social_chat.USER_STATUS }}</span>{% endif %}</div>
 {% if pg_social_chat.USER_MSG %}<div class="check_msg"></div>{% endif %}
 </li>{% endfor %}
 {% else %}<li class="pg_social_chat_people_online_single">

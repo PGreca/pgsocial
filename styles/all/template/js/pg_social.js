@@ -375,43 +375,45 @@
 
 	/* POST ACTION */
 	pgwall_get_status = function(order, post_where) {
-		if (!post_where) post_where = 'all';
-		if ($('#load_more').is(':visible')) {
-			$('#load_more').hide();
-			let lastp;
-			if (order === 'seguel') {
-				lastp = $('#posts_status .post_status:first-child[data-lastp]').attr('data-lastp');
-			} else if (order === 'prequel') {
-				lastp = $('#posts_status .post_status:last-child[data-lastp]').attr('data-lastp');
-			} else {
-				lastp = 0;
-			}
+		if ($("#posts_status").html() === "") {
+			if (!post_where) post_where = 'all';
+			if ($('#load_more').is(':visible')) {
+				$('#load_more').hide();
+				let lastp;
+				if (order === 'seguel') {
+					lastp = $('#posts_status .post_status:first-child[data-lastp]').attr('data-lastp');
+				} else if (order === 'prequel') {
+					lastp = $('#posts_status .post_status:last-child[data-lastp]').attr('data-lastp');
+				} else {
+					lastp = 0;
+				}
 
-			var fdata = new FormData();
-			fdata.append('mode', 'get_status');
-			fdata.append('post_where', post_where);
-			fdata.append('profile_id', profile_id);
-			fdata.append('lastp', lastp);
-			fdata.append('where', where);
-			fdata.append('order', order);
+				var fdata = new FormData();
+				fdata.append('mode', 'get_status');
+				fdata.append('post_where', post_where);
+				fdata.append('profile_id', profile_id);
+				fdata.append('lastp', lastp);
+				fdata.append('where', where);
+				fdata.append('order', order);
 
-			$.ajax({
-				method: 'POST',
-				url: root,
-				data: fdata,
-				contentType: false,
-				processData: false,
-				success: function(data) {
-					if (data) {
-						if (order === 'prequel') {
-							$('#posts_status').append(data);
-						} else {
-							$('#posts_status').prepend(data);
+				$.ajax({
+					method: 'POST',
+					url: root,
+					data: fdata,
+					contentType: false,
+					processData: false,
+					success: function(data) {
+						if (data) {
+							if (order === 'prequel') {
+								$('#posts_status').append(data);
+							} else {
+								$('#posts_status').prepend(data);
+							}
 						}
-					}
-					$('#load_more').show();
-				},
-			});
+						$('#load_more').show();
+					},
+				});
+			}
 		}
 	}
 

@@ -7,6 +7,42 @@ body.section-memberlist .action-bar.actions-jump {
 	display: none;
 }
 
+.pgsocial_tooltip,
+#pgsocial_chat #pgsocial_chatRoot.opened .tooltiped:hover .pgsocial_tooltip {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	display: none;
+	visibility: hidden;
+	background-color: #000;
+	padding: 10px !important;
+	border-radius: 4px;
+	font-size: 1.2em;
+	color: #fff;
+}
+
+.pgsocial_tooltip:after {
+	content: " ";
+	position: absolute;
+	top: 50%;
+	left: 100%;
+	width: 0;
+	height: 0;
+	margin-top: -5px;
+	border-left: 5px solid #88b7d5;
+	border: solid transparent;
+	border-left-color: #000;
+	border-width: 5px;
+	pointer-events: none;
+}
+
+.tooltiped:hover .pgsocial_tooltip {
+	top: 25%;
+	right: calc(100% + 7px);
+	display: inline-block;
+	visibility: visible;
+}
+
 #pg_social_container {
 	position: relative;
 	display: inline-block;
@@ -1971,9 +2007,40 @@ body.section-memberlist .action-bar.actions-jump {
 	color: #fff;
 }
 
-
 #pg_social #page_create form#page_new_form input[type="submit"]:hover {
 	background-color: #fe763a;
+}
+
+ul#pgsocial_friends_request li a.friend_avatar {
+	display: inline-block;
+	width: 20%;	
+	margin: 0px;
+	padding: 0px;
+}
+
+ul#pgsocial_friends_request li .friend_requestinfo {
+	display: inline-block;
+	width: calc(80% - 10px);
+	margin-left: 10px;
+}
+
+ul#pgsocial_friends_request li .friend_requestinfo a.friend_username {
+	padding-left: 15%;
+}
+
+ul#pgsocial_friends_request li .friend_requestinfo a.friend_request {
+	display: inline-block;
+	background-color: #105289;
+	width: calc(50% - 10px - 10px);
+	margin: 0px 5px;
+	padding: 5px;
+	border-radius: 3px;
+	text-align: center;
+	color: #fff;
+}
+
+ul#pgsocial_friends_request li .friend_requestinfo a.friend_request.decline {
+	background-color: #545365;
 }
 
 .phpbb_alert.pg_social_photo {

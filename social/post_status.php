@@ -613,6 +613,11 @@ class post_status
 		{
 			$extra = '';
 		}
+		$new_sign = $text;
+		if($this->pg_social_helper->extra_text($text))
+		{
+			$allow_urls = false;
+		}
 		generate_text_for_storage($text, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
 		$text = str_replace('&amp;nbsp;', ' ', $text);
 
@@ -639,9 +644,9 @@ class post_status
 				$last_status = $this->db->sql_nextid();
 				if($post_where == 0 && $wall_id == $this->user->data['user_id'] && $this->user->data['user_signature_replace'] && $privacy != 0 && $type != 4 && !$this->pg_social_helper->extra_text($text))
 				{
-					$new_sign = $text .'<br /><a class="profile_signature_status" href="' . $this->helper->route('status_page', array('id' => $last_status)) . '">#status</a></a>';
-					//generate_text_for_storage($new_sign, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
-
+					$new_sign .= ' [url='.generate_board_url().$this->helper->route('status_page', array('id' => $last_status)).']#status[/url]';
+					generate_text_for_storage($new_sign, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
+					
 					$sql = "UPDATE ".USERS_TABLE." SET user_sig = '".$new_sign."' WHERE user_id = '".$this->user->data['user_id']."'";
 					$this->db->sql_query($sql);
 				}
@@ -653,7 +658,7 @@ class post_status
 				$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'STATUS_NEW', "<a href='".$this->helper->route("status_page", array('id' => $last_status))."'>#".$last_status."</a>");
 
 				$this->template->assign_vars(array(
-					'ACTION'	=> $sql.'',
+					'ACTION'	=> '',
 				));
 				if($type != 4 && $template)
 				{

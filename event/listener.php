@@ -59,6 +59,8 @@ class listener implements EventSubscriberInterface
 
 	/** @var \pgreca\pgsocial\controller\helper */
 	protected $pgsocial_helper;
+		
+	/** @var \pgreca\pgsocial\social\post_status */
 	protected $post_status;
 
 	/** @var string */
@@ -138,26 +140,25 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'															=> 'load_language_on_setup',
-			'core.permissions'														=> 'add_permission',
-			'core.viewonline_overwrite_location'					=> 'add_viewonline_location',
-			'core.display_forums_modify_sql'							=> 'set_startpage',
+			'core.user_setup'									=> 'load_language_on_setup',
+			'core.permissions'									=> 'add_permission',
+			'core.viewonline_overwrite_location'				=> 'add_viewonline_location',
+			'core.display_forums_modify_sql'					=> 'set_startpage',
 
-			'core.page_header'														=> 'add_page_links',
-			'core.page_footer'														=> 'load',
-			'core.memberlist_view_profile'	    					=> 'memberlist_view_profile',
+			'core.page_header'									=> 'add_page_links',
+			'core.page_footer'									=> 'load',
+			'core.memberlist_view_profile'						=> 'memberlist_view_profile',
 
-			'core.submit_post_end'												=> 'user_status_post',
+			'core.submit_post_end'								=> 'user_status_post',
 
-			'core.acp_users_modify_profile'								=> 'user_profile',
-			'core.ucp_register_data_before'								=> 'user_profile',
+			'core.acp_users_modify_profile'						=> 'user_profile',
+			'core.ucp_register_data_before'						=> 'user_profile',
 			'core.ucp_profile_modify_profile_info'				=> 'user_profile',
-			'core.ucp_register_data_after'								=> 'user_profile_validate',
-			/*'core.ucp_register_user_row_after'					=> 'user_profile_sql',*/
+			'core.ucp_register_data_after'						=> 'user_profile_validate',
 			'core.ucp_profile_validate_profile_info'			=> 'user_profile_validate',
 			'core.acp_users_profile_modify_sql_ary'				=> 'user_profile_sql',
 			'core.ucp_profile_info_modify_sql_ary'				=> 'user_profile_sql',
-			'core.avatar_driver_upload_move_file_before'	=> 'user_avatar_change',
+			'core.avatar_driver_upload_move_file_before'		=> 'user_avatar_change',
 		);
 	}
 
@@ -233,7 +234,7 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * @return object
-	 */
+	*/
 	protected function get_startpage_controller()
 	{
 		if ($this->phpbb_container->has('pgreca.pgsocial.controller'))
@@ -252,7 +253,7 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * @param \phpbb\event\data $event The event object
-	 */
+	*/
 	public function add_viewonline_location(\phpbb\event\data $event)
 	{
 		if($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0)
@@ -357,7 +358,7 @@ class listener implements EventSubscriberInterface
 
 	/**
 	 * @param \phpbb\event\data $event The event object
-	 */
+	*/
 	public function load($event)
 	{
 		$this->template->assign_vars(array(
@@ -368,6 +369,8 @@ class listener implements EventSubscriberInterface
 			'PG_SOCIAL_INDEX_REPLACE'			=> $this->config['pg_social_index_replace'] ? true : false,
 			'PG_SOCIAL_INDEX_ACTIVITY'			=> $this->config['pg_social_index_activity'] ? true : false,
 			'PG_SOCIAL_PAGE_NOTIFIY_MANAGER'	=> ($this->social_page->appro_pages() > 0 && ($this->auth->acl_gets('m_page_manage') || $this->auth->acl_gets('a_page_manage'))) ? true : false,
+			
+			'PG_SOCIAL_VERSION'					=> PG_SOCIAL_VERSION,
 		));
 
 		if ($this->is_startpage)
@@ -378,13 +381,16 @@ class listener implements EventSubscriberInterface
 		{
 			$this->post_status->get_status('all', (int) $this->user->data['user_id'], 0, 'all', 0, 'seguel', '');
 		}
+		
+		$this->social_zebra->friends_waiting();
 	}
 
 	/**
 	 * @param \phpbb\event\data $event The event object
-	 */
+	*/
 	public function add_page_links($event)
 	{
+	define('PG_SOCIAL_VERSION', '0.5.0');
 		$forumnav = '';
 		if($this->config['pg_social_index_replace'])
 		{
@@ -408,7 +414,7 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* Allow users to change their gender
+	* Allow users to change their personail info
 	*
 	* @param object $event The event object
 	* @return void
@@ -500,7 +506,7 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* User changed their gender so update the database
+	* User changed their personal info so update the database
 	*
 	* @param object $event The event object
 	* @return void
