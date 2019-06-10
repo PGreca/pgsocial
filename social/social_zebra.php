@@ -279,20 +279,21 @@ class social_zebra
 		}
 		$this->db->sql_freeresult($result);
 	}
-	
-	/** 
+
+	/**
 	 * Return waiting list friends
 	*/
 	public function friends_waiting()
 	{
-		$sql = 'SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
-		FROM '.USERS_TABLE.' AS u
-		LEFT JOIN '.BANLIST_TABLE.' b ON (u.user_id = b.ban_userid)
-		WHERE (b.ban_id IS NULL OR b.ban_exclude = 1)
-			AND u.user_id != "'.$this->user->data['user_id'].'"
+		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour, u.user_email
+		FROM ".USERS_TABLE." AS u
+		LEFT JOIN ".BANLIST_TABLE." b ON (u.user_id = b.ban_userid)
+		WHERE (b.ban_id IS NULL	OR b.ban_exclude = 1)
+			AND u.user_id != '".$this->user->data['user_id']."'
 			AND u.user_type NOT IN (1, 2)
-		ORDER BY RAND()';
+		ORDER BY RAND()";
 		$result = $this->db->sql_query_limit($sql, 50);
+		$count = 0;
 		while($row = $this->db->sql_fetchrow($result))
 		{
 			if($this->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ')
@@ -303,9 +304,15 @@ class social_zebra
 					'USERNAME'					=> $row['username'],
 					'USERNAME_CLEAN'			=> $row['username_clean'],
 					'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
+					'ACCEPT_URL'				=> append_sid($this->helper->route('profile_page'), 'mode=request_friend&profile_id='.$row['user_id'].'&request=acceptFriend'),	
+					'DECLINE_URL'				=> append_sid($this->helper->route('profile_page'), 'mode=request_friend&profile_id='.$row['user_id'].'&request=declineFriend'),	
 				));
+				$count++;
 			}
 		}
+		$this->template->assign_vars(array(
+			'FRIENDS_REQUEST_COUNT'		=> $count,
+		));
 		$this->db->sql_freeresult($result);
 	}
 }

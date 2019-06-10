@@ -206,7 +206,7 @@ class main
 					return $this->social_photo->add_gallery($this->request->variable('gallery_name', ''));
 				break;
 				case 'addPhoto':
-					return $this->social_photo->photo_upload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', ''), $this->request->variable('type', ''), $where, $this->request->file('photo'), $this->request->variable('top', ''));
+					return $this->social_photo->photo_upload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', ''), $this->request->variable('type', ''), $where, $this->request->file('photo'), $this->request->variable('privacy', ''), $this->request->variable('top', ''));
 				break;
 				case 'delete_photo':
 					return $this->social_photo->delete_photo($this->request->variable('photo', ''));

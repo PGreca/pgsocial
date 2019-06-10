@@ -127,7 +127,7 @@ body.section-memberlist .action-bar.actions-jump {
 	width: calc(100% - 20px - 2px);
 	margin: 0 0 10px;
 	padding: 10px;
-	border-radius: 5px;
+	border-radius: 3px;
 	border: 1px solid #e6ecf5;
 	color: #898da8;
 }
@@ -214,7 +214,7 @@ body.section-memberlist .action-bar.actions-jump {
 	overflow: hidden;
 	width: 100%;
 	height: 280px;
-	border-radius: 5px 5px 0 0;
+	border-radius: 3px 3px 0 0;
 }
 
 #pg_social #pg_social_header img#coverdrag {
@@ -254,12 +254,12 @@ body.section-memberlist .action-bar.actions-jump {
 	background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
 	margin: 0 0 0 5px;
 	padding: 10px;
-	border-radius: 5px;
+	border-radius: 3px;
 	cursor: pointer;
 }
 
 #pg_social #pg_social_header #pg_social_actionprofile label a {
-	padding: 0px;
+	padding: 0;
 }
 
 #pg_social #pg_social_header.canMove #pg_social_actionprofile .action_profile {
@@ -276,7 +276,7 @@ body.section-memberlist .action-bar.actions-jump {
 	width: 100%;
 	height: 100%;
 	opacity: 0;
-	border-radius: 5px;
+	border-radius: 3px;
 	cursor: pointer;
 }
 
@@ -298,7 +298,7 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_header #pg_social_actionprofile a.page_list_buttonLike span {
     display: block;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 #pg_social #pg_social_header #pg_social_actionprofile a.page_list_buttonLike span.likepage {
@@ -389,7 +389,7 @@ body.section-memberlist .action-bar.actions-jump {
 	left: 0;
 	width: 100%;
 	height: 3px;
-	border-radius: 5px;
+	border-radius: 3px;
 	transform: scaleX(0);
 	transition: .25s linear;
 }
@@ -555,7 +555,7 @@ body.section-memberlist .action-bar.actions-jump {
     background: #105289;
     margin: 10px 0;
 	padding: 15px;
-    border-radius: 5px;
+    border-radius: 3px;
     color: #fff;
     cursor: pointer;
 }
@@ -574,7 +574,7 @@ body.section-memberlist .action-bar.actions-jump {
 	width: calc(25% - 15px + (15px / 4));
 	height: 400px;
 	margin: 0 15px 15px 0;
-	border-radius: 5px;
+	border-radius: 3px;
 	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.06);
 	text-align: left;
 }
@@ -595,7 +595,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social ul#pg_social_gallery li:nth-child(5n),
-#pg_social #pg_social_cont ul.colums li:nth-child(5n),
+#pg_social #pg_social_cont ul.colums li:nth-child(4n),
 #pg_social #pg_social_cont ul.colums#last_photos li:nth-child(3n) {
 	margin-right: 0;
 }
@@ -605,13 +605,11 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont li.gallery {
-	min-height: 373px;
+	min-height: 400;
 }
 
 #pg_social #pg_social_cont ul.colums li#pg_social_gallery_create {
-	width: calc(25% - 15px - 40px);
-	height: calc(400px - 26px);
-	padding: 13px 20px;
+	height: calc(400px);
 	cursor: pointer;
 	font-size: 1.5em;
 }
@@ -673,7 +671,7 @@ body.section-memberlist .action-bar.actions-jump {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	border-radius: 5px 5px 0 0;
+	border-radius: 3px 3px 0 0;
 }
 #pg_social #pg_social_cont ul.colums li.colum .cover .gallery_covhov {
 	display: none;
@@ -684,7 +682,7 @@ body.section-memberlist .action-bar.actions-jump {
 	width: calc(100% - 40px);
 	height: calc(100% - 40px);
 	padding: 20px;
-	border-radius: 5px 5px 0 0;
+	border-radius: 3px 3px 0 0;
 	text-align: right;
 }
 
@@ -705,7 +703,7 @@ body.section-memberlist .action-bar.actions-jump {
 	background-repeat: no-repeat;
 	background-size: cover;
 	height: 130px;
-	border-radius: 5px 5px 0 0;
+	border-radius: 3px 3px 0 0;
 }
 
 #pg_social #pg_social_cont ul.colums li.colum a.aavatar {
@@ -898,7 +896,7 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social form#wall_post {
 	position: relative;
 	background-color: #fff;
-    border-radius: 5px;
+    border-radius: 3px;
 	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
     margin-bottom: 15px;
 }
@@ -914,7 +912,7 @@ body.section-memberlist .action-bar.actions-jump {
 	margin: 0;
 	padding: 0;
 	border-bottom: 1px solid #e6ecf5;
-	border-radius: 5px 5px 0 0;
+	border-radius: 3px 3px 0 0;
 }
 
 #pg_social form#wall_post ul#wall_post_header li {
@@ -922,13 +920,13 @@ body.section-memberlist .action-bar.actions-jump {
 	background-color: #fff;
 	margin-bottom: -1px;
 	border-right: 1px solid #e6ecf5;
-	padding: 20px;
+	padding: 15px;
 	cursor: pointer;
 	text-transform: uppercase;
 }
 
 #pg_social form#wall_post ul#wall_post_header li:first-child {
-	border-radius: 5px 0 0 0;
+	border-radius: 3px 0 0 0;
 }
 
 #pg_social form#wall_post .wall_post_area {
@@ -937,9 +935,10 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social form#wall_post #wall_post_text {
 	display: inline-block;
+	vertical-align: top;
 	width: calc(100% - 50px);
 	height: 100px;
-	margin: 10px 0;
+	margin: 0;
 	padding: 30px 25px;
 	overflow-y: auto;
 	resize: none;
@@ -969,7 +968,7 @@ body.section-memberlist .action-bar.actions-jump {
 	vertical-align: middle;
     margin: 0 0 0 5px;
     padding: 0;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
 	overflow: hidden;
 }
@@ -995,7 +994,7 @@ body.section-memberlist .action-bar.actions-jump {
 	margin: 0;
 	padding: 0;
     opacity: 0;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
 }
 
@@ -1022,7 +1021,7 @@ body.section-memberlist .action-bar.actions-jump {
 	height: 34px;
 	line-height: calc(34px - 20px);
 	padding: 10px;
-	border-radius: 5px;
+	border-radius: 3px;
 	margin-left: 10px;
 }
 
@@ -1060,7 +1059,7 @@ body.section-memberlist .action-bar.actions-jump {
 	overflow-y: auto;
 	margin-top: 15px;
 	border: 1px solid #e6ecf5;
-	border-radius: 5px;
+	border-radius: 3px;
 }
 
 #pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system:empty {
@@ -1074,7 +1073,7 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system::-webkit-scrollbar-thumb {
     background-color: #000;
-	border-radius: 5px;
+	border-radius: 3px;
 }
 
 #pg_social form#wall_post #pg_social_wall_tag ul#pg_social_wall_tag_system li.tag_system_search_people {
@@ -1127,7 +1126,7 @@ body.section-memberlist .action-bar.actions-jump {
 	background-color: #fff;
 	max-height: 50px;
 	padding: 5px;
-	border-radius: 5px;
+	border-radius: 3px;
 }
 
 #pg_social #pg_social_cont ul#profile_head_menu li {
@@ -1181,14 +1180,14 @@ body.section-memberlist .action-bar.actions-jump {
 	background-color: #fff;
 	width: 100%;
 	margin: 0 0 20px;
-	border-radius: 5px;
+	border-radius: 3px;
 	animation: animateElement linear 1s;
 	animation-iteration-count: 1;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head {
 	padding: 15px;
-	border-radius: 5px 5px 0 0;
+	border-radius: 3px 3px 0 0;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author_avatar {
@@ -1298,7 +1297,7 @@ body.section-memberlist .action-bar.actions-jump {
 	display: inline-block;
 	background-color: rgba(0, 0, 0, 0.001);
 	margin: 5px 0;
-	border-radius: 5px;
+	border-radius: 3px;
 	font-size: 0.9em;
 	line-height: 1em;
 }
@@ -1360,7 +1359,7 @@ body.section-memberlist .action-bar.actions-jump {
 	margin: 15px 0;
 	padding: 15px;
 	border: 1px solid #cfcfcf;
-	border-radius: 5px;
+	border-radius: 3px;
 }
 */
 
@@ -1386,7 +1385,7 @@ body.section-memberlist .action-bar.actions-jump {
 	background-color: rgba(0, 0, 0, 0.08);
 	margin: 0 0 0;
 	padding: 10px;
-	border-radius: 5px;
+	border-radius: 3px;
 	text-align: right;
 	color: rgba(0, 0, 0, 0.6);
 }
@@ -1415,7 +1414,7 @@ body.section-memberlist .action-bar.actions-jump {
 	max-width: 70%;
     min-width: 40%;
 	max-height: 750px;
-	border-radius: 5px;
+	border-radius: 3px;
     overflow: hidden;
 	cursor: pointer;
 }
@@ -1464,7 +1463,7 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content a.post_status_site {
 	background-color: rgba(0, 0, 0, 0.1);
 	width: 100%;
-	border-radius: 5px;
+	border-radius: 3px;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content a.post_status_site .post_status_site_title_domain {
@@ -1521,7 +1520,7 @@ body.section-memberlist .action-bar.actions-jump {
 	width: calc(100% - 14px);
 	margin: 0;
 	padding: 7px;
-	border-radius: 5px;
+	border-radius: 3px;
 	color: #fff;
 	font-size: 0.8em;
 	cursor: pointer;
@@ -1657,7 +1656,7 @@ body.section-memberlist .action-bar.actions-jump {
 	margin-left: 10px;
 	padding: 5px 10px;
 	border: 1px solid #d8dae6;
-	border-radius: 5px;
+	border-radius: 3px;
 }
 
 #pg_social #pg_social_cont #page_gallery > h5 {
@@ -1696,7 +1695,7 @@ body.section-memberlist .action-bar.actions-jump {
 	background-size: cover;
 	height: calc(180px - 1px);
 	border-bottom: 1px solid #cfcfcf;
-	border-radius: 5px 5px 0 0;
+	border-radius: 3px 3px 0 0;
 }
 
 #pg_social ul#pages_list li.page_list a.page_list_username {
@@ -1795,7 +1794,7 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social .panel .colum dl.social_networks dd {
 	background-color: #fff;
 	width: 100%;
-	border-radius: 5px;
+	border-radius: 3px;
 	text-align: center;
 	color: #fff;
 }
@@ -1973,7 +1972,7 @@ body.section-memberlist .action-bar.actions-jump {
 	margin: 15vh 38%;
 	padding: 0;
 	border: 0;
-    border-radius: 5px;
+    border-radius: 3px;
 	z-index: 99;
 }
 
@@ -1992,7 +1991,7 @@ body.section-memberlist .action-bar.actions-jump {
 	margin: 5px 2%;
 	padding: 15px;
 	border: 1px solid #e5ecf6;
-	border-radius: 5px;
+	border-radius: 3px;
 }
 
 
@@ -2001,7 +2000,7 @@ body.section-memberlist .action-bar.actions-jump {
 	width: calc(100% - 10%);
 	margin: 30px 5% 5px;
 	padding: 15px;
-	border-radius: 5px;
+	border-radius: 3px;
 	text-transform: uppercase;
 	font-weight: bold;
 	color: #fff;
@@ -2014,8 +2013,15 @@ body.section-memberlist .action-bar.actions-jump {
 ul#pgsocial_friends_request li a.friend_avatar {
 	display: inline-block;
 	width: 20%;	
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
+}
+
+ul#pgsocial_friends_request li a.friend_avatar img {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 100%;
 }
 
 ul#pgsocial_friends_request li .friend_requestinfo {
@@ -2032,7 +2038,7 @@ ul#pgsocial_friends_request li .friend_requestinfo a.friend_request {
 	display: inline-block;
 	background-color: #105289;
 	width: calc(50% - 10px - 10px);
-	margin: 0px 5px;
+	margin: 0 5px;
 	padding: 5px;
 	border-radius: 3px;
 	text-align: center;
@@ -2050,7 +2056,7 @@ ul#pgsocial_friends_request li .friend_requestinfo a.friend_request.decline {
 	margin: 5vh 15%;
 	padding: 0;
 	border: 0;
-	border-radius: 5px;
+	border-radius: 3px;
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li#pg_social_photo_img_close {
@@ -2070,7 +2076,7 @@ ul#pgsocial_friends_request li .friend_requestinfo a.friend_request.decline {
 	height: 100%;
 	text-align: center;
 	overflow: hidden;
-    border-radius: 5px 0 0 5px;
+    border-radius: 3px 0 0 5px;
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_img img {
@@ -2255,7 +2261,7 @@ ul#pgsocial_friends_request li .friend_requestinfo a.friend_request.decline {
 	height: 100%;
 	padding: 0;
 	overflow: hidden;
-	border-radius: 0 5px 5px 0;
+	border-radius: 0 3px 3px 0;
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_social > img {
@@ -2342,7 +2348,7 @@ ul#pgsocial_friends_request li .friend_requestinfo a.friend_request.decline {
 
 .phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments::-webkit-scrollbar-thumb {
     background-color: rgba(85, 132, 219, 0.2);
-	border-radius: 5px;
+	border-radius: 3px;
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments:hover::-webkit-scrollbar-thumb {
@@ -2446,7 +2452,7 @@ ul#pgsocial_friends_request li .friend_requestinfo a.friend_request.decline {
 	margin-left: 10px;
 	padding: 0 10px;
 	border: 1px solid #cfcfcf;
-	border-radius: 5px;
+	border-radius: 3px;
 	outline: none;
 }
 
@@ -2460,7 +2466,7 @@ a.profile_signature_status {
 	margin-bottom: 20px;
 	padding: 10px;
 	text-align: center;
-	border-radius: 5px;
+	border-radius: 3px;
 	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
 	font-size: 1.5em;
 	font-weight: bold;
@@ -2473,10 +2479,10 @@ a.profile_signature_status {
 }
 
 .page_alert:after {
-	content: ' ';
+	content: '';
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	top: 0;
+	left: 0;
 	background: rgba(0,0 ,0, 0.6);
 	width: 100%;
 	height: 100%;
@@ -2702,7 +2708,7 @@ a.profile_signature_status {
 		width: calc(33.33% - 10px - 10px);
 		margin: 0 5px;
 		padding: 5px;
-		border-radius: 5px;
+		border-radius: 3px;
 	}
 
 	#pg_social ul li.friend:last-child {

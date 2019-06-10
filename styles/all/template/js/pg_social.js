@@ -3,7 +3,6 @@
 		if (where === undefined || where === '') {
 			where = 'all';
 		}
-
 		if (window.location.hash) {
 			var hash = window.location.hash.substring(1);
 			$('ul#pg_social_menu li').removeClass();
@@ -35,7 +34,7 @@
 			if ($("#wall_post").hasClass("openform")) {
 				if ($('#wall_post_img').length && $('#wall_post_img').val() !== "") {
 					$("#wall_post").removeClass("openform");
-					uploadPhoto($('#wall_post_text').html(), $('#wall_post_img')[0].files[0], "wall", where);
+					uploadPhoto($('#wall_post_text').html(), $('#wall_post_img')[0].files[0], "wall", where, $('#wall_post_privacy option:selected').val());
 				} else {
 					$("#wall_post").removeClass("openform");
 					pgwall_add_status($('#wall_post_text').html(), $('#wall_post_privacy option:selected').val());
@@ -130,9 +129,9 @@
 			e.preventDefault();
 			e.stopPropagation();
 			if (whatchange === 'cover') {
-				uploadPhoto('', $('#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input')[0].files[0], $('#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input').attr('data-type'), where, $('img#coverdrag').position().top);
+				uploadPhoto('', $('#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input')[0].files[0], $('#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_cover input').attr('data-type'), where, 2, $('img#coverdrag').position().top);
 			} else if (whatchange === 'avatar') {
-				uploadPhoto('', $('#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_avatar input')[0].files[0], $('#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_avatar input').attr('data-type'), where, 0);
+				uploadPhoto('', $('#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_avatar input')[0].files[0], $('#pg_social #pg_social_header #pg_social_actionprofile label#pg_social_edit_avatar input').attr('data-type'), where, 2, 0);
 			}
 		});
 
@@ -202,7 +201,7 @@
 
 		//UPLOAD PHOTO ON ALBUM
 		$('input[type="file"]#pgsocial_gallery_newPhoto').on('change', function(e) {
-				uploadPhoto('', $(this)[0].files[0], $(this).attr('data-gall'), where, '');
+			uploadPhoto('', $(this)[0].files[0], $(this).attr('data-gall'), where, $(this).parent().find('#pgsocial_gallery_newPhotoPrivacy').val(), '');
 		});
 
 		//POPUP PHOTO
@@ -259,6 +258,10 @@
 			$('body').css('overflow', 'hidden');
 			$('.darkenwrapper').show();
 			$('#page_create').show();
+		});
+
+		$('a.page_list_buttonLike').on('click', function() {
+			pgwall_pagelike_action($(this).attr('data-page'));			
 		});
 
 		$(document).on('click', '#posts_status .post_status .post_status_footer .post_status_like a', function() {
@@ -375,45 +378,43 @@
 
 	/* POST ACTION */
 	pgwall_get_status = function(order, post_where) {
-		if ($("#posts_status").html() === "") {
-			if (!post_where) post_where = 'all';
-			if ($('#load_more').is(':visible')) {
-				$('#load_more').hide();
-				let lastp;
-				if (order === 'seguel') {
-					lastp = $('#posts_status .post_status:first-child[data-lastp]').attr('data-lastp');
-				} else if (order === 'prequel') {
-					lastp = $('#posts_status .post_status:last-child[data-lastp]').attr('data-lastp');
-				} else {
-					lastp = 0;
-				}
-
-				var fdata = new FormData();
-				fdata.append('mode', 'get_status');
-				fdata.append('post_where', post_where);
-				fdata.append('profile_id', profile_id);
-				fdata.append('lastp', lastp);
-				fdata.append('where', where);
-				fdata.append('order', order);
-
-				$.ajax({
-					method: 'POST',
-					url: root,
-					data: fdata,
-					contentType: false,
-					processData: false,
-					success: function(data) {
-						if (data) {
-							if (order === 'prequel') {
-								$('#posts_status').append(data);
-							} else {
-								$('#posts_status').prepend(data);
-							}
-						}
-						$('#load_more').show();
-					},
-				});
+		if (!post_where) post_where = 'all';
+		if ($('#load_more').is(':visible')) {
+			$('#load_more').hide();
+			let lastp;
+			if (order === 'seguel') {
+				lastp = $('#posts_status .post_status:first-child[data-lastp]').attr('data-lastp');
+			} else if (order === 'prequel') {
+				lastp = $('#posts_status .post_status:last-child[data-lastp]').attr('data-lastp');
+			} else {
+				lastp = 0;
 			}
+
+			var fdata = new FormData();
+			fdata.append('mode', 'get_status');
+			fdata.append('post_where', post_where);
+			fdata.append('profile_id', profile_id);
+			fdata.append('lastp', lastp);
+			fdata.append('where', where);
+			fdata.append('order', order);
+
+			$.ajax({
+				method: 'POST',
+				url: root,
+				data: fdata,
+				contentType: false,
+				processData: false,
+				success: function(data) {
+					if (data) {
+						if (order === 'prequel') {
+							$('#posts_status').append(data);
+						} else {
+							$('#posts_status').prepend(data);
+						}
+					}
+					$('#load_more').show();
+				},
+			});
 		}
 	}
 
@@ -463,6 +464,7 @@
 			success: function(data) {
 				$('#post_status_'+post_status).remove();
 				pgwall_get_status('prequel', where);
+				console.log(data);
 			}
 		});
 	}
@@ -541,7 +543,7 @@
 	}
 
 	/* PHOTO UPLOAD */
-	uploadPhoto = function(msg, photo, type, where, itop) {
+	uploadPhoto = function(msg, photo, type, where, privacy, itop) {
 		var fdata = new FormData();
 		fdata.append('mode', 'addPhoto');
 		if (msg) fdata.append('msg', encodeURIComponent($.trim(msg)));
@@ -550,6 +552,7 @@
 		fdata.append('type', type);
 		fdata.append('where', where);
 		fdata.append('photo', photo);
+		fdata.append('privacy', privacy);
 		if (itop) fdata.append('top', itop);
 		$.ajax({
 			type: 'POST',
@@ -562,15 +565,15 @@
 			success: function(data) {
 				if (type === '1') {
 					$('ul#pg_social_photos').prepend(data);
-				}
-				if (type === 'cover' || type === 'avatar') {
+				} else if (type === 'cover' || type === 'avatar') {
 					location.reload();
-				}
-				if (type === 'wall') {
+				} else if (type === 'wall') {
 					$('#wall_post_text').html('');
 					$('#wall_post_img, #pgsocial_gallery_newPhoto').val('');
 					$('#wall_post_thumb').removeAttr('style');
 					$('#wall_post_thumb img#wall_post_thumb_img').removeAttr('src');
+				} else {
+					$('#pg_social_photos').prepend(data);
 				}
 			},
 		})

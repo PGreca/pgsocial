@@ -170,7 +170,7 @@ class pages
 					'PAGE_AVATAR'			=> $this->pg_social_helper->social_avatar_page($page['page_avatar']),
 					'PAGE_COVER'			=> $this->pg_social_helper->social_cover($page['page_cover']),
 					'PAGE_COVER_POSITION'	=> $page['page_cover_position'],
-					'PAGE_URL'				=> append_sid($this->helper->route('pages_page'), 'u='.$page['page_username_clean']),
+					'PAGE_URL'				=> append_sid($this->helper->route('pages_page'), 'name='.$page['page_username_clean']),
 					'PAGE_USERNAME'			=> $page['page_username'],
 					'PAGE_ABOUT_WE'			=> $page['page_about'],
 					'PAGE_REGDATE'			=> $this->pg_social_helper->time_ago($page['page_regdate']),
@@ -187,7 +187,7 @@ class pages
 					'PROFILE_ID'				=> $page['page_id'],
 					'GALLERY_NAME'				=> $this->social_photo->gallery_info($this->request->variable('gall', ''))['gallery_name'],
 				));
-				$this->post_status->get_status('page', $page['page_id'], 0, 'all', '', 'seguel', '');
+				$this->post_status->get_status('page', $page['page_id'], 0, 'page', '', 'seguel', '');
 				$this->social_photo->get_photos(1, 'last', $page['page_id']);
 				$this->social_photo->get_gallery($page['page_id'], 'page');
 				if($this->request->variable('gall', ''))
@@ -242,7 +242,7 @@ class pages
 						'PAGE_COVER'			=> $this->pg_social_helper->social_cover($pages['page_cover']),
 						'PAGE_COUNT_FOLLOWER'	=> $pages['countlike'],
 						'PAGE_USERNAME'			=> $pages['page_username'],
-						'PAGE_URL'				=> append_sid($this->helper->route('pages_page'), 'u='.$pages['page_username_clean']),
+						'PAGE_URL'				=> append_sid($this->helper->route('pages_page'), 'name='.$pages['page_username_clean']),
 						'PAGE_REGDATE'			=> $page['page_regdate'],
 						'PAGE_LIKE'				=> $page_like,
 						'PAGE_LIKE_CHECK'		=> $page_likeCheck.'page',

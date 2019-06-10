@@ -205,6 +205,7 @@ services:
             - %pgreca.pgsocial.table.social.wallpostcomment%
             - %pgreca.pgsocial.table.social.pages%
             - %pgreca.pgsocial.table.social.pages_like%
+            - %pgreca.pgsocial.table.social.photos%
     pgreca.pgsocial.social.social_zebra:
         class: pgreca\pgsocial\social\social_zebra
         arguments:

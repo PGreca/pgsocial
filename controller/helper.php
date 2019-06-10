@@ -194,6 +194,7 @@ class helper
 		$avatar = '<img class="avatar" src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url('.$url.')" />';
 		return $avatar;
 	}
+	
 	/* AVATAR THUMB ON SOCIAL */
 	public function social_avatar_thumb($avatar, $avatar_type, $avatar_width, $avatar_height)
 	{

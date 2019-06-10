@@ -341,8 +341,9 @@ class listener implements EventSubscriberInterface
 				'GALLERY_NEW'				=> ((int) $this->config['pg_social_galleryLimit'] > (int) $this->social_photo->gallery_count('album') && $member['user_action']) ? true : false,
 				'GALLERY_NAME'				=> $this->social_photo->gallery_info($this->request->variable('gall', ''), $gallumb)['gallery_name'],
 				'GALLERY_ID'				=> $this->request->variable('gall', ''),
+				'GALLERY_PRIVACY'			=> $this->social_photo->gallery_info($this->request->variable('gall', ''), $gallumb)['gallery_privacy'],
 				'PHOTO_NEW'					=> ($this->request->variable('gall', '') && $this->request->variable('gl', '') == 'album' && (int) $this->config['pg_social_photoLimit'] > (int) $this->social_photo->gallery_count('photo', $this->request->variable('gall', ''))) ? true : false,
-				'SOCIAL_PROFILE_PATH'		=> $this->helper->route('profile_page'),
+				'SOCIAL_PROFILE_PATH'		=> append_sid($this->helper->route('profile_page')),
 				'STATUS_WHERE'				=> 'profile',
 			));
 			$this->post_status->get_status('profile', $user_id, 0, 'profile', 0, 'seguel', '');
@@ -541,7 +542,7 @@ class listener implements EventSubscriberInterface
 		$photo['tmp_name'] = $event['filedata']['filename'];
 		$photo['type'] = $event['filedata']['mimetype'];
 
-		$this->social_photo->photo_upload('', (int) $this->user->data['user_id'], '', 'avatar', 'profile', $photo);
+		$this->social_photo->photo_upload('', (int) $this->user->data['user_id'], '', 'avatar', 'profile', 2, $photo);
 	}
 
 	/**

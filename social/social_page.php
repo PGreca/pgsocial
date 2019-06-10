@@ -21,6 +21,9 @@ class social_page
 	/* @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var \pgreca\pgsocial\social\social_page */
+	protected $social_page;
+
 	/* @var \phpbb\config\config */
 	protected $config;
 
@@ -183,7 +186,7 @@ class social_page
 			$this->template->assign_block_vars($template, array(
 				'PAGE_ID'		=> $row['page_id'],
 				'AVATAR'		=> $this->pg_social_helper->social_avatar_page($row['page_avatar']),
-				'PROFILE_URL'	=> append_sid($this->helper->route('pages_page'), 'u='.$row['page_username_clean']),
+				'PROFILE_URL'	=> append_sid($this->helper->route('pages_page'), 'name='.$row['page_username_clean']),
 				'USERNAME'		=> $row['page_username'],
 
 			));

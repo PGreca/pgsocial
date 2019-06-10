@@ -1,9 +1,9 @@
 <script type="text/javascript">
 	var profile_id = '{% if PROFILE_ID %}{{ PROFILE_ID }}{% else %}{{ PROFILE }}{% endif %}';
 	var root = '{{ ACTIVITY_PAGE }}';
-	var where = '{{ STATUS_WHERE }}';
 	var useLang = {ARE_YOU_SURE: "{{ lang('ARE_YOU_SURE') }}", ARE_YOU_SURE_PHOTO: "{{ lang('ARE_YOU_SURE_PHOTO') }}", DO_YOU_WANT_SHARE: "{{ lang('DO_YOU_WANT_SHARE') }}"};
 
+	var where = '{{ STATUS_WHERE }}';
 {% if (PROFILE_ID || PROFILE) and ACTIVITY_PAGE %}
 {% if PG_SOCIAL_PROFILE %}
 	if ($("#viewprofile").length) {
@@ -17,13 +17,14 @@
 			$("#pg_social_containerR").css("height", $("#pg_social_containerL").height());
 		}
 	}, 990);
-	
+{% if S_PG_SOCIAL_ENABLED and S_USER_LOGGED_IN %}
 	pgwall_get_status('seguel', where);
-	
 	var pgsocial = setInterval(function() {
 		pgwall_get_status('seguel', where);
 	}, 2000);
-	timeago = function(time) {
+{% endif %}
+	
+	function timeago(time) {
 		if ($(".post_status_head_date, .post_comment_time, span.pg_social_chat_message_time").length) {
 			var date = $(".post_status_head_date, .post_comment_time, span.pg_social_chat_message_time").attr('title');
 			var periods = [

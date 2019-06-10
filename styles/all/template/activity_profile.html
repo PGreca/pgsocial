@@ -106,7 +106,8 @@
 			</div>
 			<div class="pg_social_pagesub" id="page_friends">
 				<ul id="pg_social_friends" class="colums">
-					<li class="friend colum colum_nosize"></li>
+					{% if loops.profileFriends %}
+					<!--<li class="friend colum colum_nosize"></li>-->
 					{% for profileFriends in loops.profileFriends %}<li class="friend colum" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
 						<div class="cover big_cover" style="background-image:url({{ profileFriends.COVER }});">
 							<a class="friend_avatar aavatar" href="{{ profileFriends.PROFILE_URL }}">
@@ -155,11 +156,16 @@
 						</div>
 					</li>{% endfor %}
 				</ul>
+				{% else %}
+				<div class="panel">
+					{{ lang('PROFILE_NO_FRIEND') }}
+				</div>
+				{% endif %}
 			</div>
 			<div class="pg_social_pagesub" id="page_gallery">
 				{% if not GALLERY_NAME %}
 				<ul class="template_photos colums" id="pg_social_gallery">
-					<li class="gallery colum colum_nosize"></li>{%if GALLERY_NEW %}<li class="gallery colum" id="pg_social_gallery_create">
+					<!--<li class="gallery colum colum_nosize"></li>-->{%if GALLERY_NEW %}<li class="gallery colum" id="pg_social_gallery_create">
 						<div class="centeralign">
 							<span><i class="fa fa-plus" aria-hidden="true"></i></span>
 							<h4>{{ lang('ALBUM_CREATE') }}</h4>
@@ -212,16 +218,23 @@
 						<a href="{{ U_VIEW_PROFILE }}#gallery"><i class="icon fa fa-arrow-left" aria-hidden="true"></i></a> {{ GALLERY_NAME }}
 					</h5>{% if PHOTO_NEW %}<div id="gallery_photo_add">
 						<label>
-							<input type="file" accept="image/*" name="gallery_photo[]" id="pgsocial_gallery_newPhoto" data-gall="{{ GALLERY_ID }}" value="Carica photo" />
+							<input type="file" accept="image/*" name="gallery_photo[]" id="pgsocial_gallery_newPhoto" data-gall="{{ GALLERY_ID }}" value="{{ lang('UPLOAD_PHOTO') }}" />
+							<input type="hidden" id="pgsocial_gallery_newPhotoPrivacy" name="pgsocial_gallery_newPhotoPrivacy" value="{{ GALLERY_PRIVACY }}" />
 							<span>Carica photo</span> <i class="fa fa-upload" aria-hidden="true"></i>
 						</label>
 					</div>{% endif %}
 				</div>
+				{% if loops.social_photos %}
 				<ul class="template_photos colums" id="pg_social_photos">
-					<li class="gallery colum colum_nosize"></li>{% for social_photos in loops.social_photos %}<li class="photo colum" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}" style="background-image:url({{ social_photos.PHOTO_FILE }})">
+					<!--<li class="gallery colum colum_nosize"></li>-->{% for social_photos in loops.social_photos %}<li class="photo colum" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}" style="background-image:url({{ social_photos.PHOTO_FILE }})">
 						<img src="./ext/pgreca/pgsocial/images/transp.gif" />
 					</li>{% endfor %}
 				</ul>
+				{% else %}
+				<div class="panel">
+					{{ lang('ALBUM_NO_PHOTO') }}
+				</div>
+				{% endif %}
 				{% endif %}
 			</div>
 			<div class="pg_social_pagesub" id="page_info">

@@ -25,12 +25,10 @@
 			<div class="pg_social_pagesub" id="page_activity">
 				<div id="pg_social_sidel">
 					<div class="panel">
-						<div class="colum" style="width:100%;">
-							<dl>
-								<dt>{{ lang('CREATED') }}{{ lang('COLON') }}</dt><dd>{{ page.PAGE_REGDATE }}</dd>
-								<dt>{{ lang('LIKE', 1) }}{{ lang('COLON') }}</dt><dd>{{ page.PAGE_LIKE }}</dd>
-							</dl>
-						</div>
+						<dl>
+							<dt>{{ lang('CREATED') }}{{ lang('COLON') }}</dt><dd>{{ page.PAGE_REGDATE }}</dd>
+							<dt>{{ lang('LIKE', 1) }}{{ lang('COLON') }}</dt><dd>{{ page.PAGE_LIKE }}</dd>
+						</dl>
 					</div>
 					{% if page.PAGE_ABOUT_WE %}<div class="panel">
 						<div class="colum" style="width:100%;">

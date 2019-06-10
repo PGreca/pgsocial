@@ -29,14 +29,14 @@ class main_module
 	{
 		global $phpbb_container, $db, $auth, $request, $template, $user, $u_action, $table_prefix;
 
-		$this->phpbb_container 	= $phpbb_container;
+		$this->phpbb_container 				= $phpbb_container;
 		$this->db 							= $db;
 		$this->auth 						= $auth;
-		$this->request 					= $request;
-		$this->template 				= $template;
+		$this->request 						= $request;
+		$this->template 					= $template;
 		$this->user 						= $user;
-		$this->u_action 				= $u_action;
-		$this->table_prefix 		= $table_prefix;
+		$this->u_action 					= $u_action;
+		$this->table_prefix 				= $table_prefix;
 
 		$this->tpl_name = 'mcp_pg_social';
 		$this->page_title = 'MCP_PG_SOCIAL_MAIN';
@@ -82,7 +82,7 @@ class main_module
 				$this->template->assign_vars(array(
 					'MCP_PG_SOCIAL_PAGE'			=> 'page_manage',
 					'PAGE_MANAGE_ACTION'			=> ($auth->acl_gets('m_page_manage') || $auth->acl_gets('a_page_manage') ? 1 : 0),
-					'PG_SOCIAL_MCP_SUBMIT'		=> $submit,
+					'PG_SOCIAL_MCP_SUBMIT'			=> $submit,
 				));
 			break;
 		}
