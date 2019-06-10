@@ -89,25 +89,25 @@ class pages
 	*/
 	public function __construct($files_factory, $auth, $config, $db, $helper, $request, $pg_social_helper, $notifyhelper, $post_status, $social_zebra, $social_photo, $social_tag, $social_page, $template, $user, $root_path, $pgsocial_table_pages, $pgsocial_table_pages_like, $php_ext)
 	{
-		$this->files_factory			= $files_factory;
-		$this->auth								= $auth;
+		$this->files_factory = $files_factory;
+		$this->auth = $auth;
 		$this->config							= $config;
-		$this->db									= $db;
+		$this->db = $db;
 		$this->helper							= $helper;
 		$this->request						= $request;
-		$this->pg_social_helper		= $pg_social_helper;
+		$this->pg_social_helper = $pg_social_helper;
 		$this->notifyhelper			= $notifyhelper;
 		$this->post_status 			= $post_status;
 		$this->social_zebra 		= $social_zebra;
 		$this->social_photo			= $social_photo;
-		$this->social_tag			= $social_tag;
-		$this->social_page			= $social_page;
+		$this->social_tag = $social_tag;
+		$this->social_page = $social_page;
 		$this->template				= $template;
-		$this->user					= $user;
+		$this->user = $user;
 		$this->root_path			= $root_path;
-		$this->pgsocial_pages		= $pgsocial_table_pages;
-		$this->pgsocial_pages_like	= $pgsocial_table_pages_like;
-		$this->php_ext				= $php_ext;
+		$this->pgsocial_pages = $pgsocial_table_pages;
+		$this->pgsocial_pages_like = $pgsocial_table_pages_like;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
@@ -129,14 +129,14 @@ class pages
 			$page = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
 			$page_alert = false;
-			if($page && ($page['page_status'] == 1 || $page['page_founder'] == $this->user->data['user_id'] || $this->auth->acl_get('a_page_manage')))
+			if ($page && ($page['page_status'] == 1 || $page['page_founder'] == $this->user->data['user_id'] || $this->auth->acl_get('a_page_manage')))
 			{
 				$page_title = $page['page_username'];
-				if($page['page_status'] == 0)
+				if ($page['page_status'] == 0)
 				{
 					$page_alert = true;
 				}
-				if($page['page_status'] == 1)
+				if ($page['page_status'] == 1)
 				{
 					$page['page_act'] = true;
 				}
@@ -144,7 +144,7 @@ class pages
 				{
 					$page['page_act'] = false;
 				}
-				if($page['page_founder'] == $this->user->data['user_id'] && $page['page_status'] == 1)
+				if ($page['page_founder'] == $this->user->data['user_id'] && $page['page_status'] == 1)
 				{
 					$page['page_action'] = true;
 				}
@@ -152,7 +152,7 @@ class pages
 				{
 					$page['page_action'] = false;
 				}
-				if($this->social_page->user_like_pages($this->user->data['user_id'], $page['page_id']) == $page['page_id'])
+				if ($this->social_page->user_like_pages($this->user->data['user_id'], $page['page_id']) == $page['page_id'])
 				{
 					$page_likeCheck = 'like';
 					$page_likelang = $this->user->lang('LIKE', 2);
@@ -190,7 +190,7 @@ class pages
 				$this->post_status->get_status('page', $page['page_id'], 0, 'page', '', 'seguel', '');
 				$this->social_photo->get_photos(1, 'last', $page['page_id']);
 				$this->social_photo->get_gallery($page['page_id'], 'page');
-				if($this->request->variable('gall', ''))
+				if ($this->request->variable('gall', ''))
 				{
 					$this->social_photo->get_photos(1, 'gall', $page['page_id'], $this->request->variable('gall', ''));
 				}
@@ -199,7 +199,7 @@ class pages
 			{
 				$mode = $this->request->variable('mode', '');
 
-				switch($mode)
+				switch ($mode)
 				{
 					case 'page_new':
 						return $this->social_page->page_create($this->request->variable('page_new_name', ''));
@@ -208,9 +208,9 @@ class pages
 
 				$sql = "SELECT *, (SELECT COUNT(*) FROM ".$this->pgsocial_pages_like." WHERE ".$this->pgsocial_pages.".page_id = ".$this->pgsocial_pages_like.".page_id) AS countlike FROM ".$this->pgsocial_pages." WHERE page_status = '1' ORDER BY RAND()";
 				$result = $this->db->sql_query($sql);
-				while($pages = $this->db->sql_fetchrow($result))
+				while ($pages = $this->db->sql_fetchrow($result))
 				{
-					if($page['page_avatar'] != '')
+					if ($page['page_avatar'] != '')
 					{
 						$page_avatar = 'upload/'.$page['page_avatar'];
 					}
@@ -218,7 +218,7 @@ class pages
 					{
 						$page_avatar = 'page_no_avatar.jpg';
 					}
-					if($this->social_page->user_like_pages($this->user->data['user_id'], $pages['page_id']) == $pages['page_id'])
+					if ($this->social_page->user_like_pages($this->user->data['user_id'], $pages['page_id']) == $pages['page_id'])
 					{
 						$page_likeCheck = 'like';
 					}
@@ -226,7 +226,7 @@ class pages
 					{
 						$page_likeCheck = 'dislike';
 					}
-					if($this->social_page->user_like_pages($this->user->data['user_id'], $pages['page_id']) == $pages['page_id'])
+					if ($this->social_page->user_like_pages($this->user->data['user_id'], $pages['page_id']) == $pages['page_id'])
 					{
 						$page_likeCheck = 'like';
 						$page_like = $this->user->lang('LIKE', 2);

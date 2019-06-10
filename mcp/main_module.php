@@ -29,14 +29,14 @@ class main_module
 	{
 		global $phpbb_container, $db, $auth, $request, $template, $user, $u_action, $table_prefix;
 
-		$this->phpbb_container 				= $phpbb_container;
-		$this->db 							= $db;
+		$this->phpbb_container = $phpbb_container;
+		$this->db = $db;
 		$this->auth 						= $auth;
 		$this->request 						= $request;
 		$this->template 					= $template;
 		$this->user 						= $user;
 		$this->u_action 					= $u_action;
-		$this->table_prefix 				= $table_prefix;
+		$this->table_prefix = $table_prefix;
 
 		$this->tpl_name = 'mcp_pg_social';
 		$this->page_title = 'MCP_PG_SOCIAL_MAIN';
@@ -44,12 +44,12 @@ class main_module
 
 		$pgsocial_helper = $this->phpbb_container->get('pgreca.pgsocial.helper');
 		$submit = false;
-		switch($mode)
+		switch ($mode)
 		{
 			case 'page_manage':
-				if($this->request->is_set_post('submit'))
+				if ($this->request->is_set_post('submit'))
 				{
-					if(!check_form_key('mcp_pg_social'))
+					if (!check_form_key('mcp_pg_social'))
 					{
 						trigger_error('FORM_INVALID');
 					}
@@ -58,7 +58,7 @@ class main_module
 						'page_status' => 1
 					);
 					$sql = 'UPDATE '.$this->table_prefix.'pg_social_pages SET '.$this->db->sql_build_array('UPDATE', $sql_arr).' WHERE page_id IN ("'.implode('", "', $this->request->variable('page_selected', array('' => ''))).'")';
-					if($this->db->sql_query($sql))
+					if ($this->db->sql_query($sql))
 					{
 						$message = $this->user->lang('PAGES_ENABLED').'<br /><br /><a href="'.$this->u_action.'">A</a>';
 						trigger_error($message);
@@ -67,7 +67,7 @@ class main_module
 
 				$sql = "SELECT p.*, u.username, u.user_colour FROM ".$this->table_prefix."pg_social_pages as p, ".USERS_TABLE." as u WHERE p.page_founder = u.user_id AND p.page_status = '0'";
 				$result = $this->db->sql_query($sql);
-				while($row = $this->db->sql_fetchrow($result))
+				while ($row = $this->db->sql_fetchrow($result))
 				{
 					$submit = true;
 					$this->template->assign_block_vars('pages', array(
