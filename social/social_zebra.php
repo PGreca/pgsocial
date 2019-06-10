@@ -31,35 +31,35 @@ class social_zebra
 	protected $php_ext;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\template\template  $template
-	* @param \phpbb\user				$user
-	* @param \phpbb\controller\helper		$helper
-	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
-	* @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
-	* @param \phpbb\config\config 	$config
-	* @param \phpbb\db\driver\driver_interface			$db
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\template\template  $template
+	 * @param \phpbb\user				$user
+	 * @param \phpbb\controller\helper		$helper
+	 * @param \pgreca\pgsocial\controller\helper $pg_social_helper
+	 * @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
+	 * @param \phpbb\config\config 	$config
+	 * @param \phpbb\db\driver\driver_interface			$db
+	 */
 
 	public function __construct($template, $user, $helper, $pg_social_helper, $notifyhelper, $config, $db, $root_path)
 	{
-		$this->template							= $template;
-		$this->user								= $user;
+		$this->template = $template;
+		$this->user = $user;
 		$this->helper							= $helper;
-		$this->pg_social_helper					= $pg_social_helper;
-		$this->notify 							= $notifyhelper;
+		$this->pg_social_helper = $pg_social_helper;
+		$this->notify = $notifyhelper;
 		$this->config							= $config;
-		$this->db								= $db;
-		$this->root_path						= $root_path;
+		$this->db = $db;
+		$this->root_path = $root_path;
 	}
 
 	/**
 	 * Return the friends or no-friends
-	*/
+	 */
 	public function get_friends($profile, $type = NULL, $friend = 'yes')
 	{
-		if($friend == 'no')
+		if ($friend == 'no')
 		{
 			//return $this->last_register(); exit();
 			return $this->no_friends();
@@ -73,7 +73,7 @@ class social_zebra
 			AND u.user_type NOT IN (".USER_INACTIVE.", ".USER_IGNORE.")
 			AND z.friend = '1'
 		ORDER BY u.username_clean ASC";
-		if($type != 'profile')
+		if ($type != 'profile')
 		{
 			$result = $this->db->sql_query_limit($sql, 2);
 		}
@@ -81,7 +81,7 @@ class social_zebra
 		{
 			$result = $this->db->sql_query($sql);
 		}
-		while($row = $this->db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$this->template->assign_block_vars('profileFriends', array(
 				'PROFILE_ID'				=> $row['user_id'],
@@ -106,7 +106,7 @@ class social_zebra
 	 *
 	 * @param int $user_id
 	 * @return mixed
-	*/
+	 */
 	public function friend_status($user_id)
 	{
 		if ($user_id != $this->user->data['user_id'])
@@ -114,8 +114,8 @@ class social_zebra
 			$user_array = array((int) $user_id, (int) $this->user->data['user_id']);
 
 			$sql = 'SELECT *
-					FROM ' . ZEBRA_TABLE . '
-					WHERE ' . $this->db->sql_in_set('zebra_id', $user_array) . '
+					FROM ' . ZEBRA_TABLE.'
+					WHERE ' . $this->db->sql_in_set('zebra_id', $user_array).'
 						AND ' . $this->db->sql_in_set('user_id', $user_array);
 			$result = $this->db->sql_query_limit($sql, 1);
 			$row = $this->db->sql_fetchrow($result);
@@ -145,10 +145,10 @@ class social_zebra
 
 	/**
 	 * Send request friend
-	*/
+	 */
 	public function request_friend($profile, $request)
 	{
-		switch($request)
+		switch ($request)
 		{
 			case 'addFriend':
 				$sql_arr = array(
@@ -160,14 +160,14 @@ class social_zebra
 				);
 				$sql = 'INSERT INTO '.ZEBRA_TABLE.$this->db->sql_build_array('INSERT', $sql_arr);
 				$this->notify->notify('add_friend', '', '', $profile, $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_FRIEND_ADD');
-				if($this->db->sql_query($sql))
+				if ($this->db->sql_query($sql))
 				{
 					$action = 'REQUEST_SEND';
 				}
 			break;
 			case 'undoFriend':
 				$sql = "DELETE FROM ".ZEBRA_TABLE." WHERE (zebra_id = '".$this->user->data['user_id']."' AND user_id = '".$profile."') OR (user_id = '".$this->user->data['user_id']."' AND zebra_id = '".$profile."')";
-				if($this->db->sql_query($sql))
+				if ($this->db->sql_query($sql))
 				{
 					$action = 'REQUEST_DELETE';
 				}
@@ -185,7 +185,7 @@ class social_zebra
 				$sqltwo = 'INSERT INTO '.ZEBRA_TABLE.$this->db->sql_build_array('INSERT', $sql_arr);
 				if($this->db->sql_query($sql))
 				{
-                    $this->db->sql_freeresult($result);
+					$this->db->sql_freeresult($result);
 					if($this->db->sql_query($sqltwo))
 					{
 						$action = 'REQUEST_ACC';
@@ -196,7 +196,7 @@ class social_zebra
 			case 'cancelFriend':
 				$sql = "DELETE FROM ".ZEBRA_TABLE."
 				WHERE (zebra_id = '".$profile."' AND user_id = '".$this->user->data['user_id']."') OR (user_id = '".$profile."' AND zebra_id = '".$this->user->data['user_id']."')";
-				if($this->db->sql_query($sql))
+				if ($this->db->sql_query($sql))
 				{
 					$action = 'FRIEND_DELETE';
 				}
@@ -211,7 +211,7 @@ class social_zebra
 
 	/**
 	 * Count the friends
-	*/
+	 */
 	public function count_friends($user)
 	{
 		$sql = "SELECT COUNT(friend) AS count
@@ -226,13 +226,13 @@ class social_zebra
 
 	/**
 	 * The $s last register
-	*/
+	 */
 	public function last_register()
 	{
 		$user_id = (int) $this->user->data['user_id'];
 		$sql = "SELECT * FROM ".USERS_TABLE." WHERE user_id != '".$user_id."' AND user_type NOT IN (".USER_INACTIVE.", ".USER_IGNORE.") ORDER BY user_regdate DESC";
 		$result = $this->db->sql_query_limit($sql, 3);
-		while($row = $this->db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$this->template->assign_block_vars('profileFriends', array(
 				'PROFILE_ID'				=> $row['user_id'],
@@ -249,7 +249,7 @@ class social_zebra
 
 	/**
 	 * Return who not is your friend
-	*/
+	 */
 	public function no_friends()
 	{
 		$user_id = (int) $this->user->data['user_id'];
@@ -261,9 +261,9 @@ class social_zebra
 			AND u.user_type NOT IN (1, 2)
 		ORDER BY RAND()";
 		$result = $this->db->sql_query_limit($sql, 3);
-		while($row = $this->db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
-			if($this->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS_ADD')
+			if ($this->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS_ADD')
 			{
 				$this->template->assign_block_vars('profileFriends', array(
 					'PROFILE_ID'				=> $row['user_id'],
@@ -282,7 +282,7 @@ class social_zebra
 
 	/**
 	 * Return waiting list friends
-	*/
+	 */
 	public function friends_waiting()
 	{
 		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour, u.user_email
@@ -294,9 +294,9 @@ class social_zebra
 		ORDER BY RAND()";
 		$result = $this->db->sql_query_limit($sql, 50);
 		$count = 0;
-		while($row = $this->db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
-			if($this->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ')
+			if ($this->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ')
 			{
 				$this->template->assign_block_vars('friends_request', array(
 					'PROFILE_ID'				=> $row['user_id'],
