@@ -1,5 +1,5 @@
-<li class="dropdown-container dropdown-{S_CONTENT_FLOW_END} rightside" data-skip-responsive="true">
-	<a href="" class="dropdown-trigger headerlink dropdown-toggle">
+{% if S_PG_SOCIAL_ENABLED %}<li class="dropdown-container dropdown-{S_CONTENT_FLOW_END} rightside" data-skip-responsive="true">
+	<a href="" class="dropdown-trigger dropdown-toggle">
 		<i class="icon fa-users fa-fw" {% if FRIENDS_REQUEST_COUNT %} new{% endif %}" aria-hidden="true"></i><strong class="badge{% if not FRIENDS_REQUEST_COUNT %} hidden{% endif %}">{{ FRIENDS_REQUEST_COUNT }}</strong>
 	</a>
 	<div class="dropdown dropdown-extended">
@@ -27,4 +27,4 @@
 			</ul>
 		</div>
 	</div>
-</li>
+</li>{% endif %}

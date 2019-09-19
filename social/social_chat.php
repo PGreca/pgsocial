@@ -127,8 +127,8 @@ class social_chat
 		}
 
 		$this->template->assign_vars(array(
-										 'ACTION'	=> $sound,
-									 ));
+			'ACTION'	=> $sound,
+		));
 
 		return $this->helper->render('activity_status_action.html', '');
 	}
@@ -155,7 +155,7 @@ class social_chat
 						user_avatar, user_avatar_type, user_avatar_width, user_avatar_height
 				FROM ' . USERS_TABLE . '
 				WHERE ' . $this->db->sql_in_set('user_type', array(USER_NORMAL, USER_FOUNDER)) . '
-					AND user_id <> ' . (int) $this->user->data['user_id'] . $sql_where;
+					AND user_id <> ' . (int) $this->user->data['user_id'] . $sql_where .' GROUP BY user_id';
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -176,11 +176,9 @@ class social_chat
 			}
 		}
 		$this->db->sql_freeresult($result);
-
 		$this->template->assign_vars(array(
-										 'CHAT_LOGIN'	=> $this->user->data['user_allow_viewonline'] ? false : true,
-									 ));
-
+			'CHAT_LOGIN'	=> $this->user->data['user_allow_viewonline'] ? false : true,
+		));
 		return $this->helper->render('pg_social_chatpeople.html', '');
 	}
 

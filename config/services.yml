@@ -290,6 +290,7 @@ services:
             - '@pgreca.pgsocial.social.social_photo'
             - '@pgreca.pgsocial.social.social_zebra'
             - '@pgreca.pgsocial.social.social_page'
+            - '@pgreca.pgsocial.social.social_chat'
             - '@service_container'
         tags:
             - { name: event.listener }

@@ -72,6 +72,9 @@ class listener implements EventSubscriberInterface
 	/** @var string */
 	protected $social_page;
 
+	/** @var string */
+	protected $social_chat;
+	
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 
@@ -100,12 +103,13 @@ class listener implements EventSubscriberInterface
 	 * @param \pgreca\pgsocial\social\social_photo $social_photo
 	 * @param \pgreca\pgsocial\social\social_zebra $social_zebra
 	 * @param \pgreca\pgsocial\social\social_page  $social_page
+	 * @param \pgreca\pgsocial\social\social_chat  $social_chat
 	 * @param ContainerInterface                   $phpbb_container
 	 * @return void
 	 * @access public
 	 */
 	public function __construct(template $template, user $user, db_driver $db, auth $auth, request $request,
-	helper $helper, db $config, $root_path, $php_ext, $social_helper, $post_status, $social_photo, $social_zebra, $social_page, $phpbb_container)
+	helper $helper, db $config, $root_path, $php_ext, $social_helper, $post_status, $social_photo, $social_zebra, $social_page, $social_chat, $phpbb_container)
 	{
 		$this->template				= $template;
 		$this->user					= $user;
@@ -121,6 +125,7 @@ class listener implements EventSubscriberInterface
 		$this->social_photo			= $social_photo;
 		$this->social_zebra			= $social_zebra;
 		$this->social_page			= $social_page;
+		$this->social_chat			= $social_chat;
 		$this->phpbb_container 		= $phpbb_container;
 
 		$this->is_phpbb31	= phpbb_version_compare($this->config['version'], '3.1.0@dev', '>=') && phpbb_version_compare($this->config['version'], '3.2.0@dev', '<');
@@ -391,8 +396,9 @@ class listener implements EventSubscriberInterface
 	*/
 	public function add_page_links($event)
 	{
-	define('PG_SOCIAL_VERSION', '0.5.0');
+		define('PG_SOCIAL_VERSION', '0.5.0');
 		$forumnav = '';
+		
 		if($this->config['pg_social_index_replace'])
 		{
 			$forumnav = $this->helper->route('forum_page');
@@ -542,7 +548,7 @@ class listener implements EventSubscriberInterface
 		$photo['tmp_name'] = $event['filedata']['filename'];
 		$photo['type'] = $event['filedata']['mimetype'];
 
-		$this->social_photo->photo_upload('', (int) $this->user->data['user_id'], '', 'avatar', 'profile', 2, $photo);
+		$this->social_photo->photo_upload('', (int) $this->user->data['user_id'], '', 'avatar', 'profile', $photo, 2);
 	}
 
 	/**

@@ -1,6 +1,7 @@
 (function($) {
 	$(document).ready(function() {
 		var pgsocial_chat_sound = $('#pgsocial_chat_sound')[0];
+		pgsocial_chat();
 		if(!Cookies.get('pgsocial_chat')) {
 			Cookies.set('pgsocial_chat', '');
 		} else {
@@ -17,7 +18,7 @@
 		}
 		setInterval(function() {
 			pgsocial_chat();
-		}, 1500);
+		}, 5000);
 
 		$(document).on('click', '#pgsocial_chatButton_ext i.fa-th-large', function() {
 			if($('#pgsocial_chat #pgsocial_chatRoot').hasClass('opened')) {
@@ -143,7 +144,7 @@
 			cache: false,
 			async: true,
 			success: function(data) {
-				if(data) $("#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople").html(data);
+				$("#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople").html(data);
 			}
 		});
 	}
