@@ -108,7 +108,7 @@
 		if(!$('#pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople').hasClass('canchat')) {
 			closeChat();
 		}
-		$('#pgsocial_chat .pgsocial_chat[data-people]').each(function(index) {
+		$('#pgsocial_chat .pgsocial_chat[data-people]').each(function() {
 			if($(this).find('ul.pg_social_chat_messages').scrollTop() <= ($(this).find('ul.pg_social_chat_messages').height() / 4)) {
 				chat_messageLoad($(this).attr('data-people'), 'prequel');
 			}

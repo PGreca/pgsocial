@@ -273,7 +273,7 @@ class social_chat
 				'MESSAGE_ID'	=> $row['chat_id'],
 				'IFRIGHT'		=> $ifright,
 				'AVATAR'		=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
-				'MESSAGE'		=> $msg,
+				'MESSAGE'		=> $this->pg_social_helper->social_smilies($msg),
 				'TIME'			=> $row['chat_time'],
 				'TIME_AGO'		=> $this->pg_social_helper->time_ago($row['chat_time']),
 			));
