@@ -643,7 +643,7 @@ class social_photo
 		$this->template->assign_vars(array(
 			'ACTION'	=>  $sql,
 		));
-		return $this->helper->render('activity_status_action.html', '');
+		//return $this->helper->render('activity_status_action.html', '');
 	}
 	/**
 	 * New activity for upload photo

@@ -1,6 +1,7 @@
 {% INCLUDE 'overall_header.html' %}
 <div id="pg_social" class="pg_social_pageactivity">
 	<div id="pg_social_sidel">
+		<!-- EVENT pgreca_pgsocial_sidel -->
 		<div class="panel">
 			<ul id="profile_menu">
 				{% if PROFILE_AVATAR %}<li class="profile_avatar">{{ PROFILE_AVATAR }}</li>{% endif %}
@@ -86,7 +87,21 @@
 			</ul>
 		</div>
 		{% endif %}
-		<!-- EVENT pgreca_pgsocial_activitybody_sider -->
+		{% EVENT pgreca_pgsocial_activitybody_sider %}
+		{% if loops.activity_feed %}<div id="pgsocialSid_feed" class="panel">
+			<h3>{{ lang('ACTIVITY_FEED') }}</h3>
+			<ul class="sidelist">
+				{% for activity_feed in loops.activity_feed %}<li class="listElement listFeed">
+					<div class="elementLeft">
+						<a href="{{ activity_feed.AUTHOR_PROFILE }}" class="avatar">
+							{{ activity_feed.AUTHOR_AVATAR }} {% if activity_feed.AUTHOR_USERNAME %}<span>{{ activity_feed.AUTHOR_USERNAME }}</span>{% endif %}
+						</a> {{ activity_feed.ACTION }}
+						<span class="activity_time">{{ activity_feed.TIME }}</span>
+					</div>
+					
+				</li>{% endfor %}
+			</ul>
+		</div>{% endif %}
 		{% if PG_SOCIAL_SIDEBAR_RIGHT_LAST_POST %}
 		<div class="panel" id="sid_last_topics">
 			<h3>{{ lang('RECENT_DISCUSSIONS') }}</h3>

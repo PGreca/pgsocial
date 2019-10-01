@@ -3,13 +3,16 @@
 /**
  *
  * PGreca Social extension for phpBB.
- * Slovak translation by Fonzi
  *
  * @copyright (c) 2018 pgreca <https:/pgreca.it>
+ * @translation (c) 2018 Fonzi <>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
 
+/**
+* DO NOT CHANGE
+*/
 if(!defined('IN_PHPBB'))
 {
 	exit;
@@ -18,6 +21,7 @@ if(empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
+
 $lang = array_merge($lang, array(
 	'ABOUT_HOUR'						=> array(
 		1				=> 'hodinou',
@@ -27,6 +31,7 @@ $lang = array_merge($lang, array(
 	'ABOUT_MONTH'						=> 'mesiacom',
 	'ABOUT_MONTHS'						=> 'mesiacmi',
 	'ACTIVITY'							=> 'Aktivita',
+	//'ACTIVITY_FEED'						=> '',
 	'ACTIVITY_PAGE'						=> 'Nástenka',
 	'AGO'								=> '',
 	'ALBUM_CREATE'						=> 'Vytvoriť album',

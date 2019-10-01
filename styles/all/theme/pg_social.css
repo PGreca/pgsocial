@@ -1302,21 +1302,17 @@ body.section-memberlist .action-bar.actions-jump {
 	line-height: 1em;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton {
-	position: relative;
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton,
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li,
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li a {
 	display: inline-block;
-	width: 20px;
-	height: 20px;
-	vertical-align: top;
-	font-size: 2em;
-	cursor: pointer;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton i.fa {
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li a i.fa {
 	vertical-align: top;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton .post_status_action {
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li a .dropdown-contents {
 	display: none;
 	top: 100%;
 	left: auto;
@@ -1329,19 +1325,25 @@ body.section-memberlist .action-bar.actions-jump {
 	cursor: initial;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton:hover .post_status_action {
-	display: inline-block;
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li .post_status_action {
+	/*display: inline-block;*/
 	text-align: left;
 	color: #515365;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton .post_status_action > div {
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li .dropdown-contents > li {
+	padding: 5px;
 	white-space: nowrap;
 	cursor: pointer;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head a.post_status_actionButton .post_status_action > div:hover {
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li .dropdown-contents > li:hover {
 	color: #ff5e3a;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li .dropdown-contents > li  a {
+	width: calc(100% - 20px);
+	padding: 10px;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content {

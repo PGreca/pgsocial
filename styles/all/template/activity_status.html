@@ -1,5 +1,6 @@
 {% for post_status in loops.post_status %}
 <li class="post_status" id="post_status_{{ post_status.POST_STATUS_ID }}" data-lastp="{{ post_status.POST_STATUS_ID }}">
+	<!-- EVENT pgreca_pgsocial_poststatus -->
 	{% if post_status.AUTHOR_USERNAME %}
 	<div class="post_status_head">
 		<div class="post_status_head_author_avatar">
@@ -11,12 +12,21 @@
 				<option value="1"{% if post_status.POST_PRIVACY == 1 %} selected{% endif %}>{{ lang('PRIVACY_ONLY_FRIENDS') }}</option>
 				<option value="2"{% if post_status.POST_PRIVACY == 2 %} selected{% endif %}>{{ lang('PRIVACY_ALL') }}</option>
 			</select></div>{% endif %}</div><a id="post_status_head_link" href="{{ post_status.POST_URL }}"><div class="post_status_head_date"{% if not post_status.POST_DATE_AGO %} title="{{ post_status.POST_DATE }}"{% endif %}>{{ post_status.POST_DATE_AGO }}</div></a>
-		</div><a class="post_status_actionButton"><i class="fa fa-bars" aria-hidden="true"></i>{% if S_USER_LOGGED_IN and post_status.ACTION %}<div class="post_status_action dropdown">
-			<div class="post_status_remove"><i class="icon fa-minus-circle fa-fw" aria-hidden="true"></i> <span>{{ lang('PG_SOCIAL_STATUS_DELETE') }}</div>
-		</div>
-		{% endif %}</a>
+		</div><ul class="post_status_actionButton">
+			<li class="quick-links dropdown-container responsive-menu" data-skip-responsive="true">
+				<a href="#" class="dropdown-trigger">
+					<i class="icon fa-bars fa-fw" aria-hidden="true"></i>
+				</a>
+				<div class="dropdown">
+					<div class="pointer"><div class="pointer-inner"></div></div>
+					<ul class="dropdown-contents" role="menu">
+						{% if S_USER_LOGGED_IN and post_status.ACTION %}<li class="post_status_remove"><i class="icon fa-minus-circle fa-fw" aria-hidden="true"></i> <span>{{ lang('PG_SOCIAL_STATUS_DELETE') }}</li>{% endif %}
+					</ul>
+				</div>
+			</li>	
+		</ul>
 	</div>
-	{% endif %}
+	{% endif %}			
 	<div class="post_status_content{{ post_status.MESSAGE_ALIGN }}">{{ post_status.MESSAGE }}</div>
 	<div class="post_status_footer">
 		<div class="post_status_like {% if post_status.IFLIKE %}active{% endif %}">

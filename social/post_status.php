@@ -61,16 +61,16 @@ class post_status
 	protected $pgsocial_table_photo;
 
 	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\template\template  $template
-	 * @param \phpbb\user				$user
-	 * @param \phpbb\controller\helper		$helper
-	 * @param \pgreca\pgsocial\controller\helper $pg_social_helper
-	 * @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
-	 * @param \phpbb\config\config			$config
-	 * @param \phpbb\db\driver\driver_interface	$db
-	 */
+	* Constructor
+	*
+	* @param \phpbb\template\template  $template
+	* @param \phpbb\user				$user
+	* @param \phpbb\controller\helper		$helper
+	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
+	* @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
+	* @param \phpbb\config\config			$config
+	* @param \phpbb\db\driver\driver_interface	$db
+	*/
 
 	public function __construct(
 		\phpbb\template\template $template,
@@ -92,39 +92,39 @@ class post_status
 		$pgsocial_table_photo
 	)
 	{
-		$this->template = $template;
-		$this->user = $user;
-		$this->helper										= $helper;
-		$this->pg_social_helper = $pg_social_helper;
-		$this->notify										= $notifyhelper;
-		$this->social_photo							= $social_photo;
-		$this->social_tag								= $social_tag;
-		$this->social_zebra							= $social_zebra;
-		$this->social_page							= $social_page;
-		$this->config = $config;
-		$this->db = $db;
-		$this->root_path = $root_path;
-		$this->pgsocial_wallpost = $pgsocial_table_wallpost;
-		$this->pgsocial_wallpostlike = $pgsocial_table_wallpostlike;
-		$this->pgsocial_wallpostcomment = $pgsocial_table_wallpostcomment;
-		$this->pgsocial_pages						= $pgsocial_table_pages;
-		$this->pgsocial_photo						= $pgsocial_table_photo;
-		$this->pg_social_path						= generate_board_url().'/ext/pgreca/pgsocial';
+		$this->template 									= $template;
+		$this->user 											= $user;
+		$this->helper											= $helper;
+		$this->pg_social_helper 					= $pg_social_helper;
+		$this->notify											= $notifyhelper;
+		$this->social_photo								= $social_photo;
+		$this->social_tag									= $social_tag;
+		$this->social_zebra								= $social_zebra;
+		$this->social_page								= $social_page;
+		$this->config 										= $config;
+		$this->db 												= $db;
+		$this->root_path 									= $root_path;
+		$this->pgsocial_wallpost 					= $pgsocial_table_wallpost;
+		$this->pgsocial_wallpostlike 			= $pgsocial_table_wallpostlike;
+		$this->pgsocial_wallpostcomment 	= $pgsocial_table_wallpostcomment;
+		$this->pgsocial_pages							= $pgsocial_table_pages;
+		$this->pgsocial_photo							= $pgsocial_table_photo;
+		$this->pg_social_path							= generate_board_url().'/ext/pgreca/pgsocial';
 	}
 
 	/**
-	 * The Wall
-	 *
-	 * @param int $post_where
-	 * @param int $wall_id
-	 * @param int $lastp
-	 * @param string $type
-	 * @param int $select
-	 * @param string $order
-	 * @param bool $template
-	 * @return function status
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
+	* The Wall
+	*
+	* @param int $post_where
+	* @param int $wall_id
+	* @param int $lastp
+	* @param string $type
+	* @param int $select
+	* @param string $order
+	* @param bool $template
+	* @return function status
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
 	public function get_status($post_where, $wall_id, $lastp, $type, $select, $order, $template)
 	{
 		$where = '';
@@ -200,17 +200,17 @@ class post_status
 	}
 
 	/**
-	 * Information or Output of the Activity
-	 *
-	 * @param int $post_where
-	 * @param int $wall_id
-	 * @param string $type
-	 * @param bool $template
-	 * @param array $row
-	 * @param int $order
-	 * @return array
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
+	* Information or Output of the Activity
+	*
+	* @param int $post_where
+	* @param int $wall_id
+	* @param string $type
+	* @param bool $template
+	* @param array $row
+	* @param int $order
+	* @return array
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
 	public function status($post_where, $wall_id, $type, $template, $row, $select = 0)
 	{
 		$block_vars = '';
@@ -506,28 +506,28 @@ class post_status
 				'POST_STATUS_ID'            => $row['post_ID'],
 				'AUTHOR_ACTION'							=> $author_action,
 				'AUTHOR_PROFILE'						=> $status_profile,
-				'AUTHOR_ID'								=> $status_aut_id,
+				'AUTHOR_ID'									=> $status_aut_id,
 				'AUTHOR_USERNAME'						=> $status_username,
 				'AUTHOR_AVATAR'							=> $status_avatar,
 				'AUTHOR_COLOUR'							=> $status_color,
-				'WALL_ACTION'							=> $wall_action,
+				'WALL_ACTION'								=> $wall_action,
 				'WALL_PROFILE'							=> get_username_string('profile', $wall['user_id'], $wall['username'], $wall['user_colour']),
-				'WALL_ID'								=> $row['wall_id'],
+				'WALL_ID'										=> $row['wall_id'],
 				'WALL_USERNAME'							=> $wall['username'],
-				'WALL_COLOUR'							=> '#'.$wall['user_colour'],
-				'POST_TYPE'								=> $row['post_type'],
-				'POST_URL'								=> $this->helper->route('status_page', array('id' => $row['post_ID'])),
-				'POST_DATE'								=> $row['time'],
+				'WALL_COLOUR'								=> '#'.$wall['user_colour'],
+				'POST_TYPE'									=> $row['post_type'],
+				'POST_URL'									=> $this->helper->route('status_page', array('id' => $row['post_ID'])),
+				'POST_DATE'									=> $row['time'],
 				'POST_DATE_AGO'							=> $this->pg_social_helper->time_ago($row['time']),
-				'MESSAGE'								=> htmlspecialchars_decode($msg),
+				'MESSAGE'										=> htmlspecialchars_decode($msg),
 				'MESSAGE_ALIGN'							=> $msg_align,
 				'POST_PRIVACY'							=> $status_privacy,
-				'POST_PRIVACYACTION'					=> $actionprivacy,
-				'ACTION'								=> $action,
-				'LIKE'									=> $likes,
-				'IFLIKE'								=> $this->pg_social_helper->count_action('iflike', $row['post_ID']),
-				'COMMENT'								=> $comment,
-				'SHARE'									=> $share
+				'POST_PRIVACYACTION'				=> $actionprivacy,
+				'ACTION'										=> $action,
+				'LIKE'											=> $likes,
+				'IFLIKE'										=> $this->pg_social_helper->count_action('iflike', $row['post_ID']),
+				'COMMENT'										=> $comment,
+				'SHARE'											=> $share
 			));
 
 			if ($template == 'half')
@@ -539,13 +539,13 @@ class post_status
 	}
 
 	/**
-	 * Action on activity
-	 *
-	 * @param int $post
-	 * @param int $action
-	 * @param int $value
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
+	* Action on activity
+	*
+	* @param int $post
+	* @param int $action
+	* @param int $value
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
 	public function status_action($post, $action, $value)
 	{
 		$sql = 'SELECT post_ID, user_id, wall_id FROM '.$this->pgsocial_wallpost.' WHERE '.$this->db->sql_build_array('SELECT', array('post_ID' => $post));
@@ -573,17 +573,17 @@ class post_status
 	}
 
 	/**
-	 * Add new activity on wall
-	 *
-	 * @param int $post_where
-	 * @param int $wall_id
-	 * @param string $text
-	 * @param int $privacy
-	 * @param int $type
-	 * @param string $extra
-	 * @param bool $template
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
+	* Add new activity on wall
+	*
+	* @param int $post_where
+	* @param int $wall_id
+	* @param string $text
+	* @param int $privacy
+	* @param int $type
+	* @param string $extra
+	* @param bool $template
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
 	public function add_status($post_where, $wall_id, $text, $privacy, $type = 0, $extra = NULL, $template = true)
 	{
 		switch ($post_where)
@@ -615,18 +615,18 @@ class post_status
 		$text = str_replace('&amp;nbsp;', ' ', $text);
 
 		$sql_arr = array(
-			'post_parent'		=> 0,
-			'post_where'		=> $post_where,
-			'wall_id'			=> $wall_id,
-			'user_id'			=> $this->user->data['user_id'],
-			'message'			=> $text,
-			'time'				=> $time,
+			'post_parent'			=> 0,
+			'post_where'			=> $post_where,
+			'wall_id'					=> $wall_id,
+			'user_id'					=> $this->user->data['user_id'],
+			'message'					=> $text,
+			'time'						=> $time,
 			'post_privacy'		=> $privacy,
-			'post_type'			=> $type,
-			'post_extra'		=> $extra,
+			'post_type'				=> $type,
+			'post_extra'			=> $extra,
 			'bbcode_bitfield'	=> $bitfield,
-			'bbcode_uid'		=> $uid,
-			'tagged_user'		=> ''
+			'bbcode_uid'			=> $uid,
+			'tagged_user'			=> ''
 		);
 
 		if ($text || $extra)
@@ -698,17 +698,17 @@ class post_status
 	{
 		$time = time();
 		$sql_arr = array(
-			'post_parent'		=> $post,
-			'wall_id'			=> $this->user->data['user_id'],
-			'user_id'			=> $this->user->data['user_id'],
-			'message'			=> '',
-			'time'				=> $time,
+			'post_parent'			=> $post,
+			'wall_id'					=> $this->user->data['user_id'],
+			'user_id'					=> $this->user->data['user_id'],
+			'message'					=> '',
+			'time'						=> $time,
 			'post_privacy'		=> 1,
-			'post_type'			=> 0,
-			'post_extra'		=> '',
+			'post_type'				=> 0,
+			'post_extra'			=> '',
 			'bbcode_bitfield'	=> '',
-			'bbcode_uid'		=> '',
-			'tagged_user'		=> ''
+			'bbcode_uid'			=> '',
+			'tagged_user'			=> ''
 		);
 
 		$sql = 'INSERT INTO '.$this->pgsocial_wallpost.' '.$this->db->sql_build_array('INSERT', $sql_arr);
@@ -723,11 +723,11 @@ class post_status
 	}
 
 	/**
-	 * Like / Dislike and Count Like on the activity
-	 *
-	 * @param int $post
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
+	* Like / Dislike and Count Like on the activity
+	*
+	* @param int $post
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
 	public function like_action($post)
 	{
 		$post_info = 'SELECT user_id, wall_id FROM '.$this->pgsocial_wallpost.' WHERE post_ID = "'.$post.'"';
@@ -750,8 +750,8 @@ class post_status
 		else
 		{
 			$sql_arr = array(
-				'post_ID'			=> $post,
-				'user_id'			=> (int) $this->user->data['user_id'],
+				'post_ID'					=> $post,
+				'user_id'					=> (int) $this->user->data['user_id'],
 				'post_like_time'	=> time(),
 			);
 			$sql = 'INSERT INTO '.$this->pgsocial_wallpostlike.' '.$this->db->sql_build_array('INSERT', $sql_arr);
@@ -769,13 +769,13 @@ class post_status
 	}
 
 	/**
-	 * The comments of activity
-	 *
-	 * @param int $post
-	 * @param int $type
-	 * @param bool $template
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
+	* The comments of activity
+	*
+	* @param int $post
+	* @param int $type
+	* @param bool $template
+	* @return \Symfony\Component\HttpFoundation\Response
+	*/
 	public function get_comments($post, $type, $template = true)
 	{
 		$sql = "SELECT *
@@ -796,16 +796,16 @@ class post_status
 			$wall = $this->db->sql_fetchrow($resulta);
 			if ($row['user_id'] == $this->user->data['user_id']) $comment_action = true; else $comment_action = false;
 			$this->template->assign_block_vars('post_comment', array(
-				'COMMENT_ID'				=> $row['post_comment_ID'],
+				'COMMENT_ID'					=> $row['post_comment_ID'],
 				'COMMENT_ACTION'			=> $comment_action,
 				'AUTHOR_PROFILE'			=> get_username_string('profile', $wall['user_id'], $wall['username'], $wall['user_colour']),
-				'AUTHOR_ID'					=> $wall['user_id'],
+				'AUTHOR_ID'						=> $wall['user_id'],
 				'AUTHOR_USERNAME'			=> $wall['username'],
 				'AUTHOR_AVATAR'				=> $this->pg_social_helper->social_avatar_thumb($wall['user_avatar'], $wall['user_avatar_type'], $wall['user_avatar_width'], $wall['user_avatar_height']),
 				'AUTHOR_COLOUR'				=> '#'.$wall['user_colour'],
 				'COMMENT_TEXT'				=> generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags),
 				'COMMENT_TIME'				=> $row['time'],
-				'COMMENT_TIME_AGO'			=> $this->pg_social_helper->time_ago($row['time']),
+				'COMMENT_TIME_AGO'		=> $this->pg_social_helper->time_ago($row['time']),
 			));
 		}
 		$this->db->sql_freeresult($result);
@@ -838,12 +838,12 @@ class post_status
 		$comment = str_replace('&amp;nbsp;', ' ', $comment);
 
 		$sql_arr = array(
-			'post_ID'	=> $post,
-			'user_id'			=> $this->user->data['user_id'],
-			'time'				=> $time,
-			'message'			=> $comment,
+			'post_ID'					=> $post,
+			'user_id'					=> $this->user->data['user_id'],
+			'time'						=> $time,
+			'message'					=> $comment,
 			'bbcode_bitfield'	=> $bitfield,
-			'bbcode_uid'		=> $uid
+			'bbcode_uid'			=> $uid
 		);
 		$sql = 'INSERT INTO '.$this->pgsocial_wallpostcomment.' '.$this->db->sql_build_array('INSERT', $sql_arr);
 		$this->db->sql_query($sql);
@@ -890,13 +890,13 @@ class post_status
 		$gallery = $this->social_photo->gallery_info($img['gallery_id'], $album);
 
 		return array(
-			'gallery_id'		=> $img['gallery_id'],
+			'gallery_id'			=> $img['gallery_id'],
 			'gallery_name'		=> $gallery['gallery_name'],
-			'gallery_url'		=> $img['gallery_url'],
+			'gallery_url'			=> $img['gallery_url'],
 			'gallery_privacy'	=> $gallery['gallery_privacy'],
-			'album'				=> $album,
-			'img' 				=> '<img src="'.$img['photo_file'].'" class="photo_popup" data-photo="'.$photo.'" />',
-			'msg' 				=> htmlspecialchars_decode($img['photo_desc']),
+			'album'						=> $album,
+			'img' 						=> '<img src="'.$img['photo_file'].'" class="photo_popup" data-photo="'.$photo.'" />',
+			'msg' 						=> htmlspecialchars_decode($img['photo_desc']),
 		);
 	}
 
@@ -914,5 +914,101 @@ class post_status
 		$this->db->sql_freeresult($result);
 
 		return (int) $row['post_where'];
+	}
+
+
+	/**
+	* Last activities
+	*
+	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
+	*/
+	public function activity_feed()
+	{
+		$sql = "SELECT w.post_comment_ID as type_id, w.post_ID as post_id, w.user_id, (SELECT wall.wall_id FROM ".$this->pgsocial_wallpost." as wall WHERE wall.post_ID = w.post_ID LIMIT 1) as wall_id, (SELECT wall.post_where FROM ".$this->pgsocial_wallpost." as wall WHERE wall.post_ID = w.post_ID LIMIT 1) as post_where, w.time, 'wall_comment' as type, u.user_id, u.username,u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
+			FROM ".$this->pgsocial_wallpostcomment." as w, ".USERS_TABLE." as u
+			WHERE w.user_id = u.user_id AND u.user_id != '".$this->user->data['user_id']."'
+		UNION
+			SELECT l.post_like_ID as type_id, l.post_ID as post_id, l.user_id, (SELECT wall.wall_id FROM ".$this->pgsocial_wallpost." as wall WHERE wall.post_ID = l.post_ID LIMIT 1) as wall_id, (SELECT wall.post_where FROM ".$this->pgsocial_wallpost." as wall WHERE wall.post_ID = l.post_ID LIMIT 1) as post_where, l.post_like_time as time, 'wall_like' as type, u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
+			FROM ".$this->pgsocial_wallpostlike." as l, ".USERS_TABLE." as u
+			WHERE l.user_id = u.user_id AND u.user_id != '".$this->user->data['user_id']."' AND u.user_type != '2'
+		UNION
+			SELECT m.user_id as type_id, '0' as post_id, m.user_id, m.user_id as wall_id, '' as post_where, m.user_regdate as time, 'user_reg' as type, m.user_id, m.username, m.username_clean, m.user_avatar, m.user_avatar_type, m.user_avatar_width, m.user_avatar_height, m.user_colour
+			FROM ".USERS_TABLE." as m
+			WHERE m.user_id != '".$this->user->data['user_id']."'
+		ORDER BY time DESC";
+		$result = $this->db->sql_query_limit($sql, 5);
+		while($row = $this->db->sql_fetchrow($result))
+		{
+			$post = $this->helper->route("status_page", array("id" => $row['post_id']));
+			$user = '<a href="'.get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']).'">'.$row['username'].'</a>';
+
+			switch($row['post_where'])
+			{
+				case 0:
+					$sqlwall = "SELECT user_id, username, username_clean, user_colour FROM ".USERS_TABLE." WHERE user_id = '".$row['wall_id']."'";
+				break;
+				case 1:
+					$sqlwall = "SELECT page_id as user_id, page_username as username, page_username_clean as username_clean, '' as user_colour FROM ".$this->table_prefix."pg_social_pages WHERE page_id = '".$row['wall_id']."'";
+				break;
+
+			}
+
+			$resultwall = $this->db->sql_query($sqlwall);
+			$wall = $this->db->sql_fetchrow($resultwall);
+			if($row['post_where'] == 1)
+			{
+				$walll = '<a href="'.append_sid($this->helper->route('pages_page'), 'u='.$wall['username_clean']).'">'.$wall['username'].'</a>';
+			}
+			else
+			{
+				$walll = '<a href="'.get_username_string('profile', $wall['user_id'], $wall['username'], $wall['user_colour']).'">'.$wall['username'].'</a>';
+			}
+
+			switch($row['type'])
+			{
+				case 'wall_like':
+					if($wall['user_id'] == $this->user->data['user_id'])
+					{
+						$action = $this->user->lang('HAS_LIKE_YOUR_POST', $user, $post);
+					}
+					elseif($row['user_id'] != $wall['user_id'])
+					{
+						$action = $this->user->lang('HAS_LIKE_POST', $user, $post, $walll);
+					}
+					else
+					{
+						$action = $this->user->lang('HAS_LIKE_HER_POST', $user, $post);
+					}
+				break;
+				case 'wall_comment':
+					if($wall['user_id'] == $this->user->data['user_id'])
+					{
+						$action = $this->user->lang('HAS_COMMENT_YOUR_POST', $user, $post);
+					}
+					elseif($row['user_id'] != $wall['user_id'])
+					{
+						$action = $this->user->lang('HAS_COMMENT_POST', $user, $post, $walll);
+					}
+					else
+					{
+						$action = $this->user->lang('HAS_COMMENT_HER_POST', $user, $post);
+					}
+				break;
+				case 'user_reg':
+					$action = $this->user->lang('HAS_REG', $user);
+				break;
+				default:
+					$action = $row['type'];
+				break;
+			}
+
+			$this->template->assign_block_vars('activity_feed', array(
+				'SQL'							=> $row['type'],
+				'AUTHOR_PROFILE'	=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
+				'AUTHOR_AVATAR'		=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
+				'ACTION'					=> $action,
+				'TIME'						=> $this->pg_social_helper->time_ago($row['time']),
+			));
+		}
 	}
 }
