@@ -272,10 +272,13 @@ class helper
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
-			if(array_key_exists('rank_image', $row))
+			if($row)
 			{
-				$row['rank_image'] = '<img src="'.generate_board_url().'/images/ranks/'.$row['rank_image'].'" />';
-
+				if($row['rank_image'] != '')
+				{
+					$row['rank_image'] = '<img src="'.generate_board_url().'/images/ranks/'.$row['rank_image'].'" />';
+				}
+				return $row;
 			}
 			else
 			{
