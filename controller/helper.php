@@ -194,7 +194,7 @@ class helper
 		$avatar = '<img class="avatar" src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url('.$url.')" />';
 		return $avatar;
 	}
-	
+
 	/* AVATAR THUMB ON SOCIAL */
 	public function social_avatar_thumb($avatar, $avatar_type, $avatar_width, $avatar_height)
 	{
@@ -272,18 +272,15 @@ class helper
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
-			$row['rank_image'] = '<img src="'.generate_board_url().'/images/ranks/'.$row['rank_image'].'" />';
-
-			if($row['rank_image'])
+			if(array_key_exists('rank_image', $row))
 			{
-				return $row;
-			}
+				$row['rank_image'] = '<img src="'.generate_board_url().'/images/ranks/'.$row['rank_image'].'" />';
 
-			return false;
-		}
-		else
-		{
-			return false;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 

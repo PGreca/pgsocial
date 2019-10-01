@@ -122,7 +122,7 @@ class main
 		}
 		else
 		{
-			$this->config->set(pg_social_version', '0.6.0');
+			$this->config->set('pg_social_version', '0.6.0');
 			$mode = $this->request->variable('mode', '');
 			$profile_id = $this->request->variable('profile_id', '');
 			$where = $this->request->variable('where', '');
