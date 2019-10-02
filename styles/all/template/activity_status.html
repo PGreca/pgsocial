@@ -23,17 +23,19 @@
 						{% if S_USER_LOGGED_IN and post_status.ACTION %}<li class="post_status_remove"><i class="icon fa-minus-circle fa-fw" aria-hidden="true"></i> <span>{{ lang('PG_SOCIAL_STATUS_DELETE') }}</li>{% endif %}
 					</ul>
 				</div>
-			</li>	
+			</li>
 		</ul>
 	</div>
-	{% endif %}			
+	{% endif %}
 	<div class="post_status_content{{ post_status.MESSAGE_ALIGN }}">{{ post_status.MESSAGE }}</div>
 	<div class="post_status_footer">
 		<div class="post_status_like {% if post_status.IFLIKE %}active{% endif %}">
 			<a><i class="icon fa-heart fa-fw" aria-hidden="true"></i>{{ post_status.LIKE }}</a>
-		</div><div class="post_status_comment">
+		</div>
+		<div class="post_status_comment">
 			<a><i class="icon fa-comments fa-fw" aria-hidden="true"></i>{{ post_status.COMMENT }}</a>
-		</div><div class="post_status_share" data-parent="{{ post_status.SHARE }}">
+		</div>
+		<div class="post_status_share" data-parent="{{ post_status.SHARE }}">
 			<a><i class="icon fa-share fa-fw" aria-hidden="true"></i>{{ lang('SHARE') }}</a>
 		</div>
 	</div>

@@ -669,13 +669,12 @@ class post_status
 	 */
 	public function delete_status($post)
 	{
-		/*$sql_status = 'DELETE FROM '.$this->pgsocial_wallpost.' WHERE '.$this->db->sql_in_set('post_ID', array($post));
+		$sql_status = 'DELETE FROM '.$this->pgsocial_wallpost.' WHERE '.$this->db->sql_in_set('post_ID', array($post));
 		$sql_comment = 'DELETE FROM '.$this->pgsocial_wallpostcomment.' WHERE '.$this->db->sql_in_set('post_ID', array($post));
 		$sql_like = 'DELETE FROM '.$this->pgsocial_wallpostlike.' WHERE '.$this->db->sql_in_set('post_ID', array($post));
 		$this->db->sql_query($sql_status);
 		$this->db->sql_query($sql_comment);
 		$this->db->sql_query($sql_like);
-*/
 		if ($this->social_photo->photo_of_post($post)['post_type'] == 3)
 		{
 			$this->social_photo->delete_photo($this->social_photo->photo_of_post($post)['post_extra']);

@@ -64,15 +64,15 @@ class social_chat
 		$pgsocial_table_chat
 	)
 	{
-		$this->template			= $template;
-		$this->user				= $user;
-		$this->helper			= $helper;
-		$this->config 			= $config;
-		$this->db 				= $db;
+		$this->template					= $template;
+		$this->user							= $user;
+		$this->helper						= $helper;
+		$this->config 					= $config;
+		$this->db 							= $db;
 		$this->pg_social_helper = $pg_social_helper;
-		$this->social_zebra		= $social_zebra;
-		$this->root_path		= $root_path;
-		$this->pgsocial_chat 	= $pgsocial_table_chat;
+		$this->social_zebra			= $social_zebra;
+		$this->root_path				= $root_path;
+		$this->pgsocial_chat 		= $pgsocial_table_chat;
 	}
 
 	/**
@@ -164,14 +164,14 @@ class social_chat
 			if (!empty($zebra_row) && $zebra_row['status'] === 'PG_SOCIAL_FRIENDS')
 			{
 				$this->template->assign_block_vars('pg_social_chat', array(
-					'USER_ID'			=> $row['user_id'],
+					'USER_ID'					=> $row['user_id'],
 					'USER_USERNAME'		=> $row['username'],
-					'USER_COLOR'		=> $row['user_colour'],
-					'USER_AVATAR'		=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
+					'USER_COLOR'			=> $row['user_colour'],
+					'USER_AVATAR'			=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
 					'USER_PROFILE'		=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
-					'USER_STATUS'		=> $this->pg_social_helper->social_status($row['user_id']),
+					'USER_STATUS'			=> $this->pg_social_helper->social_status($row['user_id']),
 
-					'USER_TMSG'			=> $this->message_check((int) $row['user_id']),
+					'USER_TMSG'				=> $this->message_check((int) $row['user_id']),
 				));
 			}
 		}
@@ -267,14 +267,14 @@ class social_chat
 			$msg .= $this->pg_social_helper->extra_text($row['chat_text']);
 
 			// @todo Unused?
-			$sound = (($person == $row['user_id']) && !empty($lastmessage) && ($this->user->data['user_chat_music'] == 1) && ($type ==='sequal')) ? 1 : 0;
+			//$sound = (($person == $row['user_id']) && !empty($lastmessage) && ($this->user->data['user_chat_music'] == 1) && ($type ==='sequal')) ? 1 : 0;
 
 			$this->template->assign_block_vars('pg_social_chat_message', array(
 				'MESSAGE_ID'	=> $row['chat_id'],
-				'IFRIGHT'		=> $ifright,
-				'AVATAR'		=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
-				'MESSAGE'		=> $this->pg_social_helper->social_smilies($msg),
-				'TIME'			=> $row['chat_time'],
+				'IFRIGHT'			=> $ifright,
+				'AVATAR'			=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
+				'MESSAGE'			=> $this->pg_social_helper->social_smilies($msg),
+				'TIME'				=> $row['chat_time'],
 				'TIME_AGO'		=> $this->pg_social_helper->time_ago($row['chat_time']),
 			));
 		}
@@ -301,22 +301,22 @@ class social_chat
 		$message = str_replace('&amp;nbsp;', ' ', $message);
 
 		$sql_arr = array(
-			'user_id'			=> $this->user->data['user_id'],
-			'chat_text'			=> str_rot13($message),
-			'chat_time'			=> time(),
-			'chat_member'		=> $person,
-			'chat_status'		=> 0,
-			'chat_read'			=> 0,
+			'user_id'					=> $this->user->data['user_id'],
+			'chat_text'				=> str_rot13($message),
+			'chat_time'				=> time(),
+			'chat_member'			=> $person,
+			'chat_status'			=> 0,
+			'chat_read'				=> 0,
 			'bbcode_bitfield'	=> $bitfield,
-			'bbcode_uid'		=> $uid
+			'bbcode_uid'			=> $uid
 		);
 
 		$sql = 'INSERT INTO ' . $this->pgsocial_chat . ' '. $this->db->sql_build_array('INSERT', $sql_arr);
 		$this->db->sql_query($sql);
 
 		$this->template->assign_vars(array(
-										 'ACTION'	=> 'message_send',
-									 ));
+			'ACTION'	=> 'message_send',
+		));
 
 		return $this->helper->render('activity_status_action.html', "ah");
 	}

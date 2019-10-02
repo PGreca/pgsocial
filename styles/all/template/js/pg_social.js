@@ -41,7 +41,7 @@
 				}
 			}
 		});
-		
+
 		//ACTION FRIENDS
 		phpbb.addAjaxCallback('request_friend', function(response) {
 			location.reload(true);
@@ -50,7 +50,7 @@
 		//DELETE STATUS
 		$(document).on('click', '#posts_status .post_status .post_status_head .post_status_remove', function() {
 			if (confirm(useLang['ARE_YOU_SURE'])) {
-				var post_status = $(this).parent().parent().parent().parent().attr('data-lastp');
+				var post_status = $(this).parent().parent().parent().parent().parent().parent().attr('data-lastp');
 				pgwall_removeStatus(post_status);
 			}
 		});
@@ -261,7 +261,7 @@
 		});
 
 		$('a.page_list_buttonLike').on('click', function() {
-			pgwall_pagelike_action($(this).attr('data-page'));			
+			pgwall_pagelike_action($(this).attr('data-page'));
 		});
 
 		$(document).on('click', '#posts_status .post_status .post_status_footer .post_status_like a', function() {
@@ -296,17 +296,17 @@
 				$(this).parent().addClass('active');
 			}
 		});
-		
+
 		$(document).on('mouseleave', '.gallery_covhov, ul#posts_status li.post_status', function() {
 			$('.gallery_covhovEl').removeClass('active');
-			
+
 		});
 
 		$(document).on('click', 'a.gallery_name_renameLink', function() {
 			$(this).parent().parent().removeClass('active');
 			$(this).parent().parent().parent().parent().parent().find('.gallery_name').addClass('rename');
 		});
-		
+
 		$(document).on('click', 'i.gallery_name_renameSub', function() {
 			var newTitle = $(this).parent().find('input.gallery_name_renameTitle').val();
 			var album = $(this).parent().parent().parent().attr('data-album');
@@ -326,8 +326,8 @@
 					$('.gallery_name').removeClass('rename');
 				}
 			});
-		});		
-		
+		});
+
 		$(document).on('click', '.gallery_name_delete', function() {
 			if (confirm('sicuro?')) {
 				var element = $(this).parent().parent().parent().parent().parent();
@@ -345,10 +345,10 @@
 					success: function(data) {
 						$(element).remove();
 					}
-				});	
+				});
 			}
 		});
-		
+
 		$(document).on('change', 'select.post_status_privacy_set', function() {
 		var mode = id = '';
 			switch($(this).attr('data-type')) {
@@ -464,7 +464,6 @@
 			success: function(data) {
 				$('#post_status_'+post_status).remove();
 				pgwall_get_status('prequel', where);
-				console.log(data);
 			}
 		});
 	}
