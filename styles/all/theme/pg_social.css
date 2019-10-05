@@ -2053,6 +2053,7 @@ ul#pgsocial_friends_request li .friend_requestinfo a.friend_request.decline {
 
 .phpbb_alert.pg_social_photo {
 	top: 0;
+	background-color: transparent;
 	width: calc(100% - 30%);
 	height: calc(100% - 10vh);
 	margin: 5vh 15%;
