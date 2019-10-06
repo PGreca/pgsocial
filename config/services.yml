@@ -199,6 +199,7 @@ services:
             - '@pgreca.pgsocial.social.social_page'
             - '@config'
             - '@dbal.conn'
+            - '@?text_formatter.s9e.parser'
             - '%core.root_path%'
             - %pgreca.pgsocial.table.social.wallpost%
             - %pgreca.pgsocial.table.social.wallpostlike%

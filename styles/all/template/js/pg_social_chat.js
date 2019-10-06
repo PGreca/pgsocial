@@ -1,5 +1,5 @@
 (function($) {
-	$(document).ready(function() {
+	$(document).ready(function() {		
 		var pgsocial_chat_sound = $('#pgsocial_chat_sound')[0];
 		pgsocial_chat();
 		if(!Cookies.get('pgsocial_chat')) {

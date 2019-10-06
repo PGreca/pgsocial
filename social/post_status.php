@@ -42,6 +42,9 @@ class post_status
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\textformatter\parser_interface */
+	protected $parser;
+
 	/* @var string phpBB root path */
 	protected $root_path;
 
@@ -70,6 +73,7 @@ class post_status
 	* @param \pgreca\pgsocial\controller\notifyhelper $notifyhelper Notification helper.
 	* @param \phpbb\config\config			$config
 	* @param \phpbb\db\driver\driver_interface	$db
+	* @param \phpbb\textformatter\parser_interface $parser_interface
 	*/
 
 	public function __construct(
@@ -84,6 +88,7 @@ class post_status
 		\pgreca\pgsocial\social\social_page $social_page,
 		\phpbb\config\config $config,
 		\phpbb\db\driver\driver_interface $db,
+		\phpbb\textformatter\parser_interface $parser = null,
 		$root_path,
 		$pgsocial_table_wallpost,
 		$pgsocial_table_wallpostlike,
@@ -103,6 +108,7 @@ class post_status
 		$this->social_page								= $social_page;
 		$this->config 										= $config;
 		$this->db 												= $db;
+		$this->parser											= $parser;
 		$this->root_path 									= $root_path;
 		$this->pgsocial_wallpost 					= $pgsocial_table_wallpost;
 		$this->pgsocial_wallpostlike 			= $pgsocial_table_wallpostlike;
@@ -231,7 +237,6 @@ class post_status
 		$allow_smilies = $this->config['pg_social_smilies'];
 		$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
 		$status_privacy = $row['post_privacy'];
-
 		switch ($row['post_where'])
 		{
 			case 1:
@@ -251,7 +256,6 @@ class post_status
 				$status_username = $page['page_username'];
 				$status_aut_id = $page['page_id'];
 				$status_profile = append_sid($this->helper->route('pages_page'), 'u='.$page['page_username_clean']);
-
 				$status_color = '';
 			break;
 			case 0:
@@ -332,7 +336,6 @@ class post_status
 					{
 						$sauthor_action = '';
 						$author_action = $this->user->lang('HAS_SHARED_STATUS', '<a href="'.append_sid($this->helper->route('status_page', array('id' => $parent['post_ID']))).'">'.$this->user->lang('STATUS').'</a>');
-
 						if ($parent['post_extra'] != '')
 						{
 							$submsg = '';
@@ -473,7 +476,6 @@ class post_status
 				$msg .= $activity['msg'];
 			break;
 		}
-
 		$comment = '<span>'.$this->pg_social_helper->count_action('comments', $row['post_ID']).'</span> ';
 		if ($this->pg_social_helper->count_action('comments', $row['post_ID']) == 0 || $this->pg_social_helper->count_action('comments', $row['post_ID']) > 1)
 		{
@@ -482,7 +484,6 @@ class post_status
 		{
 			$comment .= $this->user->lang('COMMENT', 1);
 		}
-
 		$likes = '<span>'.$this->pg_social_helper->count_action('like', $row['post_ID']).'</span> ';
 		if ($this->pg_social_helper->count_action('like', $row['post_ID']) == 0 | $this->pg_social_helper->count_action('like', $row['post_ID']) > 1)
 		{
@@ -529,7 +530,6 @@ class post_status
 				'COMMENT'										=> $comment,
 				'SHARE'											=> $share
 			));
-
 			if ($template == 'half')
 			{
 				$this->get_comments($row['post_ID'], $type, false);
@@ -537,7 +537,8 @@ class post_status
 			}
 		}
 	}
-
+	
+	
 	/**
 	* Action on activity
 	*
@@ -552,7 +553,6 @@ class post_status
 		$result = $this->db->sql_query($sql);
 		$post = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
-
 		switch ($action)
 		{
 			case 'privacy':

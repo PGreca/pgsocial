@@ -443,6 +443,7 @@ class helper
 	/* EMBED LINK FOR ACTIVITY OR MESSAGES CHAT */
 	public function website_embed($text)
 	{
+		
 		$title = '';
 		$description = '';
 		$keywords = '';
@@ -450,7 +451,7 @@ class helper
 		{
 			$domain = strstr($text, 'http');
 			$domain = explode('">', $domain);
-
+			$domain = explode(';', $domain[0]);
 			if($domain[0])
 			{
 				$url = $domain[0];
@@ -493,7 +494,6 @@ class helper
 				}
 			}
 		}
-
 		return '';
 	}
 
