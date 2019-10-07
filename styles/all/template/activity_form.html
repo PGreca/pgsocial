@@ -6,19 +6,19 @@
 		</li>
 	</ul>
 	<div class="wall_post_area">
-		<div contenteditable="true" required name="wall_post_text" id="wall_post_text" placeholder="{{ lang('PG_SOCIAL_WRITE_SOMETHING') }}..."></div>
+		<textarea required name="wall_post_text" id="wall_post_text" placeholder="{{ lang('PG_SOCIAL_WRITE_SOMETHING') }}..." ></textarea>
 	</div>
 	<div id="wall_post_footer">
 		<div id="pg_social_wall_tag">
 			<ul id="pg_social_wall_tag_system"></ul>
 			<i class="icon fa fa-close" id="pg_social_wall_tag_systemClose"></i>
 		</div><div class="wall_post_option">
-			{% if PROFILE_ACTION == true || STATUS_WHERE == '' %} 
+			{% if PROFILE_ACTION == true || STATUS_WHERE == '' %}
 			<label id="pg_social_wall_post_img"><i class="fa fa-camera" aria-hidden="true"></i><span style="display:none">{{ lang('ATTACH_PICTURE') }}</span><input name="wall_post_img" id="wall_post_img" type="file" accept="image/*" /></label>
 			<select name="wall_post_privacy" id="wall_post_privacy">
 				<option value="0">{{ lang('PRIVACY_ONLY_ME') }}</option>
 				<option value="1" selected>{{ lang('PRIVACY_ONLY_FRIENDS') }}</option>
-				<option value="2">{{ lang('PRIVACY_ALL') }}</option>	
+				<option value="2">{{ lang('PRIVACY_ALL') }}</option>
 			</select>
 			{% endif %}
 			<input name="submit" type="submit" value="{{ lang('PUBLIC') }}" />

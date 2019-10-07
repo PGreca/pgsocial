@@ -360,7 +360,7 @@ class social_photo
 			$comment .= $this->user->lang('COMMENT', 1);
 		}
 		$likes = '<span>'.$this->pg_social_helper->count_action('like', $row['post_id']).'</span> '.$this->user->lang('LIKE', 1);
-		//if($this->pg_social_helper->count_action('like', $row['post_id']) == 0 | $this->pg_social_helper->count_action('like', $row['post_id']) > 1)
+		//if ($this->pg_social_helper->count_action('like', $row['post_id']) == 0 | $this->pg_social_helper->count_action('like', $row['post_id']) > 1)
 		$desc = '';
 		if ($row['photo_desc'])
 		{
@@ -401,9 +401,9 @@ class social_photo
 			{
 				$row['gallery_url'] = '';
 			}
-			//if(($row['post_privacy'] == 0 && $row['user_id'] == $this->user->data['user_id']) || ($row['post_privacy'] == 1 && ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['user_id'])) || $row['post_privacy'] == 2)
-			//if(($row['photo_where'] == 1 && $row['post_privacy'] == 2) || $row['photo_where'] == 0 && (($row['post_privacy'] == 0 && $row['user_id'] == $this->user->data['user_id']) || ($row['post_privacy'] == 1 && ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['user_id'])) || $row['post_privacy'] == 2))
-			
+			//if (($row['post_privacy'] == 0 && $row['user_id'] == $this->user->data['user_id']) || ($row['post_privacy'] == 1 && ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['user_id'])) || $row['post_privacy'] == 2)
+			//if (($row['photo_where'] == 1 && $row['post_privacy'] == 2) || $row['photo_where'] == 0 && (($row['post_privacy'] == 0 && $row['user_id'] == $this->user->data['user_id']) || ($row['post_privacy'] == 1 && ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['user_id'])) || $row['post_privacy'] == 2))
+
 			if (($row['photo_privacy'] == 0 && $row['user_id'] == $this->user->data['user_id']) || ($row['photo_privacy'] == 1 && ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['user_id'])) || (($row['photo_privacy'] == 2) || ($row['photo_privacy'] == 2)) || ($row['photo_privacy'] == 2 && $row['photo_where'] == 0))
 			{
 				if (!$template)
@@ -434,7 +434,7 @@ class social_photo
 					));
 					return $this->helper->render('pg_social_photo.html', '');
 				}
-				
+
 			}
 		}
 	}
@@ -639,7 +639,7 @@ class social_photo
 				return $this->helper->render('pg_social_gallery_photo.html', '');
 			}
 		}
-		
+
 		$this->template->assign_vars(array(
 			'ACTION'	=>  $sql,
 		));
@@ -803,14 +803,14 @@ class social_photo
 		$this->db->sql_freeresult($result);
 		return $row['count'];
 	}
-	
+
 	public function photo_of_post($post)
 	{
 		$sql = 'SELECT post_extra, post_type FROM '.$this->pgsocial_wallpost.' WHERE post_extra != "" LIMIT 0, 1';
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
-		
+
 		return $row;
 	}
 }

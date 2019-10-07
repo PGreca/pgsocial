@@ -537,8 +537,8 @@ class post_status
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	* Action on activity
 	*
@@ -954,7 +954,7 @@ class post_status
 
 			$resultwall = $this->db->sql_query($sqlwall);
 			$wall = $this->db->sql_fetchrow($resultwall);
-			if($row['post_where'] == 1)
+			if ($row['post_where'] == 1)
 			{
 				$walll = '<a href="'.append_sid($this->helper->route('pages_page'), 'u='.$wall['username_clean']).'">'.$wall['username'].'</a>';
 			}
@@ -966,11 +966,11 @@ class post_status
 			switch($row['type'])
 			{
 				case 'wall_like':
-					if($wall['user_id'] == $this->user->data['user_id'])
+					if ($wall['user_id'] == $this->user->data['user_id'])
 					{
 						$action = $this->user->lang('HAS_LIKE_YOUR_POST', $user, $post);
 					}
-					elseif($row['user_id'] != $wall['user_id'])
+					elseif ($row['user_id'] != $wall['user_id'])
 					{
 						$action = $this->user->lang('HAS_LIKE_POST', $user, $post, $walll);
 					}
@@ -980,11 +980,11 @@ class post_status
 					}
 				break;
 				case 'wall_comment':
-					if($wall['user_id'] == $this->user->data['user_id'])
+					if ($wall['user_id'] == $this->user->data['user_id'])
 					{
 						$action = $this->user->lang('HAS_COMMENT_YOUR_POST', $user, $post);
 					}
-					elseif($row['user_id'] != $wall['user_id'])
+					elseif ($row['user_id'] != $wall['user_id'])
 					{
 						$action = $this->user->lang('HAS_COMMENT_POST', $user, $post, $walll);
 					}

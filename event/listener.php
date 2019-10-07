@@ -59,7 +59,7 @@ class listener implements EventSubscriberInterface
 
 	/** @var \pgreca\pgsocial\controller\helper */
 	protected $pgsocial_helper;
-		
+
 	/** @var \pgreca\pgsocial\social\post_status */
 	protected $post_status;
 
@@ -74,7 +74,7 @@ class listener implements EventSubscriberInterface
 
 	/** @var string */
 	protected $social_chat;
-	
+
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 
@@ -209,9 +209,9 @@ class listener implements EventSubscriberInterface
 	 */
 	public function set_startpage($event)
 	{
-		if($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->is_startpage && (int) $this->user->data['user_id'] != ANONYMOUS)
+		if ($this->user->page['page_name'] == 'index.' . $this->php_ext && !$this->is_startpage && (int) $this->user->data['user_id'] != ANONYMOUS)
 		{
-			if($this->config['pg_social_index_replace'])
+			if ($this->config['pg_social_index_replace'])
 			{
 				$this->is_startpage = true;
 				$sql_ary = $event['sql_ary'];
@@ -222,7 +222,7 @@ class listener implements EventSubscriberInterface
 				$event['sql_ary'] = $sql_ary;
 
 				$controller_object = $this->get_startpage_controller();
-				if($controller_object)
+				if ($controller_object)
 				{
 					$controller_dir = explode('\\', get_class($controller_object));
 					$controller_style_dir = 'ext/' . $controller_dir[0] . '/' . $controller_dir[1] . '/styles';
@@ -261,7 +261,7 @@ class listener implements EventSubscriberInterface
 	*/
 	public function add_viewonline_location(\phpbb\event\data $event)
 	{
-		if($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0)
+		if ($event['on_page'][1] == 'app' && strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/forum') === 0)
 		{
 			$event['location'] = $this->user->lang('FORUM_INDEX');
 			$event['location_url'] = $this->helper->route('forum_page');
@@ -275,12 +275,12 @@ class listener implements EventSubscriberInterface
 	*/
 	public function memberlist_view_profile($event)
 	{
-		if($this->config['pg_social_profile'])
+		if ($this->config['pg_social_profile'])
 		{
 			$member = $event['member'];
 			$user_id = $member['user_id'];
 			$member['status_action'] = 0;
-			if($user_id == (int) $this->user->data['user_id'])
+			if ($user_id == (int) $this->user->data['user_id'])
 			{
 				$member['user_action'] = true;
 			}
@@ -288,7 +288,7 @@ class listener implements EventSubscriberInterface
 			{
 				$member['user_action'] = false;
 			}
-			if($member['user_gender'] == 0)
+			if ($member['user_gender'] == 0)
 			{
 				$profile_gender = '';
 			}
@@ -296,7 +296,7 @@ class listener implements EventSubscriberInterface
 			{
 				$profile_gender = $this->pgsocial_helper->social_gender($member['user_gender']);
 			}
-			if($member['user_status_life'] == 0)
+			if ($member['user_status_life'] == 0)
 			{
 				$profile_status_life = '';
 			}
@@ -305,12 +305,12 @@ class listener implements EventSubscriberInterface
 				$profile_status_life = $this->pgsocial_helper->social_status_life($member['user_status_life']);
 			}
 			$friends = $this->social_zebra->friend_status($user_id);
-			if($friends['status'] == 'PG_SOCIAL_FRIENDS' || $user_id == (int) $this->user->data['user_id'])
+			if ($friends['status'] == 'PG_SOCIAL_FRIENDS' || $user_id == (int) $this->user->data['user_id'])
 			{
 				$member['status_action'] = 1;
 			}
 			$gallumb = false;
-			if($this->request->variable('gl', '') == 'album')
+			if ($this->request->variable('gl', '') == 'album')
 			{
 				$gallumb = true;
 			}
@@ -355,7 +355,7 @@ class listener implements EventSubscriberInterface
 			$this->social_photo->get_photos(0, 'last', $user_id);
 			$this->social_zebra->get_friends($user_id, 'profile', 'yes');
 			$this->social_photo->get_gallery($user_id, 'profile');
-			if($this->request->variable('gall', ''))
+			if ($this->request->variable('gall', ''))
 			{
 				$this->social_photo->get_photos(0, 'gall', $user_id, $this->request->variable('gall', ''), $this->request->variable('gl', ''));
 			}
@@ -375,7 +375,7 @@ class listener implements EventSubscriberInterface
 			'PG_SOCIAL_INDEX_REPLACE'			=> $this->config['pg_social_index_replace'] ? true : false,
 			'PG_SOCIAL_INDEX_ACTIVITY'			=> $this->config['pg_social_index_activity'] ? true : false,
 			'PG_SOCIAL_PAGE_NOTIFIY_MANAGER'	=> ($this->social_page->appro_pages() > 0 && ($this->auth->acl_gets('m_page_manage') || $this->auth->acl_gets('a_page_manage'))) ? true : false,
-			
+
 			'PG_SOCIAL_VERSION'					=> PG_SOCIAL_VERSION,
 		));
 
@@ -387,7 +387,7 @@ class listener implements EventSubscriberInterface
 		{
 			$this->post_status->get_status('all', (int) $this->user->data['user_id'], 0, 'all', 0, 'seguel', '');
 		}
-		
+
 		$this->social_zebra->friends_waiting();
 	}
 
@@ -398,8 +398,8 @@ class listener implements EventSubscriberInterface
 	{
 		define('PG_SOCIAL_VERSION', '0.5.0');
 		$forumnav = '';
-		
-		if($this->config['pg_social_index_replace'])
+
+		if ($this->config['pg_social_index_replace'])
 		{
 			$forumnav = $this->helper->route('forum_page');
 		}
@@ -411,7 +411,7 @@ class listener implements EventSubscriberInterface
 			'SOCIAL_FORUM'			=> $forumnav,
 		));
 
-		if($this->request->is_set('f') && $this->config['pg_social_index_replace'])
+		if ($this->request->is_set('f') && $this->config['pg_social_index_replace'])
 		{
 			$this->template->alter_block_array('navlinks', array(
 				'FORUM_NAME'	=> $this->user->lang('FORUM'),
@@ -429,7 +429,7 @@ class listener implements EventSubscriberInterface
 	*/
 	public function user_profile($event)
 	{
-		if(DEFINED('IN_ADMIN'))
+		if (DEFINED('IN_ADMIN'))
 		{
 			$user_gender = $event['user_row']['user_gender'];
 			$user_quote = $event['user_row']['user_quote'];
@@ -558,7 +558,7 @@ class listener implements EventSubscriberInterface
 	*/
 	public function user_status_post($event)
 	{
-		if($event['mode'] == 'post')
+		if ($event['mode'] == 'post')
 		{
 			$info = $event['data'];
 			$this->post_status->add_status('post', (int) $this->user->data['user_id'], '', 2, 4, $info['topic_id'].'#p'.$info['post_id']);

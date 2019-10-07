@@ -34,10 +34,10 @@
 			if ($("#wall_post").hasClass("openform")) {
 				if ($('#wall_post_img').length && $('#wall_post_img').val() !== "") {
 					$("#wall_post").removeClass("openform");
-					uploadPhoto($('#wall_post_text').html(), $('#wall_post_img')[0].files[0], "wall", where, $('#wall_post_privacy option:selected').val());
+					uploadPhoto($('#wall_post_text').val(), $('#wall_post_img')[0].files[0], "wall", where, $('#wall_post_privacy option:selected').val());
 				} else {
 					$("#wall_post").removeClass("openform");
-					pgwall_add_status($('#wall_post_text').html(), $('#wall_post_privacy option:selected').val());
+					pgwall_add_status($('#wall_post_text').val(), $('#wall_post_privacy option:selected').val());
 				}
 			}
 		});
@@ -67,7 +67,7 @@
 		});
 
 		$('form#wall_post #wall_post_text').on('keyup', function() {
-			var content = $(this).html();
+			var content = $(this).val();
 			if (content.match(/@(\w+)/g)) {
 				tag_system_search(content.match(/@(\w+)/g));
 			} else {
@@ -434,7 +434,7 @@
 				contentType: false,
 				processData: false,
 				success: function(data) {
-					$('#wall_post_text').html('');
+					$('#wall_post_text').val('');
 					$('#wall_post').addClass('openform');
 				}
 			});
@@ -567,7 +567,7 @@
 				} else if (type === 'cover' || type === 'avatar') {
 					location.reload();
 				} else if (type === 'wall') {
-					$('#wall_post_text').html('');
+					$('#wall_post_text').val('');
 					$('#wall_post_img, #pgsocial_gallery_newPhoto').val('');
 					$('#wall_post_thumb').removeAttr('style');
 					$('#wall_post_thumb img#wall_post_thumb_img').removeAttr('src');

@@ -85,7 +85,7 @@ class social_page
 			'page_about'			=> '',
 		);
 		$sql = 'INSERT INTO '.$this->pgsocial_pages.' '.$this->db->sql_build_array('INSERT', $sql_arr);
-		if($this->db->sql_query($sql))
+		if ($this->db->sql_query($sql))
 		{
 			redirect($this->helper->route('pages_page', array('name' => $permalink)));
 		}
@@ -105,7 +105,7 @@ class social_page
 	public function user_like_pages($user, $page = false)
 	{
 		$array = '';
-		if(isset($page))
+		if (isset($page))
 		{
 			$where = " AND page_id = '".$page."'";
 		}
@@ -117,7 +117,7 @@ class social_page
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
 		{
-			if(isset($page) && $row['page_id'] != '')
+			if (isset($page) && $row['page_id'] != '')
 			{
 				$array = $row['page_id'];
 			}
@@ -127,7 +127,7 @@ class social_page
 			}
 		}
 		$this->db->sql_freeresult($result);
-		if(!$array)
+		if (!$array)
 		{
 			$array = 0;
 		}
@@ -146,7 +146,7 @@ class social_page
 		$result = $this->db->sql_query($sql);
 		$like = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
-		if($like['page_like_ID'] != '')
+		if ($like['page_like_ID'] != '')
 		{
 			$sql = "DELETE FROM ".$this->pgsocial_pages_like." WHERE page_id = '".$page."' AND user_id = '".$this->user->data['user_id']."'";
 			$action = 'dislikepage';

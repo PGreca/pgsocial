@@ -126,7 +126,7 @@ class forum
 	{
 
 		// @codeCoverageIgnoreStart
-		if(!function_exists('display_forums'))
+		if (!function_exists('display_forums'))
 		{
 			include($this->root_path . 'includes/functions_display.' . $this->php_ext);
 		}
@@ -136,7 +136,7 @@ class forum
 
 		$order_legend = ($this->config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
 		// Grab group details for legend display
-		if($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel'))
+		if ($this->auth->acl_gets('a_group', 'a_groupadd', 'a_groupdel'))
 		{
 			$sql = 'SELECT group_id, group_name, group_colour, group_type, group_legend
 				FROM ' . GROUPS_TABLE . '
@@ -165,7 +165,7 @@ class forum
 			$colour_text = ($row['group_colour']) ? ' style="color:#' . $row['group_colour'] . '"' : '';
 			$group_name = $this->group_helper->get_name($row['group_name']);
 
-			if($row['group_name'] == 'BOTS' || ($this->user->data['user_id'] != ANONYMOUS && !$this->auth->acl_get('u_viewprofile')))
+			if ($row['group_name'] == 'BOTS' || ($this->user->data['user_id'] != ANONYMOUS && !$this->auth->acl_get('u_viewprofile')))
 			{
 				$legend[] = '<span' . $colour_text . '>' . $group_name . '</span>';
 			}
@@ -182,14 +182,14 @@ class forum
 		$show_birthdays = ($this->config['load_birthdays'] && $this->config['allow_birthdays'] && $this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'));
 
 		$birthdays = $birthday_list = array();
-		if($show_birthdays)
+		if ($show_birthdays)
 		{
 			$time = $this->user->create_datetime();
 			$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
 
 			// Display birthdays of 29th february on 28th february in non-leap-years
 			$leap_year_birthdays = '';
-			if($now['mday'] == 28 && $now['mon'] == 2 && !$time->format('L'))
+			if ($now['mday'] == 28 && $now['mon'] == 2 && !$time->format('L'))
 			{
 				$leap_year_birthdays = " OR u.user_birthday LIKE '" . $this->db->sql_escape(sprintf('%2d-%2d-', 29, 2)) . "%'";
 			}

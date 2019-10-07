@@ -32,9 +32,9 @@ class main_module
 		switch($mode)
 		{
 			case 'settings':
-				if($request->is_set_post('submit'))
+				if ($request->is_set_post('submit'))
 				{
-					if(!check_form_key('pgreca/pgsocial'))
+					if (!check_form_key('pgreca/pgsocial'))
 					{
 						trigger_error('FORM_INVALID');
 					}
@@ -50,7 +50,7 @@ class main_module
 
 					$config->set('pg_social_chat_enabled', $request->variable('pg_social_chat_enabled', 0));
 
-					if($request->variable('pg_social_sidebarRight', 0) == 0)
+					if ($request->variable('pg_social_sidebarRight', 0) == 0)
 					{
 						$config->set('pg_social_sidebarRight_friendsRandom', 0);
 						$config->set('pg_social_block_posts_last', 0);
@@ -73,7 +73,7 @@ class main_module
 				));
 			break;
 			case 'social':
-				if($request->is_set_post('submit'))
+				if ($request->is_set_post('submit'))
 				{
 					if (!check_form_key('pgreca/pgsocial'))
 					{
@@ -98,7 +98,7 @@ class main_module
 				));
 			break;
 			case 'chat':
-				if($request->is_set_post('submit')){
+				if ($request->is_set_post('submit')){
 					if (!check_form_key('pgreca/pgsocial'))
 					{
 						trigger_error('FORM_INVALID');
@@ -117,9 +117,9 @@ class main_module
 				));
 			break;
 			case 'page_manage':
-				if($request->is_set_post('submit'))
+				if ($request->is_set_post('submit'))
 				{
-					if(!check_form_key('pgreca/pgsocial'))
+					if (!check_form_key('pgreca/pgsocial'))
 					{
 						trigger_error('FORM_INVALID');
 					}
@@ -127,7 +127,7 @@ class main_module
 						'page_status' => 1
 					);
 					$sql = 'UPDATE '.$table_prefix.'pg_social_pages SET '.$db->sql_build_array('UPDATE', $sql_arr).' WHERE page_id IN ("'.implode('", "', $request->variable('page_selected', array('' => ''))).'")';
-					if($db->sql_query($sql))
+					if ($db->sql_query($sql))
 					{
 						trigger_error($user->lang('ACP_PG_SOCIAL_SETTING_SAVED') . adm_back_link($this->u_action));
 					}

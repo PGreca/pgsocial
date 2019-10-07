@@ -116,7 +116,7 @@ class main
 	*/
 	public function handle($name)
 	{
-		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
+		if (!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
 		{
 			redirect($this->root_path);
 		}
@@ -127,7 +127,7 @@ class main
 			$profile_id = $this->request->variable('profile_id', '');
 			$where = $this->request->variable('where', '');
 
-			if($mode)
+			if ($mode)
 				{
 				switch($mode)
 				{
@@ -159,7 +159,7 @@ class main
 						return $this->post_status->remove_comment($this->request->variable('comment', ''));
 					break;
 					case 'get_friends':
-						if($this->request->variable('friend', ''))
+						if ($this->request->variable('friend', ''))
 						{
 							$friends = $this->request->variable('friend', '');
 						}
@@ -220,7 +220,7 @@ class main
 			}
 			else
 			{
-				if($name == 'mp')
+				if ($name == 'mp')
 				{
 					$time = $this->user->create_datetime();
 					$now = phpbb_gmgetdate($time->getTimestamp() + $time->getOffset());
@@ -264,15 +264,15 @@ class main
 					}
 					$this->db->sql_freeresult($birthdays_result);
 
-					if($this->config['pg_social_block_posts_last'])
+					if ($this->config['pg_social_block_posts_last'])
 					{
 						$a_f_auth_read = $this->auth->acl_getf('f_read');
 						$a_f_read = array();
-						if(!empty($a_f_auth_read))
+						if (!empty($a_f_auth_read))
 						{
 							foreach($a_f_auth_read as $i_f_id => $a_auth)
 							{
-								if($a_auth['f_read'] == 1)
+								if ($a_auth['f_read'] == 1)
 								{
 									$a_f_read[] = $i_f_id;
 								}
@@ -329,7 +329,7 @@ class main
 					));
 
 					$this->post_status->get_status('all', $this->user->data['user_id'], 0, 'all', 0, 'seguel', '');
-					$this->social_page->page_likeif($this->user->data['user_id'], 'pagesMaylike', false);
+					$this->social_page->page_likeif ($this->user->data['user_id'], 'pagesMaylike', false);
 					$this->social_zebra->get_friends($profile_id, $where, 'no');
 					$this->template->assign_block_vars('navlinks', array(
 						'FORUM_NAME'	=> $this->user->lang('ACTIVITY'),
@@ -350,9 +350,9 @@ class main
 	*/
 	public function handle_status($id)
 	{
-		if(!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
+		if (!$this->auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel'))
 		{
-			if($this->user->data['user_id'] != ANONYMOUS)
+			if ($this->user->data['user_id'] != ANONYMOUS)
 			{
 				trigger_error('NO_VIEW_USERS');
 			}
@@ -366,7 +366,7 @@ class main
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
-			if($row['post_ID'])
+			if ($row['post_ID'])
 			{
 				$this->template->assign_vars(array(
 					'PROFILE_ID'	=> $row['wall_id'],

@@ -59,7 +59,7 @@ class social_tag
 		$result = $this->db->sql_query($sql);
 		while($row = $this->db->sql_fetchrow($result))
 		{
-			if($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS')
+			if ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS')
 			{
 				$this->template->assign_block_vars('tag_system_search', array(
 					'USER_ID'			=> $row['user_id'],

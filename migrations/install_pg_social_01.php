@@ -128,27 +128,27 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 				),
 			)),
 		);
-		if($this->role_exists('ROLE_USER_STANDARD'))
+		if ($this->role_exists('ROLE_USER_STANDARD'))
 		{
 			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_page_create'));
 		}
-		if($this->role_exists('ROLE_USER_FULL'))
+		if ($this->role_exists('ROLE_USER_FULL'))
 		{
 			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_page_create'));
 		}
-		if($this->role_exists('ROLE_MOD_STANDARD'))
+		if ($this->role_exists('ROLE_MOD_STANDARD'))
 		{
 			$data[] = array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_page_manage'));
 		}
-		if($this->role_exists('ROLE_MOD_FULL'))
+		if ($this->role_exists('ROLE_MOD_FULL'))
 		{
 			$data[] = array('permission.permission_set', array('ROLE_MOD_FULL', 'm_page_manage'));
 		}
-		if($this->role_exists('ROLE_ADMIN_STANDARD'))
+		if ($this->role_exists('ROLE_ADMIN_STANDARD'))
 		{
 			$data[] = array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_page_manage'));
 		}
-		if($this->role_exists('ROLE_ADMIN_FULL'))
+		if ($this->role_exists('ROLE_ADMIN_FULL'))
 		{
 			$data[] = array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_page_manage'));
 		}
@@ -377,7 +377,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 	{
 		foreach(glob($folder.'/*') as $file)
 		{
-			if(is_dir($file))
+			if (is_dir($file))
 			{
 				$this->RemoveFolderContent($file);
 				rmdir($file);

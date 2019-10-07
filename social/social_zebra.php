@@ -183,10 +183,10 @@ class social_zebra
 					'approval'	=> 0,
 				);
 				$sqltwo = 'INSERT INTO '.ZEBRA_TABLE.$this->db->sql_build_array('INSERT', $sql_arr);
-				if($this->db->sql_query($sql))
+				if ($this->db->sql_query($sql))
 				{
 					$this->db->sql_freeresult($result);
-					if($this->db->sql_query($sqltwo))
+					if ($this->db->sql_query($sqltwo))
 					{
 						$action = 'REQUEST_ACC';
 					}
@@ -304,8 +304,8 @@ class social_zebra
 					'USERNAME'					=> $row['username'],
 					'USERNAME_CLEAN'			=> $row['username_clean'],
 					'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
-					'ACCEPT_URL'				=> append_sid($this->helper->route('profile_page'), 'mode=request_friend&profile_id='.$row['user_id'].'&request=acceptFriend'),	
-					'DECLINE_URL'				=> append_sid($this->helper->route('profile_page'), 'mode=request_friend&profile_id='.$row['user_id'].'&request=declineFriend'),	
+					'ACCEPT_URL'				=> append_sid($this->helper->route('profile_page'), 'mode=request_friend&profile_id='.$row['user_id'].'&request=acceptFriend'),
+					'DECLINE_URL'				=> append_sid($this->helper->route('profile_page'), 'mode=request_friend&profile_id='.$row['user_id'].'&request=declineFriend'),
 				));
 				$count++;
 			}
