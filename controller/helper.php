@@ -445,7 +445,7 @@ class helper
 	/* EMBED LINK FOR ACTIVITY OR MESSAGES CHAT */
 	public function website_embed($text)
 	{
-		$return = $title = $description = $keywords = '';
+		$return = $title = $description = '';
 		if (strstr($text, 'http') !== false)
 		{
 			$domain = strstr($text, 'http');
