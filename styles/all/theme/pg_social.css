@@ -2588,7 +2588,7 @@ a.profile_signature_status {
 	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_like,
 	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_comment,
 	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_share {
-		width: 33.33%;
+		width: calc(33.33% - 2px);
 		margin: 0;
 		padding: 5px 0;
 	}

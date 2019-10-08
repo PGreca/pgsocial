@@ -456,24 +456,14 @@ class helper
 			if ($domain[0])
 			{
 				$url = $domain[0];
-				$site_domain = parse_url($domain[0]);
-				$fp = fopen($url, 'r');
-				if ($fp)
+				$site_domain = parse_url($domain[0]);			
+				$metatagarray = get_meta_tags($url);
+				if(is_array($metatagarray))
 				{
-					$content = '';
-					while(!feof($fp))
+					if (array_key_exists('title', $metatagarray))
 					{
-						$buffer = trim(fgets($fp, 4096));
-						$content .= $buffer;
+						$title = $metatagarray['title'];
 					}
-					$start = '<title>';
-					$end = '</title>';
-					preg_match('!<title>(.*?)</title>!i', $content, $match);
-					if (array_key_exists(1, $match))
-					{
-						$title = $match[1];
-					}
-					$metatagarray = get_meta_tags($url);
 					if (array_key_exists('description', $metatagarray))
 					{
 						$description = $metatagarray['description'];
