@@ -31,11 +31,9 @@
 	<div class="post_status_footer">
 		<div class="post_status_like {% if post_status.IFLIKE %}active{% endif %}">
 			<a><i class="icon fa-heart fa-fw" aria-hidden="true"></i>{{ post_status.LIKE }}</a>
-		</div>
-		<div class="post_status_comment">
+		</div><div class="post_status_comment">
 			<a><i class="icon fa-comments fa-fw" aria-hidden="true"></i>{{ post_status.COMMENT }}</a>
-		</div>
-		<div class="post_status_share" data-parent="{{ post_status.SHARE }}">
+		</div><div class="post_status_share" data-parent="{{ post_status.SHARE }}">
 			<a><i class="icon fa-share fa-fw" aria-hidden="true"></i>{{ lang('SHARE') }}</a>
 		</div>
 	</div>
