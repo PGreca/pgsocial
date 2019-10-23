@@ -2,6 +2,10 @@ body {
 	width: calc(100% - 60px);
 }
 
+#pgsocial_chat {
+	font-size: 10px;
+}
+
 #pgsocial_chat * {
 	margin: 0;
 	padding: 0;

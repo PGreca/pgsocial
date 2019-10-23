@@ -1507,12 +1507,10 @@ body.section-memberlist .action-bar.actions-jump {
 	padding: 5px 0;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_like,
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_comment,
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_share {
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer > * {
 	display: inline-block;
 	vertical-align: middle;
-	width: calc(33.33% - 20px);
+	width: calc(33.33% - 20px - 2px);
 	margin: 0 10px;
 	padding: 5px 0;
 	text-align: center;

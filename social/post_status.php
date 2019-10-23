@@ -530,9 +530,9 @@ class post_status
 				'COMMENT'										=> $comment,
 				'SHARE'											=> $share
 			));
+			
 			if ($template == 'half')
 			{
-				$this->get_comments($row['post_ID'], $type, false);
 				return $this->helper->render('status.html', $this->user->lang('YOU_SEE_ACTIVITY', $status_username));
 			}
 		}

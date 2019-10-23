@@ -110,7 +110,6 @@
 
 		$(document).on('click', '#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_comment a', function(e) {
 			var post_status = $(this).parent().parent().parent().attr('data-lastp');
-			console.log(post_status);
 			if ($('#post_status_'+post_status+' ul.post_status_comments').hasClass('active')) {
 				$('#post_status_'+post_status+' ul.post_status_comments').removeClass('active').html('');
 			} else {
