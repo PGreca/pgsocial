@@ -2451,12 +2451,15 @@ ul#pgsocial_friends_request li .friend_requestinfo a.friend_request.decline {
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_social form.pg_social_photo_comment_form input[type="text"].pg_social_photo_comment_text {
+	background-color: #fff;
 	width: calc(100% - 30px - 20px - 10px - 2px);
 	height: calc(100% - 2px);
 	margin-left: 10px;
 	padding: 0 10px;
 	border: 1px solid #cfcfcf;
 	border-radius: 3px;
+	box-shadow: 0px 0px 0px #fff;
+	color: #000;
 	outline: none;
 }
 
