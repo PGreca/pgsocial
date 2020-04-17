@@ -500,6 +500,8 @@ class post_status
 		{
 			$rele = true;
 		}
+
+		if(!$msg) $rele = false;
 		if ($rele)
 		{
 			if ($row['wall_id'] == $this->user->data['user_id'] || $this->user->data['user_id'] == $row['user_id']) $action = true;
@@ -530,7 +532,7 @@ class post_status
 				'COMMENT'										=> $comment,
 				'SHARE'											=> $share
 			));
-			
+
 			if ($template == 'half')
 			{
 				return $this->helper->render('status.html', $this->user->lang('YOU_SEE_ACTIVITY', $status_username));

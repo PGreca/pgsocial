@@ -29,12 +29,16 @@
 	{% endif %}
 	<div class="post_status_content{{ post_status.MESSAGE_ALIGN }}">{{ post_status.MESSAGE }}</div>
 	<div class="post_status_footer">
+		<div class="poststatusLeft">
 		<div class="post_status_like {% if post_status.IFLIKE %}active{% endif %}">
 			<a><i class="icon fa-heart fa-fw" aria-hidden="true"></i>{{ post_status.LIKE }}</a>
-		</div><div class="post_status_comment">
-			<a><i class="icon fa-comments fa-fw" aria-hidden="true"></i>{{ post_status.COMMENT }}</a>
-		</div><div class="post_status_share" data-parent="{{ post_status.SHARE }}">
-			<a><i class="icon fa-share fa-fw" aria-hidden="true"></i>{{ lang('SHARE') }}</a>
+		</div>
+		</div><div class="poststatusRight">
+			<div class="post_status_comment">
+				<a>{{ post_status.COMMENT }} <i class="icon fa fa-arrow-up" aria-hidden="true"></i><i class="icon fa fa-arrow-down" aria-hidden="true"></i></a>
+			</div><div class="post_status_share" data-parent="{{ post_status.SHARE }}">
+				<a>{{ lang('SHARE') }}</a>
+			</div>
 		</div>
 	</div>
 	<ul class="post_status_comments">

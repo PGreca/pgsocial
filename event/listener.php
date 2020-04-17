@@ -366,7 +366,7 @@ class listener implements EventSubscriberInterface
 	 * @param \phpbb\event\data $event The event object
 	*/
 	public function load($event)
-	{
+	{		
 		$this->template->assign_vars(array(
 			'PROFILE'							=> (int) $this->user->data['user_id'],
 			'PG_SOCIAL_CHAT'					=> $this->config['pg_social_chat_enabled'] ? true : false,
@@ -376,7 +376,7 @@ class listener implements EventSubscriberInterface
 			'PG_SOCIAL_INDEX_ACTIVITY'			=> $this->config['pg_social_index_activity'] ? true : false,
 			'PG_SOCIAL_PAGE_NOTIFIY_MANAGER'	=> ($this->social_page->appro_pages() > 0 && ($this->auth->acl_gets('m_page_manage') || $this->auth->acl_gets('a_page_manage'))) ? true : false,
 
-			'PG_SOCIAL_VERSION'					=> PG_SOCIAL_VERSION,
+			'PG_SOCIAL_VERSION'					=> $this->config['pg_social_version'],
 		));
 
 		if ($this->is_startpage)
@@ -396,7 +396,6 @@ class listener implements EventSubscriberInterface
 	*/
 	public function add_page_links($event)
 	{
-		define('PG_SOCIAL_VERSION', '0.5.0');
 		$forumnav = '';
 
 		if ($this->config['pg_social_index_replace'])

@@ -5,7 +5,7 @@
  * PGreca Social extension for phpBB.
  *
  * @copyright (c) 2018 pgreca <https:/pgreca.it>
- * @translation (c) 2019 Fonzi <>
+ * @translation (c) 2018 Fonzi <>
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -31,13 +31,14 @@ $lang = array_merge($lang, array(
 	'ABOUT_MONTH'						=> 'mesiacom',
 	'ABOUT_MONTHS'						=> 'mesiacmi',
 	'ACTIVITY'							=> 'Aktivita',
+	//'ACTIVITY_FEED'						=> '',
 	'ACTIVITY_PAGE'						=> 'Nástenka',
-	'AGO'								=> 'Pred',
+	'AGO'								=> '',
 	'ALBUM_CREATE'						=> 'Vytvoriť album',
 	'ALBUM_CREATE_EXPLAIN'				=> 'Trvá to len niekoľko minút!',
 	'ALBUM_CREATE_TITLE'				=> 'Zadajte názov albumu',
 	'ALBUM_CREATE_NOW'					=> 'Vytvorte ho teraz!',
-	'ALBUM_NO_PHOTO'					=> 'V tomto albume nie je žiadka fotografia',
+	//'ALBUM_NO_PHOTO'					=> '',
 	'ALL'								=> 'Verejné',
 	'APPROVE_PAGE'						=> 'Schválené',
 	'ARE_YOU_SURE'						=> 'Naozaj chcete odstrániť tento komentár?',
@@ -85,8 +86,8 @@ $lang = array_merge($lang, array(
 		1				=> 'Priateľ',
 		2				=> 'Priatelia',
 	),
-	'FRIENDS_NO_REQUEST'				=> 'Nie sú žiadne žiadosti o priateľstvo',
-	'FRIENDS_REQUEST'					=> 'Žiadosť o priateľstvo',
+	//'FRIENDS_NO_REQUEST'				=> '',
+	//'FRIENDS_REQUEST'					=> '',
 	'FRIENDS_SUGGESTION'				=> 'Návrhy priateľov',
 	'GALLER'							=> 'Galéria',
 	'GENDER'							=> 'Pohlavie',
@@ -131,18 +132,19 @@ $lang = array_merge($lang, array(
 		1				=> 'Páči sa mi to',
 		2				=> 'Páči sa mi to',
 	),
-	'LIKE_ACTIVE'  						=> 'Páči sa ti to',
-	'LIKE_TO'							=> 'Podobne',
+	//'LIKE_ACTIVE'  						=> 'You like it',
+	'LIKE_TO'							=> 'Like to',
 	'MINUTE'							=> array(
 		1				=> 'minútou',
 		2				=> 'minútami',
 	),
+	//'NOBODY_ONLINE'						=> '',
 	'NOTIFICATION_PG_SOCIAL'			=> 'Upozornenia',
 	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'píše niečo na nástenku',
 	'NOTIFICATION_TYPE_SOCIAL_COMMENTS'	=> 'komentoval váš komentár',
 	'NOTIFICATION_TYPE_SOCIAL_LIKES'	=> 'páči sa mi tento príspevok',
 	'NOTIFICATION_TYPE_SOCIAL_TAG'		=> 'označený v aktivite',
-	'NOTIFICATION_TYPE_SOCIAL_ZEBRA'	=> 'Niekto si vás pridal medzi priateľov',
+	//'NOTIFICATION_TYPE_SOCIAL_ZEBRA'	=> '',
 	'ONLY_YOU'							=> 'Iba ty',
 	'OPTIONS'							=> 'Možnosti',
 	'OTHER_SOCIALNETWORK'				=> 'Ostatné sociálne siete',

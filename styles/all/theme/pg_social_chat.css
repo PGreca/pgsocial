@@ -87,12 +87,12 @@ body {
 #pgsocial_chat #pgsocial_chatRoot ul#pgsocial_chatPeople li.pg_social_chat_people_online_single .pg_social_chat_people_online_single_author_info span.pg_socialchat_people_online_single_status {
 	display: none;
 	position: absolute;
-	top: 0;
-	left: 0;
+	bottom: 0;
+	right: 0;
 	background-color: #ff4f60;
 	width: 8px;
 	height: 8px;
-	border: 1px solid #fff;
+	border: 2px solid #fff;
 	border-radius: 100%;
 }
 

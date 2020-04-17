@@ -456,9 +456,9 @@ class helper
 			if ($domain[0])
 			{
 				$url = $domain[0];
-				$site_domain = parse_url($domain[0]);			
-				$metatagarray = get_meta_tags($url);
-				if(is_array($metatagarray))
+				$site_domain = parse_url($domain[0]);
+				$metatagarray = @get_meta_tags($url);
+				if($metatagarray !== false)
 				{
 					if (array_key_exists('title', $metatagarray))
 					{
@@ -482,6 +482,10 @@ class helper
 					$screen .= '</div>
 					</a>';
 					$return = $screen;
+				}
+				else
+				{
+					$return = $text;
 				}
 			}
 		}

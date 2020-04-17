@@ -34,8 +34,8 @@
 			</ul>
 		</div>
 		{% endif %}
-	</div><div id="pg_social_sidec">
-		<div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80% - 20px);"{% endif %}>
+	</div><div id="pg_social_sidec"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:80%;"{% endif %}>
+		<div id="pg_social_cont">
 			{% INCLUDE 'activity_form.html' %}
 			<ul id="posts_status">
 				{% INCLUDE 'activity_status.html' %}
@@ -55,20 +55,7 @@
 								<span>{{ profileFriends.USERNAME }}</span>
 							</div>
 						</a>
-					</div>{% if profileFriends.PROFILE_FRIEND_ACTION %}<div class="listElementaction">
-						{% if profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS' %}
-						{{ lang('PG_SOCIAL_FRIENDS') }}
-						{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ADD' %}
-						<a href="{{ SOCIAL_PROFILE_PATH }}?mode=request_friend&profile_id={{ profileFriends.PROFILE_ID }}&request=addFriend" id="profile_friend_add" data-ajax="request_friend" data-refresh="true"><i class="fa fa-plus" aria-hidden="true"></i><span>{{ lang('PG_SOCIAL_FRIENDS_ADD') }}</span></a>
-						{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_CANCEL_REQ' %}
-						<a href="{{ SOCIAL_PROFILE_PATH }}?mode=request_friend&profile_id={{ profileFriends.PROFILE_ID }}&request=undoFriend" id="profile_friend_undo" data-ajax="request_friend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_CANCEL_REQ') }}</a>
-						{% elseif profileFriends.PROFILE_FRIEND_ACTION == 'PG_SOCIAL_FRIENDS_ACCEPT_REQ'	%}
-						<a href="{{ SOCIAL_PROFILE_PATH }}?mode=request_friend&profile_id={{ profileFriends.PROFILE_ID }}&request=acceptFriend" id="profile_friend_accept" data-ajax="request_friend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ACCEPT_REQ') }}</a>
-						<a href="{{ SOCIAL_PROFILE_PATH }}?mode=request_friend&profile_id={{ profileFriends.PROFILE_ID }}&request=declineFriend" id="profile_friend_declide" data-ajax="request_friend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_DECLINE_REQ') }}</a>
-						{% else %}
-						{{ PROFILE_FRIEND_ACTION }}
-						{% endif %}
-					</div>{% endif %}
+					</div>
 				</li>
 				{% endfor %}
 			</ul>

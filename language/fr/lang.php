@@ -138,6 +138,7 @@ $lang = array_merge($lang, array(
 		1				=> 'minute',
 		2				=> 'minutes',
 	),
+	//'NOBODY_ONLINE'						=> '',
 	'NOTIFICATION_PG_SOCIAL'			=> 'Notifications d’activités',
 	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'rédige quelque chose sur le mur',
 	'NOTIFICATION_TYPE_SOCIAL_COMMENTS'	=> 'en train de commenter votre message',

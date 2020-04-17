@@ -134,6 +134,7 @@ $lang = array_merge($lang, array(
 		1				=> 'minuto',
 		2				=> 'minuti',
 	),
+	'NOBODY_ONLINE'						=> 'Nessuno online',
 	'NOTIFICATION_PG_SOCIAL'			=> 'Notifiche social',
 	'NOTIFICATION_SOCIAL_COMMENT_ADD'	=> 'ha commentato il tuo stato',
 	'NOTIFICATION_TYPE_SOCIAL_STATUS'	=> 'Qualcuno scrive uno stato nella tua bacheca',

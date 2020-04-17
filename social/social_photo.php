@@ -466,7 +466,7 @@ class social_photo
 		$now = time();
 
 		// Random number file, will be added after image name
-		$RandomNumber = rand(0, 9999999999);
+		$RandomNumber = mt_rand();
 		switch (strtolower($ImageType))
 		{
 			case 'image/png':

@@ -109,10 +109,12 @@
 		});
 
 		$(document).on('click', '#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_comment a', function(e) {
-			var post_status = $(this).parent().parent().parent().attr('data-lastp');
+			var post_status = $(this).parent().parent().parent().parent().attr('data-lastp');
 			if ($('#post_status_'+post_status+' ul.post_status_comments').hasClass('active')) {
+				$('#post_status_'+post_status+' .post_status_comment').removeClass('active');
 				$('#post_status_'+post_status+' ul.post_status_comments').removeClass('active').html('');
 			} else {
+				$(this).parent().addClass('active');
 				pgwall_get_comments(post_status, 'post');
 			}
 		});
@@ -381,7 +383,7 @@
 		if (!post_where) post_where = 'all';
 		if ($('#load_more').is(':visible')) {
 			$('#load_more').hide();
-			let lastp;
+			var lastp;
 			if (order === 'seguel') {
 				lastp = $('#posts_status .post_status:first-child[data-lastp]').attr('data-lastp');
 			} else if (order === 'prequel') {
@@ -389,32 +391,34 @@
 			} else {
 				lastp = 0;
 			}
+			if(lastp) {
+				var fdata = new FormData();
+				fdata.append('mode', 'get_status');
+				fdata.append('post_where', post_where);
+				fdata.append('profile_id', profile_id);
+				fdata.append('lastp', lastp);
+				fdata.append('where', where);
+				fdata.append('order', order);
 
-			var fdata = new FormData();
-			fdata.append('mode', 'get_status');
-			fdata.append('post_where', post_where);
-			fdata.append('profile_id', profile_id);
-			fdata.append('lastp', lastp);
-			fdata.append('where', where);
-			fdata.append('order', order);
-
-			$.ajax({
-				method: 'POST',
-				url: root,
-				data: fdata,
-				contentType: false,
-				processData: false,
-				success: function(data) {
-					if (data) {
-						if (order === 'prequel') {
-							$('#posts_status').append(data);
-						} else {
-							$('#posts_status').prepend(data);
+				$.ajax({
+					method: 'POST',
+					url: root,
+					data: fdata,
+					contentType: false,
+					processData: false,
+					success: function(data) {
+						if (data) {
+							if (order === 'prequel') {
+								$('#posts_status').append(data);
+							} else {
+								$('#posts_status #wall_post').after().prepend(data);
+							}
+							console.log(data);
 						}
-					}
-					$('#load_more').show();
-				},
-			});
+						$('#load_more').show();
+					},
+				});
+			}
 		}
 	}
 
