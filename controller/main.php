@@ -315,7 +315,7 @@ class main
 
 						'PROFILE'								=> $this->user->data['user_id'],
 						'PROFILE_URL'							=> get_username_string('profile', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
-						'PROFILE_EDIT'							=> append_sid($this->root_path.'ucp.'.$this->php_ext, 'i=ucp_profile&amp;mode=profile_info'),
+						'PROFILE_EDIT'							=> ($this->auth->acl_get('u_chgprofileinfo') ? append_sid($this->root_path.'ucp.'.$this->php_ext, 'i=ucp_profile&amp;mode=profile_info') : ''),
 						'PROFILE_AVATAR'						=> $this->pg_social_helper->social_avatar_thumb($this->user->data['user_avatar'], $this->user->data['user_avatar_type'], $this->user->data['user_avatar_width'], $this->user->data['user_avatar_height']),
 						'PROFILE_USERNAME'						=> $this->user->data['username'],
 						'PROFILE_USERNAME_CLEAN'				=> $this->user->data['username_clean'],

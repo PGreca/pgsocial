@@ -14,7 +14,6 @@ body {
 }
 
 #pgsocial_chat img.avatar {
-	background-image: url(..ext/pgreca/pgsocial/images/page_no_avatar.jpg);
 	background-color: #fff;
 	background-position: center;
 	background-size: cover;

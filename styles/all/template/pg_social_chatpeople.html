@@ -5,7 +5,7 @@
 		</div>
 	</div>
 	<div class="pg_social_chat_people_online_single_author_info">
-		<span class="pg_socialchat_people_online_single_status {{ pg_social_chat.USER_STATUS }}"></span>
+		{% if pg_social_chat.USER_STATUS == 'online' %}<span class="pg_socialchat_people_online_single_status {{ pg_social_chat.USER_STATUS }}"></span>{% endif %}
 		{{ pg_social_chat.USER_AVATAR }}
 		{% if pg_social_chat.USER_TMSG != '0' %}<span class="pg_socialchat_people_online_single_tmess">{{ pg_social_chat.USER_TMSG }}</span>{% endif %}
 	</div><div class="pg_social_chat_people_online_single_author">{{ pg_social_chat.USER_USERNAME }}{% if not CHAT_LOGIN %}<br /><span class="pg_social_chat_people_online_single_author_status">{{ pg_social_chat.USER_STATUS }}</span>{% endif %}</div>

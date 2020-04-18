@@ -34,14 +34,6 @@
 	color: #23b6b6;
 }
 
-.phpbb_alert.pg_social_photo #pg_social_photo_social div.pg_social_photo_likshare {
-	background-color: #23b6b6;
-}
-
-.phpbb_alert.pg_social_photo #pg_social_photo_social #pg_social_photo_comment {
-	background-color: #a9efef;
-}
-
 .phpbb_alert.pg_social_photo #pg_social_photo_social ul.pg_social_photo_comments::-webkit-scrollbar-thumb {
     background-color: rgba(85, 132, 219, 0.2);
 }

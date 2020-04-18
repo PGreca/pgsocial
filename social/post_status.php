@@ -297,8 +297,8 @@ class post_status
 			break;
 		}
 		$msg .= $this->social_tag->show_tag($msg);
-		$msg .= $this->pg_social_helper->noextra(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags));
 		$msg .= $this->pg_social_helper->extra_text($row['message']);
+		$msg .= $this->pg_social_helper->noextra(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags));
 		switch ($row['post_type'])
 		{
 			case 0:
@@ -433,19 +433,19 @@ class post_status
 				}
 			break;
 			case 1:
-					$photo = $this->photo($row['post_extra']);
-					if ($photo['gallery_id'] == '0')
-					{
-						$author_action = $this->user->lang('HAS_UPLOADED_AVATAR');
-					} else
-					{
-						$actionprivacy = false;
-						$status_privacy = $photo['gallery_privacy'];
-						$album = '<a href="'.$photo['gallery_url'].'">'.$photo['gallery_name'].'</a>';
-						$author_action = $this->user->lang("HAS_PUBLISHED_PHOTO_ALBUM", $album);
-					}
-					$msg .= $photo['msg'];
-					$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
+				$photo = $this->photo($row['post_extra']);
+				if ($photo['gallery_id'] == '0')
+				{
+					$author_action = $this->user->lang('HAS_UPLOADED_AVATAR');
+				} else
+				{
+					$actionprivacy = false;
+					$status_privacy = $photo['gallery_privacy'];
+					$album = '<a href="'.$photo['gallery_url'].'">'.$photo['gallery_name'].'</a>';
+					$author_action = $this->user->lang("HAS_PUBLISHED_PHOTO_ALBUM", $album);
+				}
+				$msg .= $photo['msg'];
+				$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
 			break;
 			case 2:
 				$author_action = $this->user->lang('HAS_UPLOADED_COVER');
@@ -535,6 +535,7 @@ class post_status
 
 			if ($template == 'half')
 			{
+				
 				return $this->helper->render('status.html', $this->user->lang('YOU_SEE_ACTIVITY', $status_username));
 			}
 		}

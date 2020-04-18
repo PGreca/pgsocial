@@ -573,11 +573,15 @@ body.section-memberlist .action-bar.actions-jump {
 	background-repeat: no-repeat;
 	background-size: cover;
 	width: calc(25% - 15px + (15px / 4));
-	height: 400px;
+	height: 375px;
 	margin: 0 15px 15px 0;
 	border-radius: 3px;
 	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.06);
 	text-align: left;
+}
+
+#pg_social #pg_social_cont ul.colums li.colum.photo {
+	height: inherit;
 }
 
 #pg_social #pg_social_cont ul.colums li.colum.colum_nosize {
@@ -610,7 +614,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont ul.colums li#pg_social_gallery_create {
-	height: calc(400px);
+	height: calc(375px);
 	cursor: pointer;
 	font-size: 1.5em;
 }
@@ -1175,6 +1179,13 @@ body.section-memberlist .action-bar.actions-jump {
 	list-style: none;
 }
 
+#pg_social #pg_social_cont ul#posts_status.masonry {
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+	grid-auto-rows: 20px;
+}
+
 #pg_social #pg_social_cont ul#posts_status li.post_status {
 	display: inline-block;
 	background-color: #fff;
@@ -1277,16 +1288,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author h4 {
-	font-size: 1.5em;
 	font-weight: normal;
-}
-
-#pg_social_containerR #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author h4 {
-	font-size: 1.2em;
-}
-
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author h4 span {
-	/*font-size: 0.8em;*/
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author h4 a {
@@ -1406,15 +1408,14 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content .status_photos {
-	margin: 10px;
+	margin: 20px -20px 10px;
 	text-align: center;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content img.photo_popup {
-	max-width: 70%;
+	max-width: 100%;
     min-width: 40%;
 	max-height: 750px;
-	border-radius: 3px;
     overflow: hidden;
 	cursor: pointer;
 }
@@ -1427,7 +1428,7 @@ body.section-memberlist .action-bar.actions-jump {
 	position: relative;
 	overflow: hidden;
 	height: 0;
-	margin: 15px 0 0;
+	margin: 0 -20px 20px;
 	padding-top: 30px;
 	padding-bottom: 50%;
 }
@@ -1463,6 +1464,7 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content a.post_status_site {
 	background-color: rgba(0, 0, 0, 0.1);
 	width: 100%;
+	margin-bottom: 20px;
 	border-radius: 3px;
 }
 
@@ -1529,7 +1531,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .poststatusRight div:last-child {
-	margin-right: 0px;
+	margin-right: 0;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer div a,
@@ -1548,7 +1550,14 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer div a i.icon,
 .pg_social_photo #pg_social_photo_social .pg_social_photo_likshare div a i.icon {
 	vertical-align: middle;
-	margin-left: 5px;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_like a i.icon {
+	color: red;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_like.active a i.icon {
+	color: inherit;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_comment i.fa-arrow-up {
@@ -2313,10 +2322,10 @@ ul#pgsocial_friends_request li .friend_requestinfo a.friend_request.decline {
 
 .phpbb_alert.pg_social_photo #pg_social_photo_social div.pg_social_photo_likshare {
 	display: inline-block;
-	background-color: rgba(0, 0, 0, 0.5);
-	width: calc(100% - 10px);
+	width: calc(100% - 40px);
 	height: calc(40px - 10px - 1px);
-	padding: 10px 5px;
+	margin: 0 20px;
+	padding: 10px 0;
 	border-top: 1px solid #cfcfcf;
 }
 
@@ -2593,14 +2602,14 @@ a.profile_signature_status {
 	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_action .post_status_privacy span {
 		width: 100%;
 	}
-
+	
 	#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer {
 		margin: 0 10px;
 		padding: 0;
 		border-top-width: 1px;
 		border-bottom-width: 1px;
 	}
-
+	
 	#pg_social #pg_social_header {
 		background-position: center !important;
 	}

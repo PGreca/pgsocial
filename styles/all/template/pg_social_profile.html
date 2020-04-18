@@ -226,8 +226,10 @@
 				</div>
 				{% if loops.social_photos %}
 				<ul class="template_photos colums" id="pg_social_photos">
-					<!--<li class="gallery colum colum_nosize"></li>-->{% for social_photos in loops.social_photos %}<li class="photo colum" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}" style="background-image:url({{ social_photos.PHOTO_FILE }})">
+					{% for social_photos in loops.social_photos %}<li class="photo colum" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}">
+						<div class="cover" style="background-image:url({{ social_photos.PHOTO_FILE }})">
 						<img src="./ext/pgreca/pgsocial/images/transp.gif" />
+						<div class="gallery_covhov"></div>
 					</li>{% endfor %}
 				</ul>
 				{% else %}
