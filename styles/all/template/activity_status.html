@@ -14,8 +14,8 @@
 					<option value="2"{% if post_status.POST_PRIVACY == 2 %} selected{% endif %}>{{ lang('PRIVACY_ALL') }}</option>
 				</select></div>{% endif %}</div><a id="post_status_head_link" href="{{ post_status.POST_URL }}"><div class="post_status_head_date"{% if not post_status.POST_DATE_AGO %} title="{{ post_status.POST_DATE }}"{% endif %}>{{ post_status.POST_DATE_AGO }}</div></a>
 			</div><ul class="post_status_actionButton">
-				<li class="quick-links dropdown-container responsive-menu" data-skip-responsive="true">
-					<a class="dropdown-trigger">
+				<li class="quick-links dropdown-container dropdown-right responsive-menu" data-skip-responsive="true">
+					<a class="dropdown-trigger dropdown-toggle">
 						<i class="icon fa-bars fa-fw" aria-hidden="true"></i>
 					</a>
 					<div class="dropdown">

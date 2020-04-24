@@ -268,7 +268,7 @@
 		});
 
 		$(document).on('click', '#posts_status .post_status .post_status_footer .post_status_like a', function() {
-			pgwall_like_action($(this).parent().parent().parent().parent().attr('data-lastp'));
+			pgwall_like_action($(this).parent().parent().parent().parent().parent().attr('data-lastp'));
 		});
 
 		$(document).on('keydown', '.pg_social_photo_comment_text', function(e) {
