@@ -68,8 +68,8 @@ $lang = array_merge($lang, array(
 		2				=> 'Favorite movies',
 	),
 	'FAVORITE_MUSIC'					=> array(
-		1				=> 'Favorite Music/Song/Singer/Band',
-		2				=> 'Favorite Musics/Songs/Singers/Bands',
+		1				=> 'Favorite Music / Song / Singer / Band',
+		2				=> 'Favorite Musics / Songs / Singers / Bands',
 	),
 
 	'FAVORITE_TVSHOW'					=> array(

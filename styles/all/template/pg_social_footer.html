@@ -1,3 +1,4 @@
+{% if S_PG_SOCIAL_ENABLED %}
 <script type="text/javascript">
 	var profile_id = '{% if PROFILE_ID %}{{ PROFILE_ID }}{% else %}{{ PROFILE }}{% endif %}';
 	var root = '{{ ACTIVITY_PAGE }}';
@@ -63,3 +64,4 @@
 	}
 {% endif %}
 </script>
+{% endif %}

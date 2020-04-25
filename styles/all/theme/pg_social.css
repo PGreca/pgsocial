@@ -1189,7 +1189,8 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_cont ul#posts_status li.post_status {
 	display: inline-block;
 	background-color: #fff;
-	width: 100%;
+	width: calc(100% - 2px);
+	border: 1px solid #e6ecf5;
 	margin: 0 0 10px;
 	border-radius: 3px;
 	animation: animateElement linear 1s;
@@ -1553,11 +1554,10 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_like a i.icon {
-	color: red;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_like.active a i.icon {
-	color: inherit;
+	color: red;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer .post_status_comment i.fa-arrow-up {

@@ -128,7 +128,7 @@ class main
 			$where = $this->request->variable('where', '');
 
 			if ($mode)
-				{
+			{
 				switch($mode)
 				{
 					case 'get_status':

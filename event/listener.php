@@ -235,6 +235,10 @@ class listener implements EventSubscriberInterface
 				}
 			}
 		}
+		elseif ($this->user->page['page_name'] == 'app.php/forum' && !$this->config['pg_social_index_replace'])
+		{
+			redirect($this->root_path);
+		}
 	}
 
 	/**
