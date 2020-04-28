@@ -654,28 +654,22 @@ class social_photo
 		$allow_urls = $this->config['pg_social_url'];
 		$allow_smilies = $this->config['pg_social_smilies'];
 		$bitfield = '';
-		$uid = '';
-		$text = urldecode($text);
+		$uid = '';	
 		$time = time();
-		if ($text != '')
-		{
-			generate_text_for_storage($text, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
-			$text = str_replace('&amp;nbsp;', ' ', $text);
-		}
-		$sql_arr = array(
+				
+		$sql_arr = $this->pg_social_helper->pgMessage($text);
+		
+		$sql_arr = array_merge($sql_arr, array(
 			'post_parent'				=> 0,
 			'post_where'				=> $where,
 			'wall_id'					=> $who,
 			'user_id'					=> $user,
-			'message'					=> $text,
 			'time'						=> $time,
 			'post_privacy'				=> $privacy,
 			'post_type'					=> $type,
 			'post_extra'				=> $photo,
-			'bbcode_bitfield'			=> $bitfield,
-			'bbcode_uid'				=> $uid,
 			'tagged_user'				=> '',
-		);
+		));
 		$sql = 'INSERT INTO '.$this->pgsocial_wallpost.' '.$this->db->sql_build_array('INSERT', $sql_arr);
 		if ($this->db->sql_query($sql))
 		{
@@ -806,11 +800,11 @@ class social_photo
 
 	public function photo_of_post($post)
 	{
-		$sql = 'SELECT post_extra, post_type FROM '.$this->pgsocial_wallpost.' WHERE post_extra != "" LIMIT 0, 1';
+		$sql = 'SELECT post_extra FROM '.$this->pgsocial_wallpost.' WHERE post_ID = "'.$post.'" LIMIT 0, 1';
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-		return $row;
+		return $row['post_extra'];
 	}
 }

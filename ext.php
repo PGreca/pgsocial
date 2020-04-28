@@ -16,7 +16,7 @@ namespace pgreca\pgsocial;
 */
 class ext extends \phpbb\extension\base
 {
-	const PG_SOCIAL_VERSION = '0.5.0';
+	const PG_SOCIAL_VERSION = '0.6.1';
 
 	public function is_enableable()
 	{

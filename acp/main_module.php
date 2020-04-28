@@ -106,6 +106,7 @@ class main_module
 
 					$config->set('pg_social_chat_message_bbcode_enabled', $request->variable('pg_social_chat_message_bbcode_enabled', 0));
 					$config->set('pg_social_chat_message_url_enabled', $request->variable('pg_social_chat_message_url_enabled', 0));
+					$config->set('pg_social_chat_smilies_enabled', 1);
 
 					trigger_error($user->lang('ACP_PG_SOCIAL_SETTING_SAVED') . adm_back_link($this->u_action));
 				}

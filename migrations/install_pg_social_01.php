@@ -21,7 +21,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		$data = array(
-			array('config.add', array('pg_social_version', '0.6.0')),
+			array('config.add', array('pg_social_version', '0.6.1')),
 
 			array('config.add', array('pg_social_enabled', 1)),
 			array('config.add', array('pg_social_index_replace', 0)),
@@ -173,6 +173,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 						'post_extra'			=> array('VCHAR:255', ''),
 						'bbcode_bitfield'	=> array('VCHAR:255', ''),
 						'bbcode_uid'			=> array('VCHAR:8', ''),
+						'bbcode_options'		=> array('BOOL', '7'),
 						'tagged_user'			=> array('VCHAR:255', ''),
 					),
 					'PRIMARY_KEY'	=> 'post_ID',
@@ -195,6 +196,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 						'message'					=> array('MTEXT_UNI', ''),
 						'bbcode_bitfield'	=> array('VCHAR:255', ''),
 						'bbcode_uid'			=> array('VCHAR:8', ''),
+						'bbcode_options'		=> array('BOOL', '7'),
 					),
 					'PRIMARY_KEY'	=> 'post_comment_ID',
 				),

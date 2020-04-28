@@ -446,7 +446,7 @@ class helper
 	public function website_embed($text)
 	{
 		$return = $title = $description = '';
-		if (strstr($text, 'http') !== false)
+		if ((strstr($text, 'http') !== false) || (strstr($text, 'https') !== false))
 		{
 			$domain = strstr($text, 'http');
 			$domain = explode('">', $domain);
@@ -538,5 +538,29 @@ class helper
 		);
 		$array = $temp;
 		return $array;
+	}
+	
+	/**
+	 * Return array for save text in database
+	 *
+	 * @param string $message
+	 * @return array
+	 */
+	public function pgMessage($message)
+	{
+		$allow_bbcode = $this->config['pg_social_bbcode'];
+		$allow_urls = $this->config['pg_social_url'];
+		$allow_smilies = $this->config['pg_social_smilies'];
+		$allow_img = $allow_flash = $allow_quote = $allow_url = $allow_bbcode;
+	
+		$uid = $bitfield = $options = '';
+		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies, $allow_img, $allow_flash, $allow_quote, $allow_url);
+
+		return array(
+			'message'			=> str_replace("'", '&#39;', $message),
+			'bbcode_bitfield'	=> $bitfield,
+			'bbcode_uid'		=> $uid,
+			'bbcode_options'	=> $options,
+		);
 	}
 }

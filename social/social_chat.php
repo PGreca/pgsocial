@@ -243,7 +243,6 @@ class social_chat
 						(c.user_id = ' . (int) $person . ' AND c.chat_member = ' . (int) $this->user->data['user_id'] . ')
 						OR (c.user_id = ' . (int) $this->user->data['user_id'] . ' AND c.chat_member = ' . (int) $person . ')
 					)',
-
 			'ORDER_BY'	=> 'c.chat_time ' . ((empty($lastmessage) || ($type === 'prequel')) ? 'DESC' : 'ASC'),
 		);
 
@@ -258,24 +257,20 @@ class social_chat
 		{
 			$ifright = ($row['user_id'] == $this->user->data['user_id']) ? 1 : 0; //$this->message_read();
 
-			$allow_bbcode = false; //$this->config['pg_social_bbcode'];
-			$allow_urls = false; //$this->config['pg_social_url'];
-			$allow_smilies = false; //$this->config['pg_social_smilies'];
-			$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
-
-			$msg = generate_text_for_display(str_rot13($row['chat_text']), $row['bbcode_uid'], $row['bbcode_bitfield'], $flags);
-			$msg .= $this->pg_social_helper->extra_text($row['chat_text']);
+			$message = generate_text_for_display($row['chat_text'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']);
+			
+			//$row['chat_text'] .= $this->pg_social_helper->extra_text($row['chat_text']);
 
 			// @todo Unused?
 			//$sound = (($person == $row['user_id']) && !empty($lastmessage) && ($this->user->data['user_chat_music'] == 1) && ($type ==='sequal')) ? 1 : 0;
 
 			$this->template->assign_block_vars('pg_social_chat_message', array(
-				'MESSAGE_ID'	=> $row['chat_id'],
+				'MESSAGE_ID'		=> $row['chat_id'],
 				'IFRIGHT'			=> $ifright,
 				'AVATAR'			=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
-				'MESSAGE'			=> $this->pg_social_helper->social_smilies($msg),
+				'MESSAGE'			=> $message,
 				'TIME'				=> $row['chat_time'],
-				'TIME_AGO'		=> $this->pg_social_helper->time_ago($row['chat_time']),
+				'TIME_AGO'			=> $this->pg_social_helper->time_ago($row['chat_time']),
 			));
 		}
 		$this->db->sql_freeresult($result);
@@ -292,23 +287,24 @@ class social_chat
 	 */
 	public function message_send($person, $message)
 	{
-		$allow_bbcode = false; //$this->config['pg_social_bbcode'];
+		
+		$uid = $bitfield = $options = '';
+		$allow_bbcode = $this->config['pg_social_chat_message_bbcode_enabled'];
 		$allow_urls = $this->config['pg_social_chat_message_url_enabled'];
 		$allow_smilies = $this->config['pg_social_chat_smilies_enabled'];
 
-		$message = urldecode($message);
-		generate_text_for_storage($message, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
-		$message = str_replace('&amp;nbsp;', ' ', $message);
+		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
 
 		$sql_arr = array(
 			'user_id'					=> $this->user->data['user_id'],
-			'chat_text'				=> str_rot13($message),
-			'chat_time'				=> time(),
-			'chat_member'			=> $person,
-			'chat_status'			=> 0,
-			'chat_read'				=> 0,
-			'bbcode_bitfield'	=> $bitfield,
-			'bbcode_uid'			=> $uid
+			'chat_text'					=> str_replace("'", '&#39;', $message),
+			'chat_time'					=> time(),
+			'chat_member'				=> $person,
+			'chat_status'				=> 0,
+			'chat_read'					=> 0,
+			'bbcode_bitfield'			=> $bitfield,
+			'bbcode_uid'				=> $uid,
+			'bbcode_options'			=> $options
 		);
 
 		$sql = 'INSERT INTO ' . $this->pgsocial_chat . ' '. $this->db->sql_build_array('INSERT', $sql_arr);

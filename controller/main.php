@@ -122,7 +122,7 @@ class main
 		}
 		else
 		{
-			$this->config->set('pg_social_version', '0.6.0');
+			$this->config->set('pg_social_version', '0.6.1');
 			$mode = $this->request->variable('mode', '');
 			$profile_id = $this->request->variable('profile_id', '');
 			$where = $this->request->variable('where', '');
@@ -138,7 +138,7 @@ class main
 						return $this->post_status->status_action($this->request->variable('element', 0), $this->request->variable('action', ''), $this->request->variable('value', ''));
 					break;
 					case 'add_status':
-						return $this->post_status->add_status($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', ''), $this->request->variable('privacy', ''), 0, '', true);
+						return $this->post_status->add_status($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', '', true), $this->request->variable('privacy', ''), 0, '', true);
 					break;
 					case 'delete_status':
 						return $this->post_status->delete_status($this->request->variable('post_status', ''));
@@ -153,7 +153,7 @@ class main
 						return $this->post_status->get_comments($this->request->variable('post_status', ''), $this->request->variable('type', ''));
 					break;
 					case 'add_comment':
-						return $this->post_status->add_comment($this->request->variable('post_status', ''), $this->request->variable('comment', ''));
+						return $this->post_status->add_comment($this->request->variable('post_status', ''), $this->request->variable('comment', '', true));
 					break;
 					case 'remove_comment':
 						return $this->post_status->remove_comment($this->request->variable('comment', ''));
@@ -187,7 +187,7 @@ class main
 						return $this->social_chat->getchat_message($this->request->variable('person', ''), $this->request->variable('order', ''), $this->request->variable('lastmessage', ''));
 					break;
 					case 'message_send':
-						return $this->social_chat->message_send($this->request->variable('person', ''), $this->request->variable('message', ''));
+						return $this->social_chat->message_send($this->request->variable('person', ''), $this->request->variable('message', '', true));
 					break;
 					case 'message_read':
 						$this->social_chat->message_read($this->request->variable('person', ''));
@@ -202,7 +202,7 @@ class main
 						return $this->social_photo->add_gallery($this->request->variable('gallery_name', ''));
 					break;
 					case 'addPhoto':
-						return $this->social_photo->photo_upload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', ''), $this->request->variable('type', ''), $where, $this->request->file('photo'), $this->request->variable('privacy', ''), $this->request->variable('top', ''));
+						return $this->social_photo->photo_upload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', '', true), $this->request->variable('type', ''), $where, $this->request->file('photo'), $this->request->variable('privacy', ''), $this->request->variable('top', ''));
 					break;
 					case 'delete_photo':
 						return $this->social_photo->delete_photo($this->request->variable('photo', ''));

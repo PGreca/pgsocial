@@ -1,9 +1,9 @@
  {
     "name": "pgreca/pgsocial",
     "type": "phpbb-extension",
-    "description": "Trasforma il tuo forum in un Social Network",
+    "description": "Trasform your forum in a Social Network",
     "homepage": "http://pgreca.it",
-    "version": "0.5.0",
+    "version": "0.6.1",
     "time": "2018-02-25",
     "license": "GPL-2.0",
     "authors": [

@@ -209,13 +209,16 @@
 			var fdata = new FormData();
 			fdata.append('mode', 'message_send');
 			fdata.append('person', person);
-			fdata.append('message',  encodeURIComponent($.trim(message)));
+			fdata.append('message',  $.trim(message));
 			$.ajax({
 				method: 'POST',
 				url: root,
 				data: fdata,
 				contentType: false,
 				processData: false,
+				success: function() {
+					pgsocial_chat_check();
+				}
 			});
 		}
 	}

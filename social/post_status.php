@@ -298,7 +298,7 @@ class post_status
 		}
 		$msg .= $this->social_tag->show_tag($msg);
 		$msg .= $this->pg_social_helper->extra_text($row['message']);
-		$msg .= $this->pg_social_helper->noextra(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags));
+		$msg .= $this->pg_social_helper->noextra(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']));
 		switch ($row['post_type'])
 		{
 			case 0:
@@ -431,6 +431,7 @@ class post_status
 						}
 					}
 				}
+				if(!$msg) $msg .= generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']);
 			break;
 			case 1:
 				$photo = $this->photo($row['post_extra']);
@@ -501,7 +502,7 @@ class post_status
 			$rele = true;
 		}
 
-		if(!$msg) $rele = false;
+		//if(!$msg) $rele = false;
 		if ($rele)
 		{
 			if ($row['wall_id'] == $this->user->data['user_id'] || $this->user->data['user_id'] == $row['user_id']) $action = true;
@@ -522,7 +523,7 @@ class post_status
 				'POST_URL'									=> $this->helper->route('status_page', array('id' => $row['post_ID'])),
 				'POST_DATE'									=> $row['time'],
 				'POST_DATE_AGO'							=> $this->pg_social_helper->time_ago($row['time']),
-				'MESSAGE'										=> htmlspecialchars_decode($msg),
+				'MESSAGE'										=> $msg,
 				'MESSAGE_ALIGN'							=> $msg_align,
 				'POST_PRIVACY'							=> $status_privacy,
 				'POST_PRIVACYACTION'				=> $actionprivacy,
@@ -600,37 +601,25 @@ class post_status
 			break;
 		}
 
-		$allow_bbcode = $this->config['pg_social_bbcode'];
-		$allow_urls = $this->config['pg_social_url'];
-		$allow_smilies = $this->config['pg_social_smilies'];
-		$text = str_replace('<br>', '\n', urldecode($text));
 		$time = time();
 		if (!$extra)
 		{
 			$extra = '';
-		}
-		$new_sign = $text;
-		if ($this->pg_social_helper->extra_text($text))
-		{
-			$allow_urls = false;
-		}
-		generate_text_for_storage($text, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
-		$text = str_replace('&amp;nbsp;', ' ', $text);
+		}	
+		
+		$sql_arr = $this->pg_social_helper->pgMessage($text);
 
-		$sql_arr = array(
-			'post_parent'			=> 0,
-			'post_where'			=> $post_where,
+		$sql_arr = array_merge($sql_arr, array(
+			'post_parent'				=> 0,
+			'post_where'				=> $post_where,
 			'wall_id'					=> $wall_id,
 			'user_id'					=> $this->user->data['user_id'],
-			'message'					=> $text,
 			'time'						=> $time,
-			'post_privacy'		=> $privacy,
-			'post_type'				=> $type,
-			'post_extra'			=> $extra,
-			'bbcode_bitfield'	=> $bitfield,
-			'bbcode_uid'			=> $uid,
-			'tagged_user'			=> ''
-		);
+			'post_privacy'				=> $privacy,
+			'post_type'					=> $type,
+			'post_extra'				=> $extra,
+			'tagged_user'				=> ''
+		));
 
 		if ($text || $extra)
 		{
@@ -640,10 +629,10 @@ class post_status
 				$last_status = $this->db->sql_nextid();
 				if ($post_where == 0 && $wall_id == $this->user->data['user_id'] && $this->user->data['user_signature_replace'] && $privacy != 0 && $type != 4 && !$this->pg_social_helper->extra_text($text))
 				{
-					$new_sign .= ' [url='.generate_board_url().$this->helper->route('status_page', array('id' => $last_status)).']#status[/url]';
-					generate_text_for_storage($new_sign, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
-
-					$sql = "UPDATE ".USERS_TABLE." SET user_sig = '".$new_sign."' WHERE user_id = '".$this->user->data['user_id']."'";
+					$new_sign = $text.' [url='.generate_board_url().$this->helper->route('status_page', array('id' => $last_status)).']#status[/url]';
+					$new_sign = $this->pg_social_helper->pgMessage($new_sign);
+	
+					$sql = "UPDATE ".USERS_TABLE." SET user_sig = '".$new_sign['message']."', user_sig_bbcode_uid = '".$new_sign['bbcode_uid']."', user_sig_bbcode_bitfield = '".$new_sign['bbcode_bitfield']."' WHERE user_id = '".$this->user->data['user_id']."'";
 					$this->db->sql_query($sql);
 				}
 				if ($post_where == 0 && $wall_id != $this->user->data['user_id'])
@@ -672,19 +661,20 @@ class post_status
 	 */
 	public function delete_status($post)
 	{
+		if ($this->social_photo->photo_of_post($post))
+		{
+			$this->social_photo->delete_photo($this->social_photo->photo_of_post($post));
+		}
 		$sql_status = 'DELETE FROM '.$this->pgsocial_wallpost.' WHERE '.$this->db->sql_in_set('post_ID', array($post));
 		$sql_comment = 'DELETE FROM '.$this->pgsocial_wallpostcomment.' WHERE '.$this->db->sql_in_set('post_ID', array($post));
 		$sql_like = 'DELETE FROM '.$this->pgsocial_wallpostlike.' WHERE '.$this->db->sql_in_set('post_ID', array($post));
 		$this->db->sql_query($sql_status);
 		$this->db->sql_query($sql_comment);
 		$this->db->sql_query($sql_like);
-		if ($this->social_photo->photo_of_post($post)['post_type'] == 3)
-		{
-			$this->social_photo->delete_photo($this->social_photo->photo_of_post($post)['post_extra']);
-		}
+		
 
 		$this->template->assign_vars(array(
-			'ACTION'	=> $this->social_photo->photo_of_post($post)['post_extra'],
+			'ACTION'	=> '',
 		));
 		$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'STATUS_REMOVE', '');
 		return $this->helper->render('activity_status_action.html', '');
@@ -805,7 +795,7 @@ class post_status
 				'AUTHOR_USERNAME'			=> $wall['username'],
 				'AUTHOR_AVATAR'				=> $this->pg_social_helper->social_avatar_thumb($wall['user_avatar'], $wall['user_avatar_type'], $wall['user_avatar_width'], $wall['user_avatar_height']),
 				'AUTHOR_COLOUR'				=> '#'.$wall['user_colour'],
-				'COMMENT_TEXT'				=> generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $flags),
+				'COMMENT_TEXT'				=> generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']),
 				'COMMENT_TIME'				=> $row['time'],
 				'COMMENT_TIME_AGO'		=> $this->pg_social_helper->time_ago($row['time']),
 			));
@@ -830,23 +820,13 @@ class post_status
 
 		$time = time();
 
-		$allow_bbcode = false; //$this->config['pg_social_bbcode'];
-		$allow_urls = false; //$this->config['pg_social_url'];
-		$allow_smilies = $this->config['pg_social_smilies'];
+		$sql_arr = $this->pg_social_helper->pgMessage($comment);
 
-		$comment = urldecode($comment);
-		generate_text_for_storage($comment, $uid, $bitfield, $flags, $allow_bbcode, $allow_urls, $allow_smilies);
-
-		$comment = str_replace('&amp;nbsp;', ' ', $comment);
-
-		$sql_arr = array(
+		$sql_arr = array_merge($sql_arr, array(
 			'post_ID'					=> $post,
 			'user_id'					=> $this->user->data['user_id'],
 			'time'						=> $time,
-			'message'					=> $comment,
-			'bbcode_bitfield'	=> $bitfield,
-			'bbcode_uid'			=> $uid
-		);
+		));
 		$sql = 'INSERT INTO '.$this->pgsocial_wallpostcomment.' '.$this->db->sql_build_array('INSERT', $sql_arr);
 		$this->db->sql_query($sql);
 		if ($post_info['wall_id'] != $this->user->data['user_id']) $this->notify->notify('add_comment', $post, '', (int) $post_info['wall_id'], $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_COMMENT_ADD');

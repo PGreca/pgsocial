@@ -441,7 +441,7 @@
 			fdata.append('mode', 'add_status');
 			fdata.append('post_where', where);
 			fdata.append('profile_id', profile_id);
-			fdata.append('text', encodeURIComponent($.trim(texta)));
+			fdata.append('text', $.trim(texta));
 			fdata.append('privacy', privacy);
 			$.ajax({
 				method: 'POST',
@@ -528,7 +528,7 @@
 		var fdata = new FormData();
 		fdata.append('mode', 'add_comment');
 		fdata.append('post_status', post_status);
-		fdata.append('comment', encodeURIComponent($.trim(comment)));
+		fdata.append('comment', $.trim(comment));
 		$.ajax({
 			method: 'POST',
 			url: root,
@@ -563,7 +563,7 @@
 	uploadPhoto = function(msg, photo, type, where, privacy, itop) {
 		var fdata = new FormData();
 		fdata.append('mode', 'addPhoto');
-		if (msg) fdata.append('msg', encodeURIComponent($.trim(msg)));
+		if (msg) fdata.append('msg', $.trim(msg));
 		fdata.append('post_where', where);
 		fdata.append('profile_id', profile_id);
 		fdata.append('type', type);
@@ -606,7 +606,7 @@
 				if (data === 'deleted') {
 					closePopup(true);
 					$('#page_gallery ul#pg_social_photos #gallery_'+photo).remove();
-					$("img.photo_popup[data-photo='"+photo+"']").parent().parent().parent().remove();
+					$("img.photo_popup[data-photo='"+photo+"']").parent().parent().parent().parent().remove();
 				}
 			}
 		});
