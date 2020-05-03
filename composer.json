@@ -3,7 +3,7 @@
     "type": "phpbb-extension",
     "description": "Trasform your forum in a Social Network",
     "homepage": "http://pgreca.it",
-    "version": "0.6.1",
+    "version": "0.6.3",
     "time": "2018-02-25",
     "license": "GPL-2.0",
     "authors": [

@@ -296,7 +296,7 @@ class social_photo
 		}
 		else
 		{
-			$block = 'social_photos';
+			$block = 'social_photo';
 			if ($album == 'album')
 			{
 				$type = 'gallery_id';
@@ -325,17 +325,11 @@ class social_photo
 	/**
 	 * Array or Output of photos
 	 */
-	public function get_photo($photo, $template = NULL)
+	public function get_photo($photo, $template = false, $popup = false)
 	{
-		$allow_bbcode = $this->config['pg_social_bbcode'];
-		$allow_urls = $this->config['pg_social_url'];
-		$allow_smilies = $this->config['pg_social_smilies'];
-		$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
+		$photo = str_replace("#", "", $photo);
 
-		$photoe = explode('#', $photo);
-		$photo = $photoe[0];
-
-		$sql = "SELECT p.*, (SELECT post_ID FROM ".$this->pgsocial_wallpost." WHERE post_extra = '".$photo."') as post_id, (SELECT g.gallery_privacy FROM ".$this->pgsocial_gallery." g WHERE p.photo_id = '".$photo."' AND p.gallery_id = g.gallery_id) as post_privacy FROM ".$this->pgsocial_photos." AS p WHERE ".$this->db->sql_build_array('SELECT', array('p.photo_id' => $photo));
+		$sql = "SELECT p.*, (SELECT post_ID FROM ".$this->pgsocial_wallpost." WHERE post_extra = '".$photo."') as post_id, (SELECT message FROM ".$this->pgsocial_wallpost." WHERE post_extra = '".$photo."') as message, (SELECT g.gallery_privacy FROM ".$this->pgsocial_gallery." g WHERE p.photo_id = '".$photo."' AND p.gallery_id = g.gallery_id) as post_privacy FROM ".$this->pgsocial_photos." AS p WHERE ".$this->db->sql_build_array('SELECT', array('p.photo_id' => $photo));
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -360,12 +354,6 @@ class social_photo
 			$comment .= $this->user->lang('COMMENT', 1);
 		}
 		$likes = '<span>'.$this->pg_social_helper->count_action('like', $row['post_id']).'</span> '.$this->user->lang('LIKE', 1);
-		//if ($this->pg_social_helper->count_action('like', $row['post_id']) == 0 | $this->pg_social_helper->count_action('like', $row['post_id']) > 1)
-		$desc = '';
-		if ($row['photo_desc'])
-		{
-			$desc = $this->pg_social_helper->noextra(generate_text_for_display($row['photo_desc'], '', '', $flags));
-		}
 		if (($this->user->data['user_id'] == $user['user_id'] && $row['photo_file'] != $this->user->data['user_pg_social_cover']) || $this->user->data['user_id'] == $user['page_founder'])
 		{
 			$photo_action = 1;
@@ -401,18 +389,16 @@ class social_photo
 			{
 				$row['gallery_url'] = '';
 			}
-			//if (($row['post_privacy'] == 0 && $row['user_id'] == $this->user->data['user_id']) || ($row['post_privacy'] == 1 && ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['user_id'])) || $row['post_privacy'] == 2)
-			//if (($row['photo_where'] == 1 && $row['post_privacy'] == 2) || $row['photo_where'] == 0 && (($row['post_privacy'] == 0 && $row['user_id'] == $this->user->data['user_id']) || ($row['post_privacy'] == 1 && ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['user_id'])) || $row['post_privacy'] == 2))
-
+			
 			if (($row['photo_privacy'] == 0 && $row['user_id'] == $this->user->data['user_id']) || ($row['photo_privacy'] == 1 && ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['user_id'])) || (($row['photo_privacy'] == 2) || ($row['photo_privacy'] == 2)) || ($row['photo_privacy'] == 2 && $row['photo_where'] == 0))
 			{
 				if (!$template)
 				{
 					$row['photo_file'] = generate_board_url().'/ext/pgreca/pgsocial/images/upload/'.$row['photo_file'];
 					return $row;
-				} else
+				}
+				else
 				{
-
 					$this->template->assign_block_vars('social_photo', array(
 						'PHOTO_ID'					=> $row['photo_id'],
 						'PHOTO_FILE'				=> generate_board_url().'/ext/pgreca/pgsocial/images/upload/'.$row['photo_file'],
@@ -424,7 +410,7 @@ class social_photo
 						'AUTHOR_AVATAR'				=> ($row['photo_where'] == 0 ? $this->pg_social_helper->social_avatar_thumb($user['user_avatar'], $user['user_avatar_type'], $this->user->data['user_avatar_width'], $this->user->data['user_avatar_height']) : '<img src="'.generate_board_url().'/ext/pgreca/pgsocial/images/'.($user['user_avatar'] != '' ? $page_avatar = 'upload/'.$user['user_avatar'] : $page_avatar = 'page_no_avatar.jpg').'" />'),
 						'GALLERY_URL'				=> $row['gallery_url'],
 						'PHOTO_ALBUM'				=> $this->gallery_info($gallumb, $album)['gallery_name'],
-						'PHOTO_DESC'				=> $desc,
+						'PHOTO_DESC'				=> generate_text_for_display($row['message'], '', '', ''),
 						'LIKE'						=> $likes,
 						'IFLIKE'					=> $this->pg_social_helper->count_action('iflike', $row['post_id']),
 						'PRE'						=> $this->prenext_photo($row['photo_id'], 0, $row['photo_where'], false),
@@ -432,7 +418,14 @@ class social_photo
 						'COMMENT'					=> $comment,
 						'POST_ID'					=> $row['post_id'],
 					));
-					return $this->helper->render('pg_social_photo.html', '');
+					if (!$popup)
+					{
+						return $this->helper->render('pgSocial_gallPhoto.html', '');
+					}
+					else
+					{
+						return $this->helper->render('pg_social_photo.html', '');
+					}
 				}
 
 			}
@@ -442,7 +435,7 @@ class social_photo
 	/**
 	 * Upload new photo
 	 */
-	public function photo_upload($where, $who, $msg = '', $type, $lwhere = 'profile', $photo, $privacy, $itop = '')
+	public function photo_upload($where, $who, $msg, $type, $lwhere, $photo, $privacy, $itop = '')
 	{
 		switch ($where)
 		{
@@ -453,7 +446,7 @@ class social_photo
 				$where = 0;
 			break;
 		}
-		//let's access these values by using their index position
+		
 		$ImageName 		= str_replace(')', '', str_replace('(', '', str_replace(' ', '-', strtolower($photo['name']))));
 		$ImageSize 		= $photo['size'];
 		$TempSrc = $photo['tmp_name'];
@@ -461,11 +454,10 @@ class social_photo
 		$imageAlbum 	= $this->pg_social_path.'upload/';
 
 		if (!file_exists($imageAlbum)) mkdir($imageAlbum);
-		$BigImageMaxSize = 1500; //Image Maximum height or width
+		$BigImageMaxSize = 1500;
 		$Quality = 100;
 		$now = time();
 
-		// Random number file, will be added after image name
 		$RandomNumber = mt_rand();
 		switch (strtolower($ImageType))
 		{
@@ -486,43 +478,32 @@ class social_photo
 				trigger_error($this->user->lang['ATTACHED_IMAGE_NOT_IMAGE']);
 			break;
 		}
-
-		//PHP getimagesize() function returns height-width from image file stored in PHP tmp folder.
-		//Let's get first two values from image, width and height. list assign values to $CurWidth,$CurHeight
 		list($CurWidth, $CurHeight) = getimagesize($TempSrc);
-		//Get file extension from Image name, this will be re-added after random name
 		$ImageExt = substr($ImageName, strrpos($ImageName, '.'));
 		$ImageExt = str_replace('.', '', $ImageExt);
-
-		//remove extension from filename
+		
 		$ImageName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $ImageName);
-
 		$NewImageName = $ImageName.'-'.$RandomNumber.'.'.$ImageExt;
-		//set the Destination Image
-		$DestRandImageName = $imageAlbum.$NewImageName; //Name for Big Image
-
-		// This function will proportionally resize image
+		$DestRandImageName = $imageAlbum.$NewImageName;
+		
 		function resizeImage($CurWidth, $CurHeight, $MaxSize, $DestFolder, $SrcImage, $Quality, $ImageType)
 		{
-			//Check if height is differnt than width to resize it
 			if ($CurWidth <= $CurHeight) $MaxSize = 1500;
 			if ($CurWidth <= 0 || $CurHeight <= 0) return false;
-
-
-			//Construct a proportional size of new image
+			
 			if ($CurWidth > $MaxSize)
 			{
 				$ImageScale = min($MaxSize / $CurWidth, $MaxSize / $CurHeight);
 				$NewWidth  			= ceil($ImageScale * $CurWidth);
 				$NewHeight 			= ceil($ImageScale * $CurHeight);
 				$NewCanves 			= imagecreatetruecolor($NewWidth, $NewHeight);
-			} else
+			}
+			else
 			{
 				$NewWidth 			= ceil($CurWidth);
 				$NewHeight			= ceil($CurHeight);
 				$NewCanves			= imagecreatetruecolor($NewWidth, $NewHeight);
 			}
-			// Resize Image
 			if (imagecopyresampled($NewCanves, $SrcImage, 0, 0, 0, 0, $NewWidth, $NewHeight, $CurWidth, $CurHeight))
 			{
 				switch (strtolower($ImageType))
@@ -543,8 +524,10 @@ class social_photo
 						return false;
 					break;
 				}
-				//Destroy image, frees memory
-				if (is_resource($NewCanves)) {imagedestroy($NewCanves); }
+				if (is_resource($NewCanves))
+				{
+					imagedestroy($NewCanves);
+				}
 				return true;
 			}
 		}
@@ -554,14 +537,14 @@ class social_photo
 
 	/**
 	 * Upload photo query
-	 */
+	*/
 	public function photo_query($where, $who, $msg, $type, $lwhere, $file, $time, $privacy, $itop)
 	{
-		$album = '0';
+		$gallery = '0';
 		switch ($type)
 		{
 			case 'avatar':
-				$gallery = 1;
+				$album = 1;
 				switch ($lwhere)
 				{
 					case 'page':
@@ -572,7 +555,7 @@ class social_photo
 				$privacy = 2;
 			break;
 			case 'cover':
-				$gallery = 2;
+				$album = 2;
 				$privacy = 2;
 				switch ($lwhere)
 				{
@@ -596,67 +579,48 @@ class social_photo
 				$this->db->sql_query($sql_cover);
 			break;
 			case 'wall':
-				$gallery = 3;
+				$album = 3;
 			break;
 			default:
-				$gallery = 0;
-				$album = $type;
+				$album = 0;
+				$gallery = $type;
 			break;
 		}
+		
 		$sql_arr = array(
 			'photo_where'		=> $where,
-			'gallery_id'		=> $album,
-			'album_id'			=> $gallery,
+			'gallery_id'		=> $gallery,
+			'album_id'			=> $album,
 			'user_id'			=> $who,
 			'photo_file'		=> $file,
 			'photo_time'		=> $time,
-			'photo_desc'		=> $msg,
 			'photo_privacy'		=> $privacy
 		);
 		$sql = 'INSERT INTO '.$this->pgsocial_photos.' '.$this->db->sql_build_array('INSERT', $sql_arr);
 		if ($this->db->sql_query($sql))
 		{
-			if ($album != '0')
+			if ($gallery != '0')
 			{
-				$gallery = $album;
+				$album = 3;
 			}
 			$photo_id = $this->db->sql_nextid();
-			$this->add_status_photo($where, $who, $this->user->data['user_id'], $gallery, $privacy, $photo_id, $msg);
-
-			if ($type == 'cover' || $type != 'avatar' || $type == 'wall')
+			$this->add_status_photo($where, $who, $this->user->data['user_id'], $album, $privacy, $photo_id, $msg);
+			if ($gallery != '0')
 			{
-				$this->template->assign_vars(array(
-					'ACTION'	=>  $type,
-				));
+				return $this->get_photo($photo_id, true, false);
+			}
+			else
+			{
 				return $this->helper->render('activity_status_action.html', '');
 			}
-			elseif ($album != '0')
-			{
-				$this->template->assign_block_vars('social_photos', array(
-					'PHOTO_ID'		=> $photo_id,
-					'PHOTO_FILE'	=> generate_board_url().'/ext/pgreca/pgsocial/images/upload/'.$file,
-				));
-				return $this->helper->render('pg_social_gallery_photo.html', '');
-			}
 		}
-
-		$this->template->assign_vars(array(
-			'ACTION'	=>  $sql,
-		));
-		//return $this->helper->render('activity_status_action.html', '');
 	}
+	
 	/**
 	 * New activity for upload photo
 	 */
 	public function add_status_photo($where, $who, $user, $type, $privacy, $photo, $text)
-	{
-		$allow_bbcode = $this->config['pg_social_bbcode'];
-		$allow_urls = $this->config['pg_social_url'];
-		$allow_smilies = $this->config['pg_social_smilies'];
-		$bitfield = '';
-		$uid = '';	
-		$time = time();
-				
+	{	
 		$sql_arr = $this->pg_social_helper->pgMessage($text);
 		
 		$sql_arr = array_merge($sql_arr, array(
@@ -664,24 +628,20 @@ class social_photo
 			'post_where'				=> $where,
 			'wall_id'					=> $who,
 			'user_id'					=> $user,
-			'time'						=> $time,
+			'time'						=> time(),
 			'post_privacy'				=> $privacy,
 			'post_type'					=> $type,
 			'post_extra'				=> $photo,
 			'tagged_user'				=> '',
 		));
 		$sql = 'INSERT INTO '.$this->pgsocial_wallpost.' '.$this->db->sql_build_array('INSERT', $sql_arr);
-		if ($this->db->sql_query($sql))
-		{
-			$sql = "UPDATE ".$this->pgsocial_photos." SET photo_desc = '".$text."' WHERE photo_id = '".$photo."'";
-			$this->db->sql_query($sql);
-			$this->social_tag->add_tag($this->db->sql_nextid(), $text);
-		}
+		$this->db->sql_query($sql);
+		return;
 	}
 
 	/**
 	 * Delete photo
-	 */
+	*/
 	public function delete_photo($photo)
 	{
 		$delphoto = false;
@@ -765,8 +725,10 @@ class social_photo
 
 	public function add_gallery($gallery_name)
 	{
+		generate_text_for_storage($gallery_name, $uid, $bitfield, $options, false, false, false);
+
 		$sql_arr = array(
-			'gallery_name'			=> trim(htmlspecialchars_decode($gallery_name)),
+			'gallery_name'			=> trim(($gallery_name)),
 			'user_id'				=> $this->user->data['user_id'],
 			'gallery_time'			=> time(),
 			'gallery_privacy'		=> 0,

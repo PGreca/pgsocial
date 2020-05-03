@@ -1,0 +1,6 @@
+{% for social_photo in loops.social_photo %}<li class="photo colum" id="gallery_{{ social_photo.PHOTO_ID }}" data-photo="{{ social_photo.PHOTO_ID }}">
+	<div class="cover" style="background-image:url({{ social_photo.PHOTO_FILE }})">
+		<img src="./ext/pgreca/pgsocial/images/transp.gif" />
+		<div class="gallery_covhov"></div>
+	</div>
+</li>{% endfor %}

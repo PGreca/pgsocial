@@ -122,7 +122,7 @@ class main
 		}
 		else
 		{
-			$this->config->set('pg_social_version', '0.6.1');
+			$this->config->set('pg_social_version', '0.6.3');
 			$mode = $this->request->variable('mode', '');
 			$profile_id = $this->request->variable('profile_id', '');
 			$where = $this->request->variable('where', '');
@@ -196,7 +196,7 @@ class main
 						return $this->social_photo->album_action($this->request->variable('element', 0), $this->request->variable('action', ''), $this->request->variable('value', ''));
 					break;
 					case 'get_photo':
-						return $this->social_photo->get_photo($this->request->variable('photo', ''), 1);
+						return $this->social_photo->get_photo($this->request->variable('photo', ''), 1, $this->request->variable('popup', ''));
 					break;
 					case 'add_gallery':
 						return $this->social_photo->add_gallery($this->request->variable('gallery_name', ''));

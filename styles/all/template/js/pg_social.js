@@ -183,6 +183,7 @@
 		$('#pg_social #pg_social_cont ul.colums li#pg_social_gallery_create').on('click', function() {
 			$(this).find('.centeralign *').hide();
 			$(this).find('.centeralign input').show();
+			$(this).find('.centeralign input[type="text"]').focus();
 		});
 
 		//CREATE ALBUM
@@ -292,7 +293,7 @@
 		});
 
 		$(document).on('click', '.gallery_covhovEl i', function() {
-			if($(this).parent().hasClass('active')) {
+			if ($(this).parent().hasClass('active')) {
 				$(this).parent().removeClass('active');
 			} else {
 				$('.gallery_covhovEl').removeClass('active');
@@ -380,7 +381,7 @@
 	});
 	
 	masonry = function() {
-		if($('ul#posts_status.masonry').length > 0) {
+		if ($('ul#posts_status.masonry').length > 0) {
 			var rowHeight = parseInt($('ul#posts_status.masonry').css('grid-auto-rows'));
 			var rowGap = parseInt($('ul#posts_status.masonry').css('grid-row-gap'));
 			$('ul#posts_status.masonry li.post_status').each(function() {
@@ -403,34 +404,32 @@
 			} else {
 				lastp = 0;
 			}
-			if(lastp) {
-				var fdata = new FormData();
-				fdata.append('mode', 'get_status');
-				fdata.append('post_where', post_where);
-				fdata.append('profile_id', profile_id);
-				fdata.append('lastp', lastp);
-				fdata.append('where', where);
-				fdata.append('order', order);
+			var fdata = new FormData();
+			fdata.append('mode', 'get_status');
+			fdata.append('post_where', post_where);
+			fdata.append('profile_id', profile_id);
+			fdata.append('lastp', lastp);
+			fdata.append('where', where);
+			fdata.append('order', order);
 
-				$.ajax({
-					method: 'POST',
-					url: root,
-					data: fdata,
-					contentType: false,
-					processData: false,
-					success: function(data) {
-						if (data) {
-							if (order === 'prequel') {
-								$('#posts_status').append(data);
-							} else {
-								$('#posts_status').prepend(data);
-							}
+			$.ajax({
+				method: 'POST',
+				url: root,
+				data: fdata,
+				contentType: false,
+				processData: false,
+				success: function(data) {
+					if (data) {
+						if (order === 'prequel') {
+							$('#posts_status').append(data);
+						} else {
+							$('#posts_status').prepend(data);
 						}
-						masonry();
-						$('#load_more').show();
-					},
-				});
-			}
+					}
+					masonry();
+					$('#load_more').show();
+				},
+			});
 		}
 	}
 
@@ -583,7 +582,7 @@
 				if (type === '1') {
 					$('ul#pg_social_photos').prepend(data);
 				} else if (type === 'cover' || type === 'avatar') {
-					location.reload();
+					//location.reload();
 				} else if (type === 'wall') {
 					$('#wall_post_text').val('');
 					$('#wall_post_img, #pgsocial_gallery_newPhoto').val('');
@@ -593,7 +592,7 @@
 				} else {
 					$('#pg_social_photos').prepend(data);
 				}
-			},
+			}
 		})
 	}
 
@@ -605,8 +604,9 @@
 			success: function(data) {
 				if (data === 'deleted') {
 					closePopup(true);
-					$('#page_gallery ul#pg_social_photos #gallery_'+photo).remove();
+					$("#page_gallery ul#pg_social_photos #gallery_"+photo).remove();
 					$("img.photo_popup[data-photo='"+photo+"']").parent().parent().parent().parent().remove();
+					$("#pg_social_profile_lastphotos #last_photos li#gallery_"+photo).remove();
 				}
 			}
 		});
@@ -620,6 +620,7 @@
 		var fdata = new FormData();
 		fdata.append('mode', 'get_photo');
 		fdata.append('photo', $.trim(photo));
+		fdata.append('popup', true);
 		$.ajax({
 			type: 'POST',
 			url: root,

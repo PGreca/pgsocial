@@ -21,7 +21,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		$data = array(
-			array('config.add', array('pg_social_version', '0.6.1')),
+			array('config.add', array('pg_social_version', '0.6.3')),
 
 			array('config.add', array('pg_social_enabled', 1)),
 			array('config.add', array('pg_social_index_replace', 0)),
@@ -233,7 +233,6 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 						'user_id'					=> array('UINT:11', 0),
 						'photo_file'			=> array('VCHAR:255', ''),
 						'photo_time'			=> array('UINT:11', 0),
-						'photo_desc'			=> array('MTEXT_UNI', ''),
 						'photo_privacy'		=> array('UINT:1', 0),
 					),
 					'PRIMARY_KEY'	=> 'photo_id',

@@ -297,8 +297,7 @@ class post_status
 			break;
 		}
 		$msg .= $this->social_tag->show_tag($msg);
-		$msg .= $this->pg_social_helper->extra_text($row['message']);
-		$msg .= $this->pg_social_helper->noextra(generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']));
+		$msg .= generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']);
 		switch ($row['post_type'])
 		{
 			case 0:
@@ -361,7 +360,6 @@ class post_status
 								break;
 								default :
 									$photo = $this->photo($parent['post_extra']);
-									//$msg .= $photo['msg'];
 									$submsg .= '<div class="status_photos">'.$photo['img'].'</div>';
 									if ($photo['gallery_id'] == '0')
 									{
@@ -379,14 +377,20 @@ class post_status
 								break;
 							}
 						}
-						$msg .= '<div class="post_parent_cont">';
-						$msg .= '<div class="post_parent_info">';
-						$msg .= '<div class="post_parent_author"><a href="'.$parent['url'].'">'.$parent['username'].'</a>'.$sauthor_action.'</div>';
-						$msg .= '<div class="post_parent_date">'.$this->pg_social_helper->time_ago($parent['time']).'</div>';
-						$msg .= '<div class="post_parent_cont">'.$this->pg_social_helper->noextra(generate_text_for_display($parent['message'], $parent['bbcode_uid'], $parent['bbcode_bitfield'], $flags)).'</div>';
-						$msg .= $this->pg_social_helper->extra_text($parent['message']);
-						$msg .= '</div>';
-						$msg .= '</div>';
+						$msg .= '<div class="post_parent_cont">
+							<div class="post_parent_info">
+								<div class="post_parent_author">
+									<a href="'.$parent['url'].'">'.$parent['username'].'</a>
+									'.$sauthor_action.'
+								</div>
+								<div class="post_parent_date">
+									'.$this->pg_social_helper->time_ago($parent['time']).'
+								</div>
+								<div class="post_parent_cont">
+								'.generate_text_for_display($parent['message'], $parent['bbcode_uid'], $parent['bbcode_bitfield'],  $parent['bbcode_options']).'
+								</div>
+							</div>
+						</div>';
 						if ($parent['post_extra'] != '')
 						{
 							switch ($parent['post_type'])
@@ -425,13 +429,12 @@ class post_status
 							if ($parent['post_type'] == '0' || $parent['post_type'] == '1' || $parent['post_type'] == '2' || $parent['post_type'] == '3')
 							{
 								$photo = $this->photo($parent['post_extra']);
-								//$msg .= $photo['msg'];
 								$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
 							}
 						}
 					}
 				}
-				if(!$msg) $msg .= generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']);
+				//if (!$msg) $msg .= generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']);
 			break;
 			case 1:
 				$photo = $this->photo($row['post_extra']);
@@ -445,13 +448,12 @@ class post_status
 					$album = '<a href="'.$photo['gallery_url'].'">'.$photo['gallery_name'].'</a>';
 					$author_action = $this->user->lang("HAS_PUBLISHED_PHOTO_ALBUM", $album);
 				}
-				$msg .= $photo['msg'];
 				$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
 			break;
 			case 2:
 				$author_action = $this->user->lang('HAS_UPLOADED_COVER');
 				$photo = $this->photo($row['post_extra']);
-				$msg = $photo['msg'];
+				//$msg = $photo['msg'];
 				$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
 			break;
 			case 3:
@@ -502,7 +504,6 @@ class post_status
 			$rele = true;
 		}
 
-		//if(!$msg) $rele = false;
 		if ($rele)
 		{
 			if ($row['wall_id'] == $this->user->data['user_id'] || $this->user->data['user_id'] == $row['user_id']) $action = true;
@@ -627,7 +628,7 @@ class post_status
 			if ($this->db->sql_query($sql))
 			{
 				$last_status = $this->db->sql_nextid();
-				if ($post_where == 0 && $wall_id == $this->user->data['user_id'] && $this->user->data['user_signature_replace'] && $privacy != 0 && $type != 4 && !$this->pg_social_helper->extra_text($text))
+				if ($post_where == 0 && $wall_id == $this->user->data['user_id'] && $this->user->data['user_signature_replace'] && $privacy != 0 && $type != 4 && !$text)
 				{
 					$new_sign = $text.' [url='.generate_board_url().$this->helper->route('status_page', array('id' => $last_status)).']#status[/url]';
 					$new_sign = $this->pg_social_helper->pgMessage($new_sign);
@@ -777,27 +778,22 @@ class post_status
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$allow_bbcode = false; //$this->config['pg_social_bbcode'];
-			$allow_urls = false; //$this->config['pg_social_url'];
-			$allow_smilies = false; //$this->config['pg_social_smilies'];
-			$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
-
 			$sql_use = "SELECT user_id, username, username_clean, user_colour, user_avatar, user_avatar_type, user_avatar_width, user_avatar_height FROM ".USERS_TABLE."
 			WHERE user_id = '".$row['user_id']."'";
 			$resulta = $this->db->sql_query($sql_use);
 			$wall = $this->db->sql_fetchrow($resulta);
 			if ($row['user_id'] == $this->user->data['user_id']) $comment_action = true; else $comment_action = false;
 			$this->template->assign_block_vars('post_comment', array(
-				'COMMENT_ID'					=> $row['post_comment_ID'],
+				'COMMENT_ID'				=> $row['post_comment_ID'],
 				'COMMENT_ACTION'			=> $comment_action,
 				'AUTHOR_PROFILE'			=> get_username_string('profile', $wall['user_id'], $wall['username'], $wall['user_colour']),
-				'AUTHOR_ID'						=> $wall['user_id'],
+				'AUTHOR_ID'					=> $wall['user_id'],
 				'AUTHOR_USERNAME'			=> $wall['username'],
 				'AUTHOR_AVATAR'				=> $this->pg_social_helper->social_avatar_thumb($wall['user_avatar'], $wall['user_avatar_type'], $wall['user_avatar_width'], $wall['user_avatar_height']),
 				'AUTHOR_COLOUR'				=> '#'.$wall['user_colour'],
 				'COMMENT_TEXT'				=> generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']),
 				'COMMENT_TIME'				=> $row['time'],
-				'COMMENT_TIME_AGO'		=> $this->pg_social_helper->time_ago($row['time']),
+				'COMMENT_TIME_AGO'			=> $this->pg_social_helper->time_ago($row['time']),
 			));
 		}
 		$this->db->sql_freeresult($result);
@@ -872,13 +868,12 @@ class post_status
 		$gallery = $this->social_photo->gallery_info($img['gallery_id'], $album);
 
 		return array(
-			'gallery_id'			=> $img['gallery_id'],
-			'gallery_name'		=> $gallery['gallery_name'],
-			'gallery_url'			=> $img['gallery_url'],
-			'gallery_privacy'	=> $gallery['gallery_privacy'],
-			'album'						=> $album,
-			'img' 						=> '<img src="'.$img['photo_file'].'" class="photo_popup" data-photo="'.$photo.'" />',
-			'msg' 						=> htmlspecialchars_decode($img['photo_desc']),
+			'gallery_id'					=> $img['gallery_id'],
+			'gallery_name'					=> $gallery['gallery_name'],
+			'gallery_url'					=> $img['gallery_url'],
+			'gallery_privacy'				=> $gallery['gallery_privacy'],
+			'album'							=> $album,
+			'img' 							=> '<img src="'.$img['photo_file'].'" class="photo_popup" data-photo="'.$photo.'" />',
 		);
 	}
 

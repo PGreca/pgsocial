@@ -572,7 +572,7 @@ body.section-memberlist .action-bar.actions-jump {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	width: calc(25% - 15px + (15px / 4));
+	width: calc(25% - 15px + (15px / 4) - 1px);
 	margin: 0 15px 15px 0;
 	border-radius: 3px;
 	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.06);
@@ -1424,22 +1424,29 @@ body.section-memberlist .action-bar.actions-jump {
 	text-align: center;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content p.post_status_youtube {
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content > span[data-s9e-mediaembed],
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content >iframe[data-s9e-mediaembed] {
 	position: relative;
 	overflow: hidden;
+	max-width: inherit !important;
+	width: calc(100% + 40px) !important;
 	height: 0;
-	margin: 0 -20px 20px;
-	padding-top: 30px;
-	padding-bottom: 50%;
+	margin: 0 -20px 0;
+	padding-bottom: 63%;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content p.post_status_youtube iframe {
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content > span[data-s9e-mediaembed] span iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     border: none;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content > iframe[data-s9e-mediaembed] {
+	padding-bottom: 0px;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content .post_status_facebook {

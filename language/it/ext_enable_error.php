@@ -22,6 +22,8 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
+	'PG_NOTICE'					=> 'PG Social Network necessita dell\' estensione "phpBB Media Embed Plugin".',
+	
 	'EXT_ENABLE_ERROR' 		=> 'This extension requires phpBB 3.2.2 (or greater).',
 	'COOKIE_POLICY_FOUND'	=> 'You cannot install this extension while you still have the “Cookie policy” extension installed.<br />Please disable and delete the data for the “Cookie policy” extension and then try again.',
 ]);

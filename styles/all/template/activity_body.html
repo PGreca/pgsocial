@@ -8,6 +8,7 @@
 				<li class="memberlist-title"><h2{% if PROFILE_COLOUR %} style="color: {{ PROFILE_COLOUR }};"{% endif %}>{{ PROFILE_USERNAME }}</h2></li>
 				<li class="profile-profile_link"><a href="{{ PROFILE_URL }}"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i> {{ lang('READ_PROFILE') }}</a></li>
 				<li class="profile-profile-friends"><a href=" {{ PROFILE_URL }}#friends"><i class="icon fa fa-handshake-o fa-fw" aria-hidden="true"></i> {{ lang('FRIEND', 2) }}</a></li>
+				<li class="profile-profile-gallery"><a href=" {{ PROFILE_URL }}#gallery"><i class="icon fa fa-camera fa-fw" aria-hidden="true"></i> {{ lang('GALLER') }}</a></li>
 				{% if PROFILE_EDIT %}<li class="profile-profile_edit"><a href="{{ PROFILE_EDIT }}"><i class="icon fa fa-cog fa-fw" aria-hidden="true"></i> {{ lang('EDIT_PROFILE') }}</a></li>{% endif %}
 				<li class="profile-profile_pages"><a href="{{ PAGES_URL }}"><i class="icon fa fa-book fa-fw" aria-hidden="true"></i> {{ lang('PAGES') }}</a></li>
 				{% if PROFILE_QUOTE %}<li class="profile_quote"><blockquote id="profile_quote" style="padding: 5px;">{{ PROFILE_QUOTE }}</blockquote></li>{% endif %}

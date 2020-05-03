@@ -20,26 +20,18 @@ class ext extends \phpbb\extension\base
 
 	public function is_enableable()
 	{
-		// Set globals for use in the language file
-		global $ver_error, $cookie_error;
-
-		// Requires phpBB 3.2.2 or newer.
-		$ver  = phpbb_version_compare(PHPBB_VERSION, '3.2.2', '>=');
-
-		// Display a custom warning message if this requirement fails.
-
-		$ver_error = ($ver) ? false : true;
-
-		// Need to cater for 3.1 and 3.2
-		if (phpbb_version_compare(PHPBB_VERSION, '3.2.0', '>='))
-		{
-			$this->container->get('language')->add_lang('ext_enable_error', 'pgreca/pgsocial');
-		}
-		else
+		if (!class_exists('phpbb\mediaembed\ext'))
 		{
 			$this->container->get('user')->add_lang_ext('pgreca/pgsocial', 'ext_enable_error');
+			trigger_error($this->container->get('user')->lang['PG_NOTICE'], E_USER_WARNING);
 		}
-		return $ver;
+
+		if (!$this->container->get('ext.manager')->is_enabled('phpbb/mediaembed'))
+		{
+			$this->container->get('ext.manager')->enable('phpbb/mediaembed');
+		}
+
+		return class_exists('phpbb\mediaembed\ext');
 	}
 
 	/**

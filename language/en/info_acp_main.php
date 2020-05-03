@@ -17,7 +17,10 @@ if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
-$lang = array_merge($lang, array(
+
+$lang = array_merge($lang, array(		
+	'PG_NOTICE'							=> 'PG Social Network need the extension "phpBB Media Embed Plugin".',
+	
 	'ACP_PG_SOCIAL_TITLE'				=> 'PG Social Network',
 	'ACP_PG_SOCIAL_MAIN'				=> 'Main menu',
 	'ACP_PG_SOCIAL_GENERAL'				=> 'General',

@@ -382,115 +382,7 @@ class helper
 		$count = (int) $this->db->sql_fetchfield('count');
 		$this->db->sql_freeresult($result);
 		return $count;
-	}
-
-	/* EXTRA OF ACTIVITY */
-	public function extra_text($text)
-	{
-		$a = '';
-		$a .= $this->youtube_embed($text);
-		if ($a == '')
-		{
-			$a .= $this->facebook_embed($text);
-		}
-		if ($a == '')
-		{
-			$a .= $this->website_embed($text);
-		}
-		return $a;
-	}
-
-	/* PLAYER YOUTUBE FOR ACTIVITY OR MESSAGES CHAT */
-	public function youtube_embed($text)
-	{
-		$return = '';
-		if (strstr($text, 'youtube.com/watch?v=') !== false)
-		{
-			$domain = strstr($text, 'youtube.com/watch?v=');
-			$domain = str_replace('youtube.com/watch?v=', '', $domain);
-			$domain = explode('&', $domain);
-			$domain = explode('<', $domain[0]);
-			$youtube = '<p class="post_status_youtube"><iframe src="https://www.youtube.com/embed/'.$domain[0].'" allowfullscreen></iframe>
-			</p>';
-
-			if ($youtube)
-			{
-				$return = $youtube;
-			}
-		}
-		return $return;
-	}
-
-	/* EMBED FACEBOOK POST FOR ACTIVITY OR MESSAGES CHAT */
-	public function facebook_embed($text)
-	{
-		$return = '';
-		if (strstr($text, 'facebook.com/') !== false)
-		{
-			$domain = strstr($text, 'facebook.com/');
-			$domain = str_replace('facebook.com/', '', $domain);
-			$domain = explode('/?', $domain);
-			$domain = explode('<', $domain[0]);
-			$domain[0] = str_replace(':', '%3A', $domain[0]);
-			$facebook = '<p class="post_status_facebook"><iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F'.$domain[0].'&appId=1605771702975630" allowTransparency="true" allow="encrypted-media"></iframe>';
-
-			if ($facebook)
-			{
-				$return = $facebook;
-			}
-		}
-		return $return;
-	}
-
-	/* EMBED LINK FOR ACTIVITY OR MESSAGES CHAT */
-	public function website_embed($text)
-	{
-		$return = $title = $description = '';
-		if ((strstr($text, 'http') !== false) || (strstr($text, 'https') !== false))
-		{
-			$domain = strstr($text, 'http');
-			$domain = explode('">', $domain);
-			$domain = explode('<', $domain[0]);
-			$domain = explode(';', $domain[0]);
-
-			if ($domain[0])
-			{
-				$url = $domain[0];
-				$site_domain = parse_url($domain[0]);
-				$metatagarray = @get_meta_tags($url);
-				if($metatagarray !== false)
-				{
-					if (array_key_exists('title', $metatagarray))
-					{
-						$title = $metatagarray['title'];
-					}
-					if (array_key_exists('description', $metatagarray))
-					{
-						$description = $metatagarray['description'];
-					}
-					$screen = '<a href="'.$domain[0].'" class="post_status_site" target="_blank">
-						<div class="post_status_site_content">
-							<div class="post_status_site_title_domain">'.$site_domain['host'].'<img class="post_status_site_title_domain_favicon" src="https://www.google.com/s2/favicons?domain=http://'.$site_domain['host'].'" /></div>';
-					if ($title)
-					{
-						$screen .= '<h6 class="post_status_site_title">'.$title.'</h6>';
-					}
-					if ($description)
-					{
-						$screen .= '<div class="post_status_description">'.$description.'</div>';
-					}
-					$screen .= '</div>
-					</a>';
-					$return = $screen;
-				}
-				else
-				{
-					$return = $text;
-				}
-			}
-		}
-		return $return;
-	}
+	}	
 
 	public function noextra($text,  $tags = '')
 	{
@@ -548,16 +440,21 @@ class helper
 	 */
 	public function pgMessage($message)
 	{
-		$allow_bbcode = $this->config['pg_social_bbcode'];
-		$allow_urls = $this->config['pg_social_url'];
-		$allow_smilies = $this->config['pg_social_smilies'];
-		$allow_img = $allow_flash = $allow_quote = $allow_url = $allow_bbcode;
-	
-		$uid = $bitfield = $options = '';
-		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies, $allow_img, $allow_flash, $allow_quote, $allow_url);
-
+		$options = 0;
+		$uid = $bitfield = $allow_img = $allow_flash = $allow_quote = $allow_url = $allow_bbcode = '';
+		
+		if ($message)
+		{
+			$allow_bbcode = $this->config['pg_social_bbcode'];
+			$allow_urls = $this->config['pg_social_url'];
+			$allow_smilies = $this->config['pg_social_smilies'];
+		
+			generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies, $allow_img, $allow_flash, $allow_quote, $allow_url);
+			$message = str_replace("'", '&#39;', $message);
+		}
+		
 		return array(
-			'message'			=> str_replace("'", '&#39;', $message),
+			'message'			=> $message,
 			'bbcode_bitfield'	=> $bitfield,
 			'bbcode_uid'		=> $uid,
 			'bbcode_options'	=> $options,
