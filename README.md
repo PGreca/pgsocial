@@ -2,7 +2,7 @@
 
 ## Installation
 
-Clone into phpBB/ext/pgreca/pg_social: 
+Clone into phpBB/ext/pgreca/pgsocial: 
 
     git clone https://github.com/PGreca/pg_social.git phpBB/ext/pgreca/pg_social
 

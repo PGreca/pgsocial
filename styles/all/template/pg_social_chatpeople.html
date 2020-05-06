@@ -11,5 +11,5 @@
 	</div><div class="pg_social_chat_people_online_single_author">{{ pg_social_chat.USER_USERNAME }}{% if not CHAT_LOGIN %}<br /><span class="pg_social_chat_people_online_single_author_status">{{ pg_social_chat.USER_STATUS }}</span>{% endif %}</div>
 {% if pg_social_chat.USER_MSG %}<div class="check_msg"></div>{% endif %}
 </li>{% endfor %}{% else %}<li class="pg_social_chat_people_online_single">
-	{{ lang('NOBODY_ONLYNE') }}
+	{{ lang('NOBODY_ONLINE') }}
 </li>{% endif %}
