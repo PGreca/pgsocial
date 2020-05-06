@@ -97,92 +97,47 @@ services:
             - '%core.table_prefix%'
     pgreca.pgsocial.notification.type.social_status:
         class: pgreca\pgsocial\notification\social_status
-        scope: prototype # scope MUST be prototype for this to work!
-        arguments:
-            - '@dbal.conn'
-            - '@cache.driver'
-            - '@user'
-            - '@auth'
-            - '@config'
-            - '@controller.helper'
-            - '@pgreca.pgsocial.helper'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%tables.notification_types%'
-            - '%tables.notifications%'
-            - '%tables.user_notifications%'
+        shared: false
+        parent: notification.type.base
+        calls:
+            - [set_user_loader, ['@user_loader']]
+            - [set_notifications_table, ['%tables.notifications%']]
         tags:
             - { name: notification.type }
     pgreca.pgsocial.notification.type.social_comments:
         class: pgreca\pgsocial\notification\social_comments
-        scope: prototype # scope MUST be prototype for this to work!
-        arguments:
-            - '@dbal.conn'
-            - '@cache.driver'
-            - '@user'
-            - '@auth'
-            - '@config'
-            - '@controller.helper'
-            - '@pgreca.pgsocial.helper'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%tables.notification_types%'
-            - '%tables.notifications%'
-            - '%tables.user_notifications%'
+        shared: false
+        parent: notification.type.base
+        calls:
+            - [set_user_loader, ['@user_loader']]
+            - [set_notifications_table, ['%tables.notifications%']]
         tags:
             - { name: notification.type }
     pgreca.pgsocial.notification.type.social_likes:
         class: pgreca\pgsocial\notification\social_likes
-        scope: prototype # scope MUST be prototype for this to work!
-        arguments:
-            - '@dbal.conn'
-            - '@cache.driver'
-            - '@user'
-            - '@auth'
-            - '@config'
-            - '@controller.helper'
-            - '@pgreca.pgsocial.helper'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%tables.notification_types%'
-            - '%tables.notifications%'
-            - '%tables.user_notifications%'
+        shared: false
+        parent: notification.type.base
+        calls:
+            - [set_user_loader, ['@user_loader']]
+            - [set_notifications_table, ['%tables.notifications%']]
         tags:
             - { name: notification.type }
     pgreca.pgsocial.notification.type.social_tag:
         class: pgreca\pgsocial\notification\social_tag
-        scope: prototype # scope MUST be prototype for this to work!
-        arguments:
-            - '@dbal.conn'
-            - '@cache.driver'
-            - '@user'
-            - '@auth'
-            - '@config'
-            - '@controller.helper'
-            - '@pgreca.pgsocial.helper'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%tables.notification_types%'
-            - '%tables.notifications%'
-            - '%tables.user_notifications%'
+        shared: false
+        parent: notification.type.base
+        calls:
+            - [set_user_loader, ['@user_loader']]
+            - [set_notifications_table, ['%tables.notifications%']]
         tags:
             - { name: notification.type }
     pgreca.pgsocial.notification.type.social_zebra:
         class: pgreca\pgsocial\notification\social_zebra
-        scope: prototype # scope MUST be prototype for this to work!
-        arguments:
-            - '@dbal.conn'
-            - '@cache.driver'
-            - '@user'
-            - '@auth'
-            - '@config'
-            - '@controller.helper'
-            - '@pgreca.pgsocial.helper'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%tables.notification_types%'
-            - '%tables.notifications%'
-            - '%tables.user_notifications%'
+        shared: false
+        parent: notification.type.base
+        calls:
+            - [set_user_loader, ['@user_loader']]
+            - [set_notifications_table, ['%tables.notifications%']]
         tags:
             - { name: notification.type }
     pgreca.pgsocial.social.post_status:

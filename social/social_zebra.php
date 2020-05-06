@@ -159,7 +159,7 @@ class social_zebra
 					'approval'	=> 1,
 				);
 				$sql = 'INSERT INTO '.ZEBRA_TABLE.$this->db->sql_build_array('INSERT', $sql_arr);
-				$this->notify->notify('add_friend', '', '', $profile, $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_FRIEND_ADD');
+				$this->notify->notify('add_friend', '', $profile, $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_FRIEND_ADD');
 				if ($this->db->sql_query($sql))
 				{
 					$action = 'REQUEST_SEND';

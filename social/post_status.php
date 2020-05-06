@@ -638,7 +638,7 @@ class post_status
 				}
 				if ($post_where == 0 && $wall_id != $this->user->data['user_id'])
 				{
-					$this->notify->notify('add_status', $last_status, $text, (int) $wall_id, (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_STATUS_ADD');
+					$this->notify->notify('add_status', $last_status, (int) $wall_id, (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_STATUS_ADD');
 				}
 				$this->social_tag->add_tag($last_status, $text);
 				$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'STATUS_NEW', "<a href='".$this->helper->route("status_page", array('id' => $last_status))."'>#".$last_status."</a>");
@@ -737,7 +737,7 @@ class post_status
 		{
 			$sql = "DELETE FROM ".$this->pgsocial_wallpostlike." WHERE post_ID = '".$post."' AND user_id = '".(int) $this->user->data['user_id']."'";
 			$action = 'dislike';
-			if ($post_info['user_id'] != (int) $this->user->data['user_id'] || $post_info['wall_id'] == (int) $this->user->data['user_id']) $this->notify->notify('remove_like', $post, '', (int) $post_info['user_id'], (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_LIKE_ADD');
+			if ($post_info['user_id'] != (int) $this->user->data['user_id'] || $post_info['wall_id'] == (int) $this->user->data['user_id']) $this->notify->notify('remove_like', $post, (int) $post_info['user_id'], (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_LIKE_ADD');
 			$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'DISLIKE_NEW', "<a href='".$this->helper->route('status_page', array('id' => $post))."'>#".$post."</a>");
 		}
 		else
@@ -749,7 +749,7 @@ class post_status
 			);
 			$sql = 'INSERT INTO '.$this->pgsocial_wallpostlike.' '.$this->db->sql_build_array('INSERT', $sql_arr);
 			$action = 'like';
-			if ($post_info['user_id'] != (int) $this->user->data['user_id']) $this->notify->notify('add_like', $post, '', (int) $post_info['user_id'], (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_LIKE_ADD');
+			if ($post_info['user_id'] != (int) $this->user->data['user_id']) $this->notify->notify('add_like', $post, (int) $post_info['user_id'], (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_LIKE_ADD');
 			$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'LIKE_NEW', "<a href='".$this->helper->route('status_page', array('id' => $post))."'>#".$post."</a>");
 		}
 		$this->db->sql_query($sql);
@@ -825,7 +825,7 @@ class post_status
 		));
 		$sql = 'INSERT INTO '.$this->pgsocial_wallpostcomment.' '.$this->db->sql_build_array('INSERT', $sql_arr);
 		$this->db->sql_query($sql);
-		if ($post_info['wall_id'] != $this->user->data['user_id']) $this->notify->notify('add_comment', $post, '', (int) $post_info['wall_id'], $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_COMMENT_ADD');
+		if ($post_info['wall_id'] != $this->user->data['user_id']) $this->notify->notify('add_comment', $post, (int) $post_info['wall_id'], $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_COMMENT_ADD');
 
 		$this->template->assign_vars(array(
 			'ACTION'	=> '',
@@ -899,7 +899,7 @@ class post_status
 	*
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	*/
-	public function activity_feed()
+	/*public function activity_feed()
 	{
 		$sql = "SELECT w.post_comment_ID as type_id, w.post_ID as post_id, w.user_id, (SELECT wall.wall_id FROM ".$this->pgsocial_wallpost." as wall WHERE wall.post_ID = w.post_ID LIMIT 1) as wall_id, (SELECT wall.post_where FROM ".$this->pgsocial_wallpost." as wall WHERE wall.post_ID = w.post_ID LIMIT 1) as post_where, w.time, 'wall_comment' as type, u.user_id, u.username,u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_colour
 			FROM ".$this->pgsocial_wallpostcomment." as w, ".USERS_TABLE." as u
@@ -987,5 +987,5 @@ class post_status
 				'TIME'						=> $this->pg_social_helper->time_ago($row['time']),
 			));
 		}
-	}
+	}*/
 }

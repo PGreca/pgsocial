@@ -10,56 +10,13 @@
 
 namespace pgreca\pgsocial\notification;
 
-use phpbb\notification\type\base;
 /**
-*
-* @package notifications
+* Thanks for posts notifications class
+* This class handles notifying users when they have been thanked for a post
 */
-class social_status extends base
+
+class social_status extends \phpbb\notification\type\base
 {
-
-	/* @var \phpbb\controller\helper */
-	protected $helper;
-
-	protected $pg_social_helper;
-
-	/* @var \phpbb\user */
-	protected $user;
-
-	/**
-	* Notification Type Boardrules Constructor
-	*
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\cache\driver\driver_interface $cache
-	* @param \phpbb\user $user
-	* @param \phpbb\auth\auth $auth
-	* @param \phpbb\config\config $config
-	* @param \phpbb\controller\helper $helper
-	* @param \pgreca\pgsocial\controller\helper $pg_social_helper
-	* @param string $phpbb_root_path
-	* @param string $php_ext
-	* @param string $notification_types_table
-	* @param string $notifications_table
-	* @param string $user_notifications_table
-	* @return void
-	*/
-	public function __construct($db, $cache, $user, $auth, $config, $helper, $pg_social_helper, $phpbb_root_path, $php_ext, $notification_types_table, $notifications_table, $user_notifications_table)
-	{
-		$this->db = $db;
-		$this->cache = $cache;
-		$this->user = $user;
-		$this->auth = $auth;
-		$this->config = $config;
-		$this->helper 			= $helper;
-		$this->pg_social_helper = $pg_social_helper;
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->php_ext = $php_ext;
-
-		$this->notification_types_table = $notification_types_table;
-		$this->notifications_table = $notifications_table;
-		$this->user_notifications_table = $user_notifications_table;
-	}
-
 	/**
 	* Get notification type name
 	*
@@ -80,7 +37,24 @@ class social_status extends base
 		'lang'	=> 'NOTIFICATION_TYPE_SOCIAL_STATUS',
 		'group'	=> 'NOTIFICATION_PG_SOCIAL',
 	);
+	
+	/** @var string */
+	protected $notifications_table;
 
+	/** @var \phpbb\user_loader */
+	protected $user_loader;
+
+	public function set_notifications_table($notifications_table)
+	{
+		$this->notifications_table = $notifications_table;
+	}
+	
+	public function set_user_loader(\phpbb\user_loader $user_loader)
+	{
+		$this->user_loader = $user_loader;
+	}
+
+	
 	/**
 	* Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
 	*
@@ -112,8 +86,7 @@ class social_status extends base
 	 */
 	public static function get_item_parent_id($data)
 	{
-		// No parent
-		return $data['status_id'];
+		return 0;
 	}
 
 	/**
@@ -125,20 +98,12 @@ class social_status extends base
 	*/
 	public function find_users_for_notification($data, $options = array())
 	{
-		$users = array();
-		$users[$data['user_id']] = $this->notification_manager->get_default_methods();
+		$options = array_merge([
+			'ignore_users'		=> [],
+		], $options);
 
-		return $users;
-	}
-
-	/**
-	* Users needed to query before this notification can be displayed
-	*
-	* @return array Array of user_ids
-	*/
-	public function users_to_query()
-	{
-		return array();
+		$users = [(int) $data['user_id']];
+		return $this->check_user_notification_options($users, $options);
 	}
 
 	/**
@@ -146,12 +111,7 @@ class social_status extends base
 	*/
 	public function get_avatar()
 	{
-		$sql = "SELECT user_avatar, user_avatar_type, user_avatar_width, user_avatar_height FROM ".USERS_TABLE." WHERE user_id = '".$this->get_data('poster_id')."'";
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		$user_avatar = $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']);
-
-		return $user_avatar;
+		return $this->user_loader->get_avatar($this->get_data('poster_id'));
 	}
 
 	/**
@@ -161,12 +121,19 @@ class social_status extends base
 	*/
 	public function get_title()
 	{
-		$sql = "SELECT username, user_colour FROM ".USERS_TABLE." WHERE user_id = '".$this->get_data('poster_id')."'";
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		return $this->user->lang('HAS_WRITE_IN_YOUR', '<span style="color:#'.$row['user_colour'].'">'.$row['username'].'</span>');
+		return $this->language->lang($this->get_data('lang'), $this->user_loader->get_username($this->get_data('poster_id'), 'username'));
 	}
 
+	/**
+	* Users needed to query before this notification can be displayed
+	*
+	* @return array Array of user_ids
+	*/
+	public function users_to_query()
+	{
+		return array($this->get_data('poster_id'));
+	}
+	
 	/**
 	* Get the url to this item
 	*
@@ -174,12 +141,17 @@ class social_status extends base
 	*/
 	public function get_url()
 	{
-		$sql = "SELECT user_id, username, user_colour FROM ".USERS_TABLE." WHERE user_id = '".$this->get_data('user_id')."'";
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		return $this->helper->route("status_page", array("id" => $this->get_data('status_id')));
+		return append_sid($this->phpbb_root_path . 'status/'.$this->item_id);
 	}
 
+	/**
+	* {inheritDoc}
+	*/
+	public function get_redirect_url()
+	{
+		return $this->get_url();
+	}
+	
 	/**
 	* Get email template
 	*
@@ -217,10 +189,9 @@ class social_status extends base
 	*/
 	public function create_insert_array($data, $pre_create_data = array())
 	{
+		$this->set_data('status_id', $data['status_id']);
 		$this->set_data('user_id', $data['user_id']);
 		$this->set_data('poster_id', $data['poster_id']);
-		$this->set_data('status_id', $data['status_id']);
-		$this->set_data('status', $data['status']);
 		$this->set_data('lang', $data['lang']);
 
 		return parent::create_insert_array($data, $pre_create_data);

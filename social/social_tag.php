@@ -99,7 +99,7 @@ class social_tag
 		$tagged_user = '';
 		for($i=0; $i < count($matches[1]); $i++)
 		{
-			$this->notify->notify('add_tag', $status, $text, $matches[1][$i], (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_TAG_ADD');
+			$this->notify->notify('add_tag', $status, $matches[1][$i], (int) $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_TAG_ADD');
 			$tagged_user .= $matches[1][$i].', ';
 		}
 		$sql = "UPDATE ".$this->pgsocial_wallpost." SET tagged_user = '".$tagged_user."' WHERE post_ID = '".$status."'";

@@ -42,16 +42,14 @@ class notifyhelper
 	}
 
 	/* MANAGE NOTIFICATIONS SOCIAL */
-	public function notify($type, $status_id, $status, $wall_id, $user_id, $lang)
+	public function notify($type, $status_id, $wall_id, $user_id, $lang)
 	{
 		$notification_data = array(
 			'status_id'	=> (int) $status_id,
-			'status'	=>	substr(preg_replace('(\r\n|\n|\r)', ' ', utf8_normalize_nfc($status)),0,40).((strlen($status) > 39)?'...':''),
 			'user_id'	=> (int) $wall_id,
 			'poster_id'	=>  $user_id,
 			'lang'	    => $lang,
 		);
-
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
 
 		switch($type)

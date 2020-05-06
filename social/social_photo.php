@@ -609,7 +609,7 @@ class social_photo
 			{
 				return $this->get_photo($photo_id, true, false);
 			}
-			else
+			elseif($album != 1)
 			{
 				return $this->helper->render('activity_status_action.html', '');
 			}
