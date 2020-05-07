@@ -402,7 +402,13 @@ class helper
 	/* ADD LOG OF USER */
 	public function log($user, $ip, $action, $id)
 	{
-		$this->log->add('user', $user, $ip, 'PG_SOCIAL_'.$action.'_LOG', time(), array('reportee_id' => $id));
+		$mode = 'user';
+		if ($action == 'STATUS_MOD')
+		{
+			$mode = 'mod';
+		}
+		
+		$this->log->add($mode, $user, $ip, 'PG_SOCIAL_'.$action.'_LOG', time(), array('reportee_id' => $id));
 	}
 
 	public function pgblog_statusArticle($article)

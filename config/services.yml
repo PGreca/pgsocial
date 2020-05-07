@@ -143,6 +143,7 @@ services:
     pgreca.pgsocial.social.post_status:
         class: pgreca\pgsocial\social\post_status
         arguments:
+            - '@auth'
             - '@template'
             - '@user'
             - '@controller.helper'

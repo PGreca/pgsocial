@@ -83,7 +83,7 @@
 		});
 	});
 
-	$(document).on('click', '#pgsocial_chat #pgsocial_chatRoot ul.canchat li.pg_social_chat_people_online_single', function(e) {
+	$(document).on('click', '#pgsocial_chat #pgsocial_chatRoot ul.canchat li.pg_social_chat_people_online_single.tooltiped', function(e) {
 		if($('#pgsocial_chat #pg_social_chat_box_'+$(this).attr('data-people')).length){
 			closeChat($(this).attr('data-people'));
 		} else {

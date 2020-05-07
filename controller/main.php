@@ -141,7 +141,7 @@ class main
 						return $this->post_status->add_status($this->request->variable('post_where', ''), $profile_id, $this->request->variable('text', '', true), $this->request->variable('privacy', ''), 0, '', true);
 					break;
 					case 'delete_status':
-						return $this->post_status->delete_status($this->request->variable('post_status', ''));
+						return $this->post_status->delete_status($this->request->variable('post_status', ''), $this->request->variable('type', ''));
 					break;
 					case 'shareStatus':
 						return $this->post_status->shareStatus($this->request->variable('status', ''));

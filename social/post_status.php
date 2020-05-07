@@ -12,6 +12,9 @@ namespace pgreca\pgsocial\social;
 
 class post_status
 {
+	/* @var \phpbb\auth\auth */
+	protected $auth;
+	
 	/* @var \phpbb\template\template */
 	protected $template;
 
@@ -66,6 +69,7 @@ class post_status
 	/**
 	* Constructor
 	*
+	* @param \phpbb\auth\auth $auth
 	* @param \phpbb\template\template  $template
 	* @param \phpbb\user				$user
 	* @param \phpbb\controller\helper		$helper
@@ -77,6 +81,7 @@ class post_status
 	*/
 
 	public function __construct(
+		\phpbb\auth\auth $auth,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
 		\phpbb\controller\helper $helper,
@@ -97,6 +102,7 @@ class post_status
 		$pgsocial_table_photo
 	)
 	{
+		$this->auth 									= $auth;
 		$this->template 									= $template;
 		$this->user 											= $user;
 		$this->helper											= $helper;
@@ -224,19 +230,16 @@ class post_status
 		{
 			$block_vars = 'post_status';
 		}
-		$rele = $actionprivacy = true;
-		$author_action = '';
-		$action = false;
+		$action = $authMod = false;
+		$rele = $actionprivacy = $authAction = true;
+		$author_action = $msg = $msg_align = $wall_action = '';
 		$share = $row['post_ID'];
-		$msg = '';
-		$msg_align = '';
 		$wall['user_id'] = $wall['username'] = $wall['user_colour'] = '';
-		$wall_action = '';
 		$allow_bbcode = $this->config['pg_social_bbcode'];
 		$allow_urls = $this->config['pg_social_url'];
 		$allow_smilies = $this->config['pg_social_smilies'];
-		$flags = (($allow_bbcode) ? OPTION_FLAG_BBCODE : 0) + (($allow_smilies) ? OPTION_FLAG_SMILIES : 0) + (($allow_urls) ? OPTION_FLAG_LINKS : 0);
 		$status_privacy = $row['post_privacy'];
+		
 		switch ($row['post_where'])
 		{
 			case 1:
@@ -434,7 +437,6 @@ class post_status
 						}
 					}
 				}
-				//if (!$msg) $msg .= generate_text_for_display($row['message'], $row['bbcode_uid'], $row['bbcode_bitfield'], $row['bbcode_options']);
 			break;
 			case 1:
 				$photo = $this->photo($row['post_extra']);
@@ -453,7 +455,6 @@ class post_status
 			case 2:
 				$author_action = $this->user->lang('HAS_UPLOADED_COVER');
 				$photo = $this->photo($row['post_extra']);
-				//$msg = $photo['msg'];
 				$msg .= '<div class="status_photos">'.$photo['img'].'</div>';
 			break;
 			case 3:
@@ -496,12 +497,18 @@ class post_status
 			$likes .= $this->user->lang('LIKE', 1);
 		}
 		$rele = false;
-		if (
-			($status_privacy == 0 && $row['wall_id'] == $this->user->data['user_id']) ||
+		if ($this->auth->acl_get('a_page_manage') || $this->auth->acl_get('m_page_manage'))
+		{
+			$rele = true;
+			$authAction = false;
+			$authMod = true;
+		}
+		if (($status_privacy == 0 && $row['wall_id'] == $this->user->data['user_id']) ||
 			($status_privacy == 1 && ($this->social_zebra->friend_status($row['wall_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['wall_id'])) ||
 			(($status_privacy == 2 && $this->social_page->user_like_pages($this->user->data['user_id'], $row['wall_id']) && $type == 'all') || ($status_privacy == 2 && $type == 'page') || ($status_privacy == 2 && $row['post_where'] == 0)))
 		{
 			$rele = true;
+			$authAction = true;			
 		}
 
 		if ($rele)
@@ -509,6 +516,8 @@ class post_status
 			if ($row['wall_id'] == $this->user->data['user_id'] || $this->user->data['user_id'] == $row['user_id']) $action = true;
 			$this->template->assign_block_vars($block_vars, array(
 				'POST_STATUS_ID'            => $row['post_ID'],
+				'AUTH_ACTION'				=> $authAction,
+				'AUTH_MOD'					=> $authMod,
 				'AUTHOR_ACTION'							=> $author_action,
 				'AUTHOR_PROFILE'						=> $status_profile,
 				'AUTHOR_ID'									=> $status_aut_id,
@@ -660,7 +669,7 @@ class post_status
 	 * @param int $post
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function delete_status($post)
+	public function delete_status($post, $mode = 'DELETE')
 	{
 		if ($this->social_photo->photo_of_post($post))
 		{
@@ -671,16 +680,15 @@ class post_status
 		$sql_like = 'DELETE FROM '.$this->pgsocial_wallpostlike.' WHERE '.$this->db->sql_in_set('post_ID', array($post));
 		$this->db->sql_query($sql_status);
 		$this->db->sql_query($sql_comment);
-		$this->db->sql_query($sql_like);
-		
+		$this->db->sql_query($sql_like);		
 
 		$this->template->assign_vars(array(
 			'ACTION'	=> '',
 		));
-		$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'STATUS_REMOVE', '');
+		
+		$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'STATUS_'.$mode, '');
 		return $this->helper->render('activity_status_action.html', '');
 	}
-
 	/**
 	 * Share the activity on the wall
 	 *
@@ -809,28 +817,31 @@ class post_status
 	 */
 	public function add_comment($post, $comment)
 	{
-		$post_info = "SELECT user_id, wall_id FROM ".$this->pgsocial_wallpost." WHERE post_ID = '".$post."'";
-		$res = $this->db->sql_query($post_info);
-		$post_info = $this->db->sql_fetchrow($res);
-		$this->db->sql_freeresult($res);
+		if ($comment)
+		{
+			$post_info = "SELECT user_id, wall_id FROM ".$this->pgsocial_wallpost." WHERE post_ID = '".$post."'";
+			$res = $this->db->sql_query($post_info);
+			$post_info = $this->db->sql_fetchrow($res);
+			$this->db->sql_freeresult($res);
 
-		$time = time();
+			$time = time();
 
-		$sql_arr = $this->pg_social_helper->pgMessage($comment);
+			$sql_arr = $this->pg_social_helper->pgMessage($comment);
 
-		$sql_arr = array_merge($sql_arr, array(
-			'post_ID'					=> $post,
-			'user_id'					=> $this->user->data['user_id'],
-			'time'						=> $time,
-		));
-		$sql = 'INSERT INTO '.$this->pgsocial_wallpostcomment.' '.$this->db->sql_build_array('INSERT', $sql_arr);
-		$this->db->sql_query($sql);
-		if ($post_info['wall_id'] != $this->user->data['user_id']) $this->notify->notify('add_comment', $post, (int) $post_info['wall_id'], $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_COMMENT_ADD');
-
-		$this->template->assign_vars(array(
-			'ACTION'	=> '',
-		));
-		$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'COMMENT_NEW', "<a href='".$this->helper->route('status_page', array('id' => $post))."'>#".$post."</a>");
+			$sql_arr = array_merge($sql_arr, array(
+				'post_ID'					=> $post,
+				'user_id'					=> $this->user->data['user_id'],
+				'time'						=> $time,
+			));
+			$sql = 'INSERT INTO '.$this->pgsocial_wallpostcomment.' '.$this->db->sql_build_array('INSERT', $sql_arr);
+			$this->db->sql_query($sql);
+			if ($post_info['wall_id'] != $this->user->data['user_id']) $this->notify->notify('add_comment', $post, (int) $post_info['wall_id'], $this->user->data['user_id'], 'NOTIFICATION_SOCIAL_COMMENT_ADD');
+			$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'COMMENT_NEW', "<a href='".$this->helper->route('status_page', array('id' => $post))."'>#".$post."</a>");
+		
+			$this->template->assign_vars(array(
+				'ACTION'	=> '',
+			));
+		}
 		return $this->helper->render('activity_status_action.html', '');
 	}
 

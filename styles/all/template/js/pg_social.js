@@ -52,7 +52,8 @@
 		$(document).on('click', '#posts_status .post_status .post_status_head .post_status_remove', function() {
 			if (confirm(useLang['ARE_YOU_SURE'])) {
 				var post_status = $(this).parent().parent().parent().parent().parent().parent().parent().attr('data-lastp');
-				pgwall_removeStatus(post_status);
+				var type = $(this).attr('data-option');
+				pgwall_removeStatus(post_status, type);
 			}
 		});
 
@@ -103,7 +104,7 @@
 		});
 
 		//SHARE STATUS
-		$(document).on('click', '#posts_status .post_status .post_status_footer .post_status_share a', function() {
+		$(document).on('click', '#posts_status .post_status .post_status_footer .post_status_share a.sharer', function() {
 			if (confirm(useLang['DO_YOU_WANT_SHARE'])) {
 				pgwall_shareStatus($(this).parent().attr('data-parent'));
 			}
@@ -268,7 +269,7 @@
 			pgwall_pagelike_action($(this).attr('data-page'));
 		});
 
-		$(document).on('click', '#posts_status .post_status .post_status_footer .post_status_like a', function() {
+		$(document).on('click', '#posts_status .post_status .post_status_footer .post_status_like a.liker', function() {
 			pgwall_like_action($(this).parent().parent().parent().parent().parent().attr('data-lastp'));
 		});
 
@@ -425,10 +426,11 @@
 						} else {
 							$('#posts_status').prepend(data);
 						}
+						phpbb.registerPageDropdowns();
+						masonry();
 					}
-					masonry();
 					$('#load_more').show();
-				},
+				}
 			});
 		}
 	}
@@ -455,7 +457,7 @@
 			});
 		}
 	}
-
+	
 	pgwall_shareStatus = function(statu) {
 		var fdata = new FormData();
 		fdata.append('mode', 'shareStatus');
@@ -471,11 +473,11 @@
 		});
 	}
 
-	pgwall_removeStatus = function(post_status) {
+	pgwall_removeStatus = function(post_status, type) {
 		$.ajax({
 			method: 'POST',
 			url: root,
-			data: 'mode=delete_status&post_status='+post_status,
+			data: 'mode=delete_status&post_status='+post_status+'&type='+type,
 			success: function(data) {
 				$('#post_status_'+post_status).remove();
 				pgwall_get_status('prequel', where);
@@ -524,21 +526,23 @@
 	}
 
 	pgwall_add_comment = function(comment, post_status) {
-		var fdata = new FormData();
-		fdata.append('mode', 'add_comment');
-		fdata.append('post_status', post_status);
-		fdata.append('comment', $.trim(comment));
-		$.ajax({
-			method: 'POST',
-			url: root,
-			data: fdata,
-			contentType: false,
-			processData: false,
-			success: function(data) {
-				$('.wall_comment_text').val('');
-				pgwall_get_comments(post_status);
-			}
-		});
+		if($.trim(comment)) {
+			var fdata = new FormData();
+			fdata.append('mode', 'add_comment');
+			fdata.append('post_status', post_status);
+			fdata.append('comment', $.trim(comment));
+			$.ajax({
+				method: 'POST',
+				url: root,
+				data: fdata,
+				contentType: false,
+				processData: false,
+				success: function(data) {
+					$('.wall_comment_text').val('');
+					pgwall_get_comments(post_status);
+				}
+			});
+		}
 	}
 
 	pgwall_remove_comment = function(comment) {

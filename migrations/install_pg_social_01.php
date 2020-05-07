@@ -47,7 +47,9 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 
 			array('permission.add', array('u_page_create')),
 			array('permission.add', array('m_page_manage')),
+			array('permission.add', array('m_status_manage')),
 			array('permission.add', array('a_page_manage')),
+			array('permission.add', array('a_status_manage')),
 
 			array('module.add', array(
 				'acp',
@@ -130,27 +132,31 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 		);
 		if ($this->role_exists('ROLE_USER_STANDARD'))
 		{
-			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_page_create'));
+			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_page_create', true));
 		}
 		if ($this->role_exists('ROLE_USER_FULL'))
 		{
-			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_page_create'));
+			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_page_create', true));
 		}
 		if ($this->role_exists('ROLE_MOD_STANDARD'))
 		{
-			$data[] = array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_page_manage'));
+			$data[] = array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_page_manage', true));
+			$data[] = array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_status_manage', false));
 		}
 		if ($this->role_exists('ROLE_MOD_FULL'))
 		{
-			$data[] = array('permission.permission_set', array('ROLE_MOD_FULL', 'm_page_manage'));
+			$data[] = array('permission.permission_set', array('ROLE_MOD_FULL', 'm_page_manage', true));
+			$data[] = array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_status_manage', false));
 		}
 		if ($this->role_exists('ROLE_ADMIN_STANDARD'))
 		{
 			$data[] = array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_page_manage'));
+			$data[] = array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_status_manage', false));
 		}
 		if ($this->role_exists('ROLE_ADMIN_FULL'))
 		{
-			$data[] = array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_page_manage'));
+			$data[] = array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_page_manage', true));
+			$data[] = array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_status_manage', false));
 		}
 		return $data;
 	}

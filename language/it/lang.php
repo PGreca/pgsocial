@@ -171,6 +171,7 @@ $lang = array_merge($lang, array(
 	'PG_SOCIAL_STATUS_NEW_LOG'			=> '<strong>Ha pubblicato uno stato</strong><br />» %s',
 	'PG_SOCIAL_STATUS_SHARE_LOG'		=> '<strong>Ha condiviso uno stato</strong><br />» %s',
 	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>Ha cancellato uno stato</strong>',
+	'PG_SOCIAL_STATUS_MOD_LOG'			=> '<strong>Ha moderato uno stato</strong>',
 	'PG_SOCIAL_WRITE_A_MESSAGE'			=> 'Scrivi un messaggio',
 	'PG_SOCIAL_WRITE_SOMETHING'			=> 'Scrivi qualcosa',
 	'PG_SOCIAL_VERSION'					=> 'Versione',

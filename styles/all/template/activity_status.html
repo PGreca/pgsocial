@@ -15,13 +15,14 @@
 				</select></div>{% endif %}</div><a id="post_status_head_link" href="{{ post_status.POST_URL }}"><div class="post_status_head_date"{% if not post_status.POST_DATE_AGO %} title="{{ post_status.POST_DATE }}"{% endif %}>{{ post_status.POST_DATE_AGO }}</div></a>
 			</div><ul class="post_status_actionButton">
 				<li class="quick-links dropdown-container dropdown-right responsive-menu" data-skip-responsive="true">
-					<a class="dropdown-trigger dropdown-toggle">
+					<a class="dropdown-toggle">
 						<i class="icon fa-bars fa-fw" aria-hidden="true"></i>
 					</a>
 					<div class="dropdown">
 						<div class="pointer"><div class="pointer-inner"></div></div>
 						<ul class="dropdown-contents" role="menu">
-							{% if S_USER_LOGGED_IN and post_status.ACTION %}<li class="post_status_remove"><i class="icon fa-minus-circle fa-fw" aria-hidden="true"></i> <span>{{ lang('PG_SOCIAL_STATUS_DELETE') }}</li>{% endif %}
+							{% if S_USER_LOGGED_IN and post_status.ACTION %}<li class="post_status_remove" data-option="REMOVE"><i class="icon fa-minus-circle fa-fw" aria-hidden="true"></i> <span>{{ lang('PG_SOCIAL_STATUS_DELETE') }}</li>{% endif %}
+							{% if post_status.AUTH_MOD %}<li class="post_status_remove" data-option="MOD"><i class="icon fa-exclamation-triangle fa-fw" aria-hidden="true"></i> <span>{{ lang('PG_SOCIAL_STATUS_WARN') }}</li>{% endif %}
 						</ul>
 					</div>
 				</li>
@@ -29,6 +30,8 @@
 		</div>
 		{% endif %}
 		<div class="post_status_content{{ post_status.MESSAGE_ALIGN }}">{{ post_status.MESSAGE }}</div>
+		
+		{% if post_status.AUTH_ACTION %}
 		<div class="post_status_footer">
 			<div class="poststatusLeft">
 			<div class="post_status_like {% if post_status.IFLIKE %}active{% endif %}">
@@ -51,6 +54,7 @@
 			{{ S_HIDDEN_FIELDS }}
 			{{ S_FORM_TOKEN }}
 		</form>
+		{% endif %}
 		{% endif %}
 	</div>
 </li>

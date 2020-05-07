@@ -1,6 +1,6 @@
 {% if S_PG_SOCIAL_ENABLED %}<li class="dropdown-container dropdown-{S_CONTENT_FLOW_END} rightside" data-skip-responsive="true">
 	<a href="" class="dropdown-trigger headerlink dropdown-toggle">
-		<i class="icon fa-users fa-fw" {% if FRIENDS_REQUEST_COUNT %} new{% endif %}" aria-hidden="true"></i><strong class="badge{% if not FRIENDS_REQUEST_COUNT %} hidden{% endif %}">{{ FRIENDS_REQUEST_COUNT }}</strong>
+		<i class="icon fa-users fa-fw" {% if FRIENDS_REQUEST_COUNT %} new{% endif %}" aria-hidden="true"></i><strong class="badge{% if FRIENDS_REQUEST_COUNT == 0 %} hidden{% endif %}">{{ FRIENDS_REQUEST_COUNT }}</strong>
 	</a>
 	<div class="dropdown dropdown-extended">
 		<div class="pointer"><div class="pointer-inner"></div></div>
@@ -12,7 +12,7 @@
 			<ul id="pgsocial_friends_request">
 			{% if loops.friends_request %}
 				{% for friends_request in loops.friends_request %}
-				<li>
+				<li style="padding:8px">
 					<a class="friend_avatar" href="{{ friends_request.PROFILE_URL }}">{{ friends_request.AVATAR }}</a><div class="friend_requestinfo">
 						<a class="friend_username" href="{{ friends_request.PROFILE_URL }}">{{ friends_request.USERNAME }}</a>
 						<a class="friend_request" href="{{ friends_request.ACCEPT_URL }}" data-ajax="request_friend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_ACCEPT_REQ_SHORT') }}</a><a class="friend_request decline" href="{{ friends_request.DECLINE_URL }}" id="profile_friend_decline" data-ajax="request_friend" data-refresh="true">{{ lang('PG_SOCIAL_FRIENDS_DECLINE_REQ_SHORT') }}</a>
@@ -20,7 +20,7 @@
 				</li>
 				{% endfor %}
 			{% else %}
-				<li>
+				<li style="padding:8px">
 					{{ lang('FRIENDS_NO_REQUEST') }}
 				</li>
 			{% endif %}

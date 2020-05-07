@@ -195,8 +195,12 @@ class listener implements EventSubscriberInterface
 		$categories['pg_social'] = 'ACL_CAT_PG_SOCIAL';
 
 		$permissions['u_page_create'] = array('lang' => 'ACL_U_PAGE_CREATE', 'cat' => 'pg_social');
+		
 		$permissions['m_page_manage'] = array('lang' => 'ACL_M_PAGE_MANAGE', 'cat' => 'pg_social');
+		$permissions['m_status_manage'] = array('lang' => 'ACL_M_STATUS_MANAGE', 'cat' => 'pg_social');
+		
 		$permissions['a_page_manage'] = array('lang' => 'ACL_A_PAGE_MANAGE', 'cat' => 'pg_social');
+		$permissions['a_status_manage'] = array('lang' => 'ACL_A_STATUS_MANAGE', 'cat' => 'pg_social');
 
 		$event['categories'] = $categories;
 		$event['permissions'] = $permissions;
