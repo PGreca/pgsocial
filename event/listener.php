@@ -342,12 +342,7 @@ class listener implements EventSubscriberInterface
 				'PROFILE_QUOTE'				=> $member['user_quote'],
 				'PROFILE_ABOUT_ME'			=> $member['user_about'],
 				'PROFILE_STATUS_LIFE'		=> $this->user->lang($profile_status_life),
-				'PROFILE_HOBBIES'			=> $member['user_hobbies'],
-				'PROFILE_FAVORITE_TVSERIES'	=> $member['user_favorite_tvseries'],
-				'PROFILE_FAVORITE_MOVIES'	=> $member['user_favorite_movies'],
-				'PROFILE_FAVORITE_GAMES'	=> $member['user_favorite_games'],
-				'PROFILE_FAVORITE_MUSICS'	=> $member['user_favorite_musics'],
-				'PROFILE_FAVORITE_BOOKS'	=> $member['user_favorite_books'],
+				
 				'PROFILE_GENDER'			=> $this->user->lang($profile_gender),
 				'PROFILE_COUNT_FRIENDS'		=> $this->social_zebra->count_friends($user_id),
 
@@ -359,6 +354,16 @@ class listener implements EventSubscriberInterface
 				'SOCIAL_PROFILE_PATH'		=> append_sid($this->helper->route('profile_page')),
 				'STATUS_WHERE'				=> 'profile',
 			));
+			
+			$this->template->assign_block_vars('hobbInter', array(
+				'HOBBIES'			=> $member['user_hobbies'],
+				'FAVORITE_TVSERIES'	=> $member['user_favorite_tvseries'],
+				'FAVORITE_MOVIES'	=> $member['user_favorite_movies'],
+				'FAVORITE_GAMES'	=> $member['user_favorite_games'],
+				'FAVORITE_MUSICS'	=> $member['user_favorite_musics'],
+				'FAVORITE_BOOKS'	=> $member['user_favorite_books'],
+			));
+			
 			$this->post_status->get_status('profile', $user_id, 0, 'profile', 0, 'seguel', '');
 			$this->social_photo->get_photos(0, 'last', $user_id);
 			$this->social_zebra->get_friends($user_id, 'profile', 'yes');

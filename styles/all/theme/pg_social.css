@@ -85,12 +85,6 @@ body.section-memberlist .action-bar.actions-jump {
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-#pg_social {
-	text-align: left;
-	font-size: 10px;
-	text-shadow: 0 0 0;
-}
-
 #pg_social input {
 	background-color: transparent;
 	outline: none;
@@ -594,7 +588,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont ul.colums#last_photos li {
-	width: calc((100% / 3) - 4px);
+	width: calc((100% / 3) - (5px / 3) - 4px);
 	height: auto;
 	margin: 0 5px 5px 0;
 }
@@ -1765,9 +1759,6 @@ body.section-memberlist .action-bar.actions-jump {
 	color: #545267;
 }
 
-#pg_social .panel dl dd {
-	color: #898da8;
-}
 
 #pg_social .panel .colum {
 	display: inline-block;
@@ -1780,8 +1771,8 @@ body.section-memberlist .action-bar.actions-jump {
 	width: 100%;
 }
 
-#pg_social .panel .colum.colum_info {
-	width: calc(100% - 20px);
+#pg_social .panel .colum.columTwo {
+	width: calc(50% - 20px);
 	padding: 0 10px;
 }
 

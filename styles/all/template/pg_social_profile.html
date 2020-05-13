@@ -105,8 +105,8 @@
 				</div>{% endif %}
 			</div>
 			<div class="pg_social_pagesub" id="page_friends">
+				{% if loops.profileFriends %}
 				<ul id="pg_social_friends" class="colums">
-					{% if loops.profileFriends %}
 					<!--<li class="friend colum colum_nosize"></li>-->
 					{% for profileFriends in loops.profileFriends %}<li class="friend colum" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
 						<div class="cover big_cover" style="background-image:url({{ profileFriends.COVER }});">
@@ -269,26 +269,32 @@
 						</div>
 					</div>
 				</div><div id="pg_social_sidec">
-					<div class="panel">
+					{% if loops.hobbInter %}<div class="panel">
 						<h3>{{ lang('HOBBIES_INTERESTS') }}</h3>
-						<div class="colum colum_info">
-							<dl>
-								{% if PROFILE_HOBBIES %}<dt>{{ lang('HOBBY', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_HOBBIES }}</dd>{% endif %}
-							</dl>
-							<dl>
-								{% if PROFILE_FAVORITE_TVSERIES %}<dt>{{ lang('FAVORITE_TVSHOW', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_FAVORITE_TVSERIES }}</dd>{% endif %}
-							</dl>
-							<dl>
-								{% if PROFILE_FAVORITE_MOVIES %}<dt>{{ lang('FAVORITE_MOVIE', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_FAVORITE_MOVIES }}</dd>{% endif %}
-							</dl>
-						</div><div class="colum colum_info">
-							<dl>
-								{% if PROFILE_FAVORITE_MUSICS %}<dt>{{ lang('FAVORITE_MUSIC', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_FAVORITE_MUSICS }}</dd>{% endif %}
-								{% if PROFILE_FAVORITE_BOOKS %}<dt>{{ lang('FAVORITE_BOOK', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_FAVORITE_BOOKS }}</dd>{% endif %}
-								{% if PROFILE_FAVORITE_GAMES %}<dt>{{ lang('FAVORITE_GAME', 2) }}{{ lang('COLON') }}</dt><dd>{{ PROFILE_FAVORITE_GAMES }}</dd>{% endif %}
-							</dl>
+						<div class="colum columTwo colum_info">
+						{% for hobbInter in loops.hobbInter %}
+							{% if hobbInter.HOBBIES %}<dl>
+								<dt>{{ lang('HOBBY', 2) }}{{ lang('COLON') }}</dt><dd>{{ hobbInter.HOBBIES }}</dd>
+							</dl>{% endif %}
+							{% if hobbInter.FAVORITE_TVSERIES %}<dl>
+								<dt><i class="icon fa fa-television" aria-hidden="true"></i> {{ lang('FAVORITE_TVSHOW', 2) }}{{ lang('COLON') }}</dt><dd>{{ hobbInter.FAVORITE_TVSERIES }}</dd>
+							</dl>{% endif %}
+							{% if hobbInter.FAVORITE_MOVIES %}<dl>
+								<dt><i class="icon fa fa-film" aria-hidden="true"></i> {{ lang('FAVORITE_MOVIE', 2) }}{{ lang('COLON') }}</dt><dd>{{ hobbInter.FAVORITE_MOVIES }}</dd>
+							</dl>{% endif %}
+						</div><div class="colum columTwo colum_info">
+							{% if hobbInter.FAVORITE_MUSICS %}<dl>
+								<dt><i class="icon fa fa-music" aria-hidden="true"></i> {{ lang('FAVORITE_MUSIC', 2) }}{{ lang('COLON') }}</dt><dd>{{ hobbInter.FAVORITE_MUSICS }}</dd>
+							</dl>{% endif %}
+							{% if hobbInter.FAVORITE_BOOKS %}<dl>
+								<dt><i class="icon fa fa-book" aria-hidden="true"></i> {{ lang('FAVORITE_BOOK', 2) }}{{ lang('COLON') }}</dt><dd>{{ hobbInter.FAVORITE_BOOKS }}</dd>
+							</dl>{% endif %}
+							{% if hobbInter.FAVORITE_GAMES %}<dl>
+								<dt><i class="game fa fa-gamepad" aria-hidden="true"></i> {{ lang('FAVORITE_GAME', 2) }}{{ lang('COLON') }}</dt><dd>{{ hobbInter.FAVORITE_GAMES }}</dd>
+							</dl>{% endif %}
+						{% endfor %}
 						</div>
-					</div>
+					</div>{% endif %}
 					<div class="panel">
 						<h3>{L_USER_FORUM}</h3>
 						<div class="colum colum_info">
