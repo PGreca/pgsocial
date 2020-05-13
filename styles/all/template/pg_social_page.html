@@ -40,23 +40,7 @@
 					<!-- EVENT pgreca_pgsocial_page_sidel -->
 				</div><div id="pg_social_sidec">
 					{% if page.PAGE_ACTION %}
-					<form method="post" id="wall_post" class="openform">
-						<ul id="wall_post_header">
-							<li>
-								{{ lang('ACTIVITY') }}
-							</li>
-						</ul>
-						<div class="wall_post_area">
-							<div contenteditable="true" required name="wall_post_text" id="wall_post_text" placeholder="{{ lang('PG_SOCIAL_WRITE_SOMETHING') }}..."></div>
-						</div>
-						<div id="wall_post_footer">
-							<div class="wall_post_option">
-								<label id="pg_social_wall_post_img"><i class="fa fa-camera" aria-hidden="true"></i><span style="display:none">{{ lang('ATTACH_PICTURE') }}</span><input name="wall_post_img" id="wall_post_img" type="file" accept="image/*" /></label>
-								<input name="submit" type="submit" value="{{ lang('PUBLIC') }}" />
-							</div>
-							<div id="wall_post_thumb"><img id="wall_post_thumb_img" src="" /></div>
-						</div>
-					</form>
+						{% INCLUDE 'activity_form.html' %}
 					{% endif %}
 					<ul id="posts_status">
 						{% INCLUDE 'activity_status.html' %}

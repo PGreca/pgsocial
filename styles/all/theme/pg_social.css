@@ -1989,7 +1989,8 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #page_create h3 {
-	width: calc(100% - 40px + 0);
+	width: calc(100% - 30px);
+	border-bottom: 1px solid #e6ecf5;
     margin: 0 0 15px;
 }
 
