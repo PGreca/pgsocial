@@ -21,8 +21,16 @@
 					<div class="dropdown">
 						<div class="pointer"><div class="pointer-inner"></div></div>
 						<ul class="dropdown-contents" role="menu">
-							{% if S_USER_LOGGED_IN and post_status.ACTION %}<li class="post_status_remove" data-option="REMOVE"><i class="icon fa-minus-circle fa-fw" aria-hidden="true"></i> <span>{{ lang('PG_SOCIAL_STATUS_DELETE') }}</li>{% endif %}
-							{% if post_status.AUTH_MOD %}<li class="post_status_remove" data-option="MOD"><i class="icon fa-exclamation-triangle fa-fw" aria-hidden="true"></i> <span>{{ lang('PG_SOCIAL_STATUS_WARN') }}</li>{% endif %}
+							{% if S_USER_LOGGED_IN and post_status.ACTION %}<li class="post_status_remove" data-option="REMOVE">
+								<a>
+									<i class="icon fa-minus-circle fa-fw" aria-hidden="true"></i> <span>{{ lang('PG_SOCIAL_STATUS_DELETE') }}</span>
+								</a>
+							</li>{% endif %}
+							{% if post_status.AUTH_MOD %}<li class="post_status_remove" data-option="MOD">
+								<a>
+									<i class="icon fa-exclamation-triangle fa-fw" aria-hidden="true"></i> <span>{{ lang('PG_SOCIAL_STATUS_WARN') }}</span>
+								</a>
+							</li>{% endif %}
 						</ul>
 					</div>
 				</li>

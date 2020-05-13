@@ -12,6 +12,9 @@ namespace pgreca\pgsocial\social;
 
 class social_photo
 {
+	/* @var \phpbb\auth\auth */
+	protected $auth;
+	
 	/* @var \phpbb\template\template */
 	protected $template;
 
@@ -36,6 +39,7 @@ class social_photo
 	/**
 	 * Constructor
 	 *
+	* @param \phpbb\auth\auth $auth
 	 * @param \phpbb\template\template  $template
 	 * @param \phpbb\config\config $config
 	 * @param \phpbb\controller\helper		$helper
@@ -44,8 +48,9 @@ class social_photo
 	 * @param \phpbb\db\driver\driver_interface			$db
 	 */
 
-	public function __construct($template, $user, $helper, $pg_social_helper, $social_tag, $social_zebra, $config, $db, $root_path, $pgsocial_table_gallery, $pgsocial_table_photos, $pgsocial_table_pages, $pgsocial_table_wallpost)
+	public function __construct($auth, $template, $user, $helper, $pg_social_helper, $social_tag, $social_zebra, $config, $db, $root_path, $pgsocial_table_gallery, $pgsocial_table_photos, $pgsocial_table_pages, $pgsocial_table_wallpost)
 	{
+		$this->auth = $auth;
 		$this->template = $template;
 		$this->user = $user;
 		$this->helper = $helper;
@@ -311,7 +316,7 @@ class social_photo
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			if (($row['photo_where'] == 1 && $row['photo_privacy'] == 2) || $row['photo_where'] == 0 && (($row['photo_privacy'] == 0 && $row['user_id'] == $this->user->data['user_id']) || ($row['photo_privacy'] == 1 && ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['user_id'])) || $row['photo_privacy'] == 2))
+			if (($this->auth->acl_get('a_status_manage') || $this->auth->acl_get('m_status_manage')) || ($row['photo_where'] == 1 && $row['photo_privacy'] == 2) || $row['photo_where'] == 0 && (($row['photo_privacy'] == 0 && $row['user_id'] == $this->user->data['user_id']) || ($row['photo_privacy'] == 1 && ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['user_id'])) || $row['photo_privacy'] == 2))
 			{
 				$this->template->assign_block_vars($block, array(
 					'PHOTO_ID'		=> $row['photo_id'],
@@ -327,6 +332,9 @@ class social_photo
 	 */
 	public function get_photo($photo, $template = false, $popup = false)
 	{
+		$authMod = false;
+		$authAction = true;
+		
 		$photo = str_replace("#", "", $photo);
 
 		$sql = "SELECT p.*, (SELECT post_ID FROM ".$this->pgsocial_wallpost." WHERE post_extra = '".$photo."') as post_id, (SELECT message FROM ".$this->pgsocial_wallpost." WHERE post_extra = '".$photo."') as message, (SELECT g.gallery_privacy FROM ".$this->pgsocial_gallery." g WHERE p.photo_id = '".$photo."' AND p.gallery_id = g.gallery_id) as post_privacy FROM ".$this->pgsocial_photos." AS p WHERE ".$this->db->sql_build_array('SELECT', array('p.photo_id' => $photo));
@@ -349,7 +357,8 @@ class social_photo
 		if ($this->pg_social_helper->count_action('comments', $row['post_id']) == 0 || $this->pg_social_helper->count_action('comments', $row['post_id']) > 1)
 		{
 			$comment .= $this->user->lang('COMMENT', 2);
-		} else
+		}
+		else
 		{
 			$comment .= $this->user->lang('COMMENT', 1);
 		}
@@ -357,7 +366,8 @@ class social_photo
 		if (($this->user->data['user_id'] == $user['user_id'] && $row['photo_file'] != $this->user->data['user_pg_social_cover']) || $this->user->data['user_id'] == $user['page_founder'])
 		{
 			$photo_action = 1;
-		} else
+		}
+		else
 		{
 			$photo_action = 0;
 		}
@@ -376,7 +386,8 @@ class social_photo
 				$gallumb = $row['album_id'];
 				$album = false;
 				$gl = '';
-			} else
+			}
+			else
 			{
 				$gallumb = $row['gallery_id'];
 				$album = true;
@@ -385,12 +396,27 @@ class social_photo
 			if ($user['username'] && $user['user_colour'])
 			{
 				$row['gallery_url'] = get_username_string('profile', $user['user_id'], $user['username'], $user['user_colour']).'&gall='.$gallumb.$gl;
-			} else
+			}
+			else
 			{
 				$row['gallery_url'] = '';
 			}
-			
+			$rele = false;
+				
+			if ($this->auth->acl_get('a_status_manage') || $this->auth->acl_get('m_status_manage'))
+			{
+				$rele = true;
+				$authAction = false;
+				$authMod = true;
+			}
 			if (($row['photo_privacy'] == 0 && $row['user_id'] == $this->user->data['user_id']) || ($row['photo_privacy'] == 1 && ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['user_id'])) || (($row['photo_privacy'] == 2) || ($row['photo_privacy'] == 2)) || ($row['photo_privacy'] == 2 && $row['photo_where'] == 0))
+			{
+				$rele = true;
+				$authAction = true;			
+			}	
+			
+				
+			if ($rele)
 			{
 				if (!$template)
 				{
@@ -417,6 +443,9 @@ class social_photo
 						'NEX'						=> $this->prenext_photo($row['photo_id'], 1, $row['photo_where'], false),
 						'COMMENT'					=> $comment,
 						'POST_ID'					=> $row['post_id'],
+						
+						'AUTH_ACTION'				=> $authAction,
+						'AUTH_MOD'					=> $authMod,
 					));
 					if (!$popup)
 					{
@@ -427,7 +456,6 @@ class social_photo
 						return $this->helper->render('pg_social_photo.html', '');
 					}
 				}
-
 			}
 		}
 	}
@@ -447,92 +475,55 @@ class social_photo
 			break;
 		}
 		
-		$ImageName 		= str_replace(')', '', str_replace('(', '', str_replace(' ', '-', strtolower($photo['name']))));
-		$ImageSize 		= $photo['size'];
-		$TempSrc = $photo['tmp_name'];
-		$ImageType	 	= $photo['type'];
-		$imageAlbum 	= $this->pg_social_path.'upload/';
 
-		if (!file_exists($imageAlbum)) mkdir($imageAlbum);
-		$BigImageMaxSize = 1500;
-		$Quality = 100;
-		$now = time();
-
-		$RandomNumber = mt_rand();
-		switch (strtolower($ImageType))
-		{
-			case 'image/png':
-				$CreatedImage = imagecreatefrompng($TempSrc);
-				break;
-			case 'image/gif':
-				$CreatedImage = imagecreatefromgif($TempSrc);
-				break;
-			case 'image/jpeg':
-			   $CreatedImage = imagecreatefromjpeg($TempSrc);
-				break;
-
-			case 'image/pjpeg':
-				$CreatedImage = imagecreatefromjpeg($TempSrc);
-				break;
-			default:
-				trigger_error($this->user->lang['ATTACHED_IMAGE_NOT_IMAGE']);
-			break;
-		}
-		list($CurWidth, $CurHeight) = getimagesize($TempSrc);
-		$ImageExt = substr($ImageName, strrpos($ImageName, '.'));
-		$ImageExt = str_replace('.', '', $ImageExt);
+		$photo_max = 1500;		
+		$time = time();
+		$target_dir = $this->pg_social_path.'upload/';
+		$imageFileType = strtolower(pathinfo($photo['name'], PATHINFO_EXTENSION));
+		$target_file = $target_dir."photo_".$type."_".$time.".".$imageFileType;
+		$name_photo = "photo_".$type."_".$time.".webp";
+		$target_webp = $target_dir.$name_photo;
 		
-		$ImageName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $ImageName);
-		$NewImageName = $ImageName.'-'.$RandomNumber.'.'.$ImageExt;
-		$DestRandImageName = $imageAlbum.$NewImageName;
-		
-		function resizeImage($CurWidth, $CurHeight, $MaxSize, $DestFolder, $SrcImage, $Quality, $ImageType)
-		{
-			if ($CurWidth <= $CurHeight) $MaxSize = 1500;
-			if ($CurWidth <= 0 || $CurHeight <= 0) return false;
+		$check = getimagesize($photo["tmp_name"]);		
+		if($check !== false && move_uploaded_file($photo["tmp_name"], $target_file)) {	
+			list($width, $height) = getimagesize($target_file);
+			$diff = $width / $photo_max;
+			$modheight = $height / $diff;
+			$tn = imagecreatetruecolor($photo_max, $modheight);
 			
-			if ($CurWidth > $MaxSize)
-			{
-				$ImageScale = min($MaxSize / $CurWidth, $MaxSize / $CurHeight);
-				$NewWidth  			= ceil($ImageScale * $CurWidth);
-				$NewHeight 			= ceil($ImageScale * $CurHeight);
-				$NewCanves 			= imagecreatetruecolor($NewWidth, $NewHeight);
+			if($imageFileType == "png") {
+				$image = imagecreatefrompng($target_file);
+			} elseif($imageFileType == "webp") {
+				$image = imagecreatefromwebp($target_file);
+			} else {
+				$image = imagecreatefromjpeg($target_file);
 			}
-			else
-			{
-				$NewWidth 			= ceil($CurWidth);
-				$NewHeight			= ceil($CurHeight);
-				$NewCanves			= imagecreatetruecolor($NewWidth, $NewHeight);
-			}
-			if (imagecopyresampled($NewCanves, $SrcImage, 0, 0, 0, 0, $NewWidth, $NewHeight, $CurWidth, $CurHeight))
-			{
-				switch (strtolower($ImageType))
-				{
-					case 'image/png':
-						imagepng($NewCanves, $DestFolder);
-						break;
-					case 'image/gif':
-						imagegif($NewCanves, $DestFolder);
-						break;
-					case 'image/jpeg':
-						imagejpeg($NewCanves, $DestFolder, $Quality);
-						break;
-					case 'image/pjpeg':
-						imagejpeg($NewCanves, $DestFolder, $Quality);
-						break;
-					default:
-						return false;
-					break;
+			if($imageFileType != "png") {
+				$exif = exif_read_data($target_file);	
+				if(array_key_exists('Orientation', $exif)) {
+					$orientation = $exif['Orientation'];
+					if(isset($orientation) && $orientation != 1) {
+						switch($orientation) {
+							case 3:
+								$deg = 180;
+							break;
+							case 6:
+								$deg = 270;
+							break;
+							case 8:
+								$deg = 90;
+							break;
+						}
+						if($deg != "") {
+							$image = imagerotate($image, $deg, 0);
+						}
+					}
 				}
-				if (is_resource($NewCanves))
-				{
-					imagedestroy($NewCanves);
-				}
-				return true;
 			}
+			imagewebp($image, $target_webp, 90);
+			unlink($target_file);
+			return $this->photo_query($where, $who, $msg, $type, $lwhere, $name_photo, $time, $privacy, $itop);
 		}
-		resizeImage($CurWidth, $CurHeight, $BigImageMaxSize, $DestRandImageName, $CreatedImage, $Quality, $ImageType);
-		return $this->photo_query($where, $who, $msg, $type, $lwhere, $NewImageName, $now, $privacy, $itop);
 	}
 
 	/**

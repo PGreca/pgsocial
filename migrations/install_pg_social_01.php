@@ -183,7 +183,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 						'tagged_user'			=> array('VCHAR:255', ''),
 					),
 					'PRIMARY_KEY'	=> 'post_ID',
-				),
+				),	
 				$this->table_prefix.'pg_social_wall_like'	=> array(
 					'COLUMNS'			=> array(
 						'post_like_ID'		=> array('UINT:11', null, 'auto_increment', 0),

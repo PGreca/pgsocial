@@ -369,7 +369,7 @@ class post_status
 										$sauthor_action = ' '.$this->user->lang('HAS_UPLOADED_AVATAR');
 									} else
 									{
-										if ($photo['gallery_privacy'] == 0 && $this->user->data['user_id'])
+										if ($photo['gallery_privacy'] == 0 && $this->user->data['user_id'] || ($this->auth->acl_get('a_status_manage') || $this->auth->acl_get('m_status_manage')))
 										{
 											$actionprivacy = false;
 											$status_privacy = $photo['gallery_privacy'];
@@ -497,7 +497,7 @@ class post_status
 			$likes .= $this->user->lang('LIKE', 1);
 		}
 		$rele = false;
-		if ($this->auth->acl_get('a_page_manage') || $this->auth->acl_get('m_page_manage'))
+		if (($this->auth->acl_get('a_status_manage') || $this->auth->acl_get('m_status_manage')) && $this->user->data['user_id'] != $row['post_ID'])
 		{
 			$rele = true;
 			$authAction = false;
@@ -515,9 +515,9 @@ class post_status
 		{
 			if ($row['wall_id'] == $this->user->data['user_id'] || $this->user->data['user_id'] == $row['user_id']) $action = true;
 			$this->template->assign_block_vars($block_vars, array(
-				'POST_STATUS_ID'            => $row['post_ID'],
-				'AUTH_ACTION'				=> $authAction,
-				'AUTH_MOD'					=> $authMod,
+				'POST_STATUS_ID'            			=> $row['post_ID'],
+				'AUTH_ACTION'							=> $authAction,
+				'AUTH_MOD'								=> $authMod,
 				'AUTHOR_ACTION'							=> $author_action,
 				'AUTHOR_PROFILE'						=> $status_profile,
 				'AUTHOR_ID'									=> $status_aut_id,

@@ -21,12 +21,12 @@ if(empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ACL_CAT_PG_SOCIAL'		=> 'PG Social',
-
+	
 	'ACL_U_PAGE_CREATE'		=> 'Crea una pagina',
-
-	'ACL_A_PAGE_MANAGE'		=> 'Abilitare pagine',
-	'ACL_A_STATUS_MANAGE'	=> 'Gestione attività',
-
+	
+	'ACL_A_PAGE_MANAGE'		=> 'Abilitare pagine',	
+	'ACL_A_STATUS_MANAGE'	=> 'Segnalazione attività',
+	
 	'ACL_M_PAGE_MANAGE'		=> 'Abilitare pagine',
-	'ACL_M_STATUS_MANAGE'	=> 'Gestione attività',
+	'ACL_M_STATUS_MANAGE'	=> 'Segnalazione attività',
 ));

@@ -4,7 +4,7 @@
 
 Clone into phpBB/ext/pgreca/pgsocial: 
 
-    git clone https://github.com/PGreca/pg_social.git phpBB/ext/pgreca/pg_social
+    git clone https://github.com/PGreca/pg_social.git phpBB/ext/pgreca/pgsocial
 
 Go to "ACP" > "Customise" > "Extensions" and enable the "PG Social Network" extension.
 

@@ -177,6 +177,7 @@ services:
     pgreca.pgsocial.social.social_photo:
         class: pgreca\pgsocial\social\social_photo
         arguments:
+            - '@auth'
             - '@template'
             - '@user'
             - '@controller.helper'

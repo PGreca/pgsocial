@@ -18,9 +18,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$lang = array_merge($lang, array(		
-	'PG_NOTICE'							=> 'PG Social Network need the extension "phpBB Media Embed Plugin".',
-	
+$lang = array_merge($lang, array(			
 	'ACP_PG_SOCIAL_TITLE'				=> 'PG Social Network',
 	'ACP_PG_SOCIAL_MAIN'				=> 'Main menu',
 	'ACP_PG_SOCIAL_GENERAL'				=> 'General',
@@ -33,12 +31,8 @@ $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_INDEX_ACTIVITY'		=> 'Enable the right sidebar of the last activity on the Forum page',
 	'ACP_PG_SOCIAL_STATUS'				=> 'Status settings',
 	'ACP_PG_SOCIAL_COLOR'				=> 'Choose color',
-	'ACP_PG_SOCIAL_NOCOLOR'				=> 'None',
-	'ACP_PG_SOCIAL_BLUE'				=> 'Blue',
+	'ACP_PG_SOCIAL_LIGHT'				=> 'Light',
 	'ACP_PG_SOCIAL_DARK'				=> 'Dark',
-	'ACP_PG_SOCIAL_LIGHTBLUE'			=> 'Lightblue',
-	'ACP_PG_SOCIAL_GREEN'				=> 'Green',
-	'ACP_PG_SOCIAL_RED'					=> 'Red',
 	'ACP_PG_SOCIAL_BBCODE_ENABLED'		=> 'Enable BBCode',
 	'ACP_PG_SOCIAL_SMILIES_ENABLED'		=> 'Enable Smiles',
 	'ACP_PG_SOCIAL_URL_ENABLED'			=> 'Enable URL',

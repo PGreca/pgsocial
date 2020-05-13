@@ -6,6 +6,10 @@
 	color: #fff;
 }
 
+#pg_social i.icon {
+	color: #fff;
+}
+
 #pg_social img.avatar {
 	background-color: #181818;
 }
@@ -113,6 +117,10 @@
 	color: #fff;
 }
 
+#pg_social form#wall_post #wall_post_text {
+	background-color: #181818;
+}
+
 #pg_social form#wall_post #wall_post_footer {
 	border-color: #1f242a;
 }
@@ -156,6 +164,10 @@
 #pg_social #pg_social_cont ul#posts_status li.post_status {
 	background-color: #181818;
 	border-color: #1f242a;
+}
+
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer {
+	border-top: 2px solid rgba(255, 255, 255, 0.05);
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author .post_status_privacy .post_status_privacy_box,
@@ -228,6 +240,11 @@
 
 .phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options {
 	background: #181818;
+}
+
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options li a,
+.phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options li a:hover {
+	color: #fff;	
 }
 
 .phpbb_alert.pg_social_photo #pg_social_photo_img .pg_social_photo_side ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options li a:hover {

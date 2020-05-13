@@ -88,11 +88,10 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social {
 	text-align: left;
 	font-size: 10px;
-	color: #898da8;
 	text-shadow: 0 0 0;
 }
 
-#pg_social * {
+#pg_social input {
 	background-color: transparent;
 	outline: none;
 	border: 0;
@@ -139,8 +138,9 @@ body.section-memberlist .action-bar.actions-jump {
 	display: inline-block;
 	background-color: #fff;
 	width: calc(100% - 30px + 20px);
-    margin: -10px -10px 15px;
+    margin: -10px -10px 0px;
 	padding: 15px;
+	border-bottom: 0px;
 	font-size: .875rem;
 	text-transform: inherit;
 	color: #515365;
@@ -467,10 +467,10 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_sidel ul#profile_menu li.memberlist-title h2 {
+	border-bottom: 0px;
 	font-weight: bold;
 	font-size: 1.7em;
 }
-
 
 #pg_social #pg_social_sidel ul#profile_menu li i.icon {
 	width: 16px;
@@ -572,7 +572,8 @@ body.section-memberlist .action-bar.actions-jump {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	width: calc(25% - 15px + (15px / 4) - 1px);
+	width: calc(25% - 15px + (15px / 4) - 1px - 2px);
+	border: 1px solid #e6ecf5;
 	margin: 0 15px 15px 0;
 	border-radius: 3px;
 	box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.06);
@@ -900,9 +901,11 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social form#wall_post {
 	position: relative;
 	background-color: #fff;
+	width: calc(100% - 2px);
+	border: 1px solid #e6ecf5;
+    margin-bottom: 15px;
     border-radius: 3px;
 	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
-    margin-bottom: 15px;
 }
 
 #pg_social form#wall_post > * {
@@ -945,6 +948,7 @@ body.section-memberlist .action-bar.actions-jump {
 	margin: 0;
 	padding: 30px 25px;
 	overflow-y: auto;
+	border: 0px;
 	resize: none;
 	font-size: 1.1em;
 	user-select: text;
@@ -1305,8 +1309,8 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton,
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li,
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li a {
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton > li,
+#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton > li a {
 	display: inline-block;
 	vertical-align: top;
 	cursor: pointer;
@@ -1332,19 +1336,9 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li .dropdown-contents > li {
-	padding: 5px;
-	white-space: nowrap;
 	cursor: pointer;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li .dropdown-contents > li:hover {
-	color: #ff5e3a;
-}
-
-#pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head ul.post_status_actionButton li .dropdown-contents > li  a {
-	width: calc(100% - 20px);
-	padding: 10px;
-}
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content {
 	padding: 10px 20px 20px;
@@ -1756,6 +1750,7 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social ul#profile_menu {
 	width: 100%;
+	list-style: none;
 }
 
 #pg_social ul#profile_menu li {
