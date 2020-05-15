@@ -124,23 +124,40 @@ class main_module
 					{
 						trigger_error('FORM_INVALID');
 					}
-					$sql_arr = array(
-						'page_status' => 1
-					);
-					$sql = 'UPDATE '.$table_prefix.'pg_social_pages SET '.$db->sql_build_array('UPDATE', $sql_arr).' WHERE page_id IN ("'.implode('", "', $request->variable('page_selected', array('' => ''))).'")';
-					if ($db->sql_query($sql))
+					$sqlAppr = 'UPDATE '.$table_prefix.'pg_social_pages SET page_status = "1" WHERE page_id IN ("'.implode('", "', $request->variable('page_appr', array('' => ''))).'")';
+					$sqlPage = 'UPDATE '.$table_prefix.'pg_social_pages SET page_status = "2" WHERE page_id IN ("'.implode('", "', $request->variable('page', array('' => ''))).'")';
+					$sqlTrash = 'DELETE FROM '.$table_prefix.'pg_social_pages WHERE page_id IN ("'.implode('", "', $request->variable('page_trash', array('' => ''))).'")';
+					
+					$db->sql_query($sqlAppr);
+					$db->sql_query($sqlPage);
+					if ($db->sql_query($sqlTrash))
 					{
-						trigger_error($user->lang('ACP_PG_SOCIAL_SETTING_SAVED') . adm_back_link($this->u_action));
+						$this->pageDelete($request->variable('page_trash', array('' => '')));
 					}
+					trigger_error($user->lang('ACP_PG_SOCIAL_SETTING_SAVED') . adm_back_link($this->u_action));
 				}
 				else 
 				{
+					$blockVars = '';
 					$pgsocial_helper = $phpbb_container->get('pgreca.pgsocial.helper');
-					$sql = 'SELECT p.*, u.username, u.user_colour FROM '.$table_prefix.'pg_social_pages as p, '.USERS_TABLE.' as u WHERE p.page_founder = u.user_id AND p.page_status = "0"';
+					$sql = 'SELECT p.*, u.username, u.user_colour FROM '.$table_prefix.'pg_social_pages as p, '.USERS_TABLE.' as u WHERE p.page_founder = u.user_id';
 					$result = $db->sql_query($sql);
 					while($row = $db->sql_fetchrow($result))
 					{
-						$template->assign_block_vars('pages', array(
+						switch($row['page_status'])
+						{
+							case 0:
+								$blockVars = 'pagesApprove';
+							break;
+							case 1:
+								$blockVars = 'pages';
+							break;
+							case 2:
+								$blockVars = 'pagesTrash';
+							break;
+						}
+						
+						$template->assign_block_vars($blockVars, array(
 							'PAGE_ID'				=> $row['page_id'],
 							'PAGE_USERNAME'			=> $row['page_username'],
 							'PAGE_FOUNDER'			=> $row['username'],
@@ -155,6 +172,22 @@ class main_module
 					));
 				}
 			break;
+		}
+	}
+	
+	function pageDelete($pages)
+	{
+		global $db, $table_prefix;
+		
+		foreach($pages as $page)
+		{
+			$delLikes = "DELETE FROM ".$table_prefix."pg_social_pages WHERE page_id = '".$page."'";
+			$delPosts = "DELETE FROM ".$table_prefix."pg_social_pages_like WHERE page_id = '".$page."'";
+			$delStatus = "DELETE FROM ".$table_prefix."pg_social_wall_post WHERE post_where = '1' AND wall_id = '".$page."'";
+			
+			$db->sql_query($delLikes);
+			$db->sql_query($delPosts);
+			$db->sql_query($delStatus);
 		}
 	}
 }

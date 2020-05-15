@@ -117,7 +117,6 @@ class pages
 	*/
 	public function handlepage()
 	{
-		
 			$page_title = $this->user->lang['PAGES'];
 
 			$sql = "SELECT p.*, (SELECT COUNT(*)
@@ -163,6 +162,12 @@ class pages
 					$page_likelang = $this->user->lang('LIKE', 1);
 				}
 
+				$peopleLikes = $this->user->lang('USR', 2);
+				if ($page['countlike'] == 1)
+				{
+					$peopleLikes = $this->user->lang('USR', 1);
+				}
+					
 				$this->template->assign_block_vars('page', array(
 					'PAGE_ID'				=> $page['page_id'],
 					'PAGE_ALERT'			=> $page_alert,
@@ -174,8 +179,9 @@ class pages
 					'PAGE_USERNAME'			=> $page['page_username'],
 					'PAGE_ABOUT_WE'			=> $page['page_about'],
 					'PAGE_REGDATE'			=> $this->pg_social_helper->time_ago($page['page_regdate']),
-
-					'PAGE_LIKE'				=> $page['countlike'],
+					'PAGE_REGDATEFORMAT'	=> $this->user->format_date($page['page_regdate']),
+					
+					'PAGE_LIKE'				=> $page['countlike'].' '.$peopleLikes,
 					'PAGE_LIKE_CHECK'		=> $page_likeCheck.'page',
 					'PAGE_LIKE_CHECKLANG'	=> $page_likelang,
 				));

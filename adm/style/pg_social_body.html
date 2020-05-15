@@ -1,8 +1,6 @@
 {% INCLUDE 'overall_header.html' %}
 
-<h1>{{ lang('ACP_PG_SOCIAL_TITLE') }}</h1><br />
-<span style="font-size:0.8em; font-style:italic">{{ lang('ACP_PG_SOCIAL_SETTINGS_EXPLAIN') }}<br />{{ lang('VERSION') }}{{ lang('COLON') }} {{ PG_SOCIAL_VERSION }}</span>
-<br />
+<h1>{{ lang('ACP_PG_SOCIAL_TITLE') }}</h1>
 {% if PG_SOCIAL_ERROR %}
 <div class="errorbox"><h3>{{ lang('WARNING') }}</h3>
 	<p>{{ PG_SOCIAL_ERROR }}</p>
@@ -117,7 +115,8 @@
 		{% endif %}
 		{% if PG_SOCIAL_PAGE_PAGE_MANAGE %}
 			{% if PAGE_MANAGE_ACTION %}
-			{% if loops.pages|length %}
+			<h2>{{ lang('PAGE_TO_APPROVE') }}</h2>
+			{% if loops.pagesApprove|length %}
 			<table class="table1 responsive">
 				<thead>
 					<tr>
@@ -128,32 +127,92 @@
 					</tr>
 				</thead>
 				<tbody>
-				{% for pages in loops.pages %}
+				{% for pagesApprove in loops.pagesApprove %}
 					<tr class="bg1">
-						<td>{{ pages.PAGE_USERNAME }}</td>
-						<td><a href="{{ pages.PAGE_FOUNDERL }}">{{ pages.PAGE_FOUNDER }}</a></td>
-						<td class="center">{{ pages.PAGE_REGDATA }}</td>
-						<td style="width: 5%" align="center"><input type="checkbox" name="page_selected[]" value="{{ pages.PAGE_ID }}" /></td>
+						<td>{{ pagesApprove.PAGE_USERNAME }}</td>
+						<td><a href="{{ pagesApprove.PAGE_FOUNDERL }}">{{ pagesApprove.PAGE_FOUNDER }}</a></td>
+						<td class="center">{{ pagesApprove.PAGE_REGDATA }}</td>
+						<td style="width: 5%" align="center"><input type="checkbox" name="page_appr[]" value="{{ pagesApprove.PAGE_ID }}" /></td>
 					</tr>
 				{% endfor %}
 				</tbody>
 			</table>
 			{% else %}
-			Nessuna pagina da approvare
+			{{ lang('NO_PAGE_APPROVE') }}
 			{% endif %}
+			
+			<h2>{{ lang('PAGE_APPROVED') }}</h2>
+			{% if loops.pages|length %}
+			<table class="table1 responsive">
+				<thead>
+					<tr>
+						<th class="name">{{ lang('PAGE_USERNAME') }}</th>
+						<th class="name">{{ lang('USERNAME') }}</th>
+						<th class="center">{{ lang('TIME') }}</th>
+						<th class="center">{{ lang('TRASH_PAGE') }}</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for pages in loops.pages %}
+					<tr class="bg1">
+						<td>{{ pages.PAGE_USERNAME }}</td>
+						<td><a href="{{ pages.PAGE_FOUNDERL }}">{{ pages.PAGE_FOUNDER }}</a></td>
+						<td class="center">{{ pages.PAGE_REGDATA }}</td>
+						<td style="width: 5%" align="center"><input type="checkbox" name="page[]" value="{{ pages.PAGE_ID }}" /></td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
 			{% else %}
-			Non disponi dei permessi per la gestione delle pagine.
+				{{ lang('NO_PAGE') }}
+			{% endif %}
+			
+			
+			
+			
+			
+			
+			<h2>{{ lang('PAGE_TRASHED') }}</h2>
+			{% if loops.pagesTrash|length %}
+			<table class="table1 responsive">
+				<thead>
+					<tr>
+						<th class="name">{{ lang('PAGE_USERNAME') }}</th>
+						<th class="name">{{ lang('USERNAME') }}</th>
+						<th class="center">{{ lang('TIME') }}</th>
+						<th class="center">{{ lang('RESET') }}</th>
+						<th class="center">{{ lang('DELETE_PAGE') }}</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for pagesTrash in loops.pagesTrash %}
+					<tr class="bg1">
+						<td>{{ pagesTrash.PAGE_USERNAME }}</td>
+						<td><a href="{{ pagesTrash.PAGE_FOUNDERL }}">{{ pagesTrash.PAGE_FOUNDER }}</a></td>
+						<td class="center">{{ pagesTrash.PAGE_REGDATA }}</td>
+						<td style="width: 5%" align="center"><input class="uncheck" type="checkbox" name="page_appr[]" value="{{ pagesTrash.PAGE_ID }}" /></td>
+						<td style="width: 5%" align="center"><input class="uncheck" type="checkbox" name="page_trash[]" value="{{ pagesTrash.PAGE_ID }}" /></td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+			{% else %}
+				{{ lang('NO_PAGE_TRASHED') }}
+			{% endif %}
+			
+			{% else %}
+				{{ lang('NO_PERMESS') }}
 			{% endif %}
 		{% endif %}
 		{{ S_FORM_TOKEN }}
+		<div class="panel">
+			<p class="submit-buttons">
+				<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+				<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+			</p>
+		</div>
 	</div><div style="display:inline-block;width:25%;vertical-align:top">
 		<iframe src="https://pgreca.it/pg_social/pg_social_iframe.php?lang={{ lang('USER_LANG') }}" width="100%" height="300px" frameborder="0" cellpadding="0"></iframe>
-	</div>
-	<div class="panel">
-		<p class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
-			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
-		</p>
 	</div>
 </form>
 {% INCLUDE 'overall_footer.html' %}

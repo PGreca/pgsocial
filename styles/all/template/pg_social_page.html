@@ -1,144 +1,146 @@
 {% INCLUDE 'overall_header.html' %}
-<div id="pg_social" class="pg_social_pagepage">
-{% if not PAGES %}
-{% for page in loops.page %}
-	{% if page.PAGE_ALERT %}
-	<div class="page_alert">
-	{% endif %}
-	<div id="pg_social_header" style="background-image:url({{ page.PAGE_COVER }}); background-position: left {{ page.PAGE_COVER_POSITION }}px;">
-		<div id="pg_social_actionprofile">
-			<div id="profile_upload">
-				<a class="page_list_buttonLike" data-page="{{ page.PAGE_ID }}"><span class="{{ page.PAGE_LIKE_CHECK }}">{{ page.PAGE_LIKE_CHECKLANG }}</span></a>
-				{% if page.PAGE_ACTION %}
-				<input id="profile_upload_submit" type="submit" value="{{ lang('PROFILE_UPDATE') }}" />
-				<div class="action_profile">
-					<label id="pg_social_edit_avatar">{{ lang('PROFILE_AVATAR_UPDATE') }}<input type="file" accept="image/*" data-type="avatar"></label><label id="pg_social_edit_cover">{{ lang('PROFILE_COVER_UPDATE') }}<input type="file" accept="image/*" data-type="cover"></label>
-				</div>
-				{% endif %}
-			</div>
-		</div>
-	</div><div id="pg_social_main">
-		<div class="profile_avatar">{{ page.PAGE_AVATAR }}</div>
-		<h2 class="memberlist-username">{{ page.PAGE_USERNAME }}</h2>
-		<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('ACTIVITY') }}</a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa fa-camera fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('GALLER') }}</a></li><!--<li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i> {{ lang('LIKES') }} <span>({{ page.PAGE_COUNT_FOLLOWER }})</span></a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i> {{ lang('INFO') }}</a></li>--></ul>
-		<div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80%);"{% endif %}>
-			<div class="pg_social_pagesub" id="page_activity">
-				<div id="pg_social_sidel">
-					<div class="panel">
-						<dl>
-							<dt>{{ lang('CREATED') }}{{ lang('COLON') }}</dt><dd>{{ page.PAGE_REGDATE }}</dd>
-							<dt>{{ lang('LIKE', 1) }}{{ lang('COLON') }}</dt><dd>{{ page.PAGE_LIKE }}</dd>
-						</dl>
+	<div id="pg_social" class="pg_social_pagepage">
+	{% if not PAGES %}
+	{% for page in loops.page %}
+		{% if page.PAGE_ALERT %}
+		<div class="page_alert">
+		{% endif %}
+		<div id="pg_social_header" style="background-image:url({{ page.PAGE_COVER }}); background-position: left {{ page.PAGE_COVER_POSITION }}px;">
+			<div id="pg_social_actionprofile">
+				<div id="profile_upload">
+					<a class="page_list_buttonLike" data-page="{{ page.PAGE_ID }}"><span class="{{ page.PAGE_LIKE_CHECK }}">{{ page.PAGE_LIKE_CHECKLANG }}</span></a>
+					{% if page.PAGE_ACTION %}
+					<input id="profile_upload_submit" type="submit" value="{{ lang('PROFILE_UPDATE') }}" />
+					<div class="action_profile">
+						<label id="pg_social_edit_avatar">{{ lang('PROFILE_AVATAR_UPDATE') }}<input type="file" accept="image/*" data-type="avatar"></label><label id="pg_social_edit_cover">{{ lang('PROFILE_COVER_UPDATE') }}<input type="file" accept="image/*" data-type="cover"></label>
 					</div>
-					{% if page.PAGE_ABOUT_WE %}<div class="panel">
-						<div class="colum" style="width:100%;">
+					{% endif %}
+				</div>
+			</div>
+		</div><div id="pg_social_main">
+			<div class="profile_avatar">{{ page.PAGE_AVATAR }}</div>
+			<h2 class="memberlist-username">{{ page.PAGE_USERNAME }}</h2>
+			<ul id="pg_social_menu"><li data-social_menu="activity"><a href="#activity"><i class="icon fa fa-user fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('ACTIVITY') }}</a></li><li data-social_menu="gallery"><a href="#gallery"><i class="icon fa fa-camera fa-fw" aria-hidden="true"></i><div class="break"></div>{{ lang('GALLER') }}</a></li><!--<li data-social_menu="friends"><a href="#friends"><i class="icon fa-users fa-fw" aria-hidden="true"></i> {{ lang('LIKES') }} <span>({{ page.PAGE_COUNT_FOLLOWER }})</span></a></li><li data-social_menu="info"><a href="#info"><i class="icon fa-info fa-fw" aria-hidden="true"></i> {{ lang('INFO') }}</a></li>--></ul>
+			<div id="pg_social_cont"{% if not PG_SOCIAL_SIDEBAR_RIGHT %} style="width:calc(80%);"{% endif %}>
+				<div class="pg_social_pagesub" id="page_activity">
+					<div id="pg_social_sidel">
+						<div class="panel">
 							<dl>
-								{% if page.PAGE_ABOUT_WE %}<dd>{{ page.PAGE_ABOUT_WE }}</dd>{% endif %}
+								<dt>{{ lang('CREATED') }}{{ lang('COLON') }}</dt><dd>{{ page.PAGE_REGDATEFORMAT }}</dd>
+							</dl>
+							<dl>
+								<dt>{{ lang('LIKE_TO') }}{{ lang('COLON') }}</dt><dd>{{ page.PAGE_LIKE }}</dd>
 							</dl>
 						</div>
-					</div>{% endif %}
-					<!-- EVENT pgreca_pgsocial_page_sidel -->
-				</div><div id="pg_social_sidec">
-					{% if page.PAGE_ACTION %}
-						{% INCLUDE 'activity_form.html' %}
-					{% endif %}
-					<ul id="posts_status">
-						{% INCLUDE 'activity_status.html' %}
-					</ul>
-					<div id="load_more"></div>
-				</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
-					{% if loops.last_photos %}
-					<div class="panel" id="pg_social_profile_lastphotos">
-						<h3>{{ lang('LAST_PHOTO', 2) }}</h3>
-						<div class="last_photos">
-							<ul class="template_photos bigcolums colums" id="last_photos">
-								{% for last_photos in loops.last_photos %}<li class="photo colum" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="./ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
-							</ul>
-						</div>
-					</div>
-					{% endif %}
-				</div>{% endif %}
-			</div>
-			<div class="pg_social_pagesub" id="page_gallery">
-				{% if not GALLERY_NAME %}
-				<ul class="template_photos bigcolums colums" id="pg_social_gallery">
-					{% for social_gallery in loops.social_gallery %}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}">
-						<div class="cover" style="background-image:url('{{ social_gallery.PHOTO_COVER }}')">
-							<img src="./ext/pgreca/pgsocial/images/transp.gif" />
-						</div>
-						<div class="gallery_name username">
-							<a href="{{ social_gallery.GALLERY_URL }}">
-								<h5>{{ social_gallery.GALLERY_NAME }}</h5>
-							</a>
-						</div>
-						<div class="gallery_counts counts counts">
-							<div class="gallery_count_count_photos count">
-								{{ social_gallery.GALLERY_COUNT }}
+						{% if page.PAGE_ABOUT_WE %}<div class="panel">
+							<div class="colum" style="width:100%;">
+								<dl>
+									{% if page.PAGE_ABOUT_WE %}<dd>{{ page.PAGE_ABOUT_WE }}</dd>{% endif %}
+								</dl>
+							</div>
+						</div>{% endif %}
+						<!-- EVENT pgreca_pgsocial_page_sidel -->
+					</div><div id="pg_social_sidec">
+						{% if page.PAGE_ACTION %}
+							{% INCLUDE 'activity_form.html' %}
+						{% endif %}
+						<ul id="posts_status">
+							{% INCLUDE 'activity_status.html' %}
+						</ul>
+						<div id="load_more"></div>
+					</div>{% if PG_SOCIAL_SIDEBAR_RIGHT %}<div id="pg_social_sider">
+						{% if loops.last_photos %}
+						<div class="panel" id="pg_social_profile_lastphotos">
+							<h3>{{ lang('LAST_PHOTO', 2) }}</h3>
+							<div class="last_photos">
+								<ul class="template_photos bigcolums colums" id="last_photos">
+									{% for last_photos in loops.last_photos %}<li class="photo colum" id="gallery_{{ last_photos.PHOTO_ID }}" data-photo="{{ last_photos.PHOTO_ID }}" style="background-image:url({{ last_photos.PHOTO_FILE }})"><img src="./ext/pgreca/pgsocial/images/transp.gif" /></li>{% endfor %}
+								</ul>
 							</div>
 						</div>
-					</li>{% endfor %}
-				</ul>
-				{% endif %}
-				{% if GALLERY_NAME %}
-				<div class="panel" style="margin-bottom: 30px;">
-					<h5>
-						<a href="{{ page.PAGE_URL }}#gallery"><i class="icon fa fa-arrow-left" aria-hidden="true"></i></a> {{ GALLERY_NAME }}
-					</h5>
+						{% endif %}
+					</div>{% endif %}
 				</div>
-				<ul class="template_photos bigcolums colums" id="pg_social_photos">
-					{% for social_photos in loops.social_photos %}<li class="photo colum" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}" style="background-image:url({{ social_photos.PHOTO_FILE }})">
-						<img src="./ext/pgreca/pgsocial/images/transp.gif" />
-					</li>{% endfor %}
-				</ul>
-				{% endif %}
+				<div class="pg_social_pagesub" id="page_gallery">
+					{% if not GALLERY_NAME %}
+					<ul class="template_photos bigcolums colums" id="pg_social_gallery">
+						{% for social_gallery in loops.social_gallery %}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}">
+							<div class="cover" style="background-image:url('{{ social_gallery.PHOTO_COVER }}')">
+								<img src="./ext/pgreca/pgsocial/images/transp.gif" />
+							</div>
+							<div class="gallery_name username">
+								<a href="{{ social_gallery.GALLERY_URL }}">
+									<h5>{{ social_gallery.GALLERY_NAME }}</h5>
+								</a>
+							</div>
+							<div class="gallery_counts counts counts">
+								<div class="gallery_count_count_photos count">
+									{{ social_gallery.GALLERY_COUNT }}
+								</div>
+							</div>
+						</li>{% endfor %}
+					</ul>
+					{% endif %}
+					{% if GALLERY_NAME %}
+					<div class="panel" style="margin-bottom: 30px;">
+						<h5>
+							<a href="{{ page.PAGE_URL }}#gallery"><i class="icon fa fa-arrow-left" aria-hidden="true"></i></a> {{ GALLERY_NAME }}
+						</h5>
+					</div>
+					<ul class="template_photos bigcolums colums" id="pg_social_photos">
+						{% for social_photos in loops.social_photos %}<li class="photo colum" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}" style="background-image:url({{ social_photos.PHOTO_FILE }})">
+							<img src="./ext/pgreca/pgsocial/images/transp.gif" />
+						</li>{% endfor %}
+					</ul>
+					{% endif %}
+				</div>
 			</div>
 		</div>
-	</div>
-	{% if page.PAGE_ALERT %}
+		{% if page.PAGE_ALERT %}
+		</div>
+		{% endif %}
+	{% endfor %}
+	{% else %}
+	<div id="pg_social_cont">
+	{% if PAGE_CREATE %}
+	<a id="page_new_button">{{ lang('PAGE_CREATE') }}</a>
+	{% endif %}
+		<ul id="pages_list" class="colums">
+			{% for pages in loops.pages %}<li class="page_list colum" id="page_list_{{ pages.PAGE_ID }}">
+				<div class="cover big_cover" style="background-image:url('{{ pages.PAGE_COVER }}')">
+					<a class="aavatar" href="{{pages.PAGE_URL }}">
+						{{ pages.PAGE_AVATAR }}
+					</a>
+				</div>
+				<div class="username">
+					<a href="{{ pages.PAGE_URL }}">
+						<span>{{ pages.PAGE_USERNAME }}</span>
+					</a>
+				</div>
+				<div class="counts">
+					<div class="like_count count">
+						<b>{{ pages.PAGE_COUNT_FOLLOWER }}</b>
+						{{ lang('LIKE', 1) }}
+					</div>
+				</div>
+				<div class="action">
+					<a class="page_list_buttonLike {{ pages.PAGE_LIKE_CHECK }}" data-page="{{ pages.PAGE_ID }}"><i class="fa fa-star" aria-hidden="true"></i><span>{{ pages.PAGE_LIKE }}</span></a>
+				</div>
+			</li>{% endfor %}
+		</ul>
 	</div>
 	{% endif %}
-{% endfor %}
-{% else %}
-<div id="pg_social_cont">
-{% if PAGE_CREATE %}
-<a id="page_new_button">{{ lang('PAGE_CREATE') }}</a>
-{% endif %}
-	<ul id="pages_list" class="colums">
-		{% for pages in loops.pages %}<li class="page_list colum" id="page_list_{{ pages.PAGE_ID }}">
-			<div class="cover big_cover" style="background-image:url('{{ pages.PAGE_COVER }}')">
-				<a class="aavatar" href="{{pages.PAGE_URL }}">
-					{{ pages.PAGE_AVATAR }}
-				</a>
-			</div>
-			<div class="username">
-				<a href="{{ pages.PAGE_URL }}">
-					<span>{{ pages.PAGE_USERNAME }}</span>
-				</a>
-			</div>
-			<div class="counts">
-				<div class="like_count count">
-					<b>{{ pages.PAGE_COUNT_FOLLOWER }}</b>
-					{{ lang('LIKE', 1) }}
-				</div>
-			</div>
-			<div class="action">
-				<a class="page_list_buttonLike {{ pages.PAGE_LIKE_CHECK }}" data-page="{{ pages.PAGE_ID }}"><i class="fa fa-star" aria-hidden="true"></i><span>{{ pages.PAGE_LIKE }}</span></a>
-			</div>
-		</li>{% endfor %}
-	</ul>
-</div>
-{% endif %}
 
-{% if PAGE_CREATE %}
-<div class="panel" id="page_create">
-	<h3>{{ lang('PAGE_CREATE') }}</h3>
-	<form id="page_new_form" method="post" action="{{ PAGE_FORM }}">
-		<label for="page_new_name">
-			<input type="text" name="page_new_name" placeholder="{{ lang('PAGE_INSERT_NAME') }}" autocomplete="off" autofocus />
-		</label>
-		<input type="submit" value="{{ lang('CREATE') }}" name="page_new_submit" />
-	</form>
-</div>
-{% endif %}
-</div>
+	{% if PAGE_CREATE %}
+	<div class="panel" id="page_create">
+		<h3>{{ lang('PAGE_CREATE') }}</h3>
+		<form id="page_new_form" method="post" action="{{ PAGE_FORM }}">
+			<label for="page_new_name">
+				<input type="text" name="page_new_name" placeholder="{{ lang('PAGE_INSERT_NAME') }}" autocomplete="off" autofocus />
+			</label>
+			<input type="submit" value="{{ lang('CREATE') }}" name="page_new_submit" />
+		</form>
+	</div>
+	{% endif %}
+	</div>
 {% INCLUDE 'overall_footer.html' %}

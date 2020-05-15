@@ -231,7 +231,7 @@ class post_status
 			$block_vars = 'post_status';
 		}
 		$action = $authMod = false;
-		$rele = $actionprivacy = $authAction = true;
+		$preRele = $actionprivacy = $authAction = true;
 		$author_action = $msg = $msg_align = $wall_action = '';
 		$share = $row['post_ID'];
 		$wall['user_id'] = $wall['username'] = $wall['user_colour'] = '';
@@ -243,23 +243,30 @@ class post_status
 		switch ($row['post_where'])
 		{
 			case 1:
-				$sqlpage = "SELECT *, '' as user_colour FROM ".$this->pgsocial_pages." WHERE page_id = '".$row['wall_id']."'";
+				$sqlpage = "SELECT *, '' as user_colour FROM ".$this->pgsocial_pages." WHERE page_id = '".$row['wall_id']."' AND page_status = '1'";
 				$resultpage = $this->db->sql_query($sqlpage);
 				$page = $this->db->sql_fetchrow($resultpage);
-				$status_title = $page['page_username'];
-				$status_avatar = '<img class="avatar" src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url('.$this->pg_social_path.'/images/';
-				if ($page['page_avatar'] != '')
+				if ($page)
 				{
-					$status_avatar .= 'upload/'.$page['page_avatar'];
-				} else
-				{
-					$status_avatar .= 'page_no_avatar.jpg';
+					$status_title = $page['page_username'];
+					$status_avatar = '<img class="avatar" src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url('.$this->pg_social_path.'/images/';
+					if ($page['page_avatar'] != '')
+					{
+						$status_avatar .= 'upload/'.$page['page_avatar'];
+					} else
+					{
+						$status_avatar .= 'page_no_avatar.jpg';
+					}
+					$status_avatar .= ')" />';
+					$status_username = $page['page_username'];
+					$status_aut_id = $page['page_id'];
+					$status_profile = append_sid($this->helper->route('pages_page'), 'u='.$page['page_username_clean']);
+					$status_color = '';
 				}
-				$status_avatar .= ')" />';
-				$status_username = $page['page_username'];
-				$status_aut_id = $page['page_id'];
-				$status_profile = append_sid($this->helper->route('pages_page'), 'u='.$page['page_username_clean']);
-				$status_color = '';
+				else
+				{
+					$preRele = false;
+				}
 			break;
 			case 0:
 				$status_title = $this->user->lang['ACTIVITY'];
@@ -496,6 +503,7 @@ class post_status
 		{
 			$likes .= $this->user->lang('LIKE', 1);
 		}
+		
 		$rele = false;
 		if (($this->auth->acl_get('a_status_manage') || $this->auth->acl_get('m_status_manage')) && $this->user->data['user_id'] != $row['post_ID'])
 		{
@@ -511,7 +519,7 @@ class post_status
 			$authAction = true;			
 		}
 
-		if ($rele)
+		if ($preRele && $rele)
 		{
 			if ($row['wall_id'] == $this->user->data['user_id'] || $this->user->data['user_id'] == $row['user_id']) $action = true;
 			$this->template->assign_block_vars($block_vars, array(

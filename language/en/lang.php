@@ -227,4 +227,8 @@ $lang = array_merge($lang, array(
 		'DECADE'	 => 'decade',
 		'DECADES'	 => 'decades',
 	),
+	'USR'								=> array(
+		1			=> 'Person',
+		2			=> 'People',
+	)
 ));

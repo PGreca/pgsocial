@@ -1,8 +1,8 @@
-(function($) {
+(function($) {	
 	$(document).ready(function() {
 		if (where === undefined || where === '') {
 			where = 'all';
-		}
+		}				
 		masonry();
 		if (window.location.hash) {
 			var hash = window.location.hash.substring(1);
@@ -380,7 +380,7 @@
 			});
 		});
 	});
-
+	
 	masonry = function() {
 		if ($('ul#posts_status.masonry').length > 0) {
 			var rowHeight = parseInt($('ul#posts_status.masonry').css('grid-auto-rows'));
@@ -391,7 +391,7 @@
 			});
 		}
 	}
-
+	
 	/* POST ACTION */
 	pgwall_get_status = function(order, post_where) {
 		if (!post_where) post_where = 'all';
@@ -457,7 +457,7 @@
 			});
 		}
 	}
-
+	
 	pgwall_shareStatus = function(statu) {
 		var fdata = new FormData();
 		fdata.append('mode', 'shareStatus');
