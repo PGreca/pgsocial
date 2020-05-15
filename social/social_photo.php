@@ -14,7 +14,7 @@ class social_photo
 {
 	/* @var \phpbb\auth\auth */
 	protected $auth;
-	
+
 	/* @var \phpbb\template\template */
 	protected $template;
 
@@ -334,7 +334,7 @@ class social_photo
 	{
 		$authMod = false;
 		$authAction = true;
-		
+
 		$photo = str_replace("#", "", $photo);
 
 		$sql = "SELECT p.*, (SELECT post_ID FROM ".$this->pgsocial_wallpost." WHERE post_extra = '".$photo."') as post_id, (SELECT message FROM ".$this->pgsocial_wallpost." WHERE post_extra = '".$photo."') as message, (SELECT g.gallery_privacy FROM ".$this->pgsocial_gallery." g WHERE p.photo_id = '".$photo."' AND p.gallery_id = g.gallery_id) as post_privacy FROM ".$this->pgsocial_photos." AS p WHERE ".$this->db->sql_build_array('SELECT', array('p.photo_id' => $photo));
@@ -402,7 +402,7 @@ class social_photo
 				$row['gallery_url'] = '';
 			}
 			$rele = false;
-				
+
 			if ($this->auth->acl_get('a_status_manage') || $this->auth->acl_get('m_status_manage'))
 			{
 				$rele = true;
@@ -412,10 +412,10 @@ class social_photo
 			if (($row['photo_privacy'] == 0 && $row['user_id'] == $this->user->data['user_id']) || ($row['photo_privacy'] == 1 && ($this->social_zebra->friend_status($row['user_id'])['status'] == 'PG_SOCIAL_FRIENDS' || $this->user->data['user_id'] == $row['user_id'])) || (($row['photo_privacy'] == 2) || ($row['photo_privacy'] == 2)) || ($row['photo_privacy'] == 2 && $row['photo_where'] == 0))
 			{
 				$rele = true;
-				$authAction = true;			
-			}	
-			
-				
+				$authAction = true;
+			}
+
+
 			if ($rele)
 			{
 				if (!$template)
@@ -443,7 +443,7 @@ class social_photo
 						'NEX'						=> $this->prenext_photo($row['photo_id'], 1, $row['photo_where'], false),
 						'COMMENT'					=> $comment,
 						'POST_ID'					=> $row['post_id'],
-						
+
 						'AUTH_ACTION'				=> $authAction,
 						'AUTH_MOD'					=> $authMod,
 					));
@@ -474,23 +474,22 @@ class social_photo
 				$where = 0;
 			break;
 		}
-		
 
-		$photo_max = 1500;		
+		$photo_max = 1500;
 		$time = time();
 		$target_dir = $this->pg_social_path.'upload/';
 		$imageFileType = strtolower(pathinfo($photo['name'], PATHINFO_EXTENSION));
 		$target_file = $target_dir."photo_".$type."_".$time.".".$imageFileType;
 		$name_photo = "photo_".$type."_".$time.".webp";
 		$target_webp = $target_dir.$name_photo;
-		
-		$check = getimagesize($photo["tmp_name"]);		
-		if($check !== false && move_uploaded_file($photo["tmp_name"], $target_file)) {	
+
+		$check = getimagesize($photo["tmp_name"]);
+		if($check !== false && move_uploaded_file($photo["tmp_name"], $target_file)) {
 			list($width, $height) = getimagesize($target_file);
 			$diff = $width / $photo_max;
 			$modheight = $height / $diff;
 			$tn = imagecreatetruecolor($photo_max, $modheight);
-			
+
 			if($imageFileType == "png") {
 				$image = imagecreatefrompng($target_file);
 			} elseif($imageFileType == "webp") {
@@ -499,7 +498,7 @@ class social_photo
 				$image = imagecreatefromjpeg($target_file);
 			}
 			if($imageFileType != "png") {
-				$exif = exif_read_data($target_file);	
+				$exif = exif_read_data($target_file);
 				if(array_key_exists('Orientation', $exif)) {
 					$orientation = $exif['Orientation'];
 					if(isset($orientation) && $orientation != 1) {
@@ -577,7 +576,7 @@ class social_photo
 				$gallery = $type;
 			break;
 		}
-		
+
 		$sql_arr = array(
 			'photo_where'		=> $where,
 			'gallery_id'		=> $gallery,
@@ -605,15 +604,20 @@ class social_photo
 				return $this->helper->render('activity_status_action.html', '');
 			}
 		}
+
+		$this->template->assign_vars(array(
+			'ACTION'	=>  $sql,
+		));
+		return $this->helper->render('activity_status_action.html', '');
 	}
-	
+
 	/**
 	 * New activity for upload photo
 	 */
 	public function add_status_photo($where, $who, $user, $type, $privacy, $photo, $text)
-	{	
+	{
 		$sql_arr = $this->pg_social_helper->pgMessage($text);
-		
+
 		$sql_arr = array_merge($sql_arr, array(
 			'post_parent'				=> 0,
 			'post_where'				=> $where,
