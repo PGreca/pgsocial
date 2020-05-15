@@ -21,7 +21,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		$data = array(
-			array('config.add', array('pg_social_version', '0.6.3')),
+			array('config.add', array('pg_social_version', '0.6.7')),
 
 			array('config.add', array('pg_social_enabled', 1)),
 			array('config.add', array('pg_social_index_replace', 0)),
