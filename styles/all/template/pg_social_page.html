@@ -67,13 +67,15 @@
 						{% for social_gallery in loops.social_gallery %}<li class="gallery colum" id="gallery_{{ social_gallery.GALLERY_ID }}" data-gallery="{{ social_gallery.GALLERY_ID }}">
 							<div class="cover" style="background-image:url('{{ social_gallery.PHOTO_COVER }}')">
 								<img src="./ext/pgreca/pgsocial/images/transp.gif" />
+								<div class="gallery_covhov">
+								</div>
 							</div>
 							<div class="gallery_name username">
 								<a href="{{ social_gallery.GALLERY_URL }}">
 									<h5>{{ social_gallery.GALLERY_NAME }}</h5>
 								</a>
 							</div>
-							<div class="gallery_counts counts counts">
+							<div class="gallery_counts counts">
 								<div class="gallery_count_count_photos count">
 									{{ social_gallery.GALLERY_COUNT }}
 								</div>
@@ -87,10 +89,13 @@
 							<a href="{{ page.PAGE_URL }}#gallery"><i class="icon fa fa-arrow-left" aria-hidden="true"></i></a> {{ GALLERY_NAME }}
 						</h5>
 					</div>
-					<ul class="template_photos bigcolums colums" id="pg_social_photos">
-						{% for social_photos in loops.social_photos %}<li class="photo colum" id="gallery_{{ social_photos.PHOTO_ID }}" data-photo="{{ social_photos.PHOTO_ID }}" style="background-image:url({{ social_photos.PHOTO_FILE }})">
-							<img src="./ext/pgreca/pgsocial/images/transp.gif" />
-						</li>{% endfor %}
+					<ul class="template_photos colums" id="pg_social_photos">
+						{% INCLUDE 'pgSocial_gallPhoto.html' %}
+						{% if not loops.social_photo %}
+						<div class="panel">
+							{{ lang('ALBUM_NO_PHOTO') }}
+						</div>
+						{% endif %}
 					</ul>
 					{% endif %}
 				</div>

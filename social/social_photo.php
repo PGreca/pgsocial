@@ -633,7 +633,7 @@ class social_photo
 	/**
 	 * Delete photo
 	*/
-	public function delete_photo($photo)
+	public function delete_photo($photo, $mode)
 	{
 		$delphoto = false;
 
@@ -651,7 +651,7 @@ class social_photo
 				$delphoto = true;
 			}
 		}
-		elseif ($row['user_id'] == $this->user->data['user_id'])
+		elseif ($row['user_id'] == $this->user->data['user_id'] || $mode == 'MOD' && ($this->auth->acl_get('a_status_manage') || $this->auth->acl_get('m_status_manage')))
 		{
 			$delphoto = true;
 		}
@@ -665,6 +665,10 @@ class social_photo
 			{
 				$deletePost = "DELETE FROM ".$this->pgsocial_wallpost." WHERE post_extra = '".$row['photo_id']."'";
 				$this->db->sql_query($deletePost);
+				if ($mode == 'MOD')
+				{
+					$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'STATUS_MOD', '');
+				}
 				$this->template->assign_vars(array(
 					'ACTION'	=>  'deleted',
 				));

@@ -12,8 +12,9 @@
 			<ul id="pg_social_wall_tag_system"></ul>
 			<i class="icon fa fa-close" id="pg_social_wall_tag_systemClose"></i>
 		</div><div class="wall_post_option">
-			{% if (PROFILE_ACTION == true || STATUS_WHERE == '') && !page.PAGE_ACTION %}
+			
 			<label id="pg_social_wall_post_img"><i class="fa fa-camera" aria-hidden="true"></i><span style="display:none">{{ lang('ATTACH_PICTURE') }}</span><input name="wall_post_img" id="wall_post_img" type="file" accept="image/*" /></label>
+			{% if (PROFILE_ACTION == true || STATUS_WHERE == '') && !page.PAGE_ACTION %}
 			<select name="wall_post_privacy" id="wall_post_privacy">
 				<option value="0">{{ lang('PRIVACY_ONLY_ME') }}</option>
 				<option value="1" selected>{{ lang('PRIVACY_ONLY_FRIENDS') }}</option>

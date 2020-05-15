@@ -159,7 +159,8 @@
 }
 
 #pg_social form#wall_post,
-#pg_social #pg_social_cont ul#posts_status li.post_status {
+#pg_social #pg_social_cont ul#posts_status li.post_status,
+#pg_social #pg_social_cont ul.colums li.colum {
 	background-color: #181818;
 	border-color: #1f242a;
 }

@@ -167,7 +167,7 @@ class pages
 				{
 					$peopleLikes = $this->user->lang('USR', 1);
 				}
-					
+				
 				$this->template->assign_block_vars('page', array(
 					'PAGE_ID'				=> $page['page_id'],
 					'PAGE_ALERT'			=> $page_alert,

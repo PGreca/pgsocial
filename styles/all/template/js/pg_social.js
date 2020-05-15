@@ -58,8 +58,8 @@
 		});
 
 		//DELETE PHOTO
-		$(document).on('click', '#pg_social_photo_img ul#pg_social_photo_img_footer li ul#pg_social_photo_img_options li#pg_social_photo_img_option_delete a', function() {
-			if (confirm(useLang['ARE_YOU_SURE_PHOTO'])) pgwall_delete_photo($('#pg_social_photo_img').attr('data-photo'));
+		$(document).on('click', 'ul#pg_social_photo_img_options li a', function() {
+			if (confirm(useLang['ARE_YOU_SURE_PHOTO'])) pgwall_delete_photo($('#pg_social_photo_img').attr('data-photo'), $(this).parent().attr('data-option'));
 		});
 
 		$(document).on('scroll', function() {
@@ -265,6 +265,7 @@
 			$('#page_create').show();
 		});
 
+		/* LIKE PAGE */
 		$('a.page_list_buttonLike').on('click', function() {
 			pgwall_pagelike_action($(this).attr('data-page'));
 		});
@@ -504,7 +505,8 @@
 			url: root,
 			data: 'mode=pagelike_action&page='+page,
 			success: function(data) {
-				$("a.page_list_buttonLike[data-page='"+page+"']").removeClass('likepage dislikepage').addClass(data);
+				location.reload();
+				//$("a.page_list_buttonLike[data-page='"+page+"']").removeClass('likepage dislikepage').addClass(data);
 			}
 		});
 	}
@@ -564,6 +566,7 @@
 
 	/* PHOTO UPLOAD */
 	uploadPhoto = function(msg, photo, type, where, privacy, itop) {
+		if (!privacy) privacy = 1;
 		var fdata = new FormData();
 		fdata.append('mode', 'addPhoto');
 		if (msg) fdata.append('msg', $.trim(msg));
@@ -600,11 +603,11 @@
 		})
 	}
 
-	pgwall_delete_photo = function(photo) {
+	pgwall_delete_photo = function(photo, type) {
 		$.ajax({
 			type: 'POST',
 			url: root,
-			data: 'mode=delete_photo&photo='+photo,
+			data: 'mode=delete_photo&photo='+photo+'&type='+type,
 			success: function(data) {
 				if (data === 'deleted') {
 					closePopup(true);

@@ -1852,6 +1852,7 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social ul.sidelist {
 	margin: -15px -10px -10px;
+	list-style: none;
 }
 
 #pg_social ul.sidelist li.listElement {

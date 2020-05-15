@@ -205,7 +205,7 @@ class main
 						return $this->social_photo->photo_upload($this->request->variable('post_where', ''), $this->request->variable('profile_id', ''), $this->request->variable('msg', '', true), $this->request->variable('type', ''), $where, $this->request->file('photo'), $this->request->variable('privacy', ''), $this->request->variable('top', ''));
 					break;
 					case 'delete_photo':
-						return $this->social_photo->delete_photo($this->request->variable('photo', ''));
+						return $this->social_photo->delete_photo($this->request->variable('photo', ''), $this->request->variable('type', ''));
 					break;
 					case 'prenext_photo':
 						return $this->social_photo->prenext_photo($this->request->variable('photo', ''), $this->request->variable('ord', ''), $this->request->variable('where', ''));
