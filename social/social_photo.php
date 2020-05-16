@@ -502,6 +502,7 @@ class social_photo
 				if(array_key_exists('Orientation', $exif)) {
 					$orientation = $exif['Orientation'];
 					if(isset($orientation) && $orientation != 1) {
+						$deg = "";
 						switch($orientation) {
 							case 3:
 								$deg = 180;
@@ -727,7 +728,7 @@ class social_photo
 		generate_text_for_storage($gallery_name, $uid, $bitfield, $options, false, false, false);
 
 		$sql_arr = array(
-			'gallery_name'			=> trim(($gallery_name)),
+			'gallery_name'			=> utf8_encode_ucr(trim($gallery_name)),
 			'user_id'				=> $this->user->data['user_id'],
 			'gallery_time'			=> time(),
 			'gallery_privacy'		=> 0,
