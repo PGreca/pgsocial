@@ -132,9 +132,9 @@ body.section-memberlist .action-bar.actions-jump {
 	display: inline-block;
 	background-color: #fff;
 	width: calc(100% - 30px + 20px);
-    margin: -10px -10px 0px;
+    margin: -10px -10px 10px;
 	padding: 15px;
-	border-bottom: 0px;
+	border-bottom: 0;
 	font-size: .875rem;
 	text-transform: inherit;
 	color: #515365;
@@ -441,7 +441,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_sidel ul#profile_menu {
-	margin: 10px 0 5px;
+	margin: 0;
 }
 
 #pg_social #pg_social_sidel ul#profile_menu li {
@@ -461,7 +461,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_sidel ul#profile_menu li.memberlist-title h2 {
-	border-bottom: 0px;
+	border-bottom: 0;
 	font-weight: bold;
 	font-size: 1.7em;
 }
@@ -494,10 +494,6 @@ body.section-memberlist .action-bar.actions-jump {
 #pg_social #pg_social_sidel ul#profile_menu li a {
 	display: block;
 	padding: 5px;
-}
-
-#pg_social #pg_social_sidel ul#profile_menu li a i.icon {
-	color: #000;
 }
 
 #pg_social #pg_social_sidel ul#profile_menu li a:hover {
@@ -942,7 +938,7 @@ body.section-memberlist .action-bar.actions-jump {
 	margin: 0;
 	padding: 30px 25px;
 	overflow-y: auto;
-	border: 0px;
+	border: 0;
 	resize: none;
 	font-size: 1.1em;
 	user-select: text;
@@ -1023,7 +1019,7 @@ body.section-memberlist .action-bar.actions-jump {
 	height: 34px;
 	line-height: calc(34px - 20px);
 	padding: 10px;
-	border-radius: 3px;
+	border-radius: 4px;
 	margin-left: 10px;
 }
 
@@ -1189,7 +1185,7 @@ body.section-memberlist .action-bar.actions-jump {
 	width: calc(100% - 2px);
 	border: 1px solid #e6ecf5;
 	margin: 0 0 10px;
-	border-radius: 3px;
+	border-radius: 4px;
 	animation: animateElement linear 1s;
 	animation-iteration-count: 1;
 }
@@ -1286,6 +1282,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_head .post_status_head_author h4 {
+	border: 0px;
 	font-weight: normal;
 }
 
@@ -1434,7 +1431,7 @@ body.section-memberlist .action-bar.actions-jump {
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content > iframe[data-s9e-mediaembed] {
-	padding-bottom: 0px;
+	padding-bottom: 0;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_content .post_status_facebook {
@@ -1654,10 +1651,8 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment {
 	display: inline-block;
-	background-color: #fff;
-	width: calc(100% - 40px);
-	padding: 15px 20px;
-	border-radius: 0 0 5px 5px;
+	width: calc(100% - 30px);
+	padding: 10px 15px;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment > img {
@@ -1837,6 +1832,10 @@ body.section-memberlist .action-bar.actions-jump {
 	background-color: #333;
 }
 
+#pg_social .panel .colum dl.social_networks dd.phpbb_twitch {
+	background-color: #6441a5;
+}
+
 #pg_social .panel .colum dl.social_networks dd a {
 	display: block;
 	padding: 10px;
@@ -1850,29 +1849,24 @@ body.section-memberlist .action-bar.actions-jump {
 	vertical-align: top;
 }
 
-#pg_social ul.sidelist {
-	margin: -15px -10px -10px;
-	list-style: none;
-}
-
 #pg_social ul.sidelist li.listElement {
-	padding: 10px;
+	list-style: none;
+	padding: 10px 0px;
 }
 
 #pg_social ul.sidelist li.listElement .elementLeft {
 	display: inline-block;
-	width: 100%);
+	width: 100%;
 	vertical-align: middle;
 }
 
 #pg_social ul.sidelist li.listElement a.avatar {
 	float: left;
 	display: inline-block;
-	margin-right: 5px;
 }
 
 #pg_social ul.sidelist li.listElement a.avatar img.avatar {
-	width: 45px;
+	width: 40px;
 	border-radius: 100%;
 }
 
@@ -1882,7 +1876,7 @@ body.section-memberlist .action-bar.actions-jump {
 
 #pg_social ul.sidelist li.listElement .listUsername {
 	display: inline-block;
-	width: calc(100% - 45px - 10px);
+	width: calc(100% - 40px - 10px);
 	margin-left: 10px;
 	vertical-align: middle;
 }
@@ -1964,6 +1958,9 @@ body.section-memberlist .action-bar.actions-jump {
 	display: inline-block;
 	width: 100%;
 	margin-bottom: 10px;
+}
+#pg_social #pg_social_sider #sid_last_topics ul li.posts:last-child {
+	margin-bottom: 0px;
 }
 
 #pg_social #pg_social_sider #sid_last_topics ul li.posts a.post_topic {
@@ -2677,24 +2674,8 @@ a.profile_signature_status {
 		padding: 25px 0 0;
 	}
 
-	#pg_social #pg_social_cont ul.colums li.colum {
-		width: calc(50% - 8px);
-		min-height: 200px;
-		height: auto;
-	}
-
 	#pg_social #pg_social_cont ul.colums li#pg_social_gallery_create {
 		width: calc(100% - 40px - 6px);
-	}
-
-	#pg_social ul#pg_social_gallery li:nth-child(4n),
-	#pg_social #pg_social_cont ul.colums li:nth-child(4n),
-	#pg_social #pg_social_cont ul.colums#last_photos li:nth-child(3n) {
-		margin: 0 15px 15px 0;
-	}
-
-	#pg_social #pg_social_cont ul.colums li:nth-child(odd) {
-		margin-right: 0;
 	}
 
 	#pg_social .panel #gallery_photo_add label span {
@@ -2711,6 +2692,10 @@ a.profile_signature_status {
 		padding: 0;
 	}
 
+	#pg_social #pg_social_cont ul#posts_status.masonry {
+		display: inline-block;
+	}
+	
 	#pg_social ul li.friend {
 		background-color: rgba(0, 0, 0, 0.08);
 		width: calc(33.33% - 10px - 10px);

@@ -162,7 +162,7 @@ class main_module
 							'PAGE_USERNAME'			=> $row['page_username'],
 							'PAGE_FOUNDER'			=> $row['username'],
 							'PAGE_FOUNDERL'			=> get_username_string('profile', $row['page_founder'], $row['username'], $row['user_colour']),
-							'PAGE_REGDATA'			=> $pgsocial_helper->time_ago($row['page_regdate']),
+							'PAGE_REGDATA'			=> $user->format_date($row['page_regdate']),
 						));
 					}
 					$db->sql_freeresult($result);

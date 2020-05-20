@@ -480,8 +480,10 @@
 			url: root,
 			data: 'mode=delete_status&post_status='+post_status+'&type='+type,
 			success: function(data) {
-				$('#post_status_'+post_status).remove();
-				pgwall_get_status('prequel', where);
+				if(data == 'ok') {
+					$('#post_status_'+post_status).remove();
+					pgwall_get_status('prequel', where);
+				}
 			}
 		});
 	}
@@ -586,7 +588,6 @@
 			beforeSend: pgsocial_loadStart,
 			complete: pgsocial_loadStop,
 			success: function(data) {
-				console.log(data);
 				if (type === '1') {
 					$('ul#pg_social_photos').prepend(data);
 				} else if (type === 'cover' || type === 'avatar') {

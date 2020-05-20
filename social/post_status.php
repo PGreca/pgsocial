@@ -681,7 +681,7 @@ class post_status
 	{
 		if ($this->social_photo->photo_of_post($post))
 		{
-			$this->social_photo->delete_photo($this->social_photo->photo_of_post($post));
+			$this->social_photo->delete_photo($this->social_photo->photo_of_post($post), $mode, false);
 		}
 		$sql_status = 'DELETE FROM '.$this->pgsocial_wallpost.' WHERE '.$this->db->sql_in_set('post_ID', array($post));
 		$sql_comment = 'DELETE FROM '.$this->pgsocial_wallpostcomment.' WHERE '.$this->db->sql_in_set('post_ID', array($post));
@@ -691,7 +691,7 @@ class post_status
 		$this->db->sql_query($sql_like);		
 
 		$this->template->assign_vars(array(
-			'ACTION'	=> '',
+			'ACTION'	=> 'ok',
 		));
 		
 		$this->pg_social_helper->log($this->user->data['user_id'], $this->user->ip, 'STATUS_'.$mode, '');

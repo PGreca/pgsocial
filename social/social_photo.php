@@ -479,10 +479,17 @@ class social_photo
 		$time = time();
 		$target_dir = $this->pg_social_path.'upload/';
 		$imageFileType = strtolower(pathinfo($photo['name'], PATHINFO_EXTENSION));
-		$target_file = $target_dir."photo_".$type."_".$time.".".$imageFileType;
-		$name_photo = "photo_".$type."_".$time.".webp";
-		$target_webp = $target_dir.$name_photo;
-
+		$name_photo = "photo_".$type."_".$time.".";
+		$target_file = $target_dir.$name_photo.$imageFileType;
+		
+		if (function_exists('imagewebp'))
+		{
+			$name_photo .= "webp";
+		}
+		else 
+		{
+			$name_photo .= $imageFileType;
+		}
 		$check = getimagesize($photo["tmp_name"]);
 		if($check !== false && move_uploaded_file($photo["tmp_name"], $target_file)) {
 			list($width, $height) = getimagesize($target_file);
@@ -490,13 +497,23 @@ class social_photo
 			$modheight = $height / $diff;
 			$tn = imagecreatetruecolor($photo_max, $modheight);
 
-			if($imageFileType == "png") {
-				$image = imagecreatefrompng($target_file);
-			} elseif($imageFileType == "webp") {
-				$image = imagecreatefromwebp($target_file);
-			} else {
-				$image = imagecreatefromjpeg($target_file);
+			switch($imageFileType)
+			{
+				case 'png':
+					$image = imagecreatefrompng($target_file);
+				break;
+				case 'webp':
+					$image = imagecreatefromwebp($target_file);
+				break;
+				case 'gif':
+					$image = imagecreatefromgif($target_file);
+				break;
+				default: 
+					$image = imagecreatefromjpeg($target_file);
+				break;
 			}
+			
+			
 			if($imageFileType != "png") {
 				$exif = exif_read_data($target_file);
 				if(array_key_exists('Orientation', $exif)) {
@@ -520,8 +537,12 @@ class social_photo
 					}
 				}
 			}
-			imagewebp($image, $target_webp, 90);
-			unlink($target_file);
+			if (function_exists('imagewebp'))
+			{
+				imagewebp($image, $target_dir.$name_photo, 90);
+				unlink($target_file);
+			}
+			
 			return $this->photo_query($where, $who, $msg, $type, $lwhere, $name_photo, $time, $privacy, $itop);
 		}
 	}
@@ -638,7 +659,7 @@ class social_photo
 	/**
 	 * Delete photo
 	*/
-	public function delete_photo($photo, $mode)
+	public function delete_photo($photo, $mode, $return = true)
 	{
 		$delphoto = false;
 
@@ -679,7 +700,10 @@ class social_photo
 				));
 			}
 		}
-		return $this->helper->render('activity_status_action.html', '');
+		if ($return)
+		{
+			return $this->helper->render('activity_status_action.html', '');
+		}
 	}
 
 	/**

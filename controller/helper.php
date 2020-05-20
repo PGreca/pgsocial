@@ -169,7 +169,7 @@ class helper
 	/* COVER DEFAULT */
 	public function social_cover($cover)
 	{
-		if ($cover == '')
+		if ($cover == '' || !file_exists($this->pg_social_path.'/images/upload/'.$cover))
 		{
 			$cover = $this->pg_social_path.'/images/no_cover.jpg';
 		}

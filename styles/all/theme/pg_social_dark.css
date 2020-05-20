@@ -6,17 +6,13 @@
 	color: #fff;
 }
 
-#pg_social i.icon {
-	color: #fff;
-}
-
 #pg_social img.avatar {
-	background-color: #181818;
+	background-color: #0C0C0D;
 }
 
 #pg_social .panel {
-	background-color: #181818;
-	border-color: #1f242a;
+	background-color: #0C0C0D;
+	border-color:transparent;
 }
 
 #pg_social .panel h3 {
@@ -55,7 +51,7 @@
 
 #pg_social #pg_social_main ul#pg_social_menu {
 	background-color: #181818;
-	border-color: #1f242a;
+	border-color: transparent;
 }
 
 #pg_social #pg_social_main ul#pg_social_menu li.active a:before {
@@ -105,7 +101,7 @@
 
 #pg_social form#wall_post ul#wall_post_header {
 	background-color: #000;
-	border-color: #1f242a;
+	border-color: transparent;
 }
 
 #pg_social form#wall_post ul#wall_post_header li {
@@ -119,7 +115,7 @@
 }
 
 #pg_social form#wall_post #wall_post_footer {
-	border-color: #1f242a;
+	border-color: transparent;
 }
 
 #pg_social form#wall_post select {
@@ -161,8 +157,8 @@
 #pg_social form#wall_post,
 #pg_social #pg_social_cont ul#posts_status li.post_status,
 #pg_social #pg_social_cont ul.colums li.colum {
-	background-color: #181818;
-	border-color: #1f242a;
+	background-color: #0C0C0D;
+	border-color: transparent;
 }
 
 #pg_social #pg_social_cont ul#posts_status li.post_status .post_status_footer {
@@ -195,10 +191,6 @@
 	background-color: #181818;
 }
 
-#pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment {
-	background-color: #181818;
-}
-
 #pg_social #pg_social_cont ul#posts_status li.post_status form.wall_comment input[type="text"].wall_comment_text {
 	background-color: #181818;
 	border-color: #1f242a;
@@ -215,10 +207,6 @@
 #pg_social .panel .colum dl.social_networks dd {
 	background-color: #fff;
 	color: #181818;
-}
-
-#pg_social #pg_social_sidel ul#profile_menu li a i.icon {
-	color: #fff;
 }
 
 #pg_social ul.sidelist li.listElement {
