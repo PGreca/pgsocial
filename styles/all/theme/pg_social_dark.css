@@ -317,3 +317,15 @@
 	background-color: #181818;	
 	color: #fff;
 }
+
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_text {
+	color: rgba(0, 0, 0, 0.65);
+}
+
+#pgsocial_chat .pgsocial_chat ul.pg_social_chat_messages li.pg_social_chat_message .pg_social_chat_message_time {
+	color: rgba(255, 255, 255, .4);
+}
+
+#pgsocial_chat .pgsocial_chat form.pg_social_chat_form {
+	border-top: transparent;
+]

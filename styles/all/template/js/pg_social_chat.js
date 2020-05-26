@@ -1,5 +1,5 @@
 (function($) {
-	$(document).ready(function() {		
+	$(document).ready(function() {
 		var pgsocial_chat_sound = $('#pgsocial_chat_sound')[0];
 		pgsocial_chat();
 		if(!Cookies.get('pgsocial_chat')) {
@@ -209,14 +209,15 @@
 			var fdata = new FormData();
 			fdata.append('mode', 'message_send');
 			fdata.append('person', person);
-			fdata.append('message',  $.trim(message));
+			fdata.append('message', $.trim(message));
 			$.ajax({
 				method: 'POST',
 				url: root,
 				data: fdata,
 				contentType: false,
 				processData: false,
-				success: function() {
+				success: function(data) {
+					chat_messageLoad(person, 'seguel');
 					pgsocial_chat_check();
 				}
 			});

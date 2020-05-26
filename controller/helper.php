@@ -444,7 +444,7 @@ class helper
 	 * @param string $message
 	 * @return array
 	 */
-	public function pgMessage($message)
+	public function pgMessage($message, $type = 'status')
 	{
 		$options = 0;
 		$uid = $bitfield = $allow_img = $allow_flash = $allow_quote = $allow_url = $allow_bbcode = '';
@@ -454,13 +454,21 @@ class helper
 			$allow_bbcode = $this->config['pg_social_bbcode'];
 			$allow_urls = $this->config['pg_social_url'];
 			$allow_smilies = $this->config['pg_social_smilies'];
-		
+			$m = 'message';
+			
+			if($type == 'chat') 
+			{
+				$allow_bbcode = $this->config['pg_social_chat_message_bbcode_enabled'];
+				$allow_urls = $this->config['pg_social_chat_message_url_enabled'];
+				$allow_smilies = $this->config['pg_social_chat_smilies_enabled'];
+				$m = 'chat_text';
+			}
 			generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies, $allow_img, $allow_flash, $allow_quote, $allow_url);
 			$message = str_replace("'", '&#39;', $message);
 		}
 		
 		return array(
-			'message'			=> $message,
+			$m					=> $message,
 			'bbcode_bitfield'	=> $bitfield,
 			'bbcode_uid'		=> $uid,
 			'bbcode_options'	=> $options,

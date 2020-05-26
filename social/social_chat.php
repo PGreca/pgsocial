@@ -285,30 +285,21 @@ class social_chat
 	 * @param string	$message
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function message_send($person, $message)
+	public function message_send($person, $text)
 	{
+		$sql_arr = $this->pg_social_helper->pgMessage($text, 'chat');
+
+		$sql_arr = array_merge($sql_arr, array(
 		
-		$uid = $bitfield = $options = '';
-		$allow_bbcode = $this->config['pg_social_chat_message_bbcode_enabled'];
-		$allow_urls = $this->config['pg_social_chat_message_url_enabled'];
-		$allow_smilies = $this->config['pg_social_chat_smilies_enabled'];
-
-		generate_text_for_storage($message, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
-
-		$sql_arr = array(
 			'user_id'					=> $this->user->data['user_id'],
-			'chat_text'					=> str_replace("'", '&#39;', $message),
 			'chat_time'					=> time(),
 			'chat_member'				=> $person,
 			'chat_status'				=> 0,
 			'chat_read'					=> 0,
-			'bbcode_bitfield'			=> $bitfield,
-			'bbcode_uid'				=> $uid,
-			'bbcode_options'			=> $options
-		);
+		));
 
 		$sql = 'INSERT INTO ' . $this->pgsocial_chat . ' '. $this->db->sql_build_array('INSERT', $sql_arr);
-		$this->db->sql_query($sql);
+			$this->db->sql_query($sql);
 
 		$this->template->assign_vars(array(
 			'ACTION'	=> 'message_send',
