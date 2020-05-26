@@ -183,7 +183,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 						'tagged_user'			=> array('VCHAR:255', ''),
 					),
 					'PRIMARY_KEY'	=> 'post_ID',
-				),
+				),	
 				$this->table_prefix.'pg_social_wall_like'	=> array(
 					'COLUMNS'			=> array(
 						'post_like_ID'		=> array('UINT:11', null, 'auto_increment', 0),
@@ -217,7 +217,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 						'chat_read'				=> array('UINT:11', 0),
 						'bbcode_bitfield'	=> array('VCHAR:255', ''),
 						'bbcode_uid'			=> array('VCHAR:8', ''),
-						'bbcode_options'		=> array('BOOL', '7'),
+						'bbcode_options'		=> array('BOOL', '7'),	
 					),
 					'PRIMARY_KEY'	=> 'chat_id',
 				),

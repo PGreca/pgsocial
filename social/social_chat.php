@@ -143,8 +143,8 @@ class social_chat
 	{
 		if ($person != "")
 		{
-			$expression = $this->db->sql_like_expression('LIKE ' . $this->db->get_any_char() . $this->db->sql_escape($person) . $this->db->get_any_char());
-			$sql_where = 'AND (u.username_clean ' . $expression . ' OR u.username ' . $expression . ')';
+			$expression = $this->db->sql_like_expression($this->db->get_any_char() . $this->db->sql_escape($person) . $this->db->get_any_char());
+			$sql_where = ' AND (username_clean ' . $expression . ' OR username ' . $expression . ')';
 		}
 		else
 		{
@@ -152,10 +152,12 @@ class social_chat
 		}
 
 		$sql = 'SELECT user_id, username, username_clean, user_colour,
-						user_avatar, user_avatar_type, user_avatar_width, user_avatar_height
-				FROM ' . USERS_TABLE . '
-				WHERE ' . $this->db->sql_in_set('user_type', array(USER_NORMAL, USER_FOUNDER)) . '
-					AND user_id <> ' . (int) $this->user->data['user_id'] . $sql_where .' GROUP BY user_id';
+				user_avatar, user_avatar_type, user_avatar_width, user_avatar_height
+		FROM ' . USERS_TABLE . '
+		WHERE user_type != "2"
+			AND user_id != ' . (int) $this->user->data['user_id'] .
+			$sql_where .'
+		GROUP BY user_id';
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -274,7 +276,6 @@ class social_chat
 			));
 		}
 		$this->db->sql_freeresult($result);
-
 		return $this->helper->render('pg_social_chatmessage.html', '');
 	}
 
