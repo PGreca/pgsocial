@@ -27,5 +27,5 @@ $lang = array_merge($lang, array(
 	'MCP_PG_SOCIAL_PAGES_AWAITING'		=> 'Pages en attention d’approbation',
 	'MCP_PG_SOCIAL_PAGE_NOAPPROVE'		=> 'Il n’y a pas de pages en attente d’approbation.',
 	'MCP_NO_MANAGE'						=> 'Vous n’avez pas les permissions pour gérer les pages.',
-	//'PAGES_ENABLED'						=> ''
+	'PAGES_ENABLED'						=> 'Pages activées'
 ));
