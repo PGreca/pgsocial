@@ -58,5 +58,15 @@ $lang = array_merge($lang, array(
 	'ACP_PG_SOCIAL_CHAT_BBCODE_ENABLED'	=> 'Activer les BBCodes dans les messages',
 	'ACP_PG_SOCIAL_CHAT_URL_ENABLED'	=> 'Activer les URLs dans les messagges',
 	'ACP_PG_SOCIAL_SETTING_SAVED'		=> 'Paramètres sauvegardés.',
+	'DELETE_PAGE'						=> 'Supprimer',
+	'PAGE_APPROVED'						=> 'Page approuvée',
+	'PAGE_TO_APPROVE'					=> 'Page à approuver',
+	'PAGE_TRASHED'						=> 'Page supprimée',
+	'TRASH_PAGE'						=> 'Corbeille',
+	
+	'NO_PAGE'							=> 'Aucune page',
+	'NO_PAGE_APPROVE'					=> 'Aucune page à approuver',
+	'NO_PAGE_TRASHED'					=> 'Aucune page à supprimer',
+	'NO_PERMESS'						=> 'Vous n\'avez pas la permission de gérer les pages.'
 
 ));
