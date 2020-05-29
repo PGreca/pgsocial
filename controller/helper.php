@@ -93,7 +93,7 @@ class helper
 		$this->pgsocial_wallpostlike	= $pgsocial_table_wallpostlike;
 		$this->pgsocial_wallpostcomment = $pgsocial_table_wallpostcomment;
 		$this->pgsocial_photos = $pgsocial_table_photos;
-		$this->pg_social_path = generate_board_url().'/ext/pgreca/pgsocial';
+		$this->pg_social_path = generate_board_url().'/ext/pgreca/pgsocial/images/';
 	}
 
 	/* TIME AGO - FOR ACTIVITY AND MESSAGES CHAT */
@@ -167,17 +167,21 @@ class helper
 	}
 
 	/* COVER DEFAULT */
-	public function social_cover($cover)
+	public function social_cover($cover, $position = 0)
 	{
-		if ($cover == '' || !file_exists($this->pg_social_path.'/images/upload/'.$cover))
+		$return = array();
+		if ($cover == '' || !file_exists($this->pg_social_path.'upload/'.$cover))
 		{
-			$cover = $this->pg_social_path.'/images/no_cover.jpg';
+			$return['file'] = $this->pg_social_path.'no_cover.jpg';
+			$return['position'] = 0;
 		}
 		else
 		{
-			$cover = $this->pg_social_path.'/images/upload/'.$cover;
+			$return['file'] = $this->pg_social_path.'upload/'.$cover;
+			$return['position'] = $position;
 		}
-		return $cover;
+		
+		return $return;
 	}
 
 	public function social_avatar_page($avatar)
@@ -191,7 +195,7 @@ class helper
 			$avatar = 'page_no_avatar.jpg';
 		}
 		$url = generate_board_url().'/ext/pgreca/pgsocial/images/'.$avatar;
-		$avatar = '<img class="avatar" src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url('.$url.')" />';
+		$avatar = '<img class="avatar" src="'.$this->pg_social_path.'transp.gif" style="background-image:url('.$url.')" />';
 		return $avatar;
 	}
 
@@ -211,9 +215,9 @@ class helper
 		{
 			$core_avatar = preg_replace('#('.$matches[2].')#', $base_url = generate_board_url(). '/', $core_avatar, 1);
 		}
-		$core_avatar = str_replace('src="', 'src="'.$this->pg_social_path.'/images/transp.gif" style="background-image:url(', str_replace('" alt', ')" alt', preg_replace( '/(width|height)="\d*"\s/', "", $core_avatar)));
+		$core_avatar = str_replace('src="', 'src="'.$this->pg_social_path.'transp.gif" style="background-image:url(', str_replace('" alt', ')" alt', preg_replace( '/(width|height)="\d*"\s/', "", $core_avatar)));
 
-		$wall_avatar = '<img src="'.$this->pg_social_path.'/images/no_avatar.jpg" class="avatar" />';
+		$wall_avatar = '<img src="'.$this->pg_social_path.'no_avatar.jpg" class="avatar" />';
 
 		return ($core_avatar) ? $core_avatar : $wall_avatar;
     }
@@ -456,7 +460,7 @@ class helper
 			$allow_smilies = $this->config['pg_social_smilies'];
 			$m = 'message';
 			
-			if($type == 'chat') 
+			if ($type == 'chat') 
 			{
 				$allow_bbcode = $this->config['pg_social_chat_message_bbcode_enabled'];
 				$allow_urls = $this->config['pg_social_chat_message_url_enabled'];

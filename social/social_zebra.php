@@ -64,7 +64,7 @@ class social_zebra
 			//return $this->last_register(); exit();
 			return $this->no_friends();
 		}
-		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_pg_social_cover, u.user_colour, u.user_about
+		$sql = "SELECT u.user_id, u.username, u.username_clean, u.user_avatar, u.user_avatar_type, u.user_avatar_width, u.user_avatar_height, u.user_pg_social_cover, u.user_pg_social_cover_position, u.user_colour, u.user_about
 		FROM ".ZEBRA_TABLE." AS z, ".USERS_TABLE." AS u
 		LEFT JOIN ".BANLIST_TABLE." b ON (u.user_id = b.ban_userid)
 		WHERE (b.ban_id IS NULL	OR b.ban_exclude = 1)
@@ -83,6 +83,7 @@ class social_zebra
 		}
 		while ($row = $this->db->sql_fetchrow($result))
 		{
+			$cover = $this->pg_social_helper->social_cover($row['user_pg_social_cover'], $row['user_pg_social_cover_position']);
 			$this->template->assign_block_vars('profileFriends', array(
 				'PROFILE_ID'				=> $row['user_id'],
 				'PROFILE_URL'				=> get_username_string('profile', $row['user_id'], $row['username'], $row['user_colour']),
@@ -90,7 +91,8 @@ class social_zebra
 				'USERNAME_CLEAN'			=> $row['username_clean'],
 				'FRIEND_COLOUR'				=> '#'.$row['user_colour'],
 				'AVATAR'					=> $this->pg_social_helper->social_avatar_thumb($row['user_avatar'], $row['user_avatar_type'], $row['user_avatar_width'], $row['user_avatar_height']),
-				'COVER'						=> $this->pg_social_helper->social_cover($row['user_pg_social_cover']),
+				'COVER'						=> $cover['file'],
+				'COVER_POSITION'			=> $cover['position'],
 				'PROFILE_FRIEND_ACTION'		=> $this->friend_status($row['user_id'])['status'],
 				'PROFILE_ABOUT'				=> $row['user_about'],
 				'COUNT_FRIENDS'				=> $this->count_friends($row['user_id']),
@@ -98,7 +100,6 @@ class social_zebra
 			));
 		}
 		$this->db->sql_freeresult($result);
-		//return $this->helper->render('pg_social_friends.html', '');
 	}
 
 	/**

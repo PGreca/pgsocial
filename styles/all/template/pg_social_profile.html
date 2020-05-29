@@ -109,7 +109,7 @@
 				<ul id="pg_social_friends" class="colums">
 					<!--<li class="friend colum colum_nosize"></li>-->
 					{% for profileFriends in loops.profileFriends %}<li class="friend colum" id="friend_{{ profileFriends.PROFILE_ID }}" data-friend="{{ profileFriends.PROFILE_ID }}">
-						<div class="cover big_cover" style="background-image:url({{ profileFriends.COVER }});">
+						<div class="cover big_cover" style="background-image:url({{ profileFriends.COVER }}; background-position: left {{ profileFriends.COVER_POSITION }}px">
 							<a class="friend_avatar aavatar" href="{{ profileFriends.PROFILE_URL }}">
 								{{ profileFriends.AVATAR }}
 							</a>

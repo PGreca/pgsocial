@@ -322,6 +322,8 @@ class listener implements EventSubscriberInterface
 			{
 				$gallumb = true;
 			}
+			
+			$cover = $this->pgsocial_helper->social_cover($member['user_pg_social_cover'], $member['user_pg_social_cover_position']);
 			$this->template->assign_vars(array(
 				'PG_SOCIAL_SIDEBAR_RIGHT'	=> $this->config['pg_social_sidebarRight'],
 				'PG_SOCIAL_PROFILE'			=> $this->config['pg_social_profile'],
@@ -333,8 +335,8 @@ class listener implements EventSubscriberInterface
 
 				'PROFILE_ID'				=> $user_id,
 				'PROFILE_UPDATE'			=> append_sid($this->root_path.'ucp.'.$this->php_ext, 'i=ucp_profile&mode=profile_info'),
-				'PROFILE_COVER'				=> $this->pgsocial_helper->social_cover($member['user_pg_social_cover']),
-				'PROFILE_COVER_POSITION'	=> $member['user_pg_social_cover_position'],
+				'PROFILE_COVER'				=> $cover['file'],
+				'PROFILE_COVER_POSITION'	=> $cover['position'],
 				'PROFILE_AVATAR_THUMB'		=> $this->pgsocial_helper->social_avatar_thumb($member['user_avatar'], $member['user_avatar_type'], $member['user_avatar_width'], $member['user_avatar_height']),
 				'PROFILE_AVATAR_UPDATE'     => append_sid($this->root_path.'ucp.'.$this->php_ext, 'i=profile&mode=avatar'),
 				'PROFILE_USERNAME'			=> $member['username'],

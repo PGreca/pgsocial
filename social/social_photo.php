@@ -320,7 +320,7 @@ class social_photo
 			{
 				$this->template->assign_block_vars($block, array(
 					'PHOTO_ID'		=> $row['photo_id'],
-					'PHOTO_FILE'	=> generate_board_url().'/ext/pgreca/pgsocial/images/upload/'.$row['photo_file'],
+					'PHOTO_FILE'	=> $this->pg_social_path.'upload/'.$row['photo_file'],
 				));
 			}
 		}
@@ -418,16 +418,23 @@ class social_photo
 
 			if ($rele)
 			{
+				
+				$photoFile = $this->pg_social_path.'upload/'.$row['photo_file'];
+				if (!file_exists($photoFile))
+				{
+					$photoFile = $this->pg_social_path.'/no_cover.jpg';
+				}
+				$row['photo_file'] = $photoFile;
 				if (!$template)
 				{
-					$row['photo_file'] = generate_board_url().'/ext/pgreca/pgsocial/images/upload/'.$row['photo_file'];
+					
 					return $row;
 				}
 				else
 				{
 					$this->template->assign_block_vars('social_photo', array(
 						'PHOTO_ID'					=> $row['photo_id'],
-						'PHOTO_FILE'				=> generate_board_url().'/ext/pgreca/pgsocial/images/upload/'.$row['photo_file'],
+						'PHOTO_FILE'				=> $photoFile,
 						'PHOTO_TIME'				=> $this->pg_social_helper->time_ago($row['photo_time']),
 						'PHOTO_ACTION'				=> $photo_action,
 						'AUTHOR_PROFILE'			=> get_username_string('profile', $user['user_id'], $user['username'], $user['user_colour']),
@@ -491,7 +498,8 @@ class social_photo
 			$name_photo .= $imageFileType;
 		}
 		$check = getimagesize($photo["tmp_name"]);
-		if($check !== false && move_uploaded_file($photo["tmp_name"], $target_file)) {
+		if ($check !== false && move_uploaded_file($photo["tmp_name"], $target_file))
+		{
 			list($width, $height) = getimagesize($target_file);
 			$diff = $width / $photo_max;
 			$modheight = $height / $diff;
@@ -514,13 +522,17 @@ class social_photo
 			}
 			
 			
-			if($imageFileType != "png") {
+			if ($imageFileType != "png")
+			{
 				$exif = exif_read_data($target_file);
-				if(array_key_exists('Orientation', $exif)) {
+				if (array_key_exists('Orientation', $exif))
+				{
 					$orientation = $exif['Orientation'];
-					if(isset($orientation) && $orientation != 1) {
+					if (isset($orientation) && $orientation != 1)
+					{
 						$deg = "";
-						switch($orientation) {
+						switch($orientation)
+						{
 							case 3:
 								$deg = 180;
 							break;
@@ -531,7 +543,8 @@ class social_photo
 								$deg = 90;
 							break;
 						}
-						if($deg != "") {
+						if ($deg != "")
+						{
 							$image = imagerotate($image, $deg, 0);
 						}
 					}
@@ -621,7 +634,7 @@ class social_photo
 			{
 				return $this->get_photo($photo_id, true, false);
 			}
-			elseif($album != 1)
+			elseif ($album != 1)
 			{
 				return $this->helper->render('activity_status_action.html', '');
 			}
