@@ -87,6 +87,7 @@ $lang = array_merge($lang, array(
 	//'FRIENDS_NO_REQUEST'				=> '',
 	'FRIENDS_SUGGESTION'				=> 'Freundevorschlag',
 	'GALLER'							=> 'Galerie',
+	'GALLERY_PHOTO_ADD'					=> 'Carica photo',
 	'GENDER'							=> 'Geschlecht',
 	'GENDER_FEMALE'						=> 'Weiblich',
 	'GENDER_MALE'						=> 'Männlich',
