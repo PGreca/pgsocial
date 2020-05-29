@@ -153,6 +153,7 @@ $lang = array_merge($lang, array(
 	'PAGE_USERNAME'						=> 'Názov stránky',
 	'PAGE_MAY_LIKE'						=> 'Môže sa vám páčiť stránka',
 	'PAGES'								=> 'Stránky',
+	//'PAGES_STATUS'						=> '',
 	'PERSONAL_INFO'						=> 'Osobné informácie',
 	'PG_SOCIAL_CHAT_DISABLE'			=> 'Vypnúť čet',
 	'PG_SOCIAL_CHAT_SOUND_DISABLE'		=> 'Vypnúť zvuky',
