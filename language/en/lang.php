@@ -152,6 +152,7 @@ $lang = array_merge($lang, array(
 	'PAGE_MAY_LIKE'						=> 'Page you may like',
 	
 	'PAGES'								=> 'Pages',
+	'PAGES_STATUS'						=> 'Page pending approval',
 	'PERSONAL_INFO'						=> 'Personal Info',
 	'PG_SOCIAL_CHAT_DISABLE'			=> 'Disable chat',
 	'PG_SOCIAL_CHAT_SOUND_DISABLE'		=> 'Disable sound when receive new messages on chat',

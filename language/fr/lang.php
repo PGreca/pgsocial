@@ -156,6 +156,7 @@ $lang = array_merge($lang, array(
 	'PAGE_USERNAME'						=> 'Nom de la page',
 	'PAGE_MAY_LIKE'						=> 'Page suggérée',
 	'PAGES'								=> 'Pages',
+	'PAGES_STATUS'						=> 'Page en attente approbation',
 	'PERSONAL_INFO'						=> 'Informations personnelles',
 	'PG_SOCIAL_CHAT_DISABLE'			=> 'Désactiver le Chat',
 	'PG_SOCIAL_CHAT_SOUND_DISABLE'		=> 'Désactiver la sonorité lorsque vous recevez un message sur le Chat',
