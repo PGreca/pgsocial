@@ -90,6 +90,7 @@ $lang = array_merge($lang, array(
 	//'FRIENDS_REQUEST'					=> '',
 	'FRIENDS_SUGGESTION'				=> 'Návrhy priateľov',
 	'GALLER'							=> 'Galéria',
+	'GALLERY_PHOTO_ADD'					=> 'Carica photo',
 	'GENDER'							=> 'Pohlavie',
 	'GENDER_FEMALE'						=> 'Žena',
 	'GENDER_MALE'						=> 'Muž',
