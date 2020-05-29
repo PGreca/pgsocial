@@ -85,6 +85,7 @@ $lang = array_merge($lang, array(
 	'FRIENDS_REQUEST'					=> 'Richieste di amicizia',
 	'FRIENDS_SUGGESTION'				=> 'Amici suggeriti',
 	'GALLER'							=> 'Galleria',
+	'GALLERY_PHOTO_ADD'					=> 'Carica photo',
 	'GENDER'							=> 'Sesso',
 	'GENDER_FEMALE'						=> 'Femmina',
 	'GENDER_MALE'						=> 'Maschio',
