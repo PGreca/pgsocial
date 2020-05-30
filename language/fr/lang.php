@@ -177,6 +177,7 @@ $lang = array_merge($lang, array(
 	'PG_SOCIAL_STATUS_NEW_LOG'			=> '<strong>A publié une activité</strong><br />» %s',
 	'PG_SOCIAL_STATUS_SHARE_LOG'		=> '<strong>A partagé une activité</strong><br />» %s',
 	'PG_SOCIAL_STATUS_REMOVE_LOG'		=> '<strong>A supprimé une activité</strong>',
+	'PG_SOCIAL_STATUS_WARN'				=> 'Supprimer la photo',
 	'PG_SOCIAL_WRITE_A_MESSAGE'					=> 'Ecrire un message',
 	'PG_SOCIAL_WRITE_SOMETHING'					=> 'Ecrivez quelque chose',
 	'PG_SOCIAL_VERSION'							=> 'Version',
