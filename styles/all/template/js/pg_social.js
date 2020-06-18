@@ -245,7 +245,7 @@
 
 		//LIKE POPUP PHOTO
 		$(document).on('click', "#pg_social_photo_social .pg_social_photo_likshare .post_status_like a", function() {
-			pgwall_like_action($(this).parent().attr('data-parent'));
+			pgwall_like_action($(this).parent() .parent() .attr('data-post'));
 		});
 
 		$(document).on('click', 'li.colum .cards ul.bubbles .bubble', function() {
@@ -271,7 +271,7 @@
 		});
 
 		$(document).on('click', '#posts_status .post_status .post_status_footer .post_status_like a.liker', function() {
-			pgwall_like_action($(this).parent() .parent() .attr('data-post'));
+			pgwall_like_action($(this).parent().parent().parent().parent().parent().attr('data-lastp'));
 		});
 
 		$(document).on('keydown', '.pg_social_photo_comment_text', function(e) {
