@@ -271,7 +271,7 @@
 		});
 
 		$(document).on('click', '#posts_status .post_status .post_status_footer .post_status_like a.liker', function() {
-			pgwall_like_action($(this).parent().parent().parent().parent().parent().attr('data-lastp'));
+			pgwall_like_action($(this).parent() .parent() .attr('data-post'));
 		});
 
 		$(document).on('keydown', '.pg_social_photo_comment_text', function(e) {
