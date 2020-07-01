@@ -210,7 +210,7 @@ class install_pg_social_01 extends \phpbb\db\migration\migration
 					'COLUMNS'			=> array(
 						'chat_id'					=> array('UINT:11', null, 'auto_increment', 0),
 						'user_id'					=> array('UINT:11', 0),
-						'chat_text'				=> array('MTEXT_UNI', ''),
+						'message'				=> array('MTEXT_UNI', ''),
 						'chat_time'				=> array('UINT:11', 0),
 						'chat_member'			=> array('UINT:11', 0),
 						'chat_status'			=> array('UINT:11', 0),
